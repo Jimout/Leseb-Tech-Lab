@@ -1,0 +1,18 @@
+.snowflake/
+.vercel/
+next.user-config.*
+
+# Environment variables
+.env
+.env*.local
+
+# Common ignores
+node_modules
+.next/
+.DS_Store
+
+# Local Lighthouse dumps (audit tooling)
+lighthouse-*.json
+.lighthouse/
+
+/lib/generated/prisma

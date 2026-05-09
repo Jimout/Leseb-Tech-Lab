@@ -32,9 +32,13 @@ const SIZE_STYLES = {
 
 type SizeKey = keyof typeof SIZE_STYLES
 
+type FluidSplitVariant = 'primary' | 'secondary'
+
 type FluidSplitButtonProps = {
   label: React.ReactNode
   className?: string
+  /** `primary` = brand teal (default). `secondary` = lemon signal on dark bars. */
+  variant?: FluidSplitVariant
   /** `xs` / `navbar` / `sm` for compact UI. Default matches hero CTAs. */
   size?: SizeKey
 } & (
@@ -42,23 +46,48 @@ type FluidSplitButtonProps = {
   | ({ href?: undefined } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>)
 )
 
+const VARIANT_SHELL: Record<
+  FluidSplitVariant,
+  { shell: string; iconWash: string; focusRing: string }
+> = {
+  primary: {
+    shell: 'bg-primary text-primary-foreground',
+    iconWash: 'bg-primary-foreground/10',
+    focusRing: 'focus-visible:ring-ring/40',
+  },
+  secondary: {
+    shell: 'bg-secondary text-secondary-foreground',
+    iconWash: 'bg-secondary-foreground/10',
+    focusRing: 'focus-visible:ring-secondary-foreground/35',
+  },
+}
+
 const shellBaseClass = cn(
   'group inline-flex items-center rounded-full',
-  'bg-primary text-primary-foreground',
   'font-mono uppercase',
   'transition-transform hover:scale-[1.03] active:scale-[1.01]',
-  'outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40',
+  'outline-none focus-visible:ring-[3px]',
   'disabled:pointer-events-none disabled:opacity-50',
 )
 
-function FluidSplitSurface({ label, size }: { label: React.ReactNode; size: SizeKey }) {
+function FluidSplitSurface({
+  label,
+  size,
+  variant,
+}: {
+  label: React.ReactNode
+  size: SizeKey
+  variant: FluidSplitVariant
+}) {
   const s = SIZE_STYLES[size]
+  const v = VARIANT_SHELL[variant]
   return (
     <>
       <span className={cn('truncate', s.shell)}>{label}</span>
       <span
         className={cn(
-          'grid place-items-center rounded-full bg-primary-foreground/10 transition-transform group-hover:rotate-45',
+          'grid place-items-center rounded-full transition-transform group-hover:rotate-45',
+          v.iconWash,
           s.iconWrap,
         )}
         aria-hidden
@@ -70,23 +99,26 @@ function FluidSplitSurface({ label, size }: { label: React.ReactNode; size: Size
 }
 
 function FluidSplitButton(props: FluidSplitButtonProps) {
+  const variant = props.variant ?? 'primary'
+  const v = VARIANT_SHELL[variant]
+
   if ('href' in props && typeof props.href === 'string') {
-    const { label, className, href, size = 'default', ...anchorRest } = props
+    const { label, className, href, size = 'default', variant: _v, ...anchorRest } = props
     return (
       <a
         href={href}
-        className={cn(shellBaseClass, className)}
+        className={cn(shellBaseClass, v.shell, v.focusRing, className)}
         {...anchorRest}
       >
-        <FluidSplitSurface label={label} size={size} />
+        <FluidSplitSurface label={label} size={size} variant={variant} />
       </a>
     )
   }
 
-  const { label, className, type = 'button', size = 'default', ...buttonRest } = props
+  const { label, className, type = 'button', size = 'default', variant: _v2, ...buttonRest } = props
   return (
-    <button type={type} className={cn(shellBaseClass, className)} {...buttonRest}>
-      <FluidSplitSurface label={label} size={size} />
+    <button type={type} className={cn(shellBaseClass, v.shell, v.focusRing, className)} {...buttonRest}>
+      <FluidSplitSurface label={label} size={size} variant={variant} />
     </button>
   )
 }

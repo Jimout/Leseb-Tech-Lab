@@ -5,6 +5,8 @@ import * as React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 
 import { useSiteSettings } from '@/hooks/use-site-settings'
+import { landingPageContentMaxClass, landingPageGutterClass } from '@/lib/landing-page-layout'
+import { cn } from '@/lib/utils'
 
 export function HeroSection() {
   const { settings } = useSiteSettings()
@@ -12,14 +14,15 @@ export function HeroSection() {
 
   return (
     <section
-      className={
-        'relative overflow-hidden ' +
-        'pt-12 sm:pt-14 md:pt-16 lg:pt-18 xl:pt-20 2xl:pt-24 3xl:pt-28 4xl:pt-32 ' +
-        'pb-16 sm:pb-18 md:pb-20 lg:pb-22 xl:pb-24 2xl:pb-28 3xl:pb-32 4xl:pb-36 ' +
-        'px-4 sm:px-5 md:px-7 lg:px-9 xl:px-10'
-      }
+      data-nav-surface="light"
+      className={cn(
+        'relative min-w-0 overflow-x-clip overflow-y-hidden',
+        'pt-12 sm:pt-14 md:pt-16 lg:pt-16 xl:pt-20 2xl:pt-24 3xl:pt-28 4xl:pt-32',
+        'pb-0',
+        landingPageGutterClass,
+      )}
     >
-      <div className="relative max-w-[1400px] mx-auto">
+      <div className={cn('relative', landingPageContentMaxClass)}>
         {/* glowing mark */}
         <Image
           src="/icon.svg"
@@ -48,8 +51,8 @@ export function HeroSection() {
           built <span className="italic font-light text-signal">for humans.</span>
         </h1>
 
-        <div className="mt-10 sm:mt-12 md:mt-14 lg:mt-16 xl:mt-18 2xl:mt-20 3xl:mt-24 4xl:mt-28 grid md:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 2xl:gap-14 3xl:gap-16 items-end">
-          <div className="md:col-span-5 animate-fade-up" style={{ animationDelay: '200ms' }}>
+        <div className="mt-10 sm:mt-12 md:mt-14 lg:mt-16 xl:mt-16 2xl:mt-20 3xl:mt-24 4xl:mt-28 grid min-w-0 grid-cols-1 items-end gap-8 sm:gap-10 md:grid-cols-12 lg:gap-12 2xl:gap-14 3xl:gap-16">
+          <div className="min-w-0 md:col-span-5 animate-fade-up" style={{ animationDelay: '200ms' }}>
             <div className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground flex items-center gap-2 mb-3 sm:mb-4 md:mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" /> What is Leseb?
             </div>
@@ -71,7 +74,7 @@ export function HeroSection() {
           </div>
 
           <div
-            className="md:col-span-4 md:col-start-9 text-right animate-fade-up"
+            className="min-w-0 text-left md:col-span-4 md:col-start-9 md:text-right animate-fade-up"
             style={{ animationDelay: '320ms' }}
           >
             <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-signal mb-2">

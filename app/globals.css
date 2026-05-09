@@ -139,6 +139,16 @@
   }
 }
 
+/** Landing text marquee (track is duplicated; loop at -50%) */
+@keyframes marquee-line {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -251,6 +261,10 @@
     mask-image: radial-gradient(circle at 50% 22%, black 0%, black 55%, transparent 78%);
   }
 
+  .gradient-signal {
+    background-image: var(--gradient-signal);
+  }
+
   /** Large-cell page grid: stronger lines in light mode, softer in .dark */
   .bg-page-grid {
     background-color: var(--background);
@@ -305,6 +319,11 @@
   .animate-marquee-strip-right {
     animation: marquee-strip-right var(--marquee-duration, 180s) linear infinite;
   }
+
+  .marquee {
+    animation: marquee-line var(--marquee-line-duration, 55s) linear infinite;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-work-card-slide-next,
     .animate-work-card-slide-prev {
@@ -314,6 +333,55 @@
     .animate-marquee-strip-right {
       animation: none;
       transform: translateX(0);
+    }
+    .marquee {
+      animation: none;
+      transform: translateX(0);
+    }
+  }
+
+  /**
+   * Home landing: vertical rhythm between major bands.
+   * Matches hero `pb-*` + marquee `pt-*` so every seam uses the same spacing.
+   */
+  .home-page-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem; /* pb-12 + pt-4 */
+  }
+  @media (min-width: 640px) {
+    .home-page-stack {
+      gap: 4.5rem; /* pb-14 + pt-4 */
+    }
+  }
+  @media (min-width: 768px) {
+    .home-page-stack {
+      gap: 5.25rem; /* pb-16 + pt-5 */
+    }
+  }
+  @media (min-width: 1024px) {
+    .home-page-stack {
+      gap: 5.75rem; /* pb-18 + pt-5 */
+    }
+  }
+  @media (min-width: 1280px) {
+    .home-page-stack {
+      gap: 6.25rem; /* pb-20 + pt-5 */
+    }
+  }
+  @media (min-width: 1536px) {
+    .home-page-stack {
+      gap: 7.25rem; /* pb-24 + pt-5 */
+    }
+  }
+  @media (min-width: 1920px) {
+    .home-page-stack {
+      gap: 8.25rem; /* pb-28 + pt-5 */
+    }
+  }
+  @media (min-width: 2560px) {
+    .home-page-stack {
+      gap: 9.25rem; /* pb-32 + pt-5 */
     }
   }
 

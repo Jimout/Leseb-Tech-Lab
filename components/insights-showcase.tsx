@@ -5,6 +5,7 @@ import * as React from 'react'
 import { CircleArrowPagination } from '@/components/circle-arrow-pagination'
 import { FluidSplitButton } from '@/components/fluid-split-button'
 import { InsightCard } from '@/components/insight-card'
+import { useHorizontalStripWheelCallback } from '@/hooks/use-horizontal-strip-wheel'
 import { useInsightsShowcaseMerged } from '@/hooks/use-insights-showcase-merged'
 import { sectionKickerTextClass } from '@/lib/section-kicker-classes'
 import { cn } from '@/lib/utils'
@@ -94,20 +95,6 @@ export type InsightsShowcaseProps = {
   mobileCardLimit?: number
 }
 
-function onInsightsStripWheel(e: React.WheelEvent<HTMLDivElement>) {
-  const el = e.currentTarget
-  if (el.scrollWidth <= el.clientWidth) return
-  // Respect native vertical wheel behavior; only translate clear horizontal gestures.
-  if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return
-  const delta = e.deltaX
-  if (!delta || Math.abs(delta) < 0.5) return
-  const max = el.scrollWidth - el.clientWidth
-  const next = Math.max(0, Math.min(max, el.scrollLeft + delta))
-  if (next === el.scrollLeft) return
-  e.preventDefault()
-  el.scrollLeft = next
-}
-
 function useInsightsDragScroll() {
   const dragRef = React.useRef<{
     active: boolean
@@ -194,8 +181,9 @@ function useInsightsDragScroll() {
 
 const insightStripClass = cn(
   'flex min-w-0 w-full gap-5 overflow-x-auto px-4 pb-2 sm:px-6',
-  'snap-x snap-proximity scroll-smooth lg:px-0',
-  'overscroll-x-contain [touch-action:pan-x]',
+  'snap-x snap-proximity lg:px-0',
+  '[overflow-anchor:none]',
+  'overscroll-x-contain [touch-action:pan-x_pan-y]',
   'select-none cursor-grab active:cursor-grabbing',
   '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
 )
@@ -207,7 +195,8 @@ const insightCardWidthClass =
 const insightMobileTwoUpStripClass = cn(
   'flex min-h-0 min-w-0 w-full items-stretch gap-6 overflow-x-auto sm:gap-8',
   'px-0 pb-2 sm:px-2',
-  'overscroll-x-contain [touch-action:pan-x]',
+  '[overflow-anchor:none]',
+  'overscroll-x-contain [touch-action:pan-x_pan-y]',
 )
 
 const insightMobileTwoUpCardClass =
@@ -218,6 +207,8 @@ export function InsightsShowcase({
   excludeIds,
   mobileCardLimit,
 }: InsightsShowcaseProps = {}) {
+  const mobileStripWheelRef = useHorizontalStripWheelCallback<HTMLDivElement>()
+  const desktopStripWheelRef = useHorizontalStripWheelCallback<HTMLDivElement>()
   const dragScroll = useInsightsDragScroll()
   const items = useShowcaseItems(excludeIds)
   const n = items.length
@@ -291,11 +282,13 @@ export function InsightsShowcase({
         {splitMobileDesktop ? (
           <>
             <div
-              ref={mobileScroller.ref}
+              ref={(el) => {
+                mobileScroller.ref.current = el
+                mobileStripWheelRef(el)
+              }}
               role="region"
               aria-label={variant === 'related' ? 'Related insight articles' : 'Insight articles'}
               className={cn(mobileTwoUp ? insightMobileTwoUpStripClass : insightStripClass, 'lg:hidden')}
-              onWheel={onInsightsStripWheel}
               onPointerDown={dragScroll.onPointerDown}
               onPointerMove={dragScroll.onPointerMove}
               onPointerUp={dragScroll.onPointerUp}
@@ -305,11 +298,13 @@ export function InsightsShowcase({
               {mobileStrip}
             </div>
             <div
-              ref={desktopScroller.ref}
+              ref={(el) => {
+                desktopScroller.ref.current = el
+                desktopStripWheelRef(el)
+              }}
               role="region"
               aria-label={variant === 'related' ? 'Related insight articles' : 'Insight articles'}
               className={cn(insightStripClass, 'hidden lg:flex')}
-              onWheel={onInsightsStripWheel}
               onPointerDown={dragScroll.onPointerDown}
               onPointerMove={dragScroll.onPointerMove}
               onPointerUp={dragScroll.onPointerUp}
@@ -321,11 +316,13 @@ export function InsightsShowcase({
           </>
         ) : (
           <div
-            ref={desktopScroller.ref}
+            ref={(el) => {
+              desktopScroller.ref.current = el
+              desktopStripWheelRef(el)
+            }}
             role="region"
             aria-label={variant === 'related' ? 'Related insight articles' : 'Insight articles'}
             className={insightStripClass}
-            onWheel={onInsightsStripWheel}
             onPointerDown={dragScroll.onPointerDown}
             onPointerMove={dragScroll.onPointerMove}
             onPointerUp={dragScroll.onPointerUp}

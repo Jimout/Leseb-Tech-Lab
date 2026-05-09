@@ -38,6 +38,45 @@ type InsightSeed = Omit<ShowcaseInsight, 'publicId' | 'slug' | 'heroMedia' | 'me
 
 const SHOWCASE_INSIGHT_SEEDS: InsightSeed[] = [
   {
+    id: 'sample-intent-to-interface',
+    date: 'May 2, 2026',
+    dateIso: '2026-05-02',
+    title: 'Sample: From intent to interface in three sketches',
+    description:
+      'A quick workshop format we use to align on flows before pixels—notes, arrows, and one shared vocabulary.',
+    mediaUrl:
+      'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80',
+    mediaAlt: 'Team reviewing sketches and wireframes on a desk',
+    href: insightHref('sample-intent-to-interface'),
+    filterIds: ['diagrams', 'planning'],
+  },
+  {
+    id: 'sample-metrics-that-move-teams',
+    date: 'April 28, 2026',
+    dateIso: '2026-04-28',
+    title: 'Sample: Metrics that move teams without drowning them',
+    description:
+      'How we pick a small signal set—latency, completion, satisfaction—and review it in the same slot every week.',
+    mediaUrl:
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    mediaAlt: 'Charts and analytics on a laptop screen',
+    href: insightHref('sample-metrics-that-move-teams'),
+    filterIds: ['planning', 'visualizations'],
+  },
+  {
+    id: 'sample-shipping-in-small-slices',
+    date: 'April 18, 2026',
+    dateIso: '2026-04-18',
+    title: 'Sample: Shipping in small slices clients can feel',
+    description:
+      'Vertical cuts beat horizontal layers when you need feedback early—what we bundle, what we defer, and how we demo.',
+    mediaUrl:
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    mediaAlt: 'Laptop with project planning interface',
+    href: insightHref('sample-shipping-in-small-slices'),
+    filterIds: ['planning', 'products'],
+  },
+  {
     id: 'biomimicry-architecture',
     date: 'March 14, 2026',
     dateIso: '2026-03-14',

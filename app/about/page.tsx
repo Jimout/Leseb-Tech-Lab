@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 
-import { AboutAssociatedVentures } from '@/components/about-associated-ventures'
-import { AboutPageContent } from '@/components/about-page-content'
-import { AboutProfessionalJourney } from '@/components/about-professional-journey'
+import { AboutEditorialPage } from '@/components/about-editorial-page'
 import { BreadcrumbJsonLd } from '@/components/seo/breadcrumb-json-ld'
 import { FooterSection } from '@/components/footer-section'
 import { SiteNavbar } from '@/components/site-navbar'
@@ -34,10 +32,8 @@ export default function AboutPage() {
         ]}
       />
       <SiteNavbar logoHref="/" />
-      <main className="min-h-dvh scroll-mt-24 bg-page-grid text-foreground">
-        <AboutPageContent />
-        <AboutProfessionalJourney />
-        <AboutAssociatedVentures />
+      <main className="min-h-dvh scroll-mt-24 overflow-x-clip bg-background text-foreground">
+        <AboutEditorialPage />
         <FooterSection />
         <Toaster />
       </main>

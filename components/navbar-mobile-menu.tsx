@@ -25,10 +25,12 @@ export function NavbarMobileMenuTrigger({
   open,
   onOpenChange,
   scrolled = false,
+  surface = 'light',
 }: {
   open: boolean
   onOpenChange: (next: boolean) => void
   scrolled?: boolean
+  surface?: 'light' | 'dark'
 }) {
   const buttonSizeClass = scrolled ? 'h-9 w-10' : 'size-12'
   const buttonRadiusClass = scrolled ? 'rounded-2xl' : 'rounded-full'
@@ -49,9 +51,13 @@ export function NavbarMobileMenuTrigger({
         buttonSizeClass,
         'shrink-0 md:hidden',
         buttonRadiusClass,
-        'bg-transparent text-foreground shadow-none ring-0 ring-offset-0',
-        'hover:bg-transparent hover:text-foreground active:bg-transparent',
-        'dark:bg-transparent dark:hover:bg-transparent dark:active:bg-transparent dark:hover:text-foreground',
+        'bg-transparent shadow-none ring-0 ring-offset-0',
+        surface === 'dark'
+          ? 'text-white hover:bg-white/10 hover:text-white active:bg-white/15'
+          : 'text-foreground hover:bg-transparent hover:text-foreground active:bg-transparent',
+        'dark:bg-transparent dark:hover:bg-transparent dark:active:bg-transparent',
+        surface === 'light' && 'dark:hover:text-foreground',
+        surface === 'dark' && 'dark:text-white dark:hover:text-white',
         'focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0',
       )}
     >

@@ -8,7 +8,7 @@ const steps = [
     n: '01',
     icon: Users,
     title: 'Listen first',
-    body: "We embed with the people who'll use what we build — before a line of code exists.",
+    body: "We embed with the people who'll use what we build, before a line of code exists.",
   },
   {
     n: '02',
@@ -20,7 +20,7 @@ const steps = [
     n: '03',
     icon: Workflow,
     title: 'Engineer with care',
-    body: 'Performance, accessibility, and language coverage are not features — they are the floor.',
+    body: 'Performance, accessibility, and language coverage are not features; they are the floor.',
   },
   {
     n: '04',
@@ -36,11 +36,16 @@ export function ApproachSection() {
       id="approach"
       data-nav-surface="light"
       className={cn(
-        'relative min-w-0 scroll-mt-24 overflow-x-clip bg-background py-16 md:py-24 lg:py-28 xl:py-32',
+        'relative min-w-0 scroll-mt-24 overflow-x-clip bg-background py-0',
         landingPageGutterClass,
       )}
     >
-      <div className={cn('relative mx-auto min-w-0', landingPageContentMaxClass)}>
+      <div
+        className={cn(
+          'relative mx-auto min-w-0 py-16 md:py-24 lg:py-28 xl:py-32',
+          landingPageContentMaxClass,
+        )}
+      >
         <div className="mb-10 grid gap-10 md:mb-12 md:grid-cols-12 md:gap-12 lg:mb-14">
           <div className="min-w-0 md:col-span-5">
             <div className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-signal">
@@ -52,7 +57,7 @@ export function ApproachSection() {
           </div>
           <div className="flex min-w-0 items-end md:col-span-6 md:col-start-7">
             <p className="text-balance text-lg leading-relaxed text-muted-foreground md:text-xl">
-              Most labs optimize for output. We optimize for outcome — slower starts, deeper roots, and software that
+              Most labs optimize for output. We optimize for outcome, slower starts, deeper roots, and software that
               still makes sense five years from now.
             </p>
           </div>

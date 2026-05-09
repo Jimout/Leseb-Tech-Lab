@@ -59,7 +59,10 @@ function NavLink({
           ? 'text-white/80 hover:text-white'
           : 'text-foreground/80 hover:text-foreground',
         active &&
-          (surface === 'dark' ? 'bg-white/15 text-white' : 'bg-muted text-foreground'),
+          cn(
+            surface === 'dark' ? 'text-white' : 'text-foreground',
+            'after:absolute after:inset-x-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-accent after:content-[\"\"]',
+          ),
       )}
     >
       {label}
@@ -108,11 +111,11 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
           )}
         >
           {logoHref.startsWith('/') ? (
-            <Link href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} — go to home`}>
+            <Link href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} | go to home`}>
               {SITE_BRAND_NAME}
             </Link>
           ) : (
-            <a href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} — go to home`}>
+            <a href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} | go to home`}>
               {SITE_BRAND_NAME}
             </a>
           )}

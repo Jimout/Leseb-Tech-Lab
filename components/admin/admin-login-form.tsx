@@ -156,7 +156,7 @@ export function AdminLoginForm() {
           // In this admin setup, credentials are stored locally per browser.
           // So "forgot password" resets this browser back to default credentials.
           setError(null)
-          setEmail('admin@nattyopia.com')
+          setEmail('admin@leseb.com')
           setPassword('admin123')
         }}
         className="w-full text-center text-[11px] text-white/65 underline underline-offset-4 hover:text-white disabled:cursor-not-allowed disabled:opacity-50 2xl:text-xs 4xl:text-sm"

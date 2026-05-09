@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
     default: SITE_BRAND_NAME,
-    template: `%s — ${SITE_BRAND_NAME}`,
+    template: `%s | ${SITE_BRAND_NAME}`,
   },
   description: siteSeoConfig.defaultDescription,
   keywords: [...siteSeoConfig.keywords],

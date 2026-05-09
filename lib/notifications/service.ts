@@ -63,7 +63,7 @@ function buildNotificationEmail(options: {
   preferencesUrl: string
 }) {
   return renderBrandedEmail({
-    eyebrow: 'Nattyopia Updates',
+    eyebrow: 'Leseb Updates',
     title: options.title,
     lead: options.summary,
     ctaLabel: 'View update',

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!detail) {
     return buildPageMetadata({
       title: 'Work',
-      description: 'Architecture and visualization project — Nattyopia portfolio.',
+      description: 'Architecture and visualization project from Leseb Tech Lab.',
       path: `/work/${canonical}`,
       ogImage,
     })

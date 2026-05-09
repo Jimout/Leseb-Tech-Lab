@@ -9,8 +9,9 @@ const projects = [
   {
     title: 'Selam OS',
     tag: 'Conversational AI',
-    desc: 'An assistant that speaks your language — literally and culturally.',
-    imgSrc: '/images/Natty Hero.png',
+    desc: 'An assistant that speaks your language, literally and culturally.',
+    imgSrc:
+      'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=80',
     year: '2026',
   },
   {

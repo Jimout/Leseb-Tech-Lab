@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     const confirmUrl = `${appBaseUrl()}/api/newsletter/confirm?token=${encodeURIComponent(rawConfirmToken)}`
     const emailTemplate = renderBrandedEmail({
-      eyebrow: 'Nattyopia Updates',
+      eyebrow: 'Leseb Updates',
       title: 'Confirm your subscription',
       lead: 'Please confirm your email to start receiving new work and insights updates.',
       ctaLabel: 'Confirm subscription',

@@ -58,7 +58,7 @@ export function HeroSection() {
             </div>
             <p className="text-base sm:text-lg md:text-xl xl:text-2xl 2xl:text-[1.7rem] 3xl:text-[1.85rem] 4xl:text-[2rem] text-foreground/80 leading-relaxed text-balance">
               <span className="text-foreground">Leseb (ለሰብ)</span> in Ge&apos;ez means{' '}
-              <em className="text-signal not-italic">&quot;for humans&quot;</em> — and that is the foundation of our
+              <em className="text-signal not-italic">&quot;for humans&quot;</em> and that is the foundation of our
               identity. We design AI and software that serve people, never overwhelm them.
             </p>
 

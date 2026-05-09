@@ -21,7 +21,7 @@ export const Manifesto = () => (
           <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-signal">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Manifesto
           </div>
-          <p className="mt-4 font-mono text-xs text-white/55">01 — 03</p>
+          <p className="mt-4 font-mono text-xs text-white/55">01 to 03</p>
         </div>
       </div>
 
@@ -43,14 +43,14 @@ export const Manifesto = () => (
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/25 to-transparent" />
             <div className="absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
-              02 — Human × Machine
+              02 Human × Machine
             </div>
           </div>
 
           <div className="min-w-0">
             <p className="font-display text-balance text-2xl leading-snug tracking-tight text-white/90 md:text-3xl lg:text-4xl 2xl:text-5xl">
-              At Leseb Tech Lab, we believe that <span className="text-signal">social change is not optional</span> —
-              it&apos;s necessary.
+              At Leseb Tech Lab, we believe that <span className="text-signal">social change is not optional</span>.
+              It&apos;s necessary.
             </p>
             <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg 2xl:text-xl">
               Every product we ship is a small contract with the people who use it: that it will respect their time,

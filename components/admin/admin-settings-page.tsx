@@ -196,7 +196,7 @@ export function AdminSettingsPage() {
               description="This will reset admin email/password to default for this browser."
               confirmLabel="Reset"
               onConfirm={() => {
-                const next = { email: 'admin@nattyopia.com', password: 'admin123' }
+                const next = { email: 'admin@leseb.com', password: 'admin123' }
                 writeAdminCreds(next)
                 setCurrent(next)
                 setEmail(next.email)

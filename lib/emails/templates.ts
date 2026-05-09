@@ -23,7 +23,7 @@ function absoluteUrl(url: string) {
 
 export function renderBrandedEmail(input: EmailLayoutInput) {
   const homeUrl = appBaseUrl()
-  const brandName = input.brandName ?? 'Nattyopia'
+  const brandName = input.brandName ?? 'Leseb Tech Lab'
   const logoUrl = input.logoUrl ?? process.env.EMAIL_LOGO_URL ?? `${homeUrl}/images/Logo.png`
   const ctaUrl = input.ctaUrl ? absoluteUrl(input.ctaUrl) : null
   const bodyHtml = input.bodyHtml ?? ''

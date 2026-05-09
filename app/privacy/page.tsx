@@ -11,7 +11,7 @@ import { buildPageMetadata } from '@/lib/seo/metadata'
 export const metadata: Metadata = buildPageMetadata({
   title: 'Privacy Policy',
   description:
-    'How Nattyopia collects, uses, and protects information when you use this portfolio website and contact features.',
+    'How Leseb Tech Lab collects, uses, and protects information when you use this website and contact features.',
   path: '/privacy',
 })
 

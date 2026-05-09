@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!detail) {
     return buildPageMetadata({
       title: 'Insight',
-      description: 'Architecture and design insight — Nattyopia.',
+      description: 'Architecture and design insight from Leseb Tech Lab.',
       path: `/insights/${canonical}`,
       ogImage,
     })

@@ -23,7 +23,7 @@ const principles = [
   {
     n: 'IV.',
     t: 'Social change as a brief',
-    b: 'Profit is a byproduct. The brief is impact — measured in lives made calmer, work made lighter, voices made heard.',
+    b: 'Profit is a byproduct. The brief is impact, measured in lives made calmer, work made lighter, voices made heard.',
   },
 ] as const
 
@@ -41,7 +41,7 @@ function AboutFoundersSection() {
           <div className="space-y-6 text-lg leading-relaxed text-foreground/80 md:col-span-8 md:text-xl">
             <p>
               Leseb Tech Lab is a small, intentional team. We work shoulder-to-shoulder with communities and
-              partners — not as vendors, but as co-authors of the tools people rely on every day.
+              partners, not as vendors, but as co-authors of the tools people rely on every day.
             </p>
             <p className="text-muted-foreground">
               Names and faces belong in conversation, not in a carousel. If you are building something humane and need
@@ -75,13 +75,6 @@ export function AboutEditorialPage() {
               </h1>
             </div>
           </div>
-          <Link
-            href="/#manifesto"
-            className="mt-16 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ArrowDown className="size-4 shrink-0" aria-hidden />
-            Read the manifesto
-          </Link>
         </div>
       </section>
 
@@ -107,7 +100,7 @@ export function AboutEditorialPage() {
             </p>
             <p className="max-w-3xl text-lg leading-relaxed text-foreground/80 md:text-xl">
               We founded Leseb Tech Lab because the industry told us to move fast and break things. We watched what got
-              broken: attention, trust, the quiet hours of the day. So we slowed down. We started a lab — not a factory —
+              broken: attention, trust, the quiet hours of the day. So we slowed down. We started a lab, not a factory,
               to study how software could feel like a friend instead of a feed.
             </p>
             <p className="max-w-3xl text-lg leading-relaxed text-foreground/80 md:text-xl">
@@ -116,12 +109,12 @@ export function AboutEditorialPage() {
             </p>
             <p className="max-w-3xl text-lg leading-relaxed text-foreground/80 md:text-xl">
               At Leseb, we believe{' '}
-              <span className="text-signal">social change is not optional — it is necessary</span>. Technology is one of
+              <span className="text-signal">social change is not optional; it is necessary</span>. Technology is one of
               the few levers large enough to move it. We plan to pull, gently, with both hands.
             </p>
 
             <div className="flex flex-wrap items-center gap-6 pt-6 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              <span>— The Leseb Founders</span>
+              <span>The Leseb Founders</span>
               <span className="h-px w-16 bg-border" aria-hidden />
               <span>ለሰብ · For humans</span>
             </div>
@@ -131,6 +124,7 @@ export function AboutEditorialPage() {
 
       {/* Principles */}
       <section
+        id="principles"
         className={cn(
           'border-t border-white/10 bg-black py-24 text-white md:py-32',
           landingPageGutterClass,
@@ -163,18 +157,21 @@ export function AboutEditorialPage() {
       <AboutFoundersSection />
 
       {/* Closing CTA */}
-      <section className={cn('border-t border-border py-32', landingPageGutterClass)}>
+      <section
+        data-nav-surface="dark"
+        className={cn('border-t border-white/10 bg-black py-32 text-white', landingPageGutterClass)}
+      >
         <div className={cn('text-center', landingPageContentMaxClass)}>
           <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-signal">Continue</p>
-          <h2 className="font-display text-balance text-4xl tracking-tight md:text-7xl">
+          <h2 className="font-display text-balance text-4xl tracking-tight text-white md:text-7xl">
             See what we&apos;re <span className="font-light italic text-signal">building.</span>
           </h2>
           <Link
             href="/"
-            className="group mt-12 inline-flex items-center gap-3 rounded-full bg-primary py-3 pr-3 pl-7 font-mono text-xs uppercase tracking-[0.2em] text-primary-foreground transition-transform hover:scale-[1.03]"
+            className="group mt-12 inline-flex items-center gap-3 rounded-full bg-secondary py-3 pr-3 pl-7 font-mono text-xs uppercase tracking-[0.2em] text-secondary-foreground transition-transform hover:scale-[1.03]"
           >
             Back to the lab
-            <span className="grid size-8 place-items-center rounded-full bg-primary-foreground/10 transition-transform group-hover:rotate-45">
+            <span className="grid size-8 place-items-center rounded-full bg-secondary-foreground/10 transition-transform group-hover:rotate-45">
               <ArrowUpRight className="size-4" aria-hidden />
             </span>
           </Link>

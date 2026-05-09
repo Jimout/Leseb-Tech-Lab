@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       s.about.metaDescription?.trim() ||
       d.metaDescription ||
-      'Architect focused on design development, interiors, and visualization across multiple scales — professional journey, tools, and ventures.',
+      'Architect focused on design development, interiors, and visualization across multiple scales. Professional journey, tools, and ventures.',
     path: '/about',
   })
 }

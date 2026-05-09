@@ -24,12 +24,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
   openGraph: {
     ...buildDefaultOpenGraph(),
-    title: `Page not found — ${SITE_BRAND_NAME}`,
+    title: `Page not found | ${SITE_BRAND_NAME}`,
     description: NOT_FOUND_OG_DESCRIPTION,
   },
   twitter: {
     ...buildDefaultTwitter(),
-    title: `Page not found — ${SITE_BRAND_NAME}`,
+    title: `Page not found | ${SITE_BRAND_NAME}`,
     description: NOT_FOUND_OG_DESCRIPTION,
   },
 }

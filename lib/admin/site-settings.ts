@@ -237,7 +237,7 @@ export type SiteSettings = {
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   hero: {
-    eyebrow: '(nattyopia)',
+    eyebrow: '(leseb)',
     nameLine1: 'Technology',
     nameLine2: 'built for humans.',
     tagline: 'I Design in Quiet Clarity.',
@@ -247,16 +247,16 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     backdropDarkSrc: '/images/Natty Hero.png',
     whoAmIEyebrow: 'Who am I?',
     whoAmIBody:
-      "I'm [[Natnael Tibebe]], also known as Nattyopia. An architect and designer based in Addis Ababa, working across [[Architecture, Visualization, and Design.]]",
-    whoAmIButtonLabel: 'About Nattyopia',
+      "We're [[Leseb Tech Lab]]. A technology lab based in Addis Ababa, building software and AI that serve people across [[Community, Data, and Product Design.]]",
+    whoAmIButtonLabel: 'About Leseb',
     whoAmIButtonHref: '#about-intro',
   },
   footer: {
     headline: 'Did you like what you saw?',
     contactTitle: 'Get in touch',
     phone: '+251 937 927441',
-    email: 'nattyopia@gmail.com',
-    socialHandle: '@nattyopia',
+    email: 'hello@leseb.com',
+    socialHandle: '@leseb',
     newsletterLine1: 'Subscribe to',
     newsletterLine2: 'my newsletter',
     tagline: 'Crafting Since 2020',
@@ -292,7 +292,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
       'and compelling spatial solutions across multiple scales.',
     ],
     portraitSrc: '/images/Nattyopia.png',
-    portraitAlt: 'Nattyopia graphic',
+    portraitAlt: 'Leseb graphic',
   },
   aboutJourney: {
     visible: true,
@@ -300,7 +300,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     headingRole: 'Architect | Architectural Visualisation Specialist',
     intro:
       'A glimpse into my professional journey, shaping my expertise in architecture, BIM, and architectural visualization across local and international projects.',
-    cvHref: '/downloads/Natnael-Tibebe-CV.pdf',
+    cvHref: '/downloads/Leseb-Tech-Lab-CV.pdf',
     educationVisible: true,
     experienceVisible: true,
     certificationsVisible: true,
@@ -454,7 +454,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     metaDescription: 'Get in touch for collaborations, visualizations, and project enquiries.',
     introLine1: 'For general enquiries, please fill out the form to get in touch.',
     introLine2: 'Prefer email?',
-    email: 'nattyopia@gmail.com',
+    email: 'hello@leseb.com',
     formVisible: true,
     formSubmitLabel: 'Send Message',
     privacyPolicyHref: '/privacy',
@@ -541,22 +541,22 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   insightToc: {
     markDarkSrc: `/images/${encodeURIComponent('Splash 1.png')}`,
     markLightSrc: `/images/${encodeURIComponent('Splash 2.png')}`,
-    markAlt: 'Nattyopia',
+    markAlt: 'Leseb',
   },
   portfolioCatalogFilters: getDefaultPortfolioCatalogFilters(),
 }
 
-const STORAGE_KEY = 'nattyopia:site-settings:v1'
+const STORAGE_KEY = 'leseb:site-settings:v1'
 
 /** Old privacy eyebrow copy — replaced on read so stored settings pick up professional wording. */
 const LEGACY_PRIVACY_EYEBROW = 'The boring legal stuff'
 
 /** Default hero intro before `[[accent]]` markers; migrate on read for existing localStorage. */
 const LEGACY_HERO_WHO_AMI_BODY =
-  "I'm Natnael Tibebe, also known as Nattyopia. An architect and designer based in Addis Ababa, working across Architecture, Visualization, and Design."
+  "We're Leseb Tech Lab. A technology lab based in Addis Ababa, building software and AI that serve people across Community, Data, and Product Design."
 
-const LEGACY_HERO_NAME_LINE_1 = 'Natnael'
-const LEGACY_HERO_NAME_LINE_2 = 'Tibebe'
+const LEGACY_HERO_NAME_LINE_1 = 'Leseb'
+const LEGACY_HERO_NAME_LINE_2 = 'Tech Lab'
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)

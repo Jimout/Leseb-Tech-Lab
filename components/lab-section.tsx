@@ -26,7 +26,7 @@ const pillars = [
     n: '04',
     icon: Users,
     title: 'Community-Driven Innovation',
-    body: 'We stay close to people, communities, and real challenges — ensuring our solutions create real impact.',
+    body: 'We stay close to people, communities, and real challenges, ensuring our solutions create real impact.',
   },
 ] as const
 
@@ -36,11 +36,16 @@ export function LabSection() {
       id="lab"
       data-nav-surface="light"
       className={cn(
-        'relative min-w-0 scroll-mt-24 overflow-x-clip bg-background py-16 md:py-24 lg:py-28 xl:py-32',
+        'relative min-w-0 scroll-mt-24 overflow-x-clip bg-background py-0',
         landingPageGutterClass,
       )}
     >
-      <div className={cn('relative mx-auto min-w-0', landingPageContentMaxClass)}>
+      <div
+        className={cn(
+          'relative mx-auto min-w-0 py-16 md:py-24 lg:py-28 xl:py-32',
+          landingPageContentMaxClass,
+        )}
+      >
         <div className="mb-10 grid gap-10 md:mb-12 md:grid-cols-12 md:gap-12 lg:mb-14">
           <div className="min-w-0 md:col-span-5">
             <div className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-signal">
@@ -52,7 +57,7 @@ export function LabSection() {
           </div>
           <div className="flex min-w-0 items-end md:col-span-6 md:col-start-7">
             <p className="text-balance text-lg leading-relaxed text-muted-foreground md:text-xl">
-              Four practices, one brief — software that serves the human in front of the screen.
+              Four practices, one brief, software that serves the human in front of the screen.
             </p>
           </div>
         </div>

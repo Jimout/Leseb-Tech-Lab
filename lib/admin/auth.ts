@@ -3,11 +3,11 @@ export type AdminCredentials = {
   password: string
 }
 
-const CREDS_KEY = 'nattyopia:admin-creds:v1'
-const SESSION_KEY = 'nattyopia:admin-session:v1'
+const CREDS_KEY = 'leseb:admin-creds:v1'
+const SESSION_KEY = 'leseb:admin-session:v1'
 
 export const DEFAULT_ADMIN_CREDS: AdminCredentials = {
-  email: 'admin@nattyopia.com',
+  email: 'admin@leseb.com',
   password: 'admin123',
 }
 

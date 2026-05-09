@@ -1,6 +1,6 @@
 /**
  * Central site URL and identity for canonical URLs, sitemap, robots, and Open Graph.
- * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://nattyopia.com).
+ * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://leseb.com).
  */
 export function getSiteUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim()
@@ -18,15 +18,15 @@ export function absoluteUrl(path: string): string {
 
 export const siteSeoConfig = {
   /** Short primary name for structured data and OG titles */
-  personName: 'Natnael Tibebe',
+  personName: 'Leseb Tech Lab',
   /** Social / brand handle (no @ in Person sameAs; use full URLs) */
-  handle: 'nattyopia',
-  jobTitle: 'Architect & Creative Director',
+  handle: 'leseb',
+  jobTitle: 'Technology Lab',
   defaultDescription:
-    'Portfolio of Natnael Tibebe (nattyopia)—architecture, interiors, visualization, and insights on the built environment.',
+    'Leseb Tech Lab builds technology for humans. Work, insights, and experiments designed with care.',
   keywords: [
-    'Natnael Tibebe',
-    'nattyopia',
+    'Leseb',
+    'Leseb Tech Lab',
     'architect',
     'architecture',
     'architectural visualization',
@@ -38,10 +38,10 @@ export const siteSeoConfig = {
     'Addis Ababa',
     'Ethiopia',
   ],
-  twitterHandle: '@nattyopia',
+  twitterHandle: '@leseb',
   locale: 'en_US',
   /** SameAs — add real profiles when available */
   sameAs: [
-    'https://www.instagram.com/nattyopia',
+    'https://www.instagram.com/leseb',
   ] as const,
 } as const

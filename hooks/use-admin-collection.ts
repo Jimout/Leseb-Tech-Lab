@@ -22,7 +22,7 @@ export function useAdminCollection<T extends { id: string }>(opts: {
   React.useEffect(() => {
     if (!hydrated) return
     writeJson(storageKey, items)
-    window.dispatchEvent(new CustomEvent('nattyopia-storage', { detail: { key: storageKey } }))
+    window.dispatchEvent(new CustomEvent('leseb-storage', { detail: { key: storageKey } }))
   }, [hydrated, items, storageKey])
 
   const upsert = React.useCallback((next: T) => {

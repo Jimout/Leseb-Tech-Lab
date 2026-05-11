@@ -4,40 +4,38 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:ital,wght@0,300..700;1,300..700&display=swap');
 
 :root {
-  /** Light mode — warm paper */
-  --background: hsl(40 30% 97%);
-  --foreground: hsl(188 71% 10%);
+  /** Dark / black mode — matches manifesto section (bg-black text-white) */
+  --background: #000000;
+  --foreground: #ffffff;
 
-  /** Card + box surfaces share the same dark shell in light mode */
-  --card: hsl(40 20% 92%);
+  --card: #0b0b0b;
   --card-foreground: var(--foreground);
-  --popover: hsl(40 20% 92%);
+  --popover: #0b0b0b;
   --popover-foreground: var(--foreground);
 
-  /** Brand ink (teal) */
-  --primary: #0d4651;
-  --primary-foreground: hsl(40 30% 97%);
+  /** Brand ink (teal) — stays recognisable on black */
+  --primary: #12808f;
+  --primary-foreground: #000000;
 
   /** Electric signal (yellow) */
   --secondary: #dfe222;
-  --secondary-foreground: hsl(188 71% 10%);
+  --secondary-foreground: #000000;
 
-  --muted: hsl(40 20% 92%);
-  --muted-foreground: hsl(188 30% 30%);
+  --muted: #111111;
+  --muted-foreground: hsl(0 0% 55%);
 
-  /** Accent follows signal in light mode */
   --accent: var(--secondary);
   --accent-foreground: var(--secondary-foreground);
-  --destructive: #dc2626;
-  --destructive-foreground: #f9f6f2;
-  --border: hsl(188 30% 88%);
-  --input: hsl(188 30% 88%);
+  --destructive: #ef4444;
+  --destructive-foreground: #000000;
+  --border: hsl(0 0% 14%);
+  --input: hsl(0 0% 14%);
   --ring: var(--secondary);
-  --chart-1: #0d4651;
+  --chart-1: #12808f;
   --chart-2: #dfe222;
-  --chart-3: hsl(188 30% 30%);
-  --chart-4: hsl(40 20% 92%);
-  --chart-5: hsl(40 30% 97%);
+  --chart-3: hsl(0 0% 55%);
+  --chart-4: #111111;
+  --chart-5: #000000;
   --radius: 0.625rem;
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
@@ -50,33 +48,33 @@
   /** Bold surface (teal) */
   --surface-panel: #0d4651;
   --surface-works: var(--background);
-  /** Box surfaces (e.g. footer shell, raised panels) — same as card in light mode */
-  --box: hsl(40 20% 92%);
+  /** Box surfaces — slightly raised from background */
+  --box: #0b0b0b;
   /** Resource card image backing */
-  --image-well: hsl(40 20% 92%);
+  --image-well: #0b0b0b;
   /** Solid CTA on dark surfaces */
-  --control-filled: #0d4651;
-  --control-filled-foreground: hsl(40 30% 97%);
-  /** Lift dark cards on hover (resource promos, etc.) */
-  --card-hover: hsl(40 30% 97%);
+  --control-filled: var(--primary);
+  --control-filled-foreground: #000000;
+  /** Lift cards on hover */
+  --card-hover: #151515;
   --card-hover-foreground: var(--foreground);
 
   /** Gradients & effects */
   --gradient-signal: linear-gradient(
     135deg,
-    #dfe222 0%,
-    color-mix(in srgb, #dfe222 65%, #ffffff) 100%
+    hsl(60 75% 51%) 0%,
+    hsl(60 90% 65%) 100%
   );
   --gradient-deep: linear-gradient(
     160deg,
-    #0d4651 0%,
-    #0a0a0a 100%
+    hsl(188 71% 18%) 0%,
+    hsl(188 80% 8%) 100%
   );
-  --shadow-signal: 0 0 40px color-mix(in srgb, #dfe222 25%, transparent);
+  --shadow-signal: 0 0 60px hsl(60 90% 55% / 0.35);
   --gradient-radial: radial-gradient(
-    900px circle at 18% 15%,
-    color-mix(in srgb, #dfe222 22%, transparent) 0%,
-    transparent 55%
+    ellipse at top,
+    hsl(188 71% 18% / 0.5),
+    transparent 60%
   );
   /** Page grid cell size (horizontal × vertical) — hero + .bg-page-grid */
   --page-grid-x: clamp(4.75rem, 13vw, 10.75rem);
@@ -243,22 +241,28 @@
 
   .bg-grid {
     background-image:
-      linear-gradient(
-        to right,
-        color-mix(in srgb, var(--foreground) 8%, transparent) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--foreground) 8%, transparent) 1px,
-        transparent 1px
-      );
-    background-size: var(--page-grid-x) var(--page-grid-y);
-    background-attachment: fixed;
+      linear-gradient(to right, hsl(0 0% 100% / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(0 0% 100% / 0.05) 1px, transparent 1px);
+    background-size: 80px 80px;
   }
 
   .bg-grid-fade {
-    mask-image: radial-gradient(circle at 50% 22%, black 0%, black 55%, transparent 78%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 100%);
+  }
+
+  .hero-teal-glow {
+    background: var(--gradient-radial);
+  }
+
+  .hero-video-blend {
+    mask-image:
+      linear-gradient(to left, black 20%, transparent 85%),
+      linear-gradient(to top, transparent 0%, black 25%, black 75%, transparent 100%);
+    mask-composite: intersect;
+    -webkit-mask-image:
+      linear-gradient(to left, black 20%, transparent 85%),
+      linear-gradient(to top, transparent 0%, black 25%, black 75%, transparent 100%);
+    -webkit-mask-composite: source-in;
   }
 
   .gradient-signal {

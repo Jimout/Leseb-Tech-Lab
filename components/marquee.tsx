@@ -24,7 +24,7 @@ const items = [
 
 export const Marquee = () => (
   <div
-    data-nav-surface="light"
+    data-nav-surface="dark"
     className="flex w-full min-w-0 items-center overflow-x-clip border-y border-border bg-background py-4 md:py-5"
   >
     <div className="marquee flex w-max shrink-0 items-center gap-16 whitespace-nowrap font-display text-3xl leading-none tracking-tight md:text-5xl">

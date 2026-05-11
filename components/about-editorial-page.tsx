@@ -58,7 +58,7 @@ export function AboutEditorialPage() {
   return (
     <div className="min-w-0 bg-background text-foreground">
       {/* Hero */}
-      <section className="relative border-b border-border pb-24 pt-32 md:pb-32 md:pt-44">
+      <section data-nav-surface="dark" className="relative border-b border-border pb-24 pt-32 md:pb-32 md:pt-44">
         <div className="pointer-events-none absolute inset-0 bg-grid bg-grid-fade opacity-50" aria-hidden />
         <div className={cn('relative', rail)}>
           <div className="grid items-end gap-10 md:grid-cols-12">

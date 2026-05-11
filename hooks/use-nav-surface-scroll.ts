@@ -10,7 +10,7 @@ export type NavSurface = 'light' | 'dark'
  * section behind it while scrolling.
  */
 export function useNavSurfaceScroll(navTrackSelector = '[data-site-navbar-track]'): NavSurface {
-  const [surface, setSurface] = React.useState<NavSurface>('light')
+  const [surface, setSurface] = React.useState<NavSurface>('dark')
 
   React.useEffect(() => {
     const readZones = () =>
@@ -27,7 +27,7 @@ export function useNavSurfaceScroll(navTrackSelector = '[data-site-navbar-track]
 
       const zones = readZones()
       if (zones.length === 0) {
-        setSurface('light')
+        setSurface('dark')
         return
       }
 
@@ -44,7 +44,7 @@ export function useNavSurfaceScroll(navTrackSelector = '[data-site-navbar-track]
         }
       }
 
-      setSurface(best?.surface ?? 'light')
+      setSurface(best?.surface ?? 'dark')
     }
 
     measure()

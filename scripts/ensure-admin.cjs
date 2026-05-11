@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt')
 const { spawnSync } = require('node:child_process')
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@nattyopia.com'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@leseb.com'
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'
-const ADMIN_NAME = process.env.ADMIN_NAME || 'Nattyopia Admin'
+const ADMIN_NAME = process.env.ADMIN_NAME || 'Leseb Admin'
 
 async function main() {
   const email = ADMIN_EMAIL.trim().toLowerCase()

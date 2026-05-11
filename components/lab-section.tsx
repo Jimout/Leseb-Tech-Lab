@@ -34,7 +34,7 @@ export function LabSection() {
   return (
     <section
       id="lab"
-      data-nav-surface="light"
+      data-nav-surface="dark"
       className={cn(
         'relative min-w-0 scroll-mt-24 overflow-x-clip bg-background py-0',
         landingPageGutterClass,

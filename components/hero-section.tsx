@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import * as React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 
@@ -14,25 +13,37 @@ export function HeroSection() {
 
   return (
     <section
-      data-nav-surface="light"
+      data-nav-surface="dark"
       className={cn(
-        'relative min-w-0 overflow-x-clip overflow-y-hidden',
-        'pt-12 sm:pt-14 md:pt-16 lg:pt-16 xl:pt-20 2xl:pt-24 3xl:pt-28 4xl:pt-32',
-        'pb-0',
+        'relative -mt-14 min-h-dvh min-w-0 overflow-x-clip overflow-y-hidden bg-black',
+        'pt-28 sm:pt-32 md:pt-36 lg:pt-40 xl:pt-44 2xl:pt-48 3xl:pt-52 4xl:pt-56',
+        'pb-16 sm:pb-20 md:pb-24 lg:pb-28 xl:pb-32 2xl:pb-36 3xl:pb-40 4xl:pb-44',
         landingPageGutterClass,
       )}
     >
-      <div className={cn('relative', landingPageContentMaxClass)}>
-        {/* glowing mark */}
-        <Image
-          src="/icon.svg"
-          alt="Leseb mark"
-          width={512}
-          height={512}
-          className="absolute -top-6 right-0 md:right-10 w-40 sm:w-44 md:w-56 lg:w-64 xl:w-72 2xl:w-80 3xl:w-96 opacity-90 animate-float pointer-events-none"
-          priority
-        />
+      {/* Grid pattern with elliptical fade */}
+      <div className="pointer-events-none absolute inset-0 bg-grid bg-grid-fade" aria-hidden />
+      {/* Radial teal glow at top */}
+      <div className="pointer-events-none absolute inset-0 hero-teal-glow" aria-hidden />
 
+      {/* Hero video — right-aligned, contained within the section */}
+      <div
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden
+      >
+        <div className="absolute top-0 bottom-0 right-0 w-[60%] sm:w-[55%] md:w-[50%] lg:w-[48%] xl:w-[45%] 2xl:w-[42%] hero-video-blend">
+          <video
+            src="/0001-0120.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover object-center opacity-60"
+          />
+        </div>
+      </div>
+
+      <div className={cn('relative', landingPageContentMaxClass)}>
         <p className="font-mono text-[11px] sm:text-xs md:text-sm uppercase tracking-[0.3em] text-signal mb-6 sm:mb-7 md:mb-8 lg:mb-9 xl:mb-10 animate-fade-up">
           (ለሰብ) &nbsp; / &nbsp; for humans
         </p>

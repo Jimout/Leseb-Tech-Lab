@@ -243,7 +243,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     tagline: 'I Design in Quiet Clarity.',
     roleLine1: 'Architect',
     roleLine2: 'Creative Director',
-    backdropLightSrc: '/images/Nattyopia.png',
+    backdropLightSrc: '/images/leseb-hero.png',
     backdropDarkSrc: '/images/Natty Hero.png',
     whoAmIEyebrow: 'Who am I?',
     whoAmIBody:
@@ -291,7 +291,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
       'interiors, and visualization, creating precise',
       'and compelling spatial solutions across multiple scales.',
     ],
-    portraitSrc: '/images/Nattyopia.png',
+    portraitSrc: '/images/leseb-about.png',
     portraitAlt: 'Leseb graphic',
   },
   aboutJourney: {

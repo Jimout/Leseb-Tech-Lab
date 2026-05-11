@@ -152,7 +152,7 @@ export function SiteFooter({
     >
       <section className="w-full overflow-hidden rounded-none border border-border">
         {/* Top action panels */}
-        <div data-nav-surface="light" className="grid grid-cols-1 bg-background md:grid-cols-2">
+        <div data-nav-surface="dark" className="grid grid-cols-1 bg-background md:grid-cols-2">
           <Link
             href="/contact"
             className={cn(

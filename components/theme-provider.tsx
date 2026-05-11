@@ -8,12 +8,12 @@ import {
 
 declare global {
   // eslint-disable-next-line no-var
-  var __nattyopiaThemeScriptWarnFiltered: boolean | undefined
+  var __lesebThemeScriptWarnFiltered: boolean | undefined
 }
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-  if (!globalThis.__nattyopiaThemeScriptWarnFiltered) {
-    globalThis.__nattyopiaThemeScriptWarnFiltered = true
+  if (!globalThis.__lesebThemeScriptWarnFiltered) {
+    globalThis.__lesebThemeScriptWarnFiltered = true
     const original = console.error
     console.error = (...args: unknown[]) => {
       const first = args[0]

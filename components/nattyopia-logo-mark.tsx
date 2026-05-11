@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 
-/** Stylized “N” from two geometric marks (accent fill via `text-accent`). */
-export function NattyopiaLogoMark({ className }: { className?: string }) {
+/** Stylized "L" from two geometric marks (accent fill via `text-accent`). */
+export function LesebLogoMark({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 56 56"

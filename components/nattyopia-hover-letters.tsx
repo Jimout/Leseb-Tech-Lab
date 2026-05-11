@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 
-export type NattyopiaLetterRole =
+export type LesebLetterRole =
   | 'foreground'
   | 'accent'
   | 'accentSoft'
@@ -10,7 +10,7 @@ export type NattyopiaLetterRole =
   /** Light mode: second accent (`--secondary`, e.g. #ffcc00) */
   | 'brandSecond'
 
-const baseClass: Record<NattyopiaLetterRole, string> = {
+const baseClass: Record<LesebLetterRole, string> = {
   foreground: 'text-foreground',
   accent: 'text-accent',
   accentSoft: 'text-accent/85',
@@ -20,7 +20,7 @@ const baseClass: Record<NattyopiaLetterRole, string> = {
 }
 
 /** Hover inverts yellow ↔ white (soft accent → soft foreground). Parent must use `group/brand`. */
-const hoverClass: Record<NattyopiaLetterRole, string> = {
+const hoverClass: Record<LesebLetterRole, string> = {
   foreground: 'group-hover/brand:text-accent',
   accent: 'group-hover/brand:text-foreground',
   accentSoft: 'group-hover/brand:text-foreground/85',
@@ -32,20 +32,20 @@ const hoverClass: Record<NattyopiaLetterRole, string> = {
 const letterEase =
   'inline-block transition-colors duration-[480ms] ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none'
 
-type NattyopiaHoverLettersProps = {
+type LesebHoverLettersProps = {
   word: string
   className?: string
-  getLetterRole: (index: number, char: string) => NattyopiaLetterRole
+  getLetterRole: (index: number, char: string) => LesebLetterRole
   /** When false, skip per-letter hover tint transitions (touch / coarse pointer). */
   enableHoverTint?: boolean
 }
 
-export function NattyopiaHoverLetters({
+export function LesebHoverLetters({
   word,
   className,
   getLetterRole,
   enableHoverTint = true,
-}: NattyopiaHoverLettersProps) {
+}: LesebHoverLettersProps) {
   return (
     <span className={cn('inline-flex', className)}>
       {Array.from(word).map((ch, i) => {

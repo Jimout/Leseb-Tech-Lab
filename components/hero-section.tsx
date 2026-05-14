@@ -26,24 +26,21 @@ export function HeroSection() {
       {/* Radial teal glow at top */}
       <div className="pointer-events-none absolute inset-0 hero-teal-glow" aria-hidden />
 
-      {/* Hero video — right-aligned, contained within the section */}
-      <div
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-        aria-hidden
-      >
-        <div className="absolute top-0 bottom-0 right-0 w-[60%] sm:w-[55%] md:w-[50%] lg:w-[48%] xl:w-[45%] 2xl:w-[42%] hero-video-blend">
+      <div className={cn('relative', landingPageContentMaxClass)}>
+        {/* Hero video — right side of content rail, pushed left and toward top */}
+        <div
+          className="pointer-events-none absolute -top-14 right-[3%] hidden md:block w-[68%] lg:w-[65%] xl:w-[62%] 2xl:w-[58%] aspect-video overflow-hidden rounded-3xl hero-video-blend"
+          aria-hidden
+        >
           <video
             src="/0001-0120.mp4"
             autoPlay
             loop
             muted
             playsInline
-            className="h-full w-full object-cover object-center opacity-60"
+            className="h-full w-full object-cover object-center"
           />
         </div>
-      </div>
-
-      <div className={cn('relative', landingPageContentMaxClass)}>
         <p className="font-mono text-[11px] sm:text-xs md:text-sm uppercase tracking-[0.3em] text-signal mb-6 sm:mb-7 md:mb-8 lg:mb-9 xl:mb-10 animate-fade-up">
           (ለሰብ) &nbsp; / &nbsp; for humans
         </p>

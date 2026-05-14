@@ -105,7 +105,7 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
           className={cn(
             'flex items-center justify-between gap-3 px-3 py-2',
             'rounded-xl border border-white/10 md:rounded-2xl',
-            'bg-white/5 text-white backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]',
+            'bg-black/40 text-white backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]',
           )}
         >
           {logoHref.startsWith('/') ? (

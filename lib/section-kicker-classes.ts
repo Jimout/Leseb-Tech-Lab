@@ -1,5 +1,5 @@
 /**
- * Shared responsive type scale for section kickers (“My Works”, “My Insights”, “My Resources”, …).
+ * Shared responsive type scale for section kickers (“Our work”, “Our insights”, …).
  * Light mode: second accent (`--secondary`); dark mode: accent yellow (`--accent`).
  */
 export const sectionKickerTextClass =

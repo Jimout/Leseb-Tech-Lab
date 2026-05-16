@@ -46,7 +46,8 @@ export function NewsletterForm({
   placeholder = 'your@email.com',
   buttonVariant,
 }: NewsletterFormProps = {}) {
-  const accentCta = buttonVariant == null || buttonVariant === 'default'
+  const accentCta =
+    (buttonVariant == null || buttonVariant === 'default') && buttonClassName == null
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
 
@@ -74,7 +75,7 @@ export function NewsletterForm({
       toast({
         title: 'Check your inbox',
         description:
-          'Please confirm your subscription from the email we sent. You’ll receive updates when I publish new projects or insights. No spam.',
+          'Please confirm your subscription from the email we sent. You will receive updates when we publish new projects or insights. No spam.',
       })
       form.reset()
     } catch (error) {
@@ -113,7 +114,7 @@ export function NewsletterForm({
 
           <Button
             type="submit"
-            variant={buttonVariant ?? 'default'}
+            variant={buttonClassName ? 'secondary' : (buttonVariant ?? 'default')}
             disabled={isSubmitting}
             className={cn(
               accentCta && 'bg-accent text-accent-foreground hover:bg-accent/90',

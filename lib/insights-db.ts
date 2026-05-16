@@ -1,6 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import type { Prisma } from '@/lib/generated/prisma/client'
 
+import { migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
 import { insightHref, type ShowcaseInsight } from '@/lib/insights-showcase-data'
 import type { InsightArticle } from '@/lib/insight-types'
 import type { MediaAsset } from '@/lib/media-assets'
@@ -105,7 +106,9 @@ function toInsightRow(db: {
         ? [db.heroMedia as MediaAsset]
         : [],
     href: db.href?.trim() || insightHref(db.slug),
-    filterIds: db.filterIds,
+    filterIds: migrateCatalogFilterIds(
+      Array.isArray(db.filterIds) ? db.filterIds.filter((x): x is string => typeof x === 'string') : [],
+    ),
     bodyMode:
       db.bodyMode === 'simple' || db.bodyMode === 'structured' ? db.bodyMode : article ? 'structured' : undefined,
     simpleBodyHtml: db.simpleBodyHtml ?? undefined,

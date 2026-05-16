@@ -38,7 +38,7 @@ function ShowcaseHeading({ variant }: { variant: 'default' | 'related' }) {
     <header className="w-full max-w-none">
       <p className={cn('flex items-center gap-2', sectionKickerTextClass)}>
         <span className="size-1.5 shrink-0 rounded-full bg-secondary dark:bg-accent" aria-hidden />
-        My Insights
+        Our insights
       </p>
       {variant === 'related' ? (
         <h2 id="insight-related-heading" className={showcaseH2Class}>
@@ -47,7 +47,7 @@ function ShowcaseHeading({ variant }: { variant: 'default' | 'related' }) {
         </h2>
       ) : (
         <h2 className={showcaseH2Class}>
-          <span className="block">Inside my way of</span>
+          <span className="block">Inside our way of</span>
           <span className="block">thinking about design</span>
         </h2>
       )}

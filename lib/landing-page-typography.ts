@@ -191,6 +191,66 @@ export const landingStripDotInactiveClass = 'w-2 bg-foreground/30 hover:bg-foreg
 
 export const landingStripDotActiveClass = 'w-7 bg-signal'
 
+/** Work / insights catalog filter pills (`/work`, `/insights`). */
+export const catalogFilterPillBaseClass = cn(
+  'inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5',
+  'font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-300',
+  'sm:px-3.5 sm:py-2',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+)
+
+export const catalogFilterPillInactiveClass = cn(
+  catalogFilterPillBaseClass,
+  'border-foreground/15 bg-foreground/[0.04] text-muted-foreground',
+  'hover:border-foreground/25 hover:bg-foreground/[0.07] hover:text-foreground',
+)
+
+export const catalogFilterPillActiveClass = cn(
+  catalogFilterPillBaseClass,
+  'border-signal/55 bg-signal/10 text-foreground',
+)
+
+export const catalogFilterCountClass = 'tabular-nums text-[0.92em] text-foreground/50'
+
+export const catalogFilterCountActiveClass = 'tabular-nums text-[0.92em] text-signal'
+
+/** Newsletter / subscribe panel on insights and similar pages. */
+export const landingNewsletterPanelClass = cn(
+  'overflow-hidden rounded-2xl border border-foreground/12 bg-foreground/[0.04] backdrop-blur-[2px]',
+  'sm:rounded-2xl',
+)
+
+export const landingNewsletterTitleClass = cn(
+  'font-display text-balance font-semibold leading-[1.12] tracking-tight text-foreground',
+  'text-3xl sm:text-4xl lg:text-[2.625rem] lg:leading-[1.08] xl:text-5xl 2xl:text-5xl',
+)
+
+export const landingNewsletterFieldClass = cn(
+  'h-12 w-full rounded-lg border border-border bg-background px-4',
+  'font-sans text-sm text-foreground placeholder:text-muted-foreground',
+  'outline-none transition-[border-color,box-shadow]',
+  'focus-visible:border-signal/60 focus-visible:ring-2 focus-visible:ring-signal/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+)
+
+export const landingNewsletterSubmitClass = cn(
+  'h-12 shrink-0 rounded-lg px-8 font-mono text-[10px] uppercase tracking-[0.18em]',
+  'focus-visible:ring-signal/50 focus-visible:ring-offset-background',
+  'md:px-10',
+)
+
+/** Compact subscribe field in site footer (dark band). */
+export const footerNewsletterFieldClass = cn(
+  'h-11 w-full rounded-lg border border-white/15 bg-white/5 px-4',
+  'font-sans text-sm text-white placeholder:text-white/45',
+  'outline-none transition-[border-color,box-shadow]',
+  'focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+)
+
+export const footerNewsletterSubmitClass = cn(
+  'h-11 shrink-0 rounded-lg px-6 font-mono text-[10px] uppercase tracking-[0.18em]',
+  'focus-visible:ring-signal/50 focus-visible:ring-offset-background sm:px-8',
+)
+
 /** Motion token — matches `:root --landing-panel-ease`. */
 export const landingPanelEaseClass = 'ease-[var(--landing-panel-ease)]'
 

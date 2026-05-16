@@ -1,3 +1,4 @@
+import { migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
 import type { InsightArticle } from '@/lib/insight-types'
 import type { MediaAsset } from '@/lib/media-assets'
 
@@ -92,9 +93,9 @@ const SHOWCASE_INSIGHT_SEEDS: InsightSeed[] = [
     id: 'design-thinking',
     date: 'March 12, 2026',
     dateIso: '2026-03-12',
-    title: 'From concept to clarity how I approach design thinking',
+    title: 'From concept to clarity: how we approach design thinking',
     description:
-      'A look into my process—how ideas evolve into spaces through sketches, iteration, and visualization.',
+      'A look into our process: how ideas evolve through sketches, iteration, and visualization.',
     mediaUrl:
       'https://images.unsplash.com/photo-1518005020951-ecc96e9672e7?auto=format&fit=crop&w=1200&q=80',
     mediaAlt: 'White architectural study model on a work surface',
@@ -270,7 +271,7 @@ export const SHOWCASE_INSIGHTS: ShowcaseInsight[] = SHOWCASE_INSIGHT_SEEDS.map((
   heroMedia: { type: 'image', url: insight.mediaUrl, alt: insight.mediaAlt },
   mediaAssets: [{ type: 'image', url: insight.mediaUrl, alt: insight.mediaAlt }],
   href: insight.href,
-  filterIds: insight.filterIds,
+  filterIds: migrateCatalogFilterIds(insight.filterIds),
   bodyMode: insight.bodyMode,
   simpleBodyHtml: insight.simpleBodyHtml,
   article: insight.article,

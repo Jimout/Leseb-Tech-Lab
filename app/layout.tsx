@@ -31,7 +31,11 @@ export const metadata: Metadata = {
   publisher: siteSeoConfig.personName,
   applicationName: SITE_BRAND_NAME,
   category: 'design',
-  icons: null,
+  icons: {
+    icon: [{ url: '/Leseb-logo.png', type: 'image/png' }],
+    shortcut: '/Leseb-logo.png',
+    apple: [{ url: '/Leseb-logo.png', type: 'image/png' }],
+  },
   robots: {
     index: true,
     follow: true,

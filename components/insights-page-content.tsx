@@ -3,11 +3,15 @@
 import * as React from 'react'
 
 import { Container } from '@/components/layout/container'
-import { InsightCard } from '@/components/insight-card'
+import {
+  InsightLandingCard,
+  primaryInsightCategory,
+  useInsightFilterLabelMap,
+} from '@/components/insight-landing-card'
 import { NewsletterSubscribeBanner } from '@/components/newsletter-subscribe-banner'
 import { WorkPageFilterBar } from '@/components/work-page-filter-bar'
 import type { WorkFilterDefinition } from '@/lib/work-filter-definition'
-import { PillPagination } from '@/components/ui/pill-pagination'
+import { StripPagination } from '@/components/strip-pagination'
 import { useInsightsShowcaseMerged } from '@/hooks/use-insights-showcase-merged'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import type { ShowcaseInsight } from '@/lib/insights-showcase-data'
@@ -18,35 +22,34 @@ import { useCatalogUiStore } from '@/stores/use-catalog-ui-store'
 const INSIGHTS_PER_PAGE = 12
 
 const INSIGHT_GRID_CLASS =
-  'grid list-none grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 md:gap-y-12 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12 xl:gap-x-10'
+  'grid list-none grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-8 md:gap-y-10 lg:grid-cols-3 lg:gap-x-7 lg:gap-y-10 xl:gap-x-8'
 
 function InsightCardsGrid({
   items,
   ariaLabel,
-  priorityAboveFold,
+  filterLabels,
 }: {
   items: ShowcaseInsight[]
   ariaLabel: string
-  priorityAboveFold: boolean
+  filterLabels: Map<string, string>
 }) {
   if (items.length === 0) return null
   return (
     <ul className={INSIGHT_GRID_CLASS} aria-label={ariaLabel}>
-      {items.map((item, i) => (
-        <li key={item.id} className="min-w-0">
-          <InsightCard
-            date={item.date}
-            dateIso={item.dateIso}
-            title={item.title}
-            description={item.description}
-            heroMedia={item.heroMedia}
-            href={item.href}
-            priority={priorityAboveFold && i < 3}
-            imageSizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            className="h-full rounded-2xl border border-border/60 bg-card p-3 sm:rounded-3xl sm:p-4"
-          />
-        </li>
-      ))}
+      {items.map((item, i) => {
+        const cat = primaryInsightCategory(item, filterLabels)
+        return (
+          <li key={item.id} className="min-w-0">
+            <InsightLandingCard
+              item={item}
+              categoryPill={cat.pill}
+              categoryMeta={cat.meta}
+              imageSizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="h-full w-full"
+            />
+          </li>
+        )
+      })}
     </ul>
   )
 }
@@ -74,6 +77,7 @@ export function InsightsPageContent() {
   const { settings } = useSiteSettings()
   const insights = useInsightsShowcaseMerged()
   const filters = useInsightFilterDefinitions(settings.portfolioCatalogFilters.workInsights, insights)
+  const filterLabels = useInsightFilterLabelMap()
   const filtered = useFilteredInsights(activeId, insights)
 
   React.useEffect(() => {
@@ -98,7 +102,6 @@ export function InsightsPageContent() {
 
   const topInsights = pageSlice.slice(0, 6)
   const bottomInsights = pageSlice.slice(6, 12)
-  const lcpPriority = page === 1
 
   return (
     <>
@@ -106,7 +109,7 @@ export function InsightsPageContent() {
         filters={filters}
         activeId={activeId}
         onActiveIdChange={setInsightActiveId}
-        kicker="My Insights"
+        kicker="Our insights"
         filterTablistAriaLabel="Filter insights"
       />
       <section className="pb-10 pt-6 sm:pb-14 sm:pt-8 md:pb-16 md:pt-10 lg:pb-20 lg:pt-12">
@@ -119,7 +122,7 @@ export function InsightsPageContent() {
             <InsightCardsGrid
               items={topInsights}
               ariaLabel="Insight articles"
-              priorityAboveFold={lcpPriority}
+              filterLabels={filterLabels}
             />
           )}
         </Container>
@@ -131,20 +134,17 @@ export function InsightsPageContent() {
             <InsightCardsGrid
               items={bottomInsights}
               ariaLabel="More insight articles"
-              priorityAboveFold={false}
+              filterLabels={filterLabels}
             />
           </Container>
         ) : null}
-        {filtered.length > 0 && totalPages > 1 ? (
-          <div className="mt-12 flex justify-center sm:mt-14 md:mt-16">
-            <PillPagination
-              currentPage={page}
-              totalPages={totalPages}
-              onPageChange={setInsightPage}
-              hidePrev={page <= 1}
-              hideNext={page >= totalPages}
-            />
-          </div>
+        {filtered.length > 0 ? (
+          <StripPagination
+            className="mt-8 sm:mt-10"
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setInsightPage}
+          />
         ) : null}
       </section>
     </>

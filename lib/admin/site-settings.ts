@@ -1,3 +1,4 @@
+import { isLegacyArchitectureCatalogFilters } from '@/lib/catalog-filter-ids'
 import {
   getDefaultPortfolioCatalogFilters,
   normalizePortfolioCatalogFiltersState,
@@ -240,12 +241,12 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     eyebrow: '(leseb)',
     nameLine1: 'Technology',
     nameLine2: 'built for humans.',
-    tagline: 'I Design in Quiet Clarity.',
+    tagline: 'We build with quiet clarity.',
     roleLine1: 'Architect',
     roleLine2: 'Creative Director',
     backdropLightSrc: '/images/leseb-hero.png',
     backdropDarkSrc: '/images/Natty Hero.png',
-    whoAmIEyebrow: 'Who am I?',
+    whoAmIEyebrow: 'Who we are',
     whoAmIBody:
       "We're [[Leseb Tech Lab]]. A technology lab based in Addis Ababa, building software and AI that serve people across [[Community, Data, and Product Design.]]",
     whoAmIButtonLabel: 'About Leseb',
@@ -258,14 +259,14 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     email: 'hello@leseb.com',
     socialHandle: '@leseb',
     newsletterLine1: 'Subscribe to',
-    newsletterLine2: 'my newsletter',
+    newsletterLine2: 'our newsletter',
     tagline: 'Crafting Since 2020',
     privacyHref: '/privacy',
     creditPrefix: 'Designed and Developed by',
     creditName: 'Eden Tekeste',
     creditHref: '#',
-    logoLightSrc: '/images/Logo.png',
-    logoDarkSrc: '/images/Logo.png',
+    logoLightSrc: '/Leseb-logo.png',
+    logoDarkSrc: '/Leseb-logo.png',
     socialLinks: [
       { id: 'f-ig', visible: true, label: 'Instagram', href: 'https://instagram.com', iconId: 'instagram' },
       { id: 'f-tt', visible: true, label: 'TikTok', href: 'https://tiktok.com', iconId: 'tiktok' },
@@ -281,15 +282,15 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   about: {
     metaTitle: `About — ${SITE_BRAND_NAME}`,
     metaDescription:
-      'Architect focused on design development, interiors, and visualization across multiple scales.',
+      'Leseb Tech Lab builds software, AI, and product design for communities across Ethiopia and beyond.',
   },
   aboutHero: {
     visible: true,
-    eyebrow: 'About Me',
+    eyebrow: 'About us',
     lines: [
-      'I am an Architect focused on design development,',
-      'interiors, and visualization, creating precise',
-      'and compelling spatial solutions across multiple scales.',
+      'We are a technology lab focused on software, AI,',
+      'and product design, building tools that serve',
+      'communities across Ethiopia and beyond.',
     ],
     portraitSrc: '/images/leseb-about.png',
     portraitAlt: 'Leseb graphic',
@@ -299,7 +300,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     headingName: SITE_BRAND_NAME,
     headingRole: 'Architect | Architectural Visualisation Specialist',
     intro:
-      'A glimpse into my professional journey, shaping my expertise in architecture, BIM, and architectural visualization across local and international projects.',
+      'A glimpse into our journey, shaping our expertise in software, AI, product design, and human-centered technology across local and international projects.',
     cvHref: '/downloads/Leseb-Tech-Lab-CV.pdf',
     educationVisible: true,
     experienceVisible: true,
@@ -434,10 +435,10 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     visible: true,
     ctaVisible: true,
     headlineLines: [
-      'A set of creative and experimental',
-      'Associated Ventures I’ve',
-      'co-founded across architecture,',
-      'design, and technology.',
+      'Creative and experimental',
+      'ventures we have co-founded',
+      'across architecture, design,',
+      'and technology.',
     ],
     logos: [
       { id: 'logo-1', visible: true, src: '/images/clogo/Nedf.png', alt: 'NEDF Studios', href: '' },
@@ -450,16 +451,18 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     signatureName: SITE_BRAND_NAME,
   },
   contact: {
-    metaTitle: `Contact — ${SITE_BRAND_NAME}`,
-    metaDescription: 'Get in touch for collaborations, visualizations, and project enquiries.',
-    introLine1: 'For general enquiries, please fill out the form to get in touch.',
+    metaTitle: `Contact | ${SITE_BRAND_NAME}`,
+    metaDescription:
+      'Contact Leseb Tech Lab for partnerships, product builds, and human-centered AI and software enquiries.',
+    introLine1:
+      'Tell us what you are building, who it is for, and your timeline. We read every message and respond with next steps.',
     introLine2: 'Prefer email?',
     email: 'hello@leseb.com',
     formVisible: true,
     formSubmitLabel: 'Send Message',
     privacyPolicyHref: '/privacy',
     newsletterOptInVisible: true,
-    newsletterOptInLabel: 'Subscribe to my newsletter for all the latest updates',
+    newsletterOptInLabel: 'Subscribe to our newsletter for all the latest updates',
     formFields: [
       {
         id: 'f-name',
@@ -503,7 +506,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
         name: 'project',
         label: 'Project',
         kind: 'textarea',
-        placeholder: 'Tell me about your project:',
+        placeholder: 'Tell us about your project:',
         required: true,
       },
     ],
@@ -539,9 +542,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     updatedAtIso: new Date().toISOString(),
   },
   insightToc: {
-    markDarkSrc: `/images/${encodeURIComponent('Splash 1.png')}`,
-    markLightSrc: `/images/${encodeURIComponent('Splash 2.png')}`,
-    markAlt: 'Leseb',
+    markDarkSrc: '/Leseb-logo.png',
+    markLightSrc: '/Leseb-logo.png',
+    markAlt: 'Leseb Tech Lab',
   },
   portfolioCatalogFilters: getDefaultPortfolioCatalogFilters(),
 }
@@ -557,6 +560,22 @@ const LEGACY_HERO_WHO_AMI_BODY =
 
 const LEGACY_HERO_NAME_LINE_1 = 'Leseb'
 const LEGACY_HERO_NAME_LINE_2 = 'Tech Lab'
+
+const LEGACY_HERO_TAGLINE = 'I Design in Quiet Clarity.'
+const LEGACY_WHO_AM_I_EYEBROW = 'Who am I?'
+const LEGACY_ABOUT_HERO_EYEBROW = 'About Me'
+const LEGACY_ABOUT_HERO_LINE_1 = 'I am an Architect focused on design development,'
+const LEGACY_ABOUT_JOURNEY_INTRO =
+  'A glimpse into my professional journey, shaping my expertise in architecture, BIM, and architectural visualization across local and international projects.'
+const LEGACY_NEWSLETTER_LINE_2 = 'my newsletter'
+const LEGACY_NEWSLETTER_OPT_IN = 'Subscribe to my newsletter for all the latest updates'
+const LEGACY_CONTACT_PROJECT_PLACEHOLDER = 'Tell me about your project:'
+const LEGACY_VENTURES_LINE_2 = 'Associated Ventures I’ve'
+const LEGACY_ABOUT_META_DESCRIPTION =
+  'Architect focused on design development, interiors, and visualization across multiple scales.'
+const LEGACY_NEWSLETTER_SPLASH_LIGHT = '/images/newspaper%202.png'
+const LEGACY_NEWSLETTER_SPLASH_DARK = '/images/newspaper%201.png'
+const LEGACY_FOOTER_LOGO = '/images/Logo.png'
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -691,6 +710,84 @@ export function normalizeStoredSiteSettings(raw: unknown): SiteSettings {
       hero: { ...next.hero, whoAmIBody: DEFAULT_SITE_SETTINGS.hero.whoAmIBody },
     }
   }
+  if (next.hero.tagline === LEGACY_HERO_TAGLINE) {
+    next = { ...next, hero: { ...next.hero, tagline: DEFAULT_SITE_SETTINGS.hero.tagline } }
+  }
+  if (next.hero.whoAmIEyebrow === LEGACY_WHO_AM_I_EYEBROW) {
+    next = { ...next, hero: { ...next.hero, whoAmIEyebrow: DEFAULT_SITE_SETTINGS.hero.whoAmIEyebrow } }
+  }
+  if (next.footer.newsletterLine2 === LEGACY_NEWSLETTER_LINE_2) {
+    next = {
+      ...next,
+      footer: { ...next.footer, newsletterLine2: DEFAULT_SITE_SETTINGS.footer.newsletterLine2 },
+    }
+  }
+  if (next.aboutHero.eyebrow === LEGACY_ABOUT_HERO_EYEBROW) {
+    next = {
+      ...next,
+      aboutHero: { ...next.aboutHero, eyebrow: DEFAULT_SITE_SETTINGS.aboutHero.eyebrow },
+    }
+  }
+  if (next.aboutHero.lines[0] === LEGACY_ABOUT_HERO_LINE_1) {
+    next = {
+      ...next,
+      aboutHero: { ...next.aboutHero, lines: [...DEFAULT_SITE_SETTINGS.aboutHero.lines] },
+    }
+  }
+  if (next.aboutJourney.intro === LEGACY_ABOUT_JOURNEY_INTRO) {
+    next = {
+      ...next,
+      aboutJourney: { ...next.aboutJourney, intro: DEFAULT_SITE_SETTINGS.aboutJourney.intro },
+    }
+  }
+  if (next.contact.newsletterOptInLabel === LEGACY_NEWSLETTER_OPT_IN) {
+    next = {
+      ...next,
+      contact: { ...next.contact, newsletterOptInLabel: DEFAULT_SITE_SETTINGS.contact.newsletterOptInLabel },
+    }
+  }
+  const projectField = next.contact.formFields.find((f) => f.name === 'project')
+  if (projectField?.placeholder === LEGACY_CONTACT_PROJECT_PLACEHOLDER) {
+    next = {
+      ...next,
+      contact: {
+        ...next.contact,
+        formFields: next.contact.formFields.map((f) =>
+          f.name === 'project'
+            ? { ...f, placeholder: DEFAULT_SITE_SETTINGS.contact.formFields.find((x) => x.name === 'project')!.placeholder }
+            : f,
+        ),
+      },
+    }
+  }
+  if (next.aboutVentures.headlineLines[1] === LEGACY_VENTURES_LINE_2) {
+    next = {
+      ...next,
+      aboutVentures: {
+        ...next.aboutVentures,
+        headlineLines: [...DEFAULT_SITE_SETTINGS.aboutVentures.headlineLines],
+      },
+    }
+  }
+  if (next.about.metaDescription === LEGACY_ABOUT_META_DESCRIPTION) {
+    next = {
+      ...next,
+      about: { ...next.about, metaDescription: DEFAULT_SITE_SETTINGS.about.metaDescription },
+    }
+  }
+  const newsletterLogoDefault = DEFAULT_SITE_SETTINGS.footer.logoLightSrc
+  if (
+    next.footer.logoLightSrc === LEGACY_NEWSLETTER_SPLASH_LIGHT ||
+    next.footer.logoLightSrc === LEGACY_FOOTER_LOGO
+  ) {
+    next = { ...next, footer: { ...next.footer, logoLightSrc: newsletterLogoDefault } }
+  }
+  if (
+    next.footer.logoDarkSrc === LEGACY_NEWSLETTER_SPLASH_DARK ||
+    next.footer.logoDarkSrc === LEGACY_FOOTER_LOGO
+  ) {
+    next = { ...next, footer: { ...next.footer, logoDarkSrc: newsletterLogoDefault } }
+  }
   if (
     merged.hero.nameLine1 === LEGACY_HERO_NAME_LINE_1 &&
     merged.hero.nameLine2 === LEGACY_HERO_NAME_LINE_2
@@ -755,7 +852,9 @@ export function normalizeStoredSiteSettings(raw: unknown): SiteSettings {
       logoDarkSrc: normalizeFooterLogoSrc(next.footer.logoDarkSrc, DEFAULT_SITE_SETTINGS.footer.logoDarkSrc),
       socialLinks: normalizeFooterSocialLinks(next.footer.socialLinks),
     },
-    portfolioCatalogFilters: normalizePortfolioCatalogFiltersState(next.portfolioCatalogFilters),
+    portfolioCatalogFilters: isLegacyArchitectureCatalogFilters(next.portfolioCatalogFilters.workInsights)
+      ? getDefaultPortfolioCatalogFilters()
+      : normalizePortfolioCatalogFiltersState(next.portfolioCatalogFilters),
   }
 }
 

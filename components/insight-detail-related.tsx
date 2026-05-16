@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 
-import { FluidSplitButton } from '@/components/fluid-split-button'
 import {
   InsightLandingCard,
   insightLandingCardStripWidthClass,
@@ -13,7 +12,6 @@ import { StripPagination } from '@/components/strip-pagination'
 import { useDragScrollX } from '@/hooks/use-drag-scroll-x'
 import { useHorizontalStripPagination } from '@/hooks/use-horizontal-strip-pagination'
 import { useInsightsShowcaseMerged } from '@/hooks/use-insights-showcase-merged'
-import { SHOWCASE_INSIGHTS } from '@/lib/insights-showcase-data'
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
@@ -21,9 +19,7 @@ import {
   landingStripBleedClass,
 } from '@/lib/landing-page-layout'
 import {
-  landingBandClass,
   landingInsightStripClass,
-  landingSectionHeaderSplitClass,
   landingSectionKickerClass,
   landingSectionKickerDotClass,
   landingSectionTitleAccentClass,
@@ -31,48 +27,44 @@ import {
 } from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
-const LANDING_INSIGHTS_LIMIT = 6
-
-export function LandingInsightsSection() {
-  const remoteItems = useInsightsShowcaseMerged()
+export function InsightDetailRelated({ excludeId }: { excludeId: string }) {
+  const insights = useInsightsShowcaseMerged()
   const filterLabels = useInsightFilterLabelMap()
   const dragScroll = useDragScrollX({ mouseOnly: true })
-  const slice = React.useMemo(() => {
-    const source = remoteItems.length > 0 ? remoteItems : SHOWCASE_INSIGHTS
-    return source.slice(0, LANDING_INSIGHTS_LIMIT)
-  }, [remoteItems])
-  const { ref: stripRef, page, totalPages, goToPage } = useHorizontalStripPagination(slice.length)
+
+  const items = React.useMemo(
+    () => insights.filter((item) => item.id !== excludeId),
+    [excludeId, insights],
+  )
+
+  const { ref: stripRef, page, totalPages, goToPage } = useHorizontalStripPagination(items.length)
+
+  if (!items.length) return null
 
   return (
     <section
-      id="insights"
-      data-nav-surface="dark"
-      className={cn('scroll-mt-24', landingBandClass, landingSectionYClass, landingPageGutterClass)}
+      className={cn(landingSectionYClass, landingPageGutterClass, 'border-t border-foreground/10')}
+      aria-labelledby="insight-related-heading"
     >
       <div className={cn('mx-auto min-w-0', landingPageContentMaxClass)}>
-        <div className={landingSectionHeaderSplitClass}>
-          <div className="min-w-0">
-            <div className={cn('mb-4', landingSectionKickerClass)}>
-              <span className={landingSectionKickerDotClass} aria-hidden />
-              Insights
-            </div>
-            <h2 className={landingSectionTitleClass}>
-              <span className="block">Discover</span>
-              <span className="block">
-                what&apos;s <span className={landingSectionTitleAccentClass}>on.</span>
-              </span>
-            </h2>
-          </div>
-          <div className="shrink-0 md:pb-1 md:self-end">
-            <FluidSplitButton label="View all insights" href="/insights" variant="secondary" size="navbar" />
-          </div>
-        </div>
+        <header className="mb-10 sm:mb-12 md:mb-14">
+          <p className={cn('mb-4', landingSectionKickerClass)}>
+            <span className={landingSectionKickerDotClass} aria-hidden />
+            More to read
+          </p>
+          <h2 id="insight-related-heading" className={landingSectionTitleClass}>
+            <span className="block">You might also</span>
+            <span className="block">
+              <span className={landingSectionTitleAccentClass}>like.</span>
+            </span>
+          </h2>
+        </header>
 
         <div className={cn('min-w-0', landingStripBleedClass)}>
           <div
             ref={stripRef}
             role="region"
-            aria-label="Featured insights"
+            aria-label="Related insights"
             className={landingInsightStripClass}
             onPointerDown={dragScroll.onPointerDown}
             onPointerMove={dragScroll.onPointerMove}
@@ -80,7 +72,7 @@ export function LandingInsightsSection() {
             onPointerCancel={dragScroll.onPointerCancel}
             onClickCapture={dragScroll.onClickCapture}
           >
-            {slice.map((item, i) => {
+            {items.map((item) => {
               const cat = primaryInsightCategory(item, filterLabels)
               return (
                 <InsightLandingCard

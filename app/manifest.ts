@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 import { siteSeoConfig } from '@/lib/seo/site-config'
 import { SITE_BRAND_NAME } from '@/lib/site-brand'
 
-const iconPath = `/images/${encodeURIComponent('logo-without 1.png')}`
+const iconPath = '/Leseb-logo.png'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {

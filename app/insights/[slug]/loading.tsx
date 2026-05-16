@@ -1,21 +1,30 @@
-import { Container } from '@/components/layout/container'
 import { SiteNavbar } from '@/components/site-navbar'
+import {
+  landingHeroPadTopClass,
+  landingPageContentMaxClass,
+  landingPageGutterClass,
+} from '@/lib/landing-page-layout'
+import { cn } from '@/lib/utils'
 
 export default function InsightDetailLoading() {
   return (
     <>
       <SiteNavbar logoHref="/" />
-      <main className="dark min-h-dvh scroll-mt-24 bg-background text-foreground">
-        <section className="pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
-          <Container>
-            <div className="animate-pulse space-y-6">
-              <div className="h-[52vh] w-full rounded-2xl bg-white/8" />
-              <div className="h-5 w-32 rounded bg-white/10" />
-              <div className="h-10 w-full max-w-3xl rounded bg-white/10" />
-              <div className="h-4 w-full max-w-2xl rounded bg-white/10" />
-              <div className="h-4 w-full max-w-xl rounded bg-white/10" />
-            </div>
-          </Container>
+      <main className="min-h-dvh scroll-mt-24 bg-background text-foreground">
+        <section
+          className={cn(
+            '-mt-14 animate-pulse',
+            landingHeroPadTopClass,
+            'pb-12',
+            landingPageGutterClass,
+          )}
+        >
+          <div className={cn('mx-auto min-w-0 space-y-6', landingPageContentMaxClass)}>
+            <div className="h-4 w-24 rounded bg-foreground/10" />
+            <div className="h-4 w-40 rounded bg-foreground/10" />
+            <div className="h-12 w-full max-w-3xl rounded bg-foreground/10" />
+            <div className="aspect-4/3 w-full rounded-2xl bg-foreground/8" />
+          </div>
         </section>
       </main>
     </>

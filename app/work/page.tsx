@@ -31,7 +31,7 @@ const WorkPageContent = dynamic(
 export const metadata: Metadata = buildPageMetadata({
   title: 'Work',
   description:
-    'Architecture, interiors, landscape, planning, and visualization projects — explore the portfolio by category and filter.',
+    'Software, AI, data, and community projects from Leseb Tech Lab — explore the portfolio by practice and filter.',
   path: '/work',
 })
 

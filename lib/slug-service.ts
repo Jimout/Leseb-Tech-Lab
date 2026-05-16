@@ -72,39 +72,49 @@ export async function recordSlugHistory(
 }
 
 export async function resolveWorkRedirectSlug(fromSlug: string): Promise<string | null> {
-  const direct = await prisma.work.findUnique({
-    where: { slug: fromSlug },
-    select: { slug: true },
-  })
-  if (direct) return null
+  try {
+    const direct = await prisma.work.findUnique({
+      where: { slug: fromSlug },
+      select: { slug: true },
+    })
+    if (direct) return null
 
-  const hist = await prisma.slugHistory.findUnique({
-    where: { oldSlug: fromSlug },
-    select: { entityId: true, entityType: true },
-  })
-  if (!hist || hist.entityType !== 'work') return null
-  const row = await prisma.work.findUnique({
-    where: { id: hist.entityId },
-    select: { slug: true },
-  })
-  return row?.slug ?? null
+    const hist = await prisma.slugHistory.findUnique({
+      where: { oldSlug: fromSlug },
+      select: { entityId: true, entityType: true },
+    })
+    if (!hist || hist.entityType !== 'work') return null
+    const row = await prisma.work.findUnique({
+      where: { id: hist.entityId },
+      select: { slug: true },
+    })
+    return row?.slug ?? null
+  } catch (error) {
+    console.error('[slug-service] resolveWorkRedirectSlug failed:', error)
+    return null
+  }
 }
 
 export async function resolveInsightRedirectSlug(fromSlug: string): Promise<string | null> {
-  const direct = await prisma.insight.findUnique({
-    where: { slug: fromSlug },
-    select: { slug: true },
-  })
-  if (direct) return null
+  try {
+    const direct = await prisma.insight.findUnique({
+      where: { slug: fromSlug },
+      select: { slug: true },
+    })
+    if (direct) return null
 
-  const hist = await prisma.slugHistory.findUnique({
-    where: { oldSlug: fromSlug },
-    select: { entityId: true, entityType: true },
-  })
-  if (!hist || hist.entityType !== 'insight') return null
-  const row = await prisma.insight.findUnique({
-    where: { id: hist.entityId },
-    select: { slug: true },
-  })
-  return row?.slug ?? null
+    const hist = await prisma.slugHistory.findUnique({
+      where: { oldSlug: fromSlug },
+      select: { entityId: true, entityType: true },
+    })
+    if (!hist || hist.entityType !== 'insight') return null
+    const row = await prisma.insight.findUnique({
+      where: { id: hist.entityId },
+      select: { slug: true },
+    })
+    return row?.slug ?? null
+  } catch (error) {
+    console.error('[slug-service] resolveInsightRedirectSlug failed:', error)
+    return null
+  }
 }

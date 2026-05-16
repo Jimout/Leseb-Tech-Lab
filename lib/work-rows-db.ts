@@ -1,6 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import type { Prisma } from '@/lib/generated/prisma/client'
 
+import { migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
 import type { WorkRow } from '@/lib/work-admin-types'
 import type { MediaAsset } from '@/lib/media-assets'
 import { prisma } from '@/lib/prisma'
@@ -41,7 +42,9 @@ function normalizeWorkRow(input: unknown): (Omit<WorkRow, 'slug'> & { slug?: str
     location: typeof row.location === 'string' ? row.location : '',
     title,
     category: typeof row.category === 'string' ? row.category : '',
-    filterIds: Array.isArray(row.filterIds) ? row.filterIds.filter((x): x is string => typeof x === 'string') : [],
+    filterIds: migrateCatalogFilterIds(
+      Array.isArray(row.filterIds) ? row.filterIds.filter((x): x is string => typeof x === 'string') : [],
+    ),
     detail: row.detail && typeof row.detail === 'object' ? (row.detail as WorkRow['detail']) : undefined,
   }
 }

@@ -1,78 +1,59 @@
 import { InsightArticleWithSidebar } from '@/components/insight-article-with-sidebar'
-import { Container } from '@/components/layout/container'
+import { InsightDetailArticleLayout } from '@/components/insight-detail-article-layout'
 import { InsightDetailHero } from '@/components/insight-detail-hero'
-import { InsightsShowcase } from '@/components/insights-showcase'
+import { InsightDetailRelated } from '@/components/insight-detail-related'
 import type { InsightDetail } from '@/lib/insight-detail-types'
-import { isInsightHtmlEmpty, sanitizeInsightHtml } from '@/lib/sanitize-insight-html'
+import { insightHasExtendedBody, resolveInsightBody } from '@/lib/insight-detail-body'
+import {
+  landingPageContentMaxClass,
+  landingPageGutterClass,
+} from '@/lib/landing-page-layout'
+import { insightDetailProseClass } from '@/lib/insight-detail-typography'
 import { cn } from '@/lib/utils'
 
-function InsightArticleBody({ paragraphs }: { paragraphs: readonly string[] }) {
+function InsightBodyHtml({ html }: { html: string }) {
+  if (!html.trim()) return null
   return (
     <div
-      className={cn(
-        'mt-12 max-w-3xl space-y-6 sm:mt-14 sm:space-y-7 md:mt-16 lg:mt-20',
-        'lg:space-y-8',
-      )}
-    >
-      {paragraphs.map((p, i) => (
-        <p
-          key={i}
-          className="text-justify text-[15px] font-normal leading-relaxed text-foreground/95 sm:text-base lg:text-[17px] lg:leading-[1.75]"
-        >
-          {p}
-        </p>
-      ))}
-    </div>
-  )
-}
-
-function InsightSimpleBodyHtml({ html }: { html: string }) {
-  const safe = sanitizeInsightHtml(html)
-  if (!safe.trim()) return null
-  return (
-    <div
-      className={cn(
-        'insight-simple-prose mt-12 max-w-3xl sm:mt-14 md:mt-16 lg:mt-20',
-        'space-y-6 text-justify text-[15px] font-normal leading-relaxed text-foreground/95 sm:text-base lg:text-[17px] lg:leading-[1.75]',
-        '[&_a]:text-accent [&_a]:underline [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:text-justify [&_ul]:list-disc [&_ul]:pl-6',
-      )}
-      dangerouslySetInnerHTML={{ __html: safe }}
+      className={cn('insight-simple-prose', insightDetailProseClass)}
+      dangerouslySetInnerHTML={{ __html: html }}
     />
   )
 }
 
 export function InsightDetailContent({ detail }: { detail: InsightDetail }) {
-  const article = detail.article
-  const simple = detail.simpleBodyHtml
+  const body = resolveInsightBody(detail)
+  const showHeroDek = insightHasExtendedBody(detail) && Boolean(detail.description?.trim())
 
   return (
-    <article
-      className={cn(
-        'pb-16 sm:pb-20 md:pb-24 lg:pb-28',
-        'pt-6 sm:pt-8 md:pt-9 lg:pt-10',
-      )}
-    >
+    <article className="bg-background text-foreground">
       <InsightDetailHero
         title={detail.title}
         date={detail.date}
         dateIso={detail.dateIso}
+        description={showHeroDek ? detail.description : ''}
         heroMedia={detail.heroMedia}
+        filterIds={detail.filterIds}
       />
-      <Container className="pt-6 sm:pt-8 md:pt-10 lg:pt-12">
-        {article ? (
-          <InsightArticleWithSidebar article={article} />
-        ) : simple ? (
-          <InsightSimpleBodyHtml html={simple} />
-        ) : (
-          <InsightArticleBody paragraphs={detail.paragraphs} />
-        )}
+
+      {body ? (
         <section
-          className="mt-16 sm:mt-20 md:mt-24 lg:mt-28"
-          aria-labelledby="insight-related-heading"
+          className={cn('pb-4 sm:pb-6 md:pb-8', landingPageGutterClass)}
+          aria-label="Article"
         >
-          <InsightsShowcase variant="related" excludeIds={[detail.id]} />
+          <div className={cn('mx-auto min-w-0', landingPageContentMaxClass)}>
+            {body.kind === 'structured' ? (
+              <InsightArticleWithSidebar article={body.article} />
+            ) : (
+              <InsightDetailArticleLayout tocItems={body.toc}>
+                <InsightBodyHtml html={body.html} />
+              </InsightDetailArticleLayout>
+            )}
+          </div>
         </section>
-      </Container>
+      ) : null}
+
+      <InsightDetailRelated excludeId={detail.id} />
     </article>
   )
 }

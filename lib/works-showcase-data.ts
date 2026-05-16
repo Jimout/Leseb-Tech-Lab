@@ -1,3 +1,4 @@
+import { migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
 import type { MediaAsset } from '@/lib/media-assets'
 
 export type ShowcaseWork = {
@@ -255,5 +256,5 @@ export const SHOWCASE_WORKS: ShowcaseWork[] = SHOWCASE_WORK_SEEDS.map((w) => ({
   location: w.location,
   title: w.title,
   category: w.category,
-  filterIds: w.filterIds,
+  filterIds: migrateCatalogFilterIds(w.filterIds),
 }))

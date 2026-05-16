@@ -12,8 +12,10 @@ import {
   SiYoutube,
 } from 'react-icons/si'
 
+import { FooterNewsletterSubscribe } from '@/components/footer-newsletter-subscribe'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import { footerSocialLabel } from '@/lib/admin/site-settings'
+import { toTelHref } from '@/lib/phone-tel'
 import { cn } from '@/lib/utils'
 
 export type FooterSocialItem = {
@@ -139,6 +141,8 @@ export function SiteFooter({
       ? configured.map((x) => ({ href: x.href, label: footerSocialLabel(x.iconId), Icon: iconFor(x.iconId) }))
       : socialLinks
   const footerEmail = (email ?? defaults.email).trim()
+  const footerPhone = defaults.phone?.trim() ?? ''
+  const footerPhoneHref = footerPhone ? toTelHref(footerPhone) : ''
   const footerPrivacyHref = privacyHref ?? defaults.privacyHref
 
   return (
@@ -291,14 +295,24 @@ export function SiteFooter({
             <div className="flex items-center gap-3">
               <span className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl">leseb</span>
             </div>
-            <p className="mt-4 text-sm text-white/70">
-              Have questions or want to chat?
-              <br />
-              Drop us a line →{' '}
-              <a className="text-signal hover:underline" href={`mailto:${footerEmail}`}>
-                {footerEmail}
-              </a>
+            <p className="mt-4 space-y-1 text-sm text-white/70">
+              <span className="block">Have questions or want to chat?</span>
+              <span className="block">
+                Drop us a line →{' '}
+                <a className="text-signal hover:underline" href={`mailto:${footerEmail}`}>
+                  {footerEmail}
+                </a>
+              </span>
+              {footerPhone && footerPhoneHref ? (
+                <span className="block">
+                  Or call{' '}
+                  <a className="text-signal hover:underline" href={`tel:${footerPhoneHref}`}>
+                    {footerPhone}
+                  </a>
+                </span>
+              ) : null}
             </p>
+            <FooterNewsletterSubscribe className="mt-6 max-w-md" />
           </div>
 
           <div className="md:col-span-8">

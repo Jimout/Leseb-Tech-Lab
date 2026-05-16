@@ -41,17 +41,17 @@ const OVERRIDES: Partial<Record<string, Override>> = {
       },
     ],
     secondaryImageDescriptionColumns: [
-      'For the Ethiopian Investment Holdings Headquarters, I led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. I designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-      'For the Ethiopian Investment Holdings Headquarters, I led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. I designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-      'For the Ethiopian Investment Holdings Headquarters, I led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. I designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-      'For the Ethiopian Investment Holdings Headquarters, I led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. I designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
+      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
+      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
+      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
+      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
     ],
   },
   'eih-landscape': {
     pageTitle: 'Ethiopian Investment Holdings Head Quarter Landscape',
     pageTitleLines: ['Ethiopian Investment Holdings', 'Head Quarter Landscape'],
     descriptionNote:
-      'For the Ethiopian Investment Holdings Headquarters, I led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. I designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
+      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
     descriptionBelowImages: [
       {
         src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2000&q=80',

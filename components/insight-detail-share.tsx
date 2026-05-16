@@ -1,20 +1,11 @@
 'use client'
 
-import Link from 'next/link'
 import * as React from 'react'
 import { Check, Copy } from 'lucide-react'
-import { FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
-import { SiFacebook, SiInstagram, SiTelegram } from 'react-icons/si'
 
+import { ContactSocialRow } from '@/components/contact-social-row'
+import { insightDetailKickerClass } from '@/lib/insight-detail-typography'
 import { cn } from '@/lib/utils'
-
-const SHARE_LINKS = [
-  { href: 'https://www.linkedin.com', label: 'LinkedIn', Icon: FaLinkedinIn },
-  { href: 'https://www.facebook.com', label: 'Facebook', Icon: SiFacebook },
-  { href: 'https://x.com', label: 'X', Icon: FaXTwitter },
-  { href: 'https://www.instagram.com', label: 'Instagram', Icon: SiInstagram },
-  { href: 'https://t.me', label: 'Telegram', Icon: SiTelegram },
-] as const
 
 export function InsightDetailShare({ className }: { className?: string }) {
   const [copied, setCopied] = React.useState(false)
@@ -34,45 +25,29 @@ export function InsightDetailShare({ className }: { className?: string }) {
       if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current)
       copyTimerRef.current = window.setTimeout(() => setCopied(false), 1400)
     } catch {
-      // Intentionally silent fallback; share controls remain usable.
+      // Clipboard may be unavailable; social links remain usable.
     }
   }, [])
 
   return (
-    <div className={cn('space-y-3.5', className)}>
-      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground sm:text-[11px]">
-        Share
-      </p>
-      <div className="flex flex-wrap gap-2.5">
-        {SHARE_LINKS.map(({ href, label, Icon }) => (
-          <Link
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            className={cn(
-              'inline-flex size-10 shrink-0 items-center justify-center rounded-full overflow-visible leading-none',
-              'bg-accent text-accent-foreground shadow-sm transition-opacity hover:opacity-90',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-            )}
-          >
-            <Icon className="size-4 shrink-0" aria-hidden />
-          </Link>
-        ))}
+    <div className={cn('space-y-4', className)}>
+      <p className={insightDetailKickerClass}>Share</p>
+      <div className="flex flex-wrap items-center gap-2">
+        <ContactSocialRow />
         <button
           type="button"
           onClick={() => void onCopyLink()}
           aria-label="Copy link"
           title={copied ? 'Link copied' : 'Copy link'}
           className={cn(
-            'inline-flex size-10 shrink-0 items-center justify-center rounded-full overflow-visible leading-none',
-            'bg-accent text-accent-foreground shadow-sm transition-opacity hover:opacity-90',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-            copied && 'opacity-90',
+            'inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-background',
+            'text-foreground/80 transition-colors hover:border-signal/40 hover:text-signal',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+            'sm:size-11',
+            copied && 'border-signal/40 text-signal',
           )}
         >
-          {copied ? <Check className="size-4 shrink-0" aria-hidden /> : <Copy className="size-4 shrink-0" aria-hidden />}
+          {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
         </button>
       </div>
     </div>

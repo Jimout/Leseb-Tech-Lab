@@ -1,8 +1,4 @@
-import type { InsightArticle } from '@/lib/insight-types'
 import type { ShowcaseInsight } from '@/lib/insights-showcase-data'
 
-export type InsightDetail = ShowcaseInsight & {
-  paragraphs: readonly string[]
-  /** When set, renders TOC + sidebar + structured sections instead of flat paragraphs. */
-  article?: InsightArticle
-}
+/** Resolved insight for detail routes — all copy and media come from storage. */
+export type InsightDetail = ShowcaseInsight

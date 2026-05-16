@@ -347,7 +347,7 @@ export function AdminAboutManagerPage() {
             <div className="flex w-full items-center justify-between gap-4">
               <div className="min-w-0 text-left">
                 <p className="text-sm font-semibold text-white">About intro</p>
-                <p className="mt-1 text-sm text-white/65">Controls the “About Me” section and portrait.</p>
+                <p className="mt-1 text-sm text-white/65">Controls the “About us” section and portrait.</p>
               </div>
               <div className="flex items-center gap-2">
                 <Label className="text-xs text-white/60">Visible</Label>

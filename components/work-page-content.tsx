@@ -66,7 +66,7 @@ export function WorkPageContent() {
         filters={filters}
         activeId={activeId}
         onActiveIdChange={setWorkActiveId}
-        kicker="My Works"
+        kicker="Our work"
       />
       <section
         className={cn(

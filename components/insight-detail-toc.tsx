@@ -1,44 +1,65 @@
 'use client'
 
 import * as React from 'react'
-import { Menu } from 'lucide-react'
+import Image from 'next/image'
+import { List } from 'lucide-react'
 
-import { MediaRenderer } from '@/components/media-renderer'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import type { InsightTocItem } from '@/lib/insight-types'
+import {
+  insightDetailKickerClass,
+  insightDetailTocHeadingClass,
+  insightDetailTocLinkClass,
+} from '@/lib/insight-detail-typography'
+import {
+  landingNewsletterPanelClass,
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 import { useInsightTocMobileStore } from '@/stores/use-insight-toc-mobile-store'
 
-function TocMark() {
+const DEFAULT_TOC_LOGO = '/Leseb-logo.png'
+const SCROLL_ACTIVATION_PX = 140
+
+const tocPanelClass = cn(landingNewsletterPanelClass, 'p-5 sm:p-6')
+
+function TocBrandMark({ className }: { className?: string }) {
   const { settings } = useSiteSettings()
-  const { markDarkSrc, markLightSrc, markAlt } = settings.insightToc
-  const src = markLightSrc || markDarkSrc
+  const toc = settings.insightToc
+  const footerLogo = settings.footer.logoLightSrc?.trim() || settings.footer.logoDarkSrc?.trim()
+  const src = toc.markLightSrc?.trim() || toc.markDarkSrc?.trim() || footerLogo || DEFAULT_TOC_LOGO
+  const alt = toc.markAlt?.trim() || 'Leseb'
 
   return (
-    <div className="flex h-8 w-10 shrink-0 items-center justify-end sm:h-9 sm:w-11">
-      {src ? (
-        <div className="relative h-7 w-11 sm:h-8 sm:w-12">
-          <MediaRenderer
-            media={{ type: 'image', url: src, alt: (markAlt ?? '').trim() ? markAlt : '' }}
-            className="size-full object-contain object-right"
-            variant="admin-preview"
-          />
-        </div>
-      ) : (
-        <span className="size-2 rounded-full bg-accent sm:size-2.5" />
+    <div
+      className={cn(
+        'relative shrink-0 overflow-hidden rounded-xl border border-foreground/12 bg-background/60',
+        'size-11 p-2 sm:size-12',
+        className,
       )}
+    >
+      <Image src={src} alt={alt} fill className="object-contain p-1.5" sizes="48px" />
     </div>
   )
 }
 
-const SCROLL_ACTIVATION_PX = 140
-
-/** Matches desktop sidebar TOC card — reused for mobile dropdown panel. */
-const tocCardClass = cn(
-  'rounded-[20px] border border-border bg-card p-6 shadow-sm sm:p-7',
-)
+function TocHeader({ className }: { className?: string }) {
+  return (
+    <div className={cn('mb-5 flex items-center gap-3 sm:mb-6', className)}>
+      <TocBrandMark />
+      <div className="min-w-0">
+        <p className={cn('mb-1', landingSectionKickerClass)}>
+          <span className={landingSectionKickerDotClass} aria-hidden />
+          <span className={insightDetailKickerClass}>On this page</span>
+        </p>
+        <p className={insightDetailTocHeadingClass}>Contents</p>
+      </div>
+    </div>
+  )
+}
 
 export function useInsightTocActiveSection(ids: string[]) {
   const [activeId, setActiveId] = React.useState(ids[0] ?? '')
@@ -85,6 +106,8 @@ export function useInsightTocActiveSection(ids: string[]) {
   return activeId
 }
 
+type TocIndicator = { top: number; height: number; ready: boolean }
+
 function TocLinks({
   items,
   activeId,
@@ -94,38 +117,103 @@ function TocLinks({
   activeId: string
   onNavigate?: () => void
 }) {
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
+  const itemRefs = React.useRef(new Map<string, HTMLLIElement>())
+  const [indicator, setIndicator] = React.useState<TocIndicator>({ top: 0, height: 0, ready: false })
+
+  const updateIndicator = React.useCallback(() => {
+    const wrapper = wrapperRef.current
+    const item = itemRefs.current.get(activeId)
+    if (!wrapper || !item) {
+      setIndicator((prev) => (prev.ready ? { ...prev, ready: false } : prev))
+      return
+    }
+
+    const wrapperRect = wrapper.getBoundingClientRect()
+    const itemRect = item.getBoundingClientRect()
+    setIndicator({
+      top: itemRect.top - wrapperRect.top,
+      height: itemRect.height,
+      ready: true,
+    })
+  }, [activeId])
+
+  React.useLayoutEffect(() => {
+    updateIndicator()
+
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+
+    const ro = new ResizeObserver(updateIndicator)
+    ro.observe(wrapper)
+    for (const { id } of items) {
+      const el = itemRefs.current.get(id)
+      if (el) ro.observe(el)
+    }
+
+    window.addEventListener('resize', updateIndicator)
+    window.addEventListener('scroll', updateIndicator, { passive: true })
+
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', updateIndicator)
+      window.removeEventListener('scroll', updateIndicator)
+    }
+  }, [items, updateIndicator])
+
   return (
-    <ul className="flex flex-col gap-3">
+    <div ref={wrapperRef} className="relative">
+      {indicator.ready ? (
+        <div
+          aria-hidden
+          className={cn(
+            'pointer-events-none absolute inset-x-0 z-0',
+            'rounded-xl border border-signal/45 bg-signal/10',
+            'transition-[top,height] duration-300 ease-out motion-reduce:transition-none',
+          )}
+          style={{ top: indicator.top, height: indicator.height }}
+        >
+          <span className="absolute top-1/2 right-3 size-1.5 -translate-y-1/2 rounded-full bg-signal" />
+        </div>
+      ) : null}
+      <ul className="relative z-10 flex flex-col gap-1.5" role="list">
       {items.map(({ id, label }) => {
         const active = activeId === id
         return (
-          <li key={id}>
+          <li
+            key={id}
+            ref={(el) => {
+              if (el) itemRefs.current.set(id, el)
+              else itemRefs.current.delete(id)
+            }}
+          >
             <a
               href={`#${id}`}
               onClick={() => onNavigate?.()}
+              aria-current={active ? 'location' : undefined}
               className={cn(
-                'text-[13px] font-medium leading-snug transition-[color,text-decoration-color] duration-150 sm:text-sm',
+                'group flex items-start gap-3 rounded-xl border border-transparent px-3 py-2.5 pr-7',
+                'transition-colors duration-300 motion-reduce:transition-none',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                 active
-                  ? 'text-accent underline decoration-accent decoration-1 underline-offset-[6px]'
-                  : 'text-foreground/85 no-underline hover:text-foreground',
+                  ? 'text-foreground'
+                  : 'text-foreground/75 hover:bg-foreground/[0.05] hover:text-foreground',
               )}
             >
-              {label}
+              <span
+                className={cn(
+                  insightDetailTocLinkClass,
+                  'min-w-0 flex-1',
+                  active ? 'font-medium' : undefined,
+                )}
+              >
+                {label}
+              </span>
             </a>
           </li>
         )
       })}
-    </ul>
-  )
-}
-
-function TocCardHeader() {
-  return (
-    <div className="mb-6 flex items-start justify-between gap-4">
-      <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground sm:text-[11px]">
-        Contents
-      </span>
-      <TocMark />
+      </ul>
     </div>
   )
 }
@@ -138,11 +226,8 @@ export function InsightDetailTocDesktop({
   activeId: string
 }) {
   return (
-    <nav
-      className={cn('hidden lg:block', tocCardClass)}
-      aria-label="Table of contents"
-    >
-      <TocCardHeader />
+    <nav className={cn('hidden lg:block', tocPanelClass)} aria-label="Table of contents">
+      <TocHeader />
       <TocLinks items={items} activeId={activeId} />
     </nav>
   )
@@ -164,7 +249,7 @@ export function InsightDetailTocMobile({
     const el = barRef.current
     if (!el) return
     setAnchorTop(Math.ceil(el.getBoundingClientRect().bottom + 6))
-  }, [])
+  }, [setAnchorTop])
 
   React.useLayoutEffect(() => {
     if (!open) return
@@ -185,26 +270,34 @@ export function InsightDetailTocMobile({
     <div
       ref={barRef}
       className={cn(
-        'sticky z-30 flex items-center justify-between gap-3 border-b border-border/60',
+        'sticky z-30 -mx-4 flex items-center justify-between gap-3 border-b border-foreground/10 px-4',
         'bg-background/95 py-3 backdrop-blur-md supports-backdrop-filter:bg-background/90',
-        'top-16 sm:top-17',
+        'top-16 sm:-mx-5 sm:px-5 sm:top-17 lg:hidden',
       )}
     >
-      <p className="min-w-0 truncate text-left text-xs font-medium text-foreground/90 sm:text-sm">
-        <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Jump to · </span>
-        {activeLabel}
-      </p>
+      <div className="flex min-w-0 items-center gap-2.5">
+        <TocBrandMark className="size-9 p-1.5 sm:size-10" />
+        <p className="min-w-0 truncate text-left">
+          <span className={cn(insightDetailKickerClass, 'block')}>On this page</span>
+          <span className={cn(insightDetailTocLinkClass, 'block truncate font-medium text-foreground')}>
+            {activeLabel}
+          </span>
+        </p>
+      </div>
       <Sheet open={open} onOpenChange={setOpen}>
         <Button
           type="button"
           variant="ghost"
           size="icon"
-          className="size-10 shrink-0 rounded-xl border border-border/70 bg-muted/40 text-foreground hover:bg-muted/70 hover:text-foreground"
+          className={cn(
+            'size-10 shrink-0 rounded-full border border-foreground/20 bg-foreground/[0.04]',
+            'text-foreground transition-colors hover:border-signal/40 hover:bg-signal/10 hover:text-signal',
+          )}
           aria-expanded={open}
           aria-label={open ? 'Close table of contents' : 'Open table of contents'}
           onClick={toggleOpen}
         >
-          <Menu className="size-5" strokeWidth={2} aria-hidden />
+          <List className="size-4" strokeWidth={2} aria-hidden />
         </Button>
         <SheetContent
           side="top"
@@ -212,19 +305,19 @@ export function InsightDetailTocMobile({
           showCloseButton={false}
           className={cn(
             'left-0 right-0 flex max-h-[min(72dvh,28rem)] justify-start border-0 bg-transparent p-0 pt-1 shadow-none gap-0 overflow-visible',
-            'pl-8 pr-4 sm:pl-10 sm:pr-5 md:pl-12 md:pr-6',
+            'px-4 sm:px-5',
           )}
         >
           <SheetTitle className="sr-only">Table of contents</SheetTitle>
           <nav
             className={cn(
-              tocCardClass,
+              tocPanelClass,
               'w-full max-w-md overflow-y-auto overscroll-contain sm:max-w-lg',
               'max-h-[min(calc(72dvh-1rem),26rem)]',
             )}
             aria-label="Table of contents"
           >
-            <TocCardHeader />
+            <TocHeader />
             <TocLinks items={items} activeId={activeId} onNavigate={close} />
           </nav>
         </SheetContent>

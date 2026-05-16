@@ -1,16 +1,6 @@
 import type { ResolvedWorkDetail } from '@/lib/work-detail-types'
+import { CATALOG_FILTER_LABEL_BY_ID } from '@/lib/works-catalog-seeds'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
-
-/** Mirrors filter ids from `works-filter-menu` — kept here so server code never imports client modules. */
-const FILTER_ID_LABEL: Record<string, string> = {
-  architecture: 'Architecture',
-  interiors: 'Interiors',
-  landscape: 'Landscape',
-  planning: 'Planning',
-  products: 'Products',
-  diagrams: 'Diagrams & Illustrations',
-  visualizations: 'Visualizations',
-}
 
 function categoryToTags(category: string, max = 3): string[] {
   return category
@@ -22,17 +12,17 @@ function categoryToTags(category: string, max = 3): string[] {
 
 function filterIdToProjectType(work: ShowcaseWork): string {
   const first = work.filterIds[0]
-  if (!first) return 'Architecture'
-  return FILTER_ID_LABEL[first] ?? 'Architecture'
+  if (!first) return 'Software'
+  return CATALOG_FILTER_LABEL_BY_ID[first] ?? 'Project'
 }
 
 function resolveRoles(_work: ShowcaseWork): string[] {
-  return ['Project Designer', 'Architectural Visualizer']
+  return ['Product design', 'Engineering', 'Research']
 }
 
 /** Default meta-bar copy when no custom description is set (also used after localStorage merge fallbacks). */
 export function defaultBodyForWork(work: ShowcaseWork): string {
-  return `${work.title} brings together iterative design development, spatial studies, and visualization aligned with the project brief. Materiality, light, and context inform each phase of the work.`
+  return `${work.title} brings together product discovery, iterative builds, and delivery aligned with the brief. We focus on clarity, accessibility, and outcomes your users can feel in production.`
 }
 
 /** Default resolution for a card (no static `OVERRIDES`). Used for localStorage-only works. */

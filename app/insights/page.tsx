@@ -31,7 +31,7 @@ const InsightsPageContent = dynamic(
 export const metadata: Metadata = buildPageMetadata({
   title: 'Insights',
   description:
-    'Articles and notes on architecture, visualization, and design — filter by topic and read in-depth insights.',
+    'Articles and notes on product, AI, data, and community work — filter by topic and read in-depth insights.',
   path: '/insights',
 })
 

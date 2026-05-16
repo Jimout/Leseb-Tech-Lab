@@ -1,3 +1,4 @@
+import { migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
 import type { WorkFilterDefinition } from '@/lib/work-filter-definition'
 import { DEFAULT_WORK_CATALOG_FILTER_SEEDS } from '@/lib/works-catalog-seeds'
 
@@ -87,7 +88,7 @@ export function normalizePortfolioCatalogFiltersState(raw: unknown): SitePortfol
       raw.workInsights,
       def.workInsights,
       'all',
-      'Explore All',
+      'Explore all',
     ),
   }
 }
@@ -97,14 +98,19 @@ export function buildWorkInsightFilterDefinitions(
   items: readonly { filterIds: readonly string[] }[],
 ): WorkFilterDefinition[] {
   const def = getDefaultPortfolioCatalogFilters()
-  const list = normalizeCatalogEntryList(entries ?? [], def.workInsights, 'all', 'Explore All')
+  const list = normalizeCatalogEntryList(entries ?? [], def.workInsights, 'all', 'Explore all')
+  const migratedItems = items.map((it) => ({
+    filterIds: migrateCatalogFilterIds(it.filterIds),
+  }))
   return list
     .filter((e) => e.visible)
     .map((e) => ({
       id: e.id,
       label: e.label,
       count:
-        e.id === 'all' ? items.length : items.filter((it) => it.filterIds.includes(e.id)).length,
+        e.id === 'all'
+          ? migratedItems.length
+          : migratedItems.filter((it) => it.filterIds.includes(e.id)).length,
     }))
 }
 
@@ -112,6 +118,6 @@ export function buildWorkInsightFilterChecklistOptions(
   entries: PortfolioCatalogFilterEntry[] | undefined,
 ): { id: string; label: string }[] {
   const def = getDefaultPortfolioCatalogFilters()
-  const list = normalizeCatalogEntryList(entries ?? [], def.workInsights, 'all', 'Explore All')
+  const list = normalizeCatalogEntryList(entries ?? [], def.workInsights, 'all', 'Explore all')
   return list.filter((e) => e.id !== 'all').map((e) => ({ id: e.id, label: e.label }))
 }

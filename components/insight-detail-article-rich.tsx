@@ -1,13 +1,16 @@
 import type { InsightSection, InsightSectionBlock } from '@/lib/insight-types'
+import {
+  insightDetailBodyClass,
+  insightDetailSectionStackClass,
+  insightDetailSectionTitleClass,
+  insightDetailTitleBodyGapClass,
+} from '@/lib/insight-detail-typography'
 import { sanitizeInsightHtml } from '@/lib/sanitize-insight-html'
 import { cn } from '@/lib/utils'
 
-const pClass = cn(
-  'max-w-[65ch] text-justify text-[15px] font-normal leading-[1.75] text-foreground/90 sm:text-base lg:text-[17px] lg:leading-[1.8]',
-  // Ultra-wide layouts: allow the rich article text to expand to the page padding
-  // instead of staying stuck at 65ch near the TOC.
-  '2xl:max-w-none 3xl:max-w-none 4xl:max-w-none',
-)
+const pClass = cn(insightDetailBodyClass, 'max-w-3xl text-pretty')
+
+const listItemClass = cn(insightDetailBodyClass, 'text-pretty')
 
 function BlockRenderer({ block }: { block: InsightSectionBlock }) {
   if (block.type === 'p') {
@@ -20,12 +23,9 @@ function BlockRenderer({ block }: { block: InsightSectionBlock }) {
   }
   if (block.type === 'ol') {
     return (
-      <ol className="max-w-[65ch] 2xl:max-w-none 3xl:max-w-none 4xl:max-w-none list-decimal space-y-3 pl-6 marker:text-foreground/70">
+      <ol className="max-w-3xl list-decimal space-y-3 pl-6 marker:text-foreground/60">
         {block.items.map((item) => (
-          <li
-            key={item}
-            className="text-[15px] leading-[1.75] text-foreground/90 sm:text-base lg:text-[17px] lg:leading-[1.8]"
-          >
+          <li key={item} className={listItemClass}>
             {item}
           </li>
         ))}
@@ -33,13 +33,10 @@ function BlockRenderer({ block }: { block: InsightSectionBlock }) {
     )
   }
   return (
-    <ul className="max-w-[65ch] 2xl:max-w-none 3xl:max-w-none 4xl:max-w-none space-y-3">
+    <ul className="max-w-3xl space-y-3">
       {block.items.map((item) => (
-        <li
-          key={item}
-          className="flex gap-3 text-[15px] leading-[1.75] text-foreground/90 sm:text-base lg:text-[17px]"
-        >
-          <span className="shrink-0 pt-0.5 text-foreground" aria-hidden>
+        <li key={item} className={cn('flex gap-3', listItemClass)}>
+          <span className="shrink-0 pt-0.5 text-signal" aria-hidden>
             →
           </span>
           <span>{item}</span>
@@ -51,17 +48,15 @@ function BlockRenderer({ block }: { block: InsightSectionBlock }) {
 
 export function InsightDetailArticleRich({ sections }: { sections: InsightSection[] }) {
   return (
-    <div className="space-y-12 sm:space-y-14 lg:space-y-15">
+    <div className={insightDetailSectionStackClass}>
       {sections.map((section) => (
         <section
           key={section.id}
           id={section.id}
           className="scroll-mt-28 sm:scroll-mt-32"
         >
-          <h2 className="text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[1.875rem] xl:text-[2rem]">
-            {section.heading}
-          </h2>
-          <div className="mt-5 space-y-5 sm:mt-6 sm:space-y-6 lg:mt-7">
+          <h2 className={insightDetailSectionTitleClass}>{section.heading}</h2>
+          <div className={cn(insightDetailTitleBodyGapClass, 'space-y-4 sm:space-y-5')}>
             {section.blocks.map((block, i) => (
               <BlockRenderer key={i} block={block} />
             ))}

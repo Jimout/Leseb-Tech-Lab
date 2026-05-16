@@ -11,13 +11,11 @@ export type { WorkFilterDefinition }
 /** Placeholder counts for `WorksFilterMenu` fallback only; live pages use computed counts. */
 const DEFAULT_WORK_FILTER_MENU_COUNTS: Record<string, number> = {
   all: 25,
-  architecture: 8,
-  interiors: 3,
-  landscape: 2,
-  planning: 2,
-  products: 2,
-  diagrams: 4,
-  visualizations: 4,
+  ai: 6,
+  software: 10,
+  data: 8,
+  community: 5,
+  research: 4,
 }
 
 /** Default labels & counts matching the portfolio filter reference. */
@@ -95,7 +93,7 @@ export function WorksFilterMenu({
   filters = DEFAULT_WORK_FILTERS,
   activeId,
   onActiveIdChange,
-  kicker = 'My Works',
+  kicker = 'Our work',
   className,
 }: WorksFilterMenuProps) {
   const row1 = filters.slice(0, ROW_LEN)

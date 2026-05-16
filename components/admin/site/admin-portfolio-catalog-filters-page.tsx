@@ -151,14 +151,14 @@ function CatalogFilterSection({
         {entries.map((row, index) => (
           <div
             key={row.id}
-            className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/25 px-3 py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-4"
+            className="flex flex-col gap-3 rounded-lg border border-white/10 bg-background/25 px-3 py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-4"
           >
             <div className="min-w-0 flex-1 space-y-1">
               <Label className="text-xs text-white/50">Label</Label>
               <Input
                 value={row.label}
                 onChange={(e) => updateAt(index, { label: e.target.value })}
-                className="border-white/15 bg-black/30 text-white"
+                className="border-white/15 bg-background/30 text-white"
               />
             </div>
             <div className="flex flex-wrap items-center gap-3 sm:shrink-0">
@@ -221,7 +221,7 @@ function CatalogFilterSection({
             value={newLabel}
             onChange={(e) => setNewLabel(e.target.value)}
             placeholder={addPlaceholder}
-            className="border-white/15 bg-black/30 text-white"
+            className="border-white/15 bg-background/30 text-white"
           />
         </div>
         <Button type="button" variant="secondary" className="sm:mb-0" onClick={addEntry}>

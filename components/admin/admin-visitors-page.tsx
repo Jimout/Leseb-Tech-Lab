@@ -241,7 +241,7 @@ export function AdminVisitorsPage() {
 
         <Tabs defaultValue="work" className="w-full gap-0">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5">
-            <TabsList className="mb-4 grid h-auto w-full grid-cols-1 gap-2 border border-white/10 bg-black/20 p-1.5 sm:grid-cols-2">
+            <TabsList className="mb-4 grid h-auto w-full grid-cols-1 gap-2 border border-white/10 bg-background/20 p-1.5 sm:grid-cols-2">
               <TabsTrigger
                 value="work"
                 className="text-white/85 data-[state=active]:bg-white/15 data-[state=active]:text-white"

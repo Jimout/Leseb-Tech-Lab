@@ -69,7 +69,7 @@ export default function LoginPage() {
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="h-10 w-full rounded-md border border-white/15 bg-black/20 px-3 text-sm text-white outline-none focus:border-white/30"
+            className="h-10 w-full rounded-md border border-white/15 bg-background/20 px-3 text-sm text-white outline-none focus:border-white/30"
             placeholder="you@example.com"
             autoComplete="email"
             required
@@ -82,7 +82,7 @@ export default function LoginPage() {
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="h-10 w-full rounded-md border border-white/15 bg-black/20 px-3 text-sm text-white outline-none focus:border-white/30"
+            className="h-10 w-full rounded-md border border-white/15 bg-background/20 px-3 text-sm text-white outline-none focus:border-white/30"
             placeholder="********"
             autoComplete="current-password"
             required

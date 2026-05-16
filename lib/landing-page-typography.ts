@@ -1,0 +1,217 @@
+import { sectionKickerTextClass } from '@/lib/section-kicker-classes'
+import { cn } from '@/lib/utils'
+
+/** Section headlines — scales with insights showcase from `2xl` up. */
+export const landingUltraHeadingClass = cn(
+  '2xl:text-[4.25rem] 2xl:leading-[1.08]',
+  '3xl:text-[4.9rem] 3xl:leading-[1.07]',
+  '4xl:text-[5.5rem] 4xl:leading-[1.06]',
+)
+
+/** Dark-band sections inherit `main` foreground; explicit for clarity in nested trees. */
+export const landingBandClass = 'text-foreground'
+
+/** Kicker row — same scale as insights index filter bar. */
+export const landingSectionKickerClass = cn('flex items-center gap-2', sectionKickerTextClass)
+
+export const landingSectionKickerDotClass = cn(
+  'size-1.5 shrink-0 rounded-full bg-signal',
+)
+
+/** Primary section headline scale. */
+export const landingSectionTitleClass = cn(
+  'font-display text-balance font-semibold leading-[1.14] tracking-tight text-foreground',
+  'text-4xl sm:text-5xl md:text-6xl lg:text-7xl',
+  landingUltraHeadingClass,
+)
+
+export const landingSectionTitleXLClass = landingSectionTitleClass
+
+export const landingSectionTitleAccentClass = 'font-light italic text-signal'
+
+/** Label + title | supporting copy (Lab, Approach). */
+export const landingSectionHeaderGridClass = cn(
+  'mb-10 grid gap-10 md:mb-12 md:grid-cols-12 md:gap-12 lg:mb-14',
+  '2xl:mb-16 2xl:gap-16 3xl:mb-20 3xl:gap-20 4xl:mb-24 4xl:gap-24',
+)
+
+export const landingSectionHeaderLeadClass = 'min-w-0 md:col-span-5'
+
+export const landingSectionHeaderAsideClass = cn(
+  'flex min-w-0 items-end md:col-span-6 md:col-start-7',
+)
+
+export const landingSectionIntroClass = cn(
+  'text-balance text-lg leading-relaxed text-muted-foreground md:text-xl',
+  '2xl:text-xl 3xl:text-2xl 4xl:text-2xl',
+)
+
+/** Title block + trailing CTA (Works, Insights). */
+export const landingSectionHeaderSplitClass = cn(
+  'mb-12 flex min-w-0 flex-col gap-6 sm:mb-14 md:mb-16 md:flex-row md:items-end md:justify-between lg:mb-16 xl:mb-20',
+  '2xl:mb-20 3xl:mb-24 4xl:mb-28',
+)
+
+/** Manifesto column layout. */
+export const landingManifestoGridClass = cn(
+  'mx-auto grid min-w-0 gap-12 md:grid-cols-12 md:gap-14 lg:gap-16',
+  '2xl:gap-20 3xl:gap-24 4xl:gap-28',
+)
+
+export const landingManifestoAsideClass = 'md:col-span-3'
+
+export const landingManifestoBodyClass = cn(
+  'min-w-0 space-y-12 sm:space-y-14 md:col-span-9 md:space-y-16 lg:space-y-20 2xl:space-y-24',
+)
+
+export const landingManifestoLeadClass = cn(
+  'font-display text-balance font-semibold leading-[1.14] tracking-tight text-foreground',
+  'text-3xl md:text-5xl lg:text-6xl',
+  landingUltraHeadingClass,
+)
+
+export const landingManifestoAsideTitleClass = cn(
+  'font-display text-balance text-2xl leading-snug tracking-tight text-foreground/90',
+  'md:text-3xl lg:text-4xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl',
+)
+
+export const landingBodyClass = cn(
+  'text-base leading-relaxed text-foreground/70 md:text-lg',
+  '2xl:text-xl 3xl:text-2xl 4xl:text-2xl',
+)
+
+export const landingCaptionClass =
+  'font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/80'
+
+export const landingMetaClass = 'font-mono text-xs text-muted-foreground'
+
+/** Hero scale. */
+export const landingHeroEyebrowClass = cn(
+  'mb-6 font-mono text-xs uppercase tracking-[0.3em] text-signal',
+  'sm:mb-7 md:mb-8 lg:mb-9 xl:mb-10',
+)
+
+export const landingHeroTitleClass = cn(
+  'font-display font-medium leading-[0.92] tracking-[-0.04em] text-balance',
+  'text-[2.2rem] sm:text-[2.6rem] md:text-[3.1rem] lg:text-[3.8rem] xl:text-[4.6rem]',
+  '2xl:text-[6rem] 3xl:text-[7rem] 4xl:text-[8rem]',
+)
+
+export const landingHeroSubkickerClass = cn(
+  'mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground sm:mb-4 md:mb-5',
+)
+
+export const landingHeroBodyClass = cn(
+  'text-balance text-base leading-relaxed text-foreground/80 sm:text-lg md:text-xl xl:text-2xl',
+  '2xl:text-[1.7rem] 3xl:text-[1.85rem] 4xl:text-[2rem]',
+)
+
+export const landingHeroAsideKickerClass =
+  'mb-2 font-mono text-xs uppercase tracking-[0.25em] text-signal'
+
+/** Media / project cards (landing works + work index). */
+export const landingMediaMetaClass =
+  'font-mono text-[10px] tracking-[0.25em] text-foreground/80 uppercase'
+
+export const landingCardTagClass = cn(
+  'rounded-full border border-foreground/10 bg-background/40 px-3 py-1 backdrop-blur',
+)
+
+export const landingCardTitleClass = cn(
+  'font-display mb-3 flex flex-wrap items-center gap-2 text-3xl font-semibold tracking-tight sm:gap-3 md:text-5xl lg:text-6xl',
+  '2xl:text-7xl 3xl:text-8xl 4xl:text-9xl',
+)
+
+export const landingCardDescClass = cn(
+  'max-w-md text-balance text-foreground/70',
+  '2xl:text-lg 3xl:text-xl 4xl:text-xl',
+)
+
+export const landingEmptyCoverClass = 'text-xs font-medium text-muted-foreground'
+
+/** Insights strip card shell. */
+export const landingInsightCardClass = cn(
+  'group relative flex max-w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-foreground/12',
+  'bg-foreground/[0.04] text-left outline-none backdrop-blur-[2px]',
+  'transition-shadow duration-500 hover:border-foreground/18',
+  'hover:shadow-[0_24px_48px_-24px_color-mix(in_srgb,var(--background)_85%,transparent)]',
+  'focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+)
+
+export const landingInsightCardMediaTitleClass = cn(
+  'font-display text-base font-semibold leading-[1.15] tracking-tight text-foreground sm:text-lg',
+)
+
+export const landingInsightCardMediaDescClass = cn(
+  'line-clamp-2 text-xs leading-relaxed text-foreground/88 sm:text-sm',
+)
+
+export const landingInsightCardFooterClass = cn(
+  'relative flex min-h-17 items-center justify-between gap-2.5 border-t border-foreground/10',
+  'bg-background/35 px-3.5 py-2.5 transition-colors duration-500 group-hover:bg-foreground/[0.07] sm:min-h-18 sm:px-4 sm:py-3',
+)
+
+export const landingInsightCardPillClass = cn(
+  'absolute right-2.5 top-2.5 z-10 rounded-full bg-background/50 px-2.5 py-0.5',
+  'font-mono text-[9px] uppercase tracking-[0.2em] text-foreground backdrop-blur-sm sm:right-3 sm:top-3',
+)
+
+export const landingInsightCardCtaClass = cn(
+  'inline-flex shrink-0 items-center gap-1 rounded-full border border-foreground/25 bg-transparent',
+  'px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-foreground transition-colors duration-500',
+  'sm:px-3 sm:py-2 sm:text-[10px] group-hover:border-signal/50 group-hover:text-signal',
+)
+
+/** Horizontal strip + card widths (insights). */
+export const landingInsightStripClass = cn(
+  'flex min-w-0 w-full gap-5 overflow-x-auto pb-2 sm:gap-6 md:gap-7',
+  'snap-x snap-proximity md:snap-mandatory lg:px-0',
+  '[overflow-anchor:none]',
+  'overscroll-x-contain [touch-action:pan-x_pan-y]',
+  'select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
+  'max-md:cursor-default md:cursor-grab md:active:cursor-grabbing',
+)
+
+/** Card widths — aligned with `insights-showcase` strip at `2xl` / `3xl` / `4xl`. */
+export const landingInsightCardWidthClass = cn(
+  'w-[min(82vw,17.5rem)] max-w-none shrink-0 snap-start sm:w-[min(78vw,18.5rem)]',
+  'md:w-[calc((100%-1.25rem)/2.5)] lg:w-[calc((100%-2rem)/2.75)] xl:w-[calc((100%-2.5rem)/3)]',
+  '2xl:w-[calc((100%-2.5rem)/2.3)] 3xl:w-[calc((100%-2.5rem)/2.15)] 4xl:w-[calc((100%-2.5rem)/2)]',
+)
+
+/** Strip pagination controls (landing insights). */
+export const landingStripNavButtonClass = cn(
+  'inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-foreground/20',
+  'text-foreground transition-colors hover:border-foreground/40 hover:bg-foreground/5',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  'disabled:pointer-events-none disabled:opacity-35',
+)
+
+export const landingStripDotInactiveClass = 'w-2 bg-foreground/30 hover:bg-foreground/50'
+
+export const landingStripDotActiveClass = 'w-7 bg-signal'
+
+/** Motion token — matches `:root --landing-panel-ease`. */
+export const landingPanelEaseClass = 'ease-[var(--landing-panel-ease)]'
+
+/** Services / Approach four-up grid. */
+export const landingPillarGridClass = cn(
+  'grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2 lg:grid-cols-4',
+)
+
+/** Single pillar card — hover uses accent corners + color only (no scale/zoom). */
+export const landingPillarTitleClass = cn(
+  'mb-3 font-display text-2xl tracking-tight transition-colors duration-500 group-hover:text-foreground',
+  '2xl:text-3xl 3xl:text-4xl 4xl:text-[2.5rem]',
+)
+
+export const landingPillarBodyClass = cn(
+  'text-sm leading-relaxed text-muted-foreground transition-colors duration-500 group-hover:text-foreground/85',
+  '2xl:text-base 3xl:text-lg 4xl:text-lg',
+)
+
+export const landingPillarCardClass = cn(
+  'group relative isolate flex min-h-[260px] flex-col justify-between overflow-hidden bg-background',
+  'p-8 sm:min-h-[280px] sm:p-9 md:min-h-[300px] md:p-10',
+  '2xl:min-h-[320px] 2xl:p-12 3xl:min-h-[340px] 3xl:p-14 4xl:min-h-[360px] 4xl:p-16',
+)

@@ -30,7 +30,7 @@ export function MediaRenderer({
   const [videoFailed, setVideoFailed] = React.useState(false)
   const baseClass =
     variant === 'admin-preview'
-      ? `rounded-md border border-white/10 bg-black/30 ${className ?? ''}`
+      ? `rounded-md border border-white/10 bg-background/30 ${className ?? ''}`
       : className
 
   if (!media?.type || !media?.url) {

@@ -5,7 +5,7 @@ export default function Loading() {
   return (
     <>
       <SiteNavbar />
-      <main className="min-h-dvh scroll-mt-24 bg-page-grid text-foreground">
+      <main className="min-h-dvh scroll-mt-24 bg-background text-foreground">
         <Container className="py-20 sm:py-24 lg:py-28">
           <div className="mx-auto w-full max-w-5xl animate-pulse space-y-6">
             <div className="h-4 w-28 rounded bg-white/10" />

@@ -114,7 +114,7 @@ export function AdminInsightStructuredEditor({
                   )
                   updateSections(next)
                 }}
-                className="border-white/15 bg-black/30 text-white"
+                className="border-white/15 bg-background/30 text-white"
               />
             </div>
             <div className="space-y-1.5">
@@ -126,7 +126,7 @@ export function AdminInsightStructuredEditor({
                   const next = sections.map((s, i) => (i === si ? { ...s, id } : s))
                   updateSections(next)
                 }}
-                className="border-white/15 bg-black/30 text-white"
+                className="border-white/15 bg-background/30 text-white"
               />
             </div>
           </div>
@@ -136,7 +136,7 @@ export function AdminInsightStructuredEditor({
             {sec.blocks.map((b, bi) => (
               <div
                 key={bi}
-                className="flex flex-col gap-2 rounded-md border border-white/10 bg-black/20 p-3 sm:flex-row sm:items-start"
+                className="flex flex-col gap-2 rounded-md border border-white/10 bg-background/20 p-3 sm:flex-row sm:items-start"
               >
                 <span className="shrink-0 text-xs font-medium uppercase text-accent">
                   {b.type}
@@ -169,7 +169,7 @@ export function AdminInsightStructuredEditor({
                       updateSections(next)
                     }}
                     rows={Math.min(8, Math.max(3, b.items.length))}
-                    className="min-h-0 flex-1 border-white/15 bg-black/30 text-sm text-white"
+                    className="min-h-0 flex-1 border-white/15 bg-background/30 text-sm text-white"
                     placeholder="One list item per line"
                   />
                 )}

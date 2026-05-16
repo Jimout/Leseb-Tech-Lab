@@ -13,6 +13,7 @@ import { FooterSection } from '@/components/footer-section'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 import { siteSeoConfig } from '@/lib/seo/site-config'
+import { landingSectionPadTopClass } from '@/lib/landing-page-layout'
 import { SITE_BRAND_NAME } from '@/lib/site-brand'
 
 export const metadata: Metadata = buildPageMetadata({
@@ -29,7 +30,7 @@ export default function Home() {
       <SiteNavbar />
       <main
         id="home"
-        className="home-page-stack min-h-dvh min-w-0 scroll-mt-24 overflow-x-clip text-foreground"
+        className="home-page-stack min-h-dvh min-w-0 scroll-mt-24 overflow-x-clip bg-background text-foreground"
       >
         <HeroSection />
         <Marquee />
@@ -39,7 +40,7 @@ export default function Home() {
           <WorksSection />
           <ApproachSection />
           <LandingInsightsSection />
-          <FooterSection className="pt-0 sm:pt-0 md:pt-0 lg:pt-0 xl:pt-0 2xl:pt-0 3xl:pt-0 4xl:pt-0" />
+          <FooterSection className={landingSectionPadTopClass} />
         </div>
       </main>
       <Toaster />

@@ -42,7 +42,7 @@ export function AdminWorkContentBlocksEditor({
   }
 
   return (
-    <div className="space-y-4 rounded-xl border border-white/10 bg-black/15 p-4 sm:p-5">
+    <div className="space-y-4 rounded-xl border border-white/10 bg-background/15 p-4 sm:p-5">
       <div>
         <Label className="text-base text-white">Flexible page body</Label>
         <p className="mt-1.5 text-sm leading-relaxed text-white/60">

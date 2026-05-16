@@ -21,7 +21,7 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body className="min-h-dvh bg-[#0a0a0b] px-6 py-16 font-sans text-[#fafafa] antialiased">
+      <body className="min-h-dvh bg-background px-6 py-16 font-sans text-[#fafafa] antialiased">
         <main className="mx-auto max-w-md text-center">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/50">Error</p>
           <h1 className="mt-4 text-2xl font-bold tracking-tight">Something went wrong</h1>

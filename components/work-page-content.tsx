@@ -2,15 +2,16 @@
 
 import * as React from 'react'
 
-import { Container } from '@/components/layout/container'
 import { WorkPageFilterBar } from '@/components/work-page-filter-bar'
-import { WorkPageMasonry } from '@/components/work-page-masonry'
+import { WorksLabShowcaseFromWorks } from '@/components/works-lab-grid'
+import { landingPageContentMaxClass, landingPageGutterClass } from '@/lib/landing-page-layout'
 import { PillPagination } from '@/components/ui/pill-pagination'
 import { buildWorkInsightFilterDefinitions } from '@/lib/portfolio-catalog-filters'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import { useWorksShowcaseMerged } from '@/hooks/use-works-showcase-merged'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
 import { useCatalogUiStore } from '@/stores/use-catalog-ui-store'
+import { cn } from '@/lib/utils'
 
 const PAGE_SIZE = 8
 
@@ -67,15 +68,20 @@ export function WorkPageContent() {
         onActiveIdChange={setWorkActiveId}
         kicker="My Works"
       />
-      <section className="pb-10 pt-6 sm:pb-14 sm:pt-8 md:pb-16 md:pt-10 lg:pb-20 lg:pt-12">
-        <Container>
+      <section
+        className={cn(
+          'pb-10 pt-6 sm:pb-14 sm:pt-8 md:pb-16 md:pt-10 lg:pb-20 lg:pt-12',
+          landingPageGutterClass,
+        )}
+      >
+        <div className={cn('mx-auto min-w-0', landingPageContentMaxClass)}>
           {filtered.length === 0 ? (
             <p className="max-w-none text-muted-foreground lg:text-base xl:text-lg 2xl:text-xl">
               No projects in this category yet. Try another filter or explore all works.
             </p>
           ) : (
             <>
-              <WorkPageMasonry works={pageWorks} lcpPriority={page === 1} />
+              <WorksLabShowcaseFromWorks works={pageWorks} lcpPriority={page === 1} />
               {totalPages > 1 ? (
                 <div className="mt-12 flex justify-center sm:mt-14 md:mt-16">
                   <PillPagination
@@ -89,7 +95,7 @@ export function WorkPageContent() {
               ) : null}
             </>
           )}
-        </Container>
+        </div>
       </section>
     </>
   )

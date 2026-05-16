@@ -235,7 +235,7 @@ export function AdminContactManagerPage() {
             />
           </Row>
 
-          <div className="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5">
+          <div className="rounded-2xl border border-white/10 bg-background/20 p-4 sm:p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm font-semibold text-white/90">Contact form</p>
               <div className="flex items-center gap-3">
@@ -278,7 +278,7 @@ export function AdminContactManagerPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5">
+          <div className="rounded-2xl border border-white/10 bg-background/20 p-4 sm:p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm font-semibold text-white/90">Social links</p>
               <div className="flex items-center gap-3">

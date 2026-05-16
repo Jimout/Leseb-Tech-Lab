@@ -5,7 +5,7 @@ export default function InsightDetailLoading() {
   return (
     <>
       <SiteNavbar logoHref="/" />
-      <main className="dark min-h-dvh scroll-mt-24 bg-page-grid text-foreground">
+      <main className="dark min-h-dvh scroll-mt-24 bg-background text-foreground">
         <section className="pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
           <Container>
             <div className="animate-pulse space-y-6">

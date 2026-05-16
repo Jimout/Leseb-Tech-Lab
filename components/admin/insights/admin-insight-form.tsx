@@ -195,7 +195,7 @@ export function AdminInsightFormPage({
               setRow((r) => ({ ...r, slug: e.target.value }))
             }}
             placeholder="my-insight-slug"
-            className="border-white/15 bg-black/30 text-white"
+            className="border-white/15 bg-background/30 text-white"
             required
           />
           <p className="text-xs text-white/45">
@@ -215,7 +215,7 @@ export function AdminInsightFormPage({
           <Input
             value={row.title}
             onChange={(e) => setRow((r) => ({ ...r, title: e.target.value }))}
-            className="border-white/15 bg-black/30 text-white"
+            className="border-white/15 bg-background/30 text-white"
             required
           />
         </div>
@@ -225,7 +225,7 @@ export function AdminInsightFormPage({
             <Input
               value={row.date}
               onChange={(e) => setRow((r) => ({ ...r, date: e.target.value }))}
-              className="border-white/15 bg-black/30 text-white"
+              className="border-white/15 bg-background/30 text-white"
             />
           </div>
           <div className="space-y-2">
@@ -234,7 +234,7 @@ export function AdminInsightFormPage({
               value={row.dateIso}
               onChange={(e) => setRow((r) => ({ ...r, dateIso: e.target.value }))}
               placeholder="2026-03-14"
-              className="border-white/15 bg-black/30 text-white"
+              className="border-white/15 bg-background/30 text-white"
             />
           </div>
         </div>
@@ -244,7 +244,7 @@ export function AdminInsightFormPage({
             value={row.description}
             onChange={(e) => setRow((r) => ({ ...r, description: e.target.value }))}
             rows={3}
-            className="border-white/15 bg-black/30 text-white"
+            className="border-white/15 bg-background/30 text-white"
           />
         </div>
         <AdminInsightHeroImageField

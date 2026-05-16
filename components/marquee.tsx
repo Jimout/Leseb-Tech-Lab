@@ -27,7 +27,7 @@ export const Marquee = () => (
     data-nav-surface="dark"
     className="flex w-full min-w-0 items-center overflow-x-clip border-y border-border bg-background py-4 md:py-5"
   >
-    <div className="marquee flex w-max shrink-0 items-center gap-16 whitespace-nowrap font-display text-3xl leading-none tracking-tight md:text-5xl">
+    <div className="marquee flex w-max shrink-0 items-center gap-16 whitespace-nowrap font-display text-3xl leading-none tracking-tight md:text-5xl 2xl:text-6xl 3xl:text-7xl 4xl:text-8xl">
       {[...items, ...items].map((t, i) => (
         <span key={`${t}-${i}`} className="flex items-center gap-16 text-foreground/90">
           <span

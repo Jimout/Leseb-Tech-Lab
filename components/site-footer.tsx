@@ -107,7 +107,7 @@ function SocialIconLink({
       className={cn(
         'inline-flex size-8 shrink-0 items-center justify-center rounded-full sm:size-9',
         'bg-white/8 text-white transition-colors hover:bg-white/12',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
       )}
       aria-label={label}
     >
@@ -158,18 +158,20 @@ export function SiteFooter({
             className={cn(
               'group relative isolate block overflow-hidden border-b border-border bg-background p-8 sm:p-10 md:border-b-0 md:border-r lg:p-12 xl:p-14 2xl:p-16 3xl:p-18 4xl:p-20',
               'text-foreground',
+              'transition-transform duration-300 group-hover:scale-110 group-hover:z-10',
             )}
           >
             <div
               aria-hidden
               className={cn(
-                'pointer-events-none absolute inset-0 -z-10 translate-y-full gradient-signal transition-transform',
-                footerPanelMotionDuration,
-                footerPanelMotionEase,
-                'group-hover:translate-y-0',
-                'motion-reduce:transition-none motion-reduce:group-hover:translate-y-full',
+                'pointer-events-none absolute inset-0 -z-10',
               )}
-            />
+            >
+              <div className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+            </div>
             <div className="relative z-10">
               <div className="flex items-start justify-between gap-6">
                 <div
@@ -230,18 +232,20 @@ export function SiteFooter({
             className={cn(
               'group relative isolate block overflow-hidden bg-background p-8 sm:p-10 lg:p-12 xl:p-14 2xl:p-16 3xl:p-18 4xl:p-20',
               'text-foreground',
+              'transition-transform duration-300 group-hover:scale-110 group-hover:z-10',
             )}
           >
             <div
               aria-hidden
               className={cn(
-                'pointer-events-none absolute inset-0 -z-10 translate-y-full gradient-signal transition-transform',
-                footerPanelMotionDuration,
-                footerPanelMotionEase,
-                'group-hover:translate-y-0',
-                'motion-reduce:transition-none motion-reduce:group-hover:translate-y-full',
+                'pointer-events-none absolute inset-0 -z-10',
               )}
-            />
+            >
+              <div className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+            </div>
             <div className="relative z-10">
               <div className="flex items-start justify-between gap-6">
                 <div
@@ -281,7 +285,7 @@ export function SiteFooter({
         </div>
 
         {/* Black footer */}
-        <div data-nav-surface="dark" className="border-t border-border bg-black text-white">
+        <div data-nav-surface="dark" className="border-t border-border bg-background text-white">
           <div className="grid gap-10 px-8 py-10 sm:px-10 sm:py-12 md:grid-cols-12 md:gap-8 md:px-14 md:py-14 lg:px-16 lg:py-16 xl:px-18 xl:py-18 2xl:px-20 2xl:py-20 3xl:px-24 3xl:py-24 4xl:px-28 4xl:py-28">
           <div className="md:col-span-4">
             <div className="flex items-center gap-3">

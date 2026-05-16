@@ -30,7 +30,7 @@ export function AdminWorkSecondaryImageDescriptionFields({ detail: d, setDetail 
   )
 
   return (
-    <div className="space-y-3 rounded-lg border border-white/10 bg-black/15 p-4">
+    <div className="space-y-3 rounded-lg border border-white/10 bg-background/15 p-4">
       <div>
         <Label className="text-base text-white">Text under secondary hero (2×2 grid)</Label>
         <p className="mt-1 text-xs text-white/55">
@@ -46,7 +46,7 @@ export function AdminWorkSecondaryImageDescriptionFields({ detail: d, setDetail 
               value={cols[i]}
               onChange={(e) => setPara(i, e.target.value)}
               rows={4}
-              className="border-white/15 bg-black/30 text-white"
+              className="border-white/15 bg-background/30 text-white"
             />
           </div>
         ))}

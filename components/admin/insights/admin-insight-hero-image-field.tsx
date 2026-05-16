@@ -82,7 +82,7 @@ export function AdminInsightHeroImageField({
           type="file"
           accept="image/*"
           className={cn(
-            'cursor-pointer border-white/15 bg-black/30 text-sm text-white file:mr-3 file:rounded-md',
+            'cursor-pointer border-white/15 bg-background/30 text-sm text-white file:mr-3 file:rounded-md',
             'file:border-0 file:bg-white/15 file:px-3 file:py-1.5 file:text-white',
           )}
           onChange={onFile}
@@ -109,7 +109,7 @@ export function AdminInsightHeroImageField({
         {uploading ? <p className="text-xs text-white/60">Uploading... {progress}%</p> : null}
         {mediaUrl ? (
           <div className="flex flex-wrap items-start gap-3">
-            <div className="relative h-28 w-44 shrink-0 overflow-hidden rounded-lg border border-white/15 bg-black/40">
+            <div className="relative h-28 w-44 shrink-0 overflow-hidden rounded-lg border border-white/15 bg-background/40">
               <MediaRenderer
                 media={{ type: 'image', url: mediaUrl, alt: mediaAlt || 'Hero preview' }}
                 className="size-full object-cover"
@@ -142,7 +142,7 @@ export function AdminInsightHeroImageField({
             value={urlValue}
             onChange={(e) => onMediaUrl(e.target.value)}
             placeholder="/images/my-photo.jpg or https://…"
-            className="border-white/15 bg-black/30 text-white"
+            className="border-white/15 bg-background/30 text-white"
           />
         </div>
       ) : null}
@@ -152,7 +152,7 @@ export function AdminInsightHeroImageField({
         <Input
           value={mediaAlt}
           onChange={(e) => onMediaAlt(e.target.value)}
-          className="border-white/15 bg-black/30 text-white"
+          className="border-white/15 bg-background/30 text-white"
         />
       </div>
     </div>

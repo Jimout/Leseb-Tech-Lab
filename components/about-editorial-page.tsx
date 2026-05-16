@@ -126,7 +126,7 @@ export function AboutEditorialPage() {
       <section
         id="principles"
         className={cn(
-          'border-t border-white/10 bg-black py-24 text-white md:py-32',
+          'border-t border-white/10 bg-background py-24 text-white md:py-32',
           landingPageGutterClass,
         )}
       >
@@ -159,7 +159,7 @@ export function AboutEditorialPage() {
       {/* Closing CTA */}
       <section
         data-nav-surface="dark"
-        className={cn('border-t border-white/10 bg-black py-32 text-white', landingPageGutterClass)}
+        className={cn('border-t border-white/10 bg-background py-32 text-white', landingPageGutterClass)}
       >
         <div className={cn('text-center', landingPageContentMaxClass)}>
           <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-signal">Continue</p>

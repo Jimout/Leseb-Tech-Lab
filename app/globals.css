@@ -4,38 +4,39 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:ital,wght@0,300..700;1,300..700&display=swap');
 
 :root {
-  /** Dark / black mode — matches manifesto section (bg-black text-white) */
-  --background: #000000;
+  /** Site canvas — warm near-black (single source for surfaces) */
+  --canvas: #1f1d1b;
+  --background: var(--canvas);
   --foreground: #ffffff;
 
-  --card: #0b0b0b;
+  --card: #282624;
   --card-foreground: var(--foreground);
-  --popover: #0b0b0b;
+  --popover: #282624;
   --popover-foreground: var(--foreground);
 
-  /** Brand ink (teal) — stays recognisable on black */
+  /** Brand ink (teal) */
   --primary: #12808f;
-  --primary-foreground: #000000;
+  --primary-foreground: #0a0a0a;
 
   /** Electric signal (yellow) */
   --secondary: #dfe222;
-  --secondary-foreground: #000000;
+  --secondary-foreground: #0a0a0a;
 
-  --muted: #111111;
-  --muted-foreground: hsl(0 0% 55%);
+  --muted: #181614;
+  --muted-foreground: hsl(30 6% 58%);
 
   --accent: var(--secondary);
   --accent-foreground: var(--secondary-foreground);
   --destructive: #ef4444;
-  --destructive-foreground: #000000;
-  --border: hsl(0 0% 14%);
-  --input: hsl(0 0% 14%);
+  --destructive-foreground: #0a0a0a;
+  --border: #332f2c;
+  --input: #332f2c;
   --ring: var(--secondary);
   --chart-1: #12808f;
   --chart-2: #dfe222;
-  --chart-3: hsl(0 0% 55%);
-  --chart-4: #111111;
-  --chart-5: #000000;
+  --chart-3: hsl(30 6% 58%);
+  --chart-4: #181614;
+  --chart-5: var(--canvas);
   --radius: 0.625rem;
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
@@ -48,15 +49,15 @@
   /** Bold surface (teal) */
   --surface-panel: #0d4651;
   --surface-works: var(--background);
-  /** Box surfaces — slightly raised from background */
-  --box: #0b0b0b;
+  /** Box surfaces — slightly raised from canvas */
+  --box: #282624;
   /** Resource card image backing */
-  --image-well: #0b0b0b;
+  --image-well: #282624;
   /** Solid CTA on dark surfaces */
   --control-filled: var(--primary);
-  --control-filled-foreground: #000000;
+  --control-filled-foreground: #0a0a0a;
   /** Lift cards on hover */
-  --card-hover: #151515;
+  --card-hover: #302e2b;
   --card-hover-foreground: var(--foreground);
 
   /** Gradients & effects */
@@ -79,6 +80,9 @@
   /** Page grid cell size (horizontal × vertical) — hero + .bg-page-grid */
   --page-grid-x: clamp(4.75rem, 13vw, 10.75rem);
   --page-grid-y: clamp(5rem, 12vw, 9rem);
+
+  /** Landing motion (referenced from lib/landing-page-typography.ts) */
+  --landing-panel-ease: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /**
@@ -170,7 +174,9 @@
 
 @theme inline {
   --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --color-signal: var(--secondary);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -351,41 +357,41 @@
   .home-page-stack {
     display: flex;
     flex-direction: column;
-    gap: 4rem; /* pb-12 + pt-4 */
+    gap: -2rem; /* overlapping gap */
   }
   @media (min-width: 640px) {
     .home-page-stack {
-      gap: 4.5rem; /* pb-14 + pt-4 */
+      gap: -2rem; /* overlapping gap */
     }
   }
   @media (min-width: 768px) {
     .home-page-stack {
-      gap: 5.25rem; /* pb-16 + pt-5 */
+      gap: -2rem; /* overlapping gap */
     }
   }
   @media (min-width: 1024px) {
     .home-page-stack {
-      gap: 5.75rem; /* pb-18 + pt-5 */
+      gap: -2rem; /* overlapping gap */
     }
   }
   @media (min-width: 1280px) {
     .home-page-stack {
-      gap: 6.25rem; /* pb-20 + pt-5 */
+      gap: -2rem; /* overlapping gap */
     }
   }
   @media (min-width: 1536px) {
     .home-page-stack {
-      gap: 7.25rem; /* pb-24 + pt-5 */
+      gap: -2rem; /* overlapping gap */
     }
   }
   @media (min-width: 1920px) {
     .home-page-stack {
-      gap: 8.25rem; /* pb-28 + pt-5 */
+      gap: -2rem; /* overlapping gap */
     }
   }
   @media (min-width: 2560px) {
     .home-page-stack {
-      gap: 9.25rem; /* pb-32 + pt-5 */
+      gap: -2rem; /* overlapping gap */
     }
   }
 

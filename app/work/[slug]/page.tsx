@@ -72,7 +72,7 @@ export default async function WorkDetailPage({ params }: PageProps) {
         })}
       />
       <SiteNavbar logoHref="/" />
-      <main className="min-h-dvh scroll-mt-24 bg-page-grid text-foreground">
+      <main className="min-h-dvh scroll-mt-24 bg-background text-foreground">
         <WorkDetailFromStorage key={canon} slug={canon} serverDetail={detail} />
         <FooterSection />
         <Toaster />

@@ -95,7 +95,7 @@ export function AdminWorkContentBlockImageFields({
           type="file"
           accept={fileAccept}
           className={cn(
-            'cursor-pointer border-white/15 bg-black/30 text-sm text-white file:mr-3 file:rounded-md',
+            'cursor-pointer border-white/15 bg-background/30 text-sm text-white file:mr-3 file:rounded-md',
             'file:border-0 file:bg-white/15 file:px-3 file:py-1.5 file:text-white',
           )}
           onChange={onFile}
@@ -105,7 +105,7 @@ export function AdminWorkContentBlockImageFields({
         <div className="flex flex-wrap items-start gap-3">
           <div
             className={cn(
-              'relative shrink-0 overflow-hidden rounded-lg border border-white/15 bg-black/40',
+              'relative shrink-0 overflow-hidden rounded-lg border border-white/15 bg-background/40',
               block.variant === 'hero' ? 'h-28 w-44' : 'aspect-video w-full max-w-md',
             )}
           >
@@ -136,7 +136,7 @@ export function AdminWorkContentBlockImageFields({
           value={block.src}
           onChange={(e) => onPatch({ ...block, src: e.target.value })}
           placeholder={isVideo ? 'https://.../video.mp4' : 'https://.../image.jpg'}
-          className="border-white/15 bg-black/30 text-white"
+          className="border-white/15 bg-background/30 text-white"
         />
       </div>
       {block.type === 'video' ? (
@@ -148,14 +148,14 @@ export function AdminWorkContentBlockImageFields({
                 value={block.poster ?? ''}
                 onChange={(e) => onPatch({ ...block, poster: e.target.value })}
                 placeholder="https://.../poster.jpg"
-                className="border-white/15 bg-black/30 text-white"
+                className="border-white/15 bg-background/30 text-white"
               />
               <Input
                 ref={posterRef}
                 type="file"
                 accept="image/*"
                 className={cn(
-                  'max-w-56 cursor-pointer border-white/15 bg-black/30 text-sm text-white file:mr-3 file:rounded-md',
+                  'max-w-56 cursor-pointer border-white/15 bg-background/30 text-sm text-white file:mr-3 file:rounded-md',
                   'file:border-0 file:bg-white/15 file:px-3 file:py-1.5 file:text-white',
                 )}
                 onChange={onPosterFile}
@@ -188,7 +188,7 @@ export function AdminWorkContentBlockImageFields({
           value={block.alt ?? ''}
           onChange={(e) => onPatch({ ...block, alt: e.target.value })}
           placeholder={isVideo ? 'Video description if playback fails' : 'Describe the image for accessibility'}
-          className="border-white/15 bg-black/30 text-white"
+          className="border-white/15 bg-background/30 text-white"
         />
       </div>
     </div>

@@ -38,7 +38,7 @@ export function AdminWorkFormDetailMetaFields({ detail: d, setDetail, rolesInput
         <Input
           value={d.projectType ?? ''}
           onChange={(e) => setDetail({ projectType: e.target.value })}
-          className="border-white/15 bg-black/30 text-white"
+          className="border-white/15 bg-background/30 text-white"
         />
       </div>
       <div className="space-y-2">
@@ -55,7 +55,7 @@ export function AdminWorkFormDetailMetaFields({ detail: d, setDetail, rolesInput
                 .filter(Boolean),
             })
           }}
-          className="border-white/15 bg-black/30 text-white"
+          className="border-white/15 bg-background/30 text-white"
         />
         <p className="text-xs text-white/45">Add roles separated by commas (example: Designer, 3D Visualizer).</p>
         <div className="flex flex-wrap gap-2 pt-1">
@@ -80,7 +80,7 @@ export function AdminWorkFormDetailMetaFields({ detail: d, setDetail, rolesInput
           onChange={(e) => setDetail({ descriptionNote: e.target.value })}
           rows={5}
           placeholder="Short summary shown in the Description column under the hero"
-          className="border-white/15 bg-black/30 text-white"
+          className="border-white/15 bg-background/30 text-white"
         />
       </div>
     </div>

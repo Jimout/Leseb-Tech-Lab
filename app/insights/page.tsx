@@ -45,7 +45,7 @@ export default function InsightsPage() {
         ]}
       />
       <SiteNavbar logoHref="/" />
-      <main className="min-h-dvh scroll-mt-24 bg-page-grid text-foreground">
+      <main className="min-h-dvh scroll-mt-24 bg-background text-foreground">
         <InsightsPageContent />
         <FooterSection />
         <Toaster />

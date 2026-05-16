@@ -13,6 +13,7 @@ import { landingPageContentMaxClass, landingPageGutterClass } from '@/lib/landin
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
+  { href: '/services', segment: 'services', label: 'Services' },
   { href: '/work', segment: 'work', label: 'Work' },
   { href: '/insights', segment: 'insights', label: 'Insights' },
   { href: '/about', segment: 'about', label: 'About' },
@@ -33,6 +34,7 @@ function useActiveSegment() {
   if (pathname === '/contact') return 'contact'
   if (pathname.startsWith('/insights')) return 'insights'
   if (pathname.startsWith('/work')) return 'work'
+  if (pathname.startsWith('/services')) return 'services'
   if (pathname === '/') return hashSegment || 'home'
 
   return hashSegment || 'home'
@@ -86,7 +88,7 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
     'font-display text-2xl font-semibold tracking-tight md:text-3xl',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
     surface === 'dark'
-      ? 'text-white focus-visible:ring-white focus-visible:ring-offset-black'
+      ? 'text-white focus-visible:ring-white focus-visible:ring-offset-background'
       : 'text-foreground focus-visible:ring-offset-background',
   )
 
@@ -105,7 +107,7 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
           className={cn(
             'flex items-center justify-between gap-3 px-3 py-2',
             'rounded-xl border border-white/10 md:rounded-2xl',
-            'bg-black/40 text-white backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]',
+            'bg-background/40 text-white backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]',
           )}
         >
           {logoHref.startsWith('/') ? (

@@ -45,7 +45,7 @@ export function AdminWorkContentBlockRow({
   return (
     <div
       className={cn(
-        'rounded-md border border-white/10 bg-black/25 p-3',
+        'rounded-md border border-white/10 bg-background/25 p-3',
         'space-y-3',
       )}
     >
@@ -101,7 +101,7 @@ export function AdminWorkContentBlockRow({
               value={block.embedUrl}
               onChange={(e) => onPatch({ ...block, embedUrl: e.target.value })}
               placeholder="https://my.matterport.com/show/?m=..."
-              className="w-full rounded-md border border-white/15 bg-black/30 px-3 py-2 text-sm text-white"
+              className="w-full rounded-md border border-white/15 bg-background/30 px-3 py-2 text-sm text-white"
             />
           </div>
           <div className="space-y-2">
@@ -110,7 +110,7 @@ export function AdminWorkContentBlockRow({
               value={block.title ?? ''}
               onChange={(e) => onPatch({ ...block, title: e.target.value })}
               placeholder="360 preview"
-              className="w-full rounded-md border border-white/15 bg-black/30 px-3 py-2 text-sm text-white"
+              className="w-full rounded-md border border-white/15 bg-background/30 px-3 py-2 text-sm text-white"
             />
           </div>
         </div>

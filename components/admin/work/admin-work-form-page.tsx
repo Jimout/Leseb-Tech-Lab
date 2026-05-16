@@ -262,7 +262,7 @@ export function AdminWorkFormPage({
   )
 
   const tabsListClass =
-    'inline-flex h-auto min-h-[2.75rem] w-full flex-col gap-1 rounded-xl border border-white/10 bg-black/30 p-1 sm:flex-row sm:gap-1'
+    'inline-flex h-auto min-h-[2.75rem] w-full flex-col gap-1 rounded-xl border border-white/10 bg-background/30 p-1 sm:flex-row sm:gap-1'
   const tabsTriggerClass =
     'flex-1 justify-center rounded-lg border border-transparent px-3 py-2.5 text-left text-sm font-medium text-white/70 transition-colors hover:text-white data-[state=active]:border-white/15 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-none sm:text-center'
   const [submitError, setSubmitError] = React.useState<string | null>(null)
@@ -315,7 +315,7 @@ export function AdminWorkFormPage({
           </TabsList>
 
           <TabsContent value="project" className="mt-0 space-y-8 pt-1 focus-visible:outline-none">
-            <div className="rounded-lg border border-white/10 bg-black/20 px-4 py-3 sm:px-5">
+            <div className="rounded-lg border border-white/10 bg-background/20 px-4 py-3 sm:px-5">
               <p className="text-sm font-medium text-white">Listing and hero</p>
               <p className="mt-1 text-sm text-white/55">
                 One set of fields powers the work grid card and the project page hero: title, year, image, location,
@@ -346,7 +346,7 @@ export function AdminWorkFormPage({
                     setRow((r) => ({ ...r, slug: e.target.value }))
                   }}
                   placeholder="my-project-slug"
-                  className="border-white/15 bg-black/30 text-white"
+                  className="border-white/15 bg-background/30 text-white"
                   required
                 />
                 <p className="text-xs text-white/45">
@@ -364,7 +364,7 @@ export function AdminWorkFormPage({
                 <Input
                   value={row.title}
                   onChange={(e) => setRow((r) => ({ ...r, title: e.target.value }))}
-                  className="border-white/15 bg-black/30 text-white"
+                  className="border-white/15 bg-background/30 text-white"
                   required
                 />
                 <p className="text-xs text-white/45">Same text for the grid card and the project page hero headline.</p>
@@ -381,7 +381,7 @@ export function AdminWorkFormPage({
                     onChange={(e) =>
                       setRow((r) => ({ ...r, year: e.target.value.replace(/[^0-9]/g, '') }))
                     }
-                    className="border-white/15 bg-black/30 text-white"
+                    className="border-white/15 bg-background/30 text-white"
                   />
                 </div>
                 <div className="space-y-2">
@@ -389,7 +389,7 @@ export function AdminWorkFormPage({
                   <Input
                     value={row.location}
                     onChange={(e) => setRow((r) => ({ ...r, location: e.target.value }))}
-                    className="border-white/15 bg-black/30 text-white"
+                    className="border-white/15 bg-background/30 text-white"
                   />
                 </div>
               </div>
@@ -399,7 +399,7 @@ export function AdminWorkFormPage({
                   value={row.category}
                   onChange={(e) => setRow((r) => ({ ...r, category: e.target.value }))}
                   placeholder="e.g. Residential, Visualization"
-                  className="border-white/15 bg-black/30 text-white"
+                  className="border-white/15 bg-background/30 text-white"
                 />
                 <p className="text-xs text-white/45">
                   Add categories separated by commas (example: Residential, Visualization).
@@ -462,7 +462,7 @@ export function AdminWorkFormPage({
           </TabsContent>
 
           <TabsContent value="body" className="mt-0 space-y-6 pt-1 focus-visible:outline-none">
-            <div className="rounded-lg border border-white/10 bg-black/20 px-4 py-3 sm:px-5">
+            <div className="rounded-lg border border-white/10 bg-background/20 px-4 py-3 sm:px-5">
               <p className="text-sm font-medium text-white">Below the meta bar</p>
               <p className="mt-1 text-sm text-white/55">
                 Stack paragraphs and images in order. Title, hero, tags, year, and location are set under Project.

@@ -81,7 +81,7 @@ function InsightHeroMobile(props: InsightDetailHeroProps) {
             </div>
           )}
         </div>
-        <div className="bg-page-grid px-5 py-5 sm:px-6 sm:py-6">
+        <div className="bg-background px-5 py-5 sm:px-6 sm:py-6">
           <time dateTime={dateIso} className="text-xs text-muted-foreground sm:text-sm">
             {date}
           </time>
@@ -137,7 +137,7 @@ function DesktopHeroPanel({ title, date, dateIso }: Pick<InsightDetailHeroProps,
         'lg:left-40 lg:w-[min(100%,32rem)] lg:max-w-[min(32rem,46%)] xl:left-44 xl:max-w-[min(34rem,44%)]',
         '2xl:left-48 2xl:max-w-[min(38rem,46%)] 3xl:left-52 3xl:max-w-[min(40rem,44%)] 4xl:left-56',
         radiusPanel,
-        'bg-page-grid py-5 pl-3 pr-7 sm:py-5 sm:pl-4 sm:pr-8',
+        'bg-background py-5 pl-3 pr-7 sm:py-5 sm:pl-4 sm:pr-8',
         'lg:py-6 lg:pl-5 lg:pr-9 xl:py-6 xl:pr-10 2xl:py-7 2xl:pr-11',
       )}
     >

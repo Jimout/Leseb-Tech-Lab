@@ -1,6 +1,24 @@
 import { Layers, ShieldCheck, Users, Workflow } from 'lucide-react'
 
-import { landingPageContentMaxClass, landingPageGutterClass } from '@/lib/landing-page-layout'
+import {
+  landingPageContentMaxClass,
+  landingPageGutterClass,
+  landingSectionYClass,
+} from '@/lib/landing-page-layout'
+import {
+  landingSectionHeaderAsideClass,
+  landingSectionHeaderGridClass,
+  landingSectionHeaderLeadClass,
+  landingSectionIntroClass,
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+  landingPillarBodyClass,
+  landingPillarCardClass,
+  landingPillarGridClass,
+  landingPillarTitleClass,
+  landingSectionTitleAccentClass,
+  landingSectionTitleClass,
+} from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
 const steps = [
@@ -42,34 +60,37 @@ export function ApproachSection() {
     >
       <div
         className={cn(
-          'relative mx-auto min-w-0 py-16 md:py-24 lg:py-28 xl:py-32',
+          'relative mx-auto min-w-0',
+          landingSectionYClass,
           landingPageContentMaxClass,
         )}
       >
-        <div className="mb-10 grid gap-10 md:mb-12 md:grid-cols-12 md:gap-12 lg:mb-14">
-          <div className="min-w-0 md:col-span-5">
-            <div className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-signal">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden /> Our Unique Approach
+        <div className={landingSectionHeaderGridClass}>
+          <div className={landingSectionHeaderLeadClass}>
+            <div className={cn('mb-4', landingSectionKickerClass)}>
+              <span className={landingSectionKickerDotClass} aria-hidden /> Our Unique Approach
             </div>
-            <h2 className="font-display text-balance text-4xl leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">
-              Different by <span className="font-light italic text-signal">design.</span>
+            <h2 className={landingSectionTitleClass}>
+              Different by <span className={landingSectionTitleAccentClass}>design.</span>
             </h2>
           </div>
-          <div className="flex min-w-0 items-end md:col-span-6 md:col-start-7">
-            <p className="text-balance text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <div className={landingSectionHeaderAsideClass}>
+            <p className={landingSectionIntroClass}>
               Most labs optimize for output. We optimize for outcome, slower starts, deeper roots, and software that
               still makes sense five years from now.
             </p>
           </div>
         </div>
 
-        <ol className="grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
+        <ol className={landingPillarGridClass}>
           {steps.map(({ n, icon: Icon, title, body }) => (
-            <li
-              key={n}
-              className="group relative isolate flex min-h-[240px] flex-col justify-between overflow-hidden bg-background p-7 sm:min-h-[260px] sm:p-8 md:p-10"
-            >
-              <div className="pointer-events-none absolute inset-0 -z-10 translate-y-full gradient-signal transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-0 motion-reduce:transition-none motion-reduce:group-hover:translate-y-full" />
+            <li key={n} className={landingPillarCardClass}>
+              <div className="pointer-events-none absolute inset-0 -z-10">
+                <div className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+                <div className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+                <div className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+                <div className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              </div>
 
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs tracking-[0.25em] text-muted-foreground transition-colors duration-500 group-hover:text-foreground/70">
@@ -82,12 +103,8 @@ export function ApproachSection() {
                 />
               </div>
               <div className="transition-transform duration-500 group-hover:-translate-y-1 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
-                <h3 className="mb-3 font-display text-2xl tracking-tight transition-colors duration-500 group-hover:text-foreground">
-                  {title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground transition-colors duration-500 group-hover:text-foreground/85">
-                  {body}
-                </p>
+                <h3 className={landingPillarTitleClass}>{title}</h3>
+                <p className={landingPillarBodyClass}>{body}</p>
               </div>
             </li>
           ))}
@@ -96,3 +113,4 @@ export function ApproachSection() {
     </section>
   )
 }
+

@@ -21,7 +21,7 @@ export default function RouteError({
   return (
     <>
       <SiteNavbar logoHref="/" />
-      <main className="min-h-dvh scroll-mt-24 bg-page-grid text-foreground">
+      <main className="min-h-dvh scroll-mt-24 bg-background text-foreground">
         <Container className="py-20 sm:py-28">
           <article className="mx-auto max-w-xl text-center">
             <p className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">Error</p>

@@ -74,7 +74,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <header
             className={cn(
               'sticky top-0 z-30 -mx-6 mb-6 flex items-center gap-3 border-b border-white/10',
-              'bg-[#0a0a0b]/90 px-4 py-3 backdrop-blur-md sm:-mx-8 sm:px-5',
+              'bg-background/90 px-4 py-3 backdrop-blur-md sm:-mx-8 sm:px-5',
               'lg:hidden',
             )}
           >

@@ -121,7 +121,7 @@ function HeroTitleCard(props: Pick<WorkDetailHeroProps, 'year' | 'location' | 'p
     >
       <div
         className={cn(
-          'relative block w-full min-w-0 bg-page-grid',
+          'relative block w-full min-w-0 bg-background',
           titleCardRadius,
           'px-4 pb-4 pt-5 sm:px-6 sm:pb-5 sm:pt-6 lg:px-10 lg:pb-5 lg:pt-0',
         )}
@@ -187,7 +187,7 @@ export function WorkDetailHero(props: WorkDetailHeroProps) {
               pageTitleLines={props.pageTitleLines}
             />
           </div>
-          <div className="absolute -right-px top-0 z-20 rounded-bl-3xl bg-page-grid pl-3 pb-3 pr-2 lg:hidden">
+          <div className="absolute -right-px top-0 z-20 rounded-bl-3xl bg-background pl-3 pb-3 pr-2 lg:hidden">
             <CornerConnector className="text-background absolute -top-px left-px -translate-x-full" />
             <CornerConnector className="text-background absolute bottom-px right-0 translate-y-full" />
             <TagsRow tags={props.tags} className="max-w-64 -mb-2 -mr-1.5" />

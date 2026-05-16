@@ -47,10 +47,9 @@ export default function NotFound() {
         }}
       />
       <SiteNavbar logoHref="/" />
-      <main className="min-h-dvh scroll-mt-24 bg-page-grid text-foreground">
-        <div className="pointer-events-none absolute inset-0 bg-grid-lines-overlay opacity-45" aria-hidden />
+      <main className="min-h-dvh scroll-mt-24 bg-background text-foreground">
         <Container className="relative py-16 sm:py-20 lg:py-24">
-          <article className="mx-auto grid max-w-5xl gap-12 border border-white/10 bg-black/15 px-6 py-10 backdrop-blur-[2px] sm:px-10 sm:py-12 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-16 lg:px-14 lg:py-16">
+          <article className="mx-auto grid max-w-5xl gap-12 border border-white/10 bg-background/15 px-6 py-10 backdrop-blur-[2px] sm:px-10 sm:py-12 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-16 lg:px-14 lg:py-16">
             <div className="min-w-0">
               <Link
                 href="/"

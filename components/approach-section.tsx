@@ -3,7 +3,6 @@ import { Layers, ShieldCheck, Users, Workflow } from 'lucide-react'
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
-  landingSectionYClass,
 } from '@/lib/landing-page-layout'
 import {
   landingSectionHeaderAsideClass,
@@ -59,11 +58,7 @@ export function ApproachSection() {
       )}
     >
       <div
-        className={cn(
-          'relative mx-auto min-w-0',
-          landingSectionYClass,
-          landingPageContentMaxClass,
-        )}
+        className={cn('relative mx-auto min-w-0', landingPageContentMaxClass)}
       >
         <div className={landingSectionHeaderGridClass}>
           <div className={landingSectionHeaderLeadClass}>

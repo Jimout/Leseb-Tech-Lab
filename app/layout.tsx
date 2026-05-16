@@ -8,7 +8,7 @@ import { WebVitalsReporter } from '@/components/web-vitals-reporter'
 import './globals.css'
 import { buildDefaultOpenGraph, buildDefaultTwitter, rootAuthorMetadata } from '@/lib/seo/metadata'
 import { getSiteUrl, siteSeoConfig } from '@/lib/seo/site-config'
-import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import { getSiteSettingsFromDb } from '@/lib/site-settings-db'
 
 
@@ -21,16 +21,16 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: SITE_BRAND_NAME,
-    template: `%s | ${SITE_BRAND_NAME}`,
+    default: SITE_BRAND_FULL_NAME,
+    template: `%s | ${SITE_BRAND_FULL_NAME}`,
   },
   description: siteSeoConfig.defaultDescription,
   keywords: [...siteSeoConfig.keywords],
   authors: rootAuthorMetadata,
   creator: siteSeoConfig.personName,
   publisher: siteSeoConfig.personName,
-  applicationName: SITE_BRAND_NAME,
-  category: 'design',
+  applicationName: SITE_BRAND_FULL_NAME,
+  category: 'technology',
   icons: {
     icon: [{ url: '/Leseb-logo.png', type: 'image/png' }],
     shortcut: '/Leseb-logo.png',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   twitter: buildDefaultTwitter(),
   appleWebApp: {
     capable: true,
-    title: SITE_BRAND_NAME,
+    title: SITE_BRAND_FULL_NAME,
     statusBarStyle: 'black-translucent',
   },
   formatDetection: {

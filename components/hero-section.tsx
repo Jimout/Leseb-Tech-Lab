@@ -8,7 +8,6 @@ import {
   landingHeroPadTopClass,
   landingPageGutterClass,
   landingSectionInnerClass,
-  landingSectionPadBottomClass,
 } from '@/lib/landing-page-layout'
 import {
   landingHeroAsideKickerClass,
@@ -42,7 +41,7 @@ export function HeroSection() {
         className={cn(
           landingSectionInnerClass,
           landingHeroPadTopClass,
-          landingSectionPadBottomClass,
+          'pb-0',
         )}
       >
         {/* Hero video — temporarily disabled

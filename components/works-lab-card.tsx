@@ -5,11 +5,20 @@ import { ArrowUpRight } from 'lucide-react'
 import { MediaRenderer } from '@/components/media-renderer'
 import type { MediaAsset } from '@/lib/media-assets'
 import {
-  landingCardDescClass,
-  landingCardTagClass,
-  landingCardTitleClass,
   landingEmptyCoverClass,
-  landingMediaMetaClass,
+  landingPanelEaseClass,
+  workLabCardBodyClass,
+  workLabCardCtaClass,
+  workLabCardFooterClass,
+  workLabCardHeaderClass,
+  workLabCardLandingBodyClass,
+  workLabCardLandingMediaClass,
+  workLabCardLocationClass,
+  workLabCardMediaClass,
+  workLabCardShellClass,
+  workLabCardTagClass,
+  workLabCardTitleClass,
+  workLabCardYearClass,
 } from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
@@ -22,8 +31,16 @@ export type WorksLabCardProps = {
   imgSrc?: string
   heroMedia?: MediaAsset | null
   priority?: boolean
+  layout?: 'landing' | 'catalog'
   className?: string
 }
+
+const workLabCardMediaImageClass = cn(
+  'absolute inset-0 size-full object-cover object-center',
+  'transition-transform duration-500 motion-reduce:transition-none',
+  'group-hover:scale-[1.03] motion-reduce:group-hover:scale-100',
+  landingPanelEaseClass,
+)
 
 export function WorksLabCard({
   title,
@@ -34,58 +51,77 @@ export function WorksLabCard({
   imgSrc,
   heroMedia,
   priority = false,
+  layout = 'catalog',
   className,
 }: WorksLabCardProps) {
   const hasMedia = Boolean(heroMedia?.url?.trim() || imgSrc?.trim())
+  const location = desc.trim()
+  const yearLabel = year.trim()
+  const isLanding = layout === 'landing'
+  const mediaClass = isLanding ? workLabCardLandingMediaClass : workLabCardMediaClass
+  const bodyClass = isLanding ? workLabCardLandingBodyClass : workLabCardBodyClass
+  const imageSizes = isLanding
+    ? '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+    : '(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 22rem'
 
   return (
     <Link
       href={href}
-      className={cn(
-        'group relative block overflow-hidden rounded-3xl bg-box aspect-2/1 md:aspect-video',
-        className,
-      )}
+      className={cn(workLabCardShellClass, className)}
+      aria-label={location ? `${title}, ${location}` : title}
     >
-      {hasMedia ? (
-        heroMedia?.url?.trim() ? (
+      <div className={mediaClass}>
+        {!hasMedia ? (
+          <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
+            <span className={landingEmptyCoverClass}>No cover</span>
+          </div>
+        ) : heroMedia?.url?.trim() ? (
           <MediaRenderer
             media={heroMedia}
-            className="absolute inset-0 size-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90"
-            sizes="(min-width: 768px) 50vw, 100vw"
+            className={workLabCardMediaImageClass}
+            sizes={imageSizes}
             controls={false}
             autoplay={false}
           />
         ) : (
           <Image
             src={imgSrc!}
-            alt={title}
+            alt=""
             fill
-            sizes="(min-width: 768px) 50vw, 100vw"
+            sizes={imageSizes}
             priority={priority}
-            className="object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90"
+            className={workLabCardMediaImageClass}
           />
-        )
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center bg-box" aria-hidden>
-          <span className={landingEmptyCoverClass}>No cover</span>
-        </div>
-      )}
-
-      <div className="absolute inset-0 bg-linear-to-t from-background/80 via-background/25 to-transparent" />
-
-      <div className={cn('absolute top-6 right-6 left-6 flex items-center justify-between', landingMediaMetaClass)}>
-        <span className={landingCardTagClass}>
-          {tag}
-        </span>
-        <span>{year}</span>
+        )}
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 p-7 md:p-9">
-        <h3 className={landingCardTitleClass}>
+      <div className={bodyClass}>
+        <div className={workLabCardHeaderClass}>
+          <p className={workLabCardTagClass}>{tag}</p>
+          {yearLabel ? <p className={workLabCardYearClass}>{yearLabel}</p> : null}
+        </div>
+
+        <h3 className={workLabCardTitleClass} title={title}>
           {title}
-          <ArrowUpRight className="size-6 text-signal transition-transform group-hover:rotate-45" />
         </h3>
-        <p className={landingCardDescClass}>{desc}</p>
+
+        <div className={workLabCardFooterClass}>
+          {location ? (
+            <p className={workLabCardLocationClass} title={location}>
+              {location}
+            </p>
+          ) : (
+            <span className="min-w-0 flex-1" aria-hidden />
+          )}
+          <span className={workLabCardCtaClass}>
+            View
+            <ArrowUpRight
+              strokeWidth={2}
+              className="size-2.5 text-signal transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100"
+              aria-hidden
+            />
+          </span>
+        </div>
       </div>
     </Link>
   )
@@ -98,5 +134,3 @@ export function worksLabPrimaryTag(category: string): string {
     .find(Boolean)
   return first ?? category
 }
-
-

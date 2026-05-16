@@ -33,7 +33,13 @@ export const landingHeroPadTopClass = cn(
   '2xl:pt-48 3xl:pt-52 4xl:pt-56',
 )
 
-/** Uniform vertical padding between home page bands. */
+/** Equal space between home page sections (use on `main`; do not pair with per-section `py`). */
+export const landingHomeStackGapClass = cn(
+  'flex flex-col gap-16 md:gap-20 lg:gap-24 xl:gap-28',
+  '2xl:gap-32 3xl:gap-36 4xl:gap-40',
+)
+
+/** Uniform vertical padding inside a band (contact, insight related, etc.). */
 export const landingSectionYClass = cn(
   'pt-10 pb-10 md:pt-12 md:pb-12 lg:pt-14 lg:pb-14 xl:pt-16 xl:pb-16',
   '2xl:pt-20 2xl:pb-20 3xl:pt-24 3xl:pb-24 4xl:pt-28 4xl:pb-28',

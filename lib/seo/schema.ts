@@ -1,17 +1,17 @@
-import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 
 import { absoluteUrl, getSiteUrl, siteSeoConfig } from './site-config'
 
 export type BreadcrumbItem = { name: string; path: string }
 
-/** https://schema.org/Person */
-export function personJsonLd() {
+/** https://schema.org/Organization */
+export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: siteSeoConfig.personName,
-    alternateName: siteSeoConfig.handle,
-    jobTitle: siteSeoConfig.jobTitle,
+    '@type': 'Organization',
+    name: SITE_BRAND_FULL_NAME,
+    alternateName: [siteSeoConfig.handle, 'Leseb'],
+    description: siteSeoConfig.defaultDescription,
     url: getSiteUrl(),
     sameAs: [...siteSeoConfig.sameAs],
   }
@@ -22,13 +22,13 @@ export function websiteJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: SITE_BRAND_NAME,
+    name: SITE_BRAND_FULL_NAME,
     url: getSiteUrl(),
     description: siteSeoConfig.defaultDescription,
     inLanguage: 'en',
     publisher: {
-      '@type': 'Person',
-      name: siteSeoConfig.personName,
+      '@type': 'Organization',
+      name: SITE_BRAND_FULL_NAME,
       url: getSiteUrl(),
     },
   }
@@ -120,40 +120,38 @@ export function creativeWorkJsonLd(opts: {
  */
 export function siteGraphJsonLd() {
   const base = getSiteUrl().replace(/\/$/, '')
-  const personId = `${base}/#identity`
-  const websiteId = `${base}/#website`
   const orgId = `${base}/#organization`
+  const websiteId = `${base}/#website`
 
   return {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Person',
-        '@id': personId,
-        name: siteSeoConfig.personName,
-        alternateName: siteSeoConfig.handle,
-        jobTitle: siteSeoConfig.jobTitle,
+        '@type': 'Organization',
+        '@id': orgId,
+        name: SITE_BRAND_FULL_NAME,
+        alternateName: [siteSeoConfig.handle, 'Leseb'],
         url: base,
+        description: siteSeoConfig.defaultDescription,
         sameAs: [...siteSeoConfig.sameAs],
       },
       {
         '@type': 'WebSite',
         '@id': websiteId,
-        name: SITE_BRAND_NAME,
+        name: SITE_BRAND_FULL_NAME,
         url: base,
         description: siteSeoConfig.defaultDescription,
         inLanguage: 'en',
         publisher: { '@id': orgId },
-        author: { '@id': personId },
       },
       {
         '@type': 'ProfessionalService',
-        '@id': orgId,
-        name: SITE_BRAND_NAME,
+        '@id': `${base}/#service`,
+        name: SITE_BRAND_FULL_NAME,
         alternateName: siteSeoConfig.handle,
         url: base,
         description: siteSeoConfig.defaultDescription,
-        founder: { '@id': personId },
+        provider: { '@id': orgId },
         areaServed: [
           { '@type': 'Country', name: 'Ethiopia' },
           { '@type': 'Place', name: 'Addis Ababa' },

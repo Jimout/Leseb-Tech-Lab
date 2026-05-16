@@ -1,6 +1,6 @@
 /**
  * Central site URL and identity for canonical URLs, sitemap, robots, and Open Graph.
- * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://leseb.com).
+ * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://your-app.vercel.app).
  */
 export function getSiteUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim()
@@ -17,31 +17,28 @@ export function absoluteUrl(path: string): string {
 }
 
 export const siteSeoConfig = {
-  /** Short primary name for structured data and OG titles */
+  /** Legal / schema name */
   personName: 'Leseb Tech Lab',
-  /** Social / brand handle (no @ in Person sameAs; use full URLs) */
+  /** Default share title (og:title, twitter:title on home) */
+  ogTitle: 'Leseb Tech Lab',
+  /** Social / brand handle (no @ in sameAs) */
   handle: 'leseb',
+  tagline: 'Technology built for humans',
   jobTitle: 'Technology Lab',
   defaultDescription:
-    'Leseb Tech Lab builds technology for humans. Work, insights, and experiments designed with care.',
+    'Leseb Tech Lab builds software, AI, and product experiences for humans — work, insights, and experiments from Addis Ababa and beyond.',
   keywords: [
     'Leseb',
     'Leseb Tech Lab',
-    'architect',
-    'architecture',
-    'architectural visualization',
-    'interior design',
-    'landscape architecture',
-    'BIM',
-    'CAD',
-    'portfolio',
+    'technology lab',
+    'software',
+    'artificial intelligence',
+    'product design',
+    'human-centered technology',
     'Addis Ababa',
     'Ethiopia',
   ],
   twitterHandle: '@leseb',
   locale: 'en_US',
-  /** SameAs — add real profiles when available */
-  sameAs: [
-    'https://www.instagram.com/leseb',
-  ] as const,
+  sameAs: ['https://www.instagram.com/leseb'] as const,
 } as const

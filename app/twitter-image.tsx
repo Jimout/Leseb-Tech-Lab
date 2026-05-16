@@ -1,10 +1,10 @@
 import { ImageResponse } from 'next/og'
 
-import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import { siteSeoConfig } from '@/lib/seo/site-config'
 
-/** Default Twitter / X card — matches `/opengraph-image` branding site-wide. */
-export const alt = SITE_BRAND_NAME
+/** Default Twitter / X card - matches opengraph-image branding site-wide. */
+export const alt = SITE_BRAND_FULL_NAME
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -21,40 +21,44 @@ export default function Image() {
           justifyContent: 'center',
           background: 'linear-gradient(145deg, #1f1d1b 0%, #302e2b 50%, #1f1d1b 100%)',
           fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+          padding: '0 64px',
         }}
       >
         <div
           style={{
-            fontSize: 28,
+            fontSize: 22,
             fontWeight: 600,
-            letterSpacing: '0.02em',
-            color: '#facc15',
-            marginBottom: 16,
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            color: '#dfe222',
+            marginBottom: 20,
           }}
         >
-          {siteSeoConfig.handle}
+          {siteSeoConfig.tagline}
         </div>
         <div
           style={{
-            fontSize: 56,
+            fontSize: 64,
             fontWeight: 700,
             color: '#fafafa',
             textAlign: 'center',
-            lineHeight: 1.15,
-            maxWidth: 900,
-            padding: '0 48px',
+            lineHeight: 1.1,
+            maxWidth: 960,
           }}
         >
-          {SITE_BRAND_NAME}
+          {SITE_BRAND_FULL_NAME}
         </div>
         <div
           style={{
             marginTop: 28,
-            fontSize: 26,
-            color: 'rgba(250,250,250,0.72)',
+            fontSize: 24,
+            lineHeight: 1.4,
+            color: 'rgba(250,250,250,0.75)',
+            textAlign: 'center',
+            maxWidth: 820,
           }}
         >
-          {siteSeoConfig.jobTitle}
+          {siteSeoConfig.defaultDescription}
         </div>
       </div>
     ),

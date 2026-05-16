@@ -17,7 +17,6 @@ import { SHOWCASE_INSIGHTS } from '@/lib/insights-showcase-data'
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
-  landingSectionYClass,
   landingStripBleedClass,
 } from '@/lib/landing-page-layout'
 import {
@@ -47,7 +46,7 @@ export function LandingInsightsSection() {
     <section
       id="insights"
       data-nav-surface="dark"
-      className={cn('scroll-mt-24', landingBandClass, landingSectionYClass, landingPageGutterClass)}
+      className={cn('scroll-mt-24 py-0', landingBandClass, landingPageGutterClass)}
     >
       <div className={cn('mx-auto min-w-0', landingPageContentMaxClass)}>
         <div className={landingSectionHeaderSplitClass}>

@@ -3,7 +3,6 @@ import Link from 'next/link'
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
-  landingSectionYClass,
 } from '@/lib/landing-page-layout'
 import {
   landingSectionHeaderAsideClass,
@@ -33,11 +32,7 @@ export function LabSection() {
       )}
     >
       <div
-        className={cn(
-          'relative mx-auto min-w-0',
-          landingSectionYClass,
-          landingPageContentMaxClass,
-        )}
+        className={cn('relative mx-auto min-w-0', landingPageContentMaxClass)}
       >
         <div className={landingSectionHeaderGridClass}>
           <div className={landingSectionHeaderLeadClass}>

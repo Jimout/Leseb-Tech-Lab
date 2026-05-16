@@ -13,11 +13,12 @@ import { FooterSection } from '@/components/footer-section'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 import { siteSeoConfig } from '@/lib/seo/site-config'
-import { landingSectionPadTopClass } from '@/lib/landing-page-layout'
-import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { landingHomeStackGapClass } from '@/lib/landing-page-layout'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
+import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = buildPageMetadata({
-  title: SITE_BRAND_NAME,
+  title: SITE_BRAND_FULL_NAME,
   description: siteSeoConfig.defaultDescription,
   path: '/',
   absoluteTitle: true,
@@ -30,18 +31,19 @@ export default function Home() {
       <SiteNavbar />
       <main
         id="home"
-        className="home-page-stack min-h-dvh min-w-0 scroll-mt-24 overflow-x-clip bg-background text-foreground"
+        className={cn(
+          'min-h-dvh min-w-0 scroll-mt-24 overflow-x-clip bg-background text-foreground',
+          landingHomeStackGapClass,
+        )}
       >
         <HeroSection />
         <Marquee />
         <Manifesto />
         <LabSection />
-        <div className="flex min-h-0 w-full min-w-0 flex-col gap-0">
-          <WorksSection />
-          <ApproachSection />
-          <LandingInsightsSection />
-          <FooterSection className={landingSectionPadTopClass} />
-        </div>
+        <WorksSection />
+        <ApproachSection />
+        <LandingInsightsSection />
+        <FooterSection className="pt-0" />
       </main>
       <Toaster />
     </>

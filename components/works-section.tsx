@@ -3,7 +3,6 @@ import { WorksLabShowcaseGrid, type WorksLabGridItem } from '@/components/works-
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
-  landingSectionYClass,
 } from '@/lib/landing-page-layout'
 import {
   landingBandClass,
@@ -45,16 +44,6 @@ const projects: WorksLabGridItem[] = [
     year: '2026',
     href: '/work',
   },
-  {
-    id: 'harbor',
-    title: 'Harbor',
-    tag: 'Infrastructure',
-    desc: 'Reliable pipelines and observability for products that cannot go dark.',
-    imgSrc:
-      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80',
-    year: '2026',
-    href: '/work',
-  },
 ]
 
 export function WorksSection() {
@@ -64,7 +53,7 @@ export function WorksSection() {
       data-nav-surface="dark"
       className={cn('relative min-w-0 overflow-x-clip py-0', landingBandClass, landingPageGutterClass)}
     >
-      <div className={cn('mx-auto min-w-0', landingSectionYClass, landingPageContentMaxClass)}>
+      <div className={cn('mx-auto min-w-0', landingPageContentMaxClass)}>
         <div className={landingSectionHeaderSplitClass}>
           <div>
             <div className={cn('mb-4', landingSectionKickerClass)}>
@@ -79,7 +68,7 @@ export function WorksSection() {
           </div>
         </div>
 
-        <WorksLabShowcaseGrid items={projects} />
+        <WorksLabShowcaseGrid items={projects} layout="landing" />
       </div>
     </section>
   )

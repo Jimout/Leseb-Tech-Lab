@@ -4,7 +4,6 @@ import humanAi from '@/assets/human-ai.jpg'
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
-  landingSectionYClass,
 } from '@/lib/landing-page-layout'
 import {
   landingBandClass,
@@ -28,7 +27,7 @@ export const Manifesto = () => (
     className={cn('relative min-w-0 overflow-x-clip py-0', landingBandClass, landingPageGutterClass)}
   >
     <div
-      className={cn(landingManifestoGridClass, landingSectionYClass, landingPageContentMaxClass)}
+      className={cn(landingManifestoGridClass, landingPageContentMaxClass)}
     >
       <div className={landingManifestoAsideClass}>
         <div className="md:sticky md:top-32">

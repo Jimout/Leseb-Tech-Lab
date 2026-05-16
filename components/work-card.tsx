@@ -40,7 +40,7 @@ function WorkCardBody({
         </span>
         {location}
       </p>
-      <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl md:text-[1.75rem] md:leading-tight 2xl:text-[2rem] 3xl:text-[2.25rem] 4xl:text-[2.5rem]">
+      <h3 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl md:text-2xl md:leading-tight 2xl:text-[1.75rem] 3xl:text-2xl 4xl:text-[2.25rem]">
         {title}
       </h3>
       <p className={cn('text-sm font-light sm:text-[15px]', sectionKickerAccentClass)}>{category}</p>

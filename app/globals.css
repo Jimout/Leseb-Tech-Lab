@@ -350,51 +350,6 @@
     }
   }
 
-  /**
-   * Home landing: vertical rhythm between major bands.
-   * Matches hero `pb-*` + marquee `pt-*` so every seam uses the same spacing.
-   */
-  .home-page-stack {
-    display: flex;
-    flex-direction: column;
-    gap: -2rem; /* overlapping gap */
-  }
-  @media (min-width: 640px) {
-    .home-page-stack {
-      gap: -2rem; /* overlapping gap */
-    }
-  }
-  @media (min-width: 768px) {
-    .home-page-stack {
-      gap: -2rem; /* overlapping gap */
-    }
-  }
-  @media (min-width: 1024px) {
-    .home-page-stack {
-      gap: -2rem; /* overlapping gap */
-    }
-  }
-  @media (min-width: 1280px) {
-    .home-page-stack {
-      gap: -2rem; /* overlapping gap */
-    }
-  }
-  @media (min-width: 1536px) {
-    .home-page-stack {
-      gap: -2rem; /* overlapping gap */
-    }
-  }
-  @media (min-width: 1920px) {
-    .home-page-stack {
-      gap: -2rem; /* overlapping gap */
-    }
-  }
-  @media (min-width: 2560px) {
-    .home-page-stack {
-      gap: -2rem; /* overlapping gap */
-    }
-  }
-
   /** Resource grids: pull column neighbors together (gap-x-0 still leaves card padding; this overlaps slightly). */
   @media (min-width: 640px) {
     .resource-grid-col-tight > article:nth-child(odd) {

@@ -109,6 +109,30 @@ export const landingHeroBodyClass = cn(
 export const landingHeroAsideKickerClass =
   'mb-2 font-mono text-xs uppercase tracking-[0.25em] text-signal'
 
+/** Home language ticker (below hero). */
+export const landingMarqueeBandClass =
+  'relative overflow-hidden border-t border-border/80 bg-background py-4 md:py-5'
+
+export const landingMarqueeFadeClass =
+  'pointer-events-none absolute inset-y-0 z-10 w-16 bg-linear-to-r from-background to-transparent sm:w-28'
+
+export const landingMarqueeFadeRightClass = cn(landingMarqueeFadeClass, 'right-0 bg-linear-to-l')
+
+export const landingMarqueeTrackClass = cn(
+  'marquee flex w-max shrink-0 items-center',
+  'font-mono text-xs uppercase tracking-[0.24em] sm:text-sm sm:tracking-[0.26em] md:text-base md:tracking-[0.28em]',
+)
+
+export const landingMarqueeUnitClass = 'inline-flex shrink-0 items-center gap-8 md:gap-10'
+
+export const landingMarqueeWordMutedClass = 'text-muted-foreground'
+
+export const landingMarqueeWordMidClass = 'text-foreground/80'
+
+export const landingMarqueeWordAccentClass = 'text-signal'
+
+export const landingMarqueeSepClass = 'select-none text-foreground/35'
+
 /** Media / project cards (landing works + work index). */
 export const landingMediaMetaClass =
   'font-mono text-[10px] tracking-[0.25em] text-foreground/80 uppercase'
@@ -118,13 +142,78 @@ export const landingCardTagClass = cn(
 )
 
 export const landingCardTitleClass = cn(
-  'font-display mb-3 flex flex-wrap items-center gap-2 text-3xl font-semibold tracking-tight sm:gap-3 md:text-5xl lg:text-6xl',
-  '2xl:text-7xl 3xl:text-8xl 4xl:text-9xl',
+  'font-display mb-3 flex flex-wrap items-center gap-2 text-2xl font-semibold tracking-tight sm:gap-3 sm:text-3xl md:text-4xl lg:text-5xl',
+  '2xl:text-5xl 3xl:text-6xl 4xl:text-7xl',
 )
 
 export const landingCardDescClass = cn(
   'max-w-md text-balance text-foreground/70',
   '2xl:text-lg 3xl:text-xl 4xl:text-xl',
+)
+
+/** Work index / lab — boxed project cards (system surfaces; not insight overlay cards). */
+export const workLabCardShellClass = cn(
+  'group relative flex min-h-0 flex-col overflow-hidden rounded-xl border border-border bg-box',
+  'text-left outline-none transition-[border-color,background-color,box-shadow] duration-500',
+  'hover:border-foreground/20 hover:bg-card-hover hover:shadow-[0_14px_32px_-24px_rgba(0,0,0,0.4)]',
+  'focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+)
+
+export const workLabCardMediaClass = cn(
+  'relative aspect-[2/1] w-full shrink-0 overflow-hidden bg-image-well',
+)
+
+/** Taller media block for landing single-row cards. */
+export const workLabCardLandingMediaClass = cn(
+  'relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-image-well',
+)
+
+export const workLabCardBodyClass = cn(
+  'flex min-w-0 flex-1 flex-col gap-1.5 border-t border-border px-3 py-2.5 sm:px-3.5 sm:py-3',
+)
+
+export const workLabCardLandingBodyClass = cn(
+  'flex min-w-0 flex-1 flex-col gap-2 border-t border-border px-3 py-3 sm:px-3.5 sm:py-3.5',
+)
+
+export const workLabCardHeaderClass = cn('flex items-center justify-between gap-2')
+
+export const workLabCardTagClass = cn(
+  landingMediaMetaClass,
+  'min-w-0 truncate text-[9px] tracking-[0.22em] text-foreground/65',
+)
+
+export const workLabCardYearClass = cn(
+  'shrink-0 font-mono text-[9px] tabular-nums tracking-[0.18em] text-foreground/55 uppercase',
+)
+
+export const workLabCardTitleClass = cn(
+  'font-display text-pretty text-base font-semibold leading-[1.15] tracking-tight text-foreground',
+  'line-clamp-2 transition-colors duration-500 group-hover:text-signal sm:text-[1.05rem]',
+)
+
+export const workLabCardFooterClass = cn(
+  'mt-auto flex items-center justify-between gap-2 border-t border-border/70 pt-1.5',
+)
+
+export const workLabCardLocationClass = cn(
+  'min-w-0 truncate text-[11px] leading-snug text-muted-foreground',
+)
+
+export const workLabCardCtaClass = cn(
+  'inline-flex shrink-0 items-center gap-0.5 rounded-full border border-foreground/20 bg-transparent',
+  'px-2 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-foreground/85 transition-colors duration-500',
+  'sm:text-[9px] group-hover:border-signal/45 group-hover:text-signal',
+)
+
+/** Landing “In the Lab” — one row of three on large screens. */
+export const workLabCardLandingGridClass = cn(
+  'grid list-none grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5 xl:gap-6',
+)
+
+/** Work index — catalog grid. */
+export const workLabCardGridClass = cn(
+  'grid list-none grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5 xl:gap-6',
 )
 
 export const landingEmptyCoverClass = 'text-xs font-medium text-muted-foreground'

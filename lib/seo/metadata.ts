@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 
 import { absoluteUrl, getSiteUrl, siteSeoConfig } from './site-config'
 
@@ -19,15 +19,15 @@ export function buildDefaultOpenGraph(): NonNullable<Metadata['openGraph']> {
     type: 'website',
     locale: siteSeoConfig.locale,
     url,
-    siteName: SITE_BRAND_NAME,
-    title: SITE_BRAND_NAME,
+    siteName: SITE_BRAND_FULL_NAME,
+    title: siteSeoConfig.ogTitle,
     description: siteSeoConfig.defaultDescription,
     images: [
       {
         url: defaultOgImagePath,
         width: 1200,
         height: 630,
-        alt: SITE_BRAND_NAME,
+        alt: SITE_BRAND_FULL_NAME,
       },
     ],
   }
@@ -36,8 +36,9 @@ export function buildDefaultOpenGraph(): NonNullable<Metadata['openGraph']> {
 export function buildDefaultTwitter(): NonNullable<Metadata['twitter']> {
   return {
     card: 'summary_large_image',
-    title: SITE_BRAND_NAME,
+    title: siteSeoConfig.ogTitle,
     description: siteSeoConfig.defaultDescription,
+    site: SITE_BRAND_FULL_NAME,
     creator: siteSeoConfig.twitterHandle,
     images: [defaultOgImagePath],
   }
@@ -82,7 +83,7 @@ export function buildPageMetadata(input: PageSeoInput): Metadata {
     url: canonical,
     title: input.title,
     description: input.description,
-    siteName: SITE_BRAND_NAME,
+    siteName: SITE_BRAND_FULL_NAME,
     locale: siteSeoConfig.locale,
     images: [{ url: imageUrl, width: 1200, height: 630, alt: input.title }],
   }
@@ -108,6 +109,7 @@ export function buildPageMetadata(input: PageSeoInput): Metadata {
       card: 'summary_large_image',
       title: input.title,
       description: input.description,
+      site: SITE_BRAND_FULL_NAME,
       creator: siteSeoConfig.twitterHandle,
       images: [imageUrl],
     },

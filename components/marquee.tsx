@@ -1,11 +1,25 @@
-const items = [
+import type { CSSProperties } from 'react'
+
+import {
+  landingMarqueeBandClass,
+  landingMarqueeFadeClass,
+  landingMarqueeFadeRightClass,
+  landingMarqueeSepClass,
+  landingMarqueeTrackClass,
+  landingMarqueeUnitClass,
+  landingMarqueeWordAccentClass,
+  landingMarqueeWordMidClass,
+  landingMarqueeWordMutedClass,
+} from '@/lib/landing-page-typography'
+import { cn } from '@/lib/utils'
+
+const phrases = [
   'Leseb',
-  'ለሰው',
-  'Namaaf',
+  'ለሰብ',
   'For human',
+  'Namaaf',
   'ንሰብ',
   'للإنسان',
-  'አሳስ',
   'Numuk',
   "Pour l'humain",
   '为人',
@@ -20,28 +34,41 @@ const items = [
   'इंसान के लिए',
   "Per l'umano",
   '인간을 위해',
-]
+] as const
 
-export const Marquee = () => (
-  <div
-    data-nav-surface="dark"
-    className="flex w-full min-w-0 items-center overflow-x-clip border-y border-border bg-background py-4 md:py-5"
-  >
-    <div className="marquee flex w-max shrink-0 items-center gap-16 whitespace-nowrap font-display text-3xl leading-none tracking-tight md:text-5xl 2xl:text-6xl 3xl:text-7xl 4xl:text-8xl">
-      {[...items, ...items].map((t, i) => (
-        <span key={`${t}-${i}`} className="flex items-center gap-16 text-foreground/90">
-          <span
-            className={
-              i % 3 === 1
-                ? 'inline-flex items-center font-light text-signal italic'
-                : 'inline-flex items-center'
-            }
-          >
-            {t}
+const MARQUEE_WORD_CLASSES = [
+  landingMarqueeWordAccentClass,
+  landingMarqueeWordMidClass,
+  landingMarqueeWordMutedClass,
+] as const
+
+function marqueeWordClass(index: number) {
+  return MARQUEE_WORD_CLASSES[index % MARQUEE_WORD_CLASSES.length]
+}
+
+const MARQUEE_DURATION_SEC = 100
+
+export const Marquee = () => {
+  const track = [...phrases, ...phrases]
+
+  return (
+    <div data-nav-surface="dark" className={landingMarqueeBandClass}>
+      <div className={landingMarqueeFadeClass} aria-hidden />
+      <div className={landingMarqueeFadeRightClass} aria-hidden />
+
+      <div
+        className={landingMarqueeTrackClass}
+        style={{ '--marquee-line-duration': `${MARQUEE_DURATION_SEC}s` } as CSSProperties}
+      >
+        {track.map((phrase, index) => (
+          <span key={`${phrase}-${index}`} className={landingMarqueeUnitClass}>
+            <span className={marqueeWordClass(index)}>{phrase}</span>
+            <span className={landingMarqueeSepClass} aria-hidden>
+              /
+            </span>
           </span>
-          <span className="inline-flex items-center justify-center text-signal">✦</span>
-        </span>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-)
+  )
+}

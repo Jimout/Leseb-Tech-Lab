@@ -1,5 +1,5 @@
 import { MediaRenderer } from '@/components/media-renderer'
-import { workDetailMainImageHeightClass } from '@/components/work-detail-hero'
+import { workDetailMainImageHeightClass } from '@/lib/work-detail-typography'
 import type { WorkDetailContentBlock } from '@/lib/work-detail-content-blocks'
 import { sanitizeInsightHtml } from '@/lib/sanitize-insight-html'
 import { cn } from '@/lib/utils'

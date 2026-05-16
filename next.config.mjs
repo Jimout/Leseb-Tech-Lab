@@ -46,6 +46,17 @@ const nextConfig = {
       },
     ]
   },
+  async headers() {
+    const ogNoStore = [
+      { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+    ]
+    return [
+      { source: '/opengraph-image', headers: ogNoStore },
+      { source: '/twitter-image', headers: ogNoStore },
+      { source: '/work/:slug/opengraph-image', headers: ogNoStore },
+      { source: '/insights/:slug/opengraph-image', headers: ogNoStore },
+    ]
+  },
   async rewrites() {
     return [
       {

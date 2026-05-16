@@ -14,10 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const d = DEFAULT_SITE_SETTINGS.about
   return buildPageMetadata({
     title: s.about.metaTitle?.trim() || d.metaTitle,
-    description:
-      s.about.metaDescription?.trim() ||
-      d.metaDescription ||
-      'Architect focused on design development, interiors, and visualization across multiple scales. Professional journey, tools, and ventures.',
+    description: s.about.metaDescription?.trim() || d.metaDescription,
     path: '/about',
   })
 }

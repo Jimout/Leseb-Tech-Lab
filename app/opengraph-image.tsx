@@ -6,6 +6,8 @@ import { siteSeoConfig } from '@/lib/seo/site-config'
 export const alt = SITE_BRAND_FULL_NAME
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
+/** Fresh OG asset for link-preview crawlers after rebrand. */
+export const revalidate = 0
 
 export default function Image() {
   return new ImageResponse(

@@ -1,4 +1,4 @@
-import type { ShowcaseWork } from '@/lib/works-showcase-data'
+import { SHOWCASE_WORKS, type ShowcaseWork } from '@/lib/works-showcase-data'
 import type { WorkRow } from '@/lib/work-admin-types'
 import { resolveWorkDetailFromShowcase } from '@/lib/work-detail-resolve'
 import type { ResolvedWorkDetail } from '@/lib/work-detail-types'
@@ -119,10 +119,15 @@ function mergeRowOnResolved(base: ResolvedWorkDetail, row: WorkRow): ResolvedWor
   }
 }
 
+function findShowcaseWorkBySlug(slug: string): ShowcaseWork | undefined {
+  return SHOWCASE_WORKS.find((w) => w.slug === slug || w.id === slug)
+}
+
 export async function getWorkDetailBySlug(slug: string): Promise<ResolvedWorkDetail | null> {
   const rows = await getWorkRowsFromDb()
   const row = rows.find((w) => w.slug === slug)
-  const work = row ? stripWorkRowToShowcase(row) : undefined
+  const showcase = !row ? findShowcaseWorkBySlug(slug) : undefined
+  const work = row ? stripWorkRowToShowcase(row) : showcase
   if (!work) return null
 
   const o = OVERRIDES[work.slug] ?? OVERRIDES[work.id]
@@ -151,7 +156,8 @@ export async function getWorkDetailBySlug(slug: string): Promise<ResolvedWorkDet
 
 export async function getAllWorkSlugs(): Promise<string[]> {
   const rows = await getWorkRowsFromDb()
-  return rows.map((w) => w.slug)
+  if (rows.length > 0) return rows.map((w) => w.slug)
+  return SHOWCASE_WORKS.map((w) => w.slug)
 }
 
 export async function canonicalWorkSlugForRequestSlug(slug: string): Promise<string> {

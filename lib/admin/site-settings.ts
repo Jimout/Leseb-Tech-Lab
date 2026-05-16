@@ -1,4 +1,5 @@
 import { isLegacyArchitectureCatalogFilters } from '@/lib/catalog-filter-ids'
+import { isLegacyPortfolioSeoText } from '@/lib/seo/share-assets'
 import {
   getDefaultPortfolioCatalogFilters,
   normalizePortfolioCatalogFiltersState,
@@ -773,6 +774,33 @@ export function normalizeStoredSiteSettings(raw: unknown): SiteSettings {
     next = {
       ...next,
       about: { ...next.about, metaDescription: DEFAULT_SITE_SETTINGS.about.metaDescription },
+    }
+  }
+  if (isLegacyPortfolioSeoText(next.about.metaTitle)) {
+    next = {
+      ...next,
+      about: { ...next.about, metaTitle: DEFAULT_SITE_SETTINGS.about.metaTitle },
+    }
+  }
+  if (isLegacyPortfolioSeoText(next.about.metaDescription)) {
+    next = {
+      ...next,
+      about: { ...next.about, metaDescription: DEFAULT_SITE_SETTINGS.about.metaDescription },
+    }
+  }
+  if (isLegacyPortfolioSeoText(next.contact.metaTitle)) {
+    next = {
+      ...next,
+      contact: { ...next.contact, metaTitle: DEFAULT_SITE_SETTINGS.contact.metaTitle },
+    }
+  }
+  if (isLegacyPortfolioSeoText(next.contact.metaDescription)) {
+    next = {
+      ...next,
+      contact: {
+        ...next.contact,
+        metaDescription: DEFAULT_SITE_SETTINGS.contact.metaDescription,
+      },
     }
   }
   const newsletterLogoDefault = DEFAULT_SITE_SETTINGS.footer.logoLightSrc

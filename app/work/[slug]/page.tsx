@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!detail) {
     return buildPageMetadata({
       title: 'Work',
-      description: 'Architecture and visualization project from Leseb Tech Lab.',
+      description: 'Software and product project from Leseb Tech Lab.',
       path: `/work/${canonical}`,
       ogImage,
     })
@@ -51,7 +51,7 @@ export default async function WorkDetailPage({ params }: PageProps) {
     detail.descriptionNote?.trim() ||
     detail.body?.trim() ||
     detail.work.title ||
-    'Architecture and visualization project.'
+    'Software and product project from Leseb Tech Lab.'
 
   return (
     <>

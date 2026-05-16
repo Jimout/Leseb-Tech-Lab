@@ -3,8 +3,18 @@ import type { Metadata } from 'next'
 import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 
 import { absoluteUrl, getSiteUrl, siteSeoConfig } from './site-config'
+import { defaultOgImagePath, withOgImageCacheBust } from './share-assets'
 
-const defaultOgImagePath = '/opengraph-image'
+function resolveOgImageUrl(pathOrUrl: string): string {
+  if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {
+    return pathOrUrl
+  }
+  const path = pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`
+  const busted = path.includes('opengraph-image') || path.includes('twitter-image')
+    ? withOgImageCacheBust(path.split('?')[0] ?? path)
+    : path
+  return absoluteUrl(busted)
+}
 
 export const rootAuthorMetadata: Metadata['authors'] = [
   { name: siteSeoConfig.personName, url: getSiteUrl() },
@@ -24,7 +34,7 @@ export function buildDefaultOpenGraph(): NonNullable<Metadata['openGraph']> {
     description: siteSeoConfig.defaultDescription,
     images: [
       {
-        url: defaultOgImagePath,
+        url: resolveOgImageUrl(defaultOgImagePath),
         width: 1200,
         height: 630,
         alt: SITE_BRAND_FULL_NAME,
@@ -40,7 +50,7 @@ export function buildDefaultTwitter(): NonNullable<Metadata['twitter']> {
     description: siteSeoConfig.defaultDescription,
     site: SITE_BRAND_FULL_NAME,
     creator: siteSeoConfig.twitterHandle,
-    images: [defaultOgImagePath],
+    images: [resolveOgImageUrl(defaultOgImagePath)],
   }
 }
 
@@ -69,10 +79,7 @@ export type PageSeoInput = {
  */
 export function buildPageMetadata(input: PageSeoInput): Metadata {
   const canonical = absoluteUrl(input.path)
-  const imageUrl =
-    input.ogImage?.startsWith('http://') || input.ogImage?.startsWith('https://')
-      ? input.ogImage
-      : absoluteUrl(input.ogImage ?? defaultOgImagePath)
+  const imageUrl = resolveOgImageUrl(input.ogImage ?? defaultOgImagePath)
 
   const titleMeta: Metadata['title'] = input.absoluteTitle
     ? { absolute: input.title }

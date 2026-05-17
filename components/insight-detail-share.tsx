@@ -4,7 +4,10 @@ import * as React from 'react'
 import { Check, Copy } from 'lucide-react'
 
 import { ContactSocialRow } from '@/components/contact-social-row'
-import { insightDetailKickerClass } from '@/lib/insight-detail-typography'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
 export function InsightDetailShare({ className }: { className?: string }) {
@@ -31,7 +34,10 @@ export function InsightDetailShare({ className }: { className?: string }) {
 
   return (
     <div className={cn('space-y-4', className)}>
-      <p className={insightDetailKickerClass}>Share</p>
+      <p className={landingSectionKickerClass}>
+        <span className={landingSectionKickerDotClass} aria-hidden />
+        Share
+      </p>
       <div className="flex flex-wrap items-center gap-2">
         <ContactSocialRow />
         <button

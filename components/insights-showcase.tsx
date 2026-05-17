@@ -7,7 +7,10 @@ import { FluidSplitButton } from '@/components/fluid-split-button'
 import { InsightCard } from '@/components/insight-card'
 import { useHorizontalStripWheelCallback } from '@/hooks/use-horizontal-strip-wheel'
 import { useInsightsShowcaseMerged } from '@/hooks/use-insights-showcase-merged'
-import { sectionKickerTextClass } from '@/lib/section-kicker-classes'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
 function useInsightScroller(itemCount: number) {
@@ -36,8 +39,8 @@ const showcaseH2Class =
 function ShowcaseHeading({ variant }: { variant: 'default' | 'related' }) {
   return (
     <header className="w-full max-w-none">
-      <p className={cn('flex items-center gap-2', sectionKickerTextClass)}>
-        <span className="size-1.5 shrink-0 rounded-full bg-secondary dark:bg-accent" aria-hidden />
+      <p className={landingSectionKickerClass}>
+        <span className={landingSectionKickerDotClass} aria-hidden />
         Our insights
       </p>
       {variant === 'related' ? (

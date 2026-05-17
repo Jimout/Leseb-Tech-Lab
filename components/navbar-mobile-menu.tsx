@@ -135,19 +135,32 @@ export function NavbarMobileMenuPanel({
   }, [open, onOpenChange])
 
   return (
-    <div
-      id="mobile-nav-inline"
-      aria-hidden={!open}
-      className={cn(
-        'md:hidden',
-        'grid w-full min-w-0 transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none motion-reduce:duration-0',
-        open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
-      )}
-    >
+    <>
+      <div
+        className={cn(
+          'fixed inset-x-0 bottom-0 top-14 z-40 md:hidden',
+          'bg-background/65',
+          'transition-opacity duration-300 motion-reduce:transition-none',
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
+        )}
+        aria-hidden
+        onClick={() => onOpenChange(false)}
+      />
+      <div
+        id="mobile-nav-inline"
+        aria-hidden={!open}
+        className={cn(
+          'absolute left-0 right-0 top-full z-50 md:hidden',
+          'pointer-events-none',
+          open && 'pointer-events-auto',
+          'grid w-full min-w-0 transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none motion-reduce:duration-0',
+          open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+        )}
+      >
       <div className="min-h-0 overflow-hidden">
         <div
           className={cn(
-            'border-t border-border/40 px-1 pb-4 pt-5 sm:px-2 sm:pb-5 sm:pt-6',
+            'border-t border-border/40 bg-background px-1 pb-4 pt-5 sm:px-2 sm:pb-5 sm:pt-6',
             'opacity-0 transition-opacity duration-300 motion-reduce:transition-none',
             open && 'opacity-100',
           )}
@@ -193,6 +206,7 @@ export function NavbarMobileMenuPanel({
             label={ctaLabel}
             href={ctaHref}
             size="default"
+            variant="secondary"
             className={cn(
               'mt-5 w-fit self-start transition-all duration-500 sm:mt-7',
               staggerEase,
@@ -205,5 +219,6 @@ export function NavbarMobileMenuPanel({
         </div>
       </div>
     </div>
+    </>
   )
 }

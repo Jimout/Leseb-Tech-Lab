@@ -10,7 +10,7 @@ import { buildPageMetadata } from '@/lib/seo/metadata'
 export const metadata: Metadata = buildPageMetadata({
   title: 'Services',
   description:
-    'Human-centered AI, web and software development, data platforms, and community-driven innovation from Leseb Tech Lab in Addis Ababa.',
+    'Human centered AI, web and software development, data platforms, and community driven innovation from Leseb Tech Lab in Addis Ababa.',
   path: '/services',
 })
 

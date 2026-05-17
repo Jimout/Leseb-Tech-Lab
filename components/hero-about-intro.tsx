@@ -1,7 +1,10 @@
 'use client'
 
 import { FluidSplitButton } from '@/components/fluid-split-button'
-import { sectionKickerAccentClass, sectionKickerTextClass } from '@/lib/section-kicker-classes'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { renderInlineAccentMarkers } from '@/lib/render-accent-markers'
 import { cn } from '@/lib/utils'
 import { useSiteSettings } from '@/hooks/use-site-settings'
@@ -17,11 +20,9 @@ export function HeroAboutIntro() {
         'lg:grid-cols-12 lg:gap-x-8 lg:gap-y-0 lg:items-start xl:gap-x-10 2xl:gap-x-12 3xl:gap-x-14',
       )}
     >
-      <div className="flex items-center gap-2.5 lg:col-span-4 lg:row-start-1 lg:self-start">
-        <span className="size-1.5 shrink-0 rounded-full bg-secondary dark:bg-accent" aria-hidden />
-        <p className={cn(sectionKickerTextClass, 'leading-snug')}>
-          {hero.whoAmIEyebrow}
-        </p>
+      <div className={cn('lg:col-span-4 lg:row-start-1 lg:self-start', landingSectionKickerClass)}>
+        <span className={landingSectionKickerDotClass} aria-hidden />
+        {hero.whoAmIEyebrow}
       </div>
 
       <div className="flex w-full flex-col items-stretch lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:items-end">

@@ -1,8 +1,15 @@
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
-  landingSectionYClass,
 } from '@/lib/landing-page-layout'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+  landingSectionTitleClass,
+  servicesOfferingIndexClass,
+  servicesOfferingLabelClass,
+  servicesPracticeDescriptionClass,
+} from '@/lib/landing-page-typography'
 import { SERVICE_CATEGORIES } from '@/lib/services-pillars'
 import { cn } from '@/lib/utils'
 
@@ -20,24 +27,19 @@ function ServiceCategoryBlock({
   return (
     <article
       className={cn(
-        'border-t border-border py-14 md:py-20 lg:py-24',
+        'border-t border-border py-8 md:py-12 lg:py-14',
         'first:border-t-0 first:pt-0',
       )}
       aria-label={title}
     >
-      <h2
-        className={cn(
-          'font-display font-medium leading-[0.95] tracking-[-0.04em] text-foreground',
-          'text-[clamp(3.25rem,11vw,7.5rem)]',
-        )}
-      >
-        {categoryTitle}
-      </h2>
+      <div className={cn('mb-4', landingSectionKickerClass)}>
+        <span className={landingSectionKickerDotClass} aria-hidden />
+        {title}
+      </div>
+      <h2 className={landingSectionTitleClass}>{categoryTitle}</h2>
 
-      <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-2 md:gap-10 lg:mt-20 lg:gap-16">
-        <p className="max-w-md text-pretty text-base leading-relaxed text-foreground/80 md:text-lg md:leading-relaxed lg:max-w-lg lg:text-xl">
-          {description}
-        </p>
+      <div className="mt-8 grid gap-8 md:mt-10 md:grid-cols-2 md:gap-8 lg:mt-12 lg:gap-12">
+        <p className={servicesPracticeDescriptionClass}>{description}</p>
 
         <ol className="border-t border-border">
           {offerings.map((item) => (
@@ -45,10 +47,8 @@ function ServiceCategoryBlock({
               key={item.n}
               className="flex items-baseline gap-5 border-b border-border py-5 md:gap-8 md:py-6"
             >
-              <span className="w-7 shrink-0 font-mono text-sm tabular-nums text-muted-foreground md:text-base">
-                {item.n}
-              </span>
-              <span className="text-base font-medium text-foreground md:text-lg lg:text-xl">{item.label}</span>
+              <span className={servicesOfferingIndexClass}>{item.n}</span>
+              <span className={servicesOfferingLabelClass}>{item.label}</span>
             </li>
           ))}
         </ol>
@@ -67,7 +67,7 @@ export function ServicesEditorialSection() {
       <div
         className={cn(
           'mx-auto min-w-0',
-          landingSectionYClass,
+          'pt-8 pb-8 md:pt-10 md:pb-10 lg:pt-12 lg:pb-12 xl:pt-14 xl:pb-14 2xl:pt-16 2xl:pb-16',
           landingPageContentMaxClass,
         )}
       >

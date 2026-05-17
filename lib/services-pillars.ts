@@ -25,9 +25,9 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     icon: Brain,
     categoryTitle: 'Intelligence',
     title: 'AI Solutions for Everyday Life',
-    body: 'We design human-centered AI tools that improve decision-making, automate tasks, and empower people.',
+    body: 'We design human centered AI tools that improve decision making, automate tasks, and empower people.',
     description:
-      'We build AI that respects language, culture, and context — assistants and automations your users can trust, not tools that add noise.',
+      'We build AI that respects language, culture, and context: assistants and automations your users can trust, not tools that add noise.',
     offerings: [
       { n: '01', label: 'Conversational Assistants' },
       { n: '02', label: 'Workflow Automation' },
@@ -43,7 +43,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     title: 'Web & Software Development',
     body: 'We build intuitive web and software solutions that simplify daily life.',
     description:
-      'Product-minded engineers and designers ship web apps and internal tools that stay fast, accessible, and easy for your team to own.',
+      'Product minded engineers and designers ship web apps and internal tools that stay fast, accessible, and easy for your team to own.',
     offerings: [
       { n: '01', label: 'Web Applications' },
       { n: '02', label: 'Internal Tools & Dashboards' },
@@ -56,10 +56,10 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     n: '03',
     icon: LineChart,
     categoryTitle: 'Data',
-    title: 'Data-Driven Platforms',
+    title: 'Data Driven Platforms',
     body: 'Our systems transform raw data into clarity, insight, and better social outcomes.',
     description:
-      'From pipelines to public-facing insight, we turn messy data into systems people can read, act on, and improve over time.',
+      'From pipelines to public facing insight, we turn messy data into systems people can read, act on, and improve over time.',
     offerings: [
       { n: '01', label: 'Analytics Dashboards' },
       { n: '02', label: 'Data Pipelines' },
@@ -72,12 +72,12 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     n: '04',
     icon: Users,
     categoryTitle: 'Community',
-    title: 'Community-Driven Innovation',
+    title: 'Community Driven Innovation',
     body: 'We stay close to people, communities, and real challenges, ensuring our solutions create real impact.',
     description:
-      'We work beside the communities you serve — listening first, prototyping in the open, and leaving teams stronger than we found them.',
+      'We work beside the communities you serve, listening first, prototyping in the open, and leaving teams stronger than we found them.',
     offerings: [
-      { n: '01', label: 'Co-Design Workshops' },
+      { n: '01', label: 'Co Design Workshops' },
       { n: '02', label: 'Field Research' },
       { n: '03', label: 'Pilot & Rollout Programs' },
       { n: '04', label: 'Training & Capacity Building' },

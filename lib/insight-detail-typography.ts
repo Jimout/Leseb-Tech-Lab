@@ -1,3 +1,4 @@
+import { pageEyebrowTextClass } from '@/lib/section-kicker-classes'
 import { cn } from '@/lib/utils'
 
 /** Insight article pages use the system UI stack — not display/mono marketing fonts. */
@@ -14,10 +15,7 @@ export const insightDetailHeroDescriptionClass = cn(
   'text-pretty text-sm leading-relaxed text-foreground/70 sm:text-[15px] md:text-base',
 )
 
-export const insightDetailKickerClass = cn(
-  insightDetailSansClass,
-  'text-xs font-medium text-muted-foreground',
-)
+export const insightDetailKickerClass = pageEyebrowTextClass
 
 export const insightDetailSectionTitleClass = cn(
   insightDetailSansClass,

@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import { Container } from '@/components/layout/container'
+import { catalogPageFilterBarPadClass } from '@/lib/landing-page-layout'
 import type { WorkFilterDefinition } from '@/lib/work-filter-definition'
 import {
   catalogFilterCountActiveClass,
@@ -61,13 +62,11 @@ export function WorkPageFilterBar({
       className={cn('w-full border-b border-border/80 bg-background', className)}
       data-nav-surface="dark"
     >
-      <Container className="py-6 sm:py-8 md:py-10 lg:py-11">
+      <Container className={catalogPageFilterBarPadClass}>
         <div className="flex flex-col gap-5 sm:gap-6">
           <div className={landingSectionKickerClass}>
             <span className={landingSectionKickerDotClass} aria-hidden />
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-              {kicker}
-            </span>
+            {kicker}
           </div>
 
           <div

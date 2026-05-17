@@ -4,7 +4,10 @@ import Image from 'next/image'
 
 import { Container } from '@/components/layout/container'
 import { useSiteSettings } from '@/hooks/use-site-settings'
-import { sectionKickerAccentClass } from '@/lib/section-kicker-classes'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { renderInlineAccentMarkers } from '@/lib/render-accent-markers'
 import { cn } from '@/lib/utils'
 
@@ -33,8 +36,8 @@ export function AboutPageContent({ className }: { className?: string }) {
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-12 xl:gap-16 2xl:gap-20">
           <div className="min-w-0 max-w-184 lg:max-w-none lg:pr-4 xl:pr-8">
-            <p className={cn('flex items-center gap-2 text-xs font-medium sm:text-sm', sectionKickerAccentClass)}>
-              <span className="size-1.5 shrink-0 rounded-full bg-secondary dark:bg-accent" aria-hidden />
+            <p className={landingSectionKickerClass}>
+              <span className={landingSectionKickerDotClass} aria-hidden />
               {aboutHero.eyebrow}
             </p>
             <p className="mt-5 text-pretty text-lg font-bold tracking-tight text-foreground sm:mt-6 sm:text-[1.125rem] md:text-[1.375rem] lg:mt-8 lg:text-[1.5rem] lg:leading-[1.32] xl:text-[1.7rem] xl:leading-[1.3] 2xl:text-[3.35rem] 2xl:leading-[1.14] 3xl:text-[4.35rem] 3xl:leading-[1.12] 4xl:text-[5.4rem] 4xl:leading-[1.1]">

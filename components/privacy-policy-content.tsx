@@ -2,7 +2,10 @@
 
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import { privacyBodyLooksLikeHtml } from '@/lib/privacy-policy-body'
-import { sectionKickerAccentClass } from '@/lib/section-kicker-classes'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { sanitizeInsightHtml } from '@/lib/sanitize-insight-html'
 import { cn } from '@/lib/utils'
 
@@ -71,13 +74,8 @@ export function PrivacyPolicyContent() {
       >
         <div className="lg:col-span-4 xl:col-span-4 2xl:col-span-4">
           <div className="lg:sticky lg:top-28 xl:top-32">
-            <p
-              className={cn(
-                'flex items-center gap-2 text-sm font-medium tracking-tight sm:text-[15px] lg:text-base',
-                sectionKickerAccentClass,
-              )}
-            >
-              <span className="size-1.5 shrink-0 rounded-full bg-secondary dark:bg-accent" aria-hidden />
+            <p className={landingSectionKickerClass}>
+              <span className={landingSectionKickerDotClass} aria-hidden />
               {eyebrow}
             </p>
             <h1

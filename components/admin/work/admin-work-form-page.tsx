@@ -97,6 +97,7 @@ function normalizeDetailForSave(
 
   const additionalImages = (d.additionalImages ?? []).filter((x) => x.src.trim())
   const descriptionBelowImages = (d.descriptionBelowImages ?? []).filter((x) => x.src.trim())
+  const storyGalleryImages = (d.storyGalleryImages ?? []).filter((x) => x.src.trim())
   const secondaryImageDescriptionColumns = (d.secondaryImageDescriptionColumns ?? [])
     .map((s) => s.trim())
     .filter(Boolean)
@@ -112,6 +113,7 @@ function normalizeDetailForSave(
     ...d,
     additionalImages,
     descriptionBelowImages,
+    storyGalleryImages,
     secondaryImageDescriptionColumns,
     secondaryHeroImage,
     contentBlocks: undefined,
@@ -121,7 +123,18 @@ function normalizeDetailForSave(
 /** Drop empty values so merge keeps server defaults; omit `{}` entirely. */
 function compactDetailForStorage(d: WorkDetailPatch): WorkDetailPatch | undefined {
   const out: WorkDetailPatch = { ...d }
-  const strKeys = ['projectType', 'descriptionNote'] as const
+  const strKeys = [
+    'projectType',
+    'descriptionNote',
+    'websiteUrl',
+    'client',
+    'industry',
+    'duration',
+    'storyVideoTitle',
+    'storyVideoDescription',
+    'storyGalleryTitle',
+    'storyGalleryDescription',
+  ] as const
   for (const k of strKeys) {
     const v = out[k]
     if (typeof v === 'string' && !v.trim()) delete out[k]
@@ -136,6 +149,7 @@ function compactDetailForStorage(d: WorkDetailPatch): WorkDetailPatch | undefine
   if (!out.roles?.length) delete out.roles
   if (!out.additionalImages?.length) delete out.additionalImages
   if (!out.descriptionBelowImages?.length) delete out.descriptionBelowImages
+  if (!out.storyGalleryImages?.length) delete out.storyGalleryImages
   if (!out.secondaryImageDescriptionColumns?.length) delete out.secondaryImageDescriptionColumns
   if (!out.contentBlocks?.length) delete out.contentBlocks
   if (out.secondaryHeroImage === undefined) delete out.secondaryHeroImage
@@ -250,7 +264,6 @@ export function AdminWorkFormPage({
     })
   }
 
-  const rolesInput = (d.roles ?? []).join(', ')
   const contentBlocks = d.contentBlocks ?? []
   const categoryTags = React.useMemo(
     () =>
@@ -440,6 +453,21 @@ export function AdminWorkFormPage({
                   }))
                 }
               />
+              <div className="space-y-2">
+                <Label className="text-white/80">Project website (optional)</Label>
+                <Input
+                  value={d.websiteUrl ?? ''}
+                  onChange={(e) => setDetail({ websiteUrl: e.target.value })}
+                  placeholder="https://example.com"
+                  className="border-white/15 bg-background/30 text-white"
+                  inputMode="url"
+                  autoComplete="url"
+                />
+                <p className="text-xs text-white/45">
+                  When set, a lemon “Visit website” button stays fixed at the bottom of the project page while
+                  visitors scroll.
+                </p>
+              </div>
               <div className="space-y-3">
                 <Label className="text-white/80">Filters (work index)</Label>
                 <div className="flex flex-wrap gap-4">
@@ -458,7 +486,7 @@ export function AdminWorkFormPage({
 
             <div className="h-px w-full bg-white/10" aria-hidden />
 
-            <AdminWorkFormDetailMetaFields detail={d} setDetail={setDetail} rolesInput={rolesInput} />
+            <AdminWorkFormDetailMetaFields detail={d} setDetail={setDetail} />
           </TabsContent>
 
           <TabsContent value="body" className="mt-0 space-y-6 pt-1 focus-visible:outline-none">

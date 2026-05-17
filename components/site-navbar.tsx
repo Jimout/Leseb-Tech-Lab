@@ -105,7 +105,7 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
         <div
           data-site-navbar-track
           className={cn(
-            'flex items-center justify-between gap-3 px-3 py-2',
+            'relative flex items-center justify-between gap-3 px-3 py-2',
             'rounded-xl border border-white/10 md:rounded-2xl',
             'bg-background/40 text-white backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]',
           )}
@@ -137,16 +137,16 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
               label="Contact"
               href="/contact"
               size="navbar"
-              variant={surface === 'dark' ? 'secondary' : 'primary'}
+              variant="secondary"
             />
           </div>
 
           <div className="flex items-center gap-2 md:hidden">
             <NavbarMobileMenuTrigger open={mobileNavOpen} onOpenChange={setMobileNavOpen} scrolled surface={surface} />
           </div>
-        </div>
 
-        <NavbarMobileMenuPanel items={NAV_ITEMS} activeSegment={active} />
+          <NavbarMobileMenuPanel items={NAV_ITEMS} activeSegment={active} />
+        </div>
       </div>
     </header>
   )

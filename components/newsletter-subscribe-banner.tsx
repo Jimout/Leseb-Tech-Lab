@@ -50,9 +50,7 @@ export function NewsletterSubscribeBanner({
             <div className="min-w-0 flex-1 space-y-5 lg:space-y-6">
               <div className={landingSectionKickerClass}>
                 <span className={landingSectionKickerDotClass} aria-hidden />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                  {kicker}
-                </span>
+                {kicker}
               </div>
 
               <h2 id="newsletter-subscribe-banner-heading" className={landingNewsletterTitleClass}>

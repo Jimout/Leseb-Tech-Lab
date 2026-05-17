@@ -1,6 +1,8 @@
 import { Container, containerMaxWidthClass, containerPaddingClass } from '@/components/layout/container'
 import { WorkDetailContentBlocks } from '@/components/work-detail-content-blocks'
 import { WorkDetailHero } from '@/components/work-detail-hero'
+import { WorkDetailVisitWebsiteBar } from '@/components/work-detail-visit-website-bar'
+import { normalizeExternalUrl } from '@/lib/normalize-external-url'
 import { WorkDetailSplitSection } from '@/components/work-detail-split-section'
 import { defaultBodyForWork } from '@/lib/work-detail-resolve'
 import type { ResolvedWorkDetail } from '@/lib/work-detail-types'
@@ -45,11 +47,15 @@ export function WorkDetailContent({ detail }: { detail: ResolvedWorkDetail }) {
     descriptionNote?.trim() || body?.trim() || defaultBodyForWork(work)
   const useFlexibleBody = Boolean(contentBlocks?.length)
   const tailBlocks = useFlexibleBody ? remainingContentBlocks(contentBlocks) : []
+  const visitHref = normalizeExternalUrl(detail.websiteUrl)
+  const showVisitBar = Boolean(visitHref)
 
   return (
+    <>
     <article
       className={cn(
-        'pb-16 sm:pb-20 md:pb-24 lg:pb-28',
+        showVisitBar && 'pb-28 sm:pb-32',
+        !showVisitBar && 'pb-16 sm:pb-20 md:pb-24 lg:pb-28',
         'pt-6 sm:pt-8 md:pt-9 lg:pt-10',
       )}
     >
@@ -72,5 +78,9 @@ export function WorkDetailContent({ detail }: { detail: ResolvedWorkDetail }) {
         </Container>
       ) : null}
     </article>
+    {showVisitBar && detail.websiteUrl ? (
+      <WorkDetailVisitWebsiteBar websiteUrl={detail.websiteUrl} />
+    ) : null}
+    </>
   )
 }

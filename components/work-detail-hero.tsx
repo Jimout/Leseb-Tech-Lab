@@ -1,8 +1,12 @@
 import { containerMaxWidthClass, containerPaddingClass } from '@/components/layout/container'
 import { WorkDetailFillImage } from '@/components/work-detail-fill-image'
-import { TagPill } from '@/components/tag-pill'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
-import { workDetailHeroTitleClass } from '@/lib/work-detail-typography'
+import { detailHeroTopicPillClass } from '@/lib/landing-page-typography'
+import {
+  workDetailHeroMediaFrameClass,
+  workDetailHeroMediaSizes,
+  workDetailHeroTitleClass,
+} from '@/lib/work-detail-typography'
 import { cn } from '@/lib/utils'
 
 export type WorkDetailHeroProps = {
@@ -13,9 +17,6 @@ export type WorkDetailHeroProps = {
   location: string
   tags: string[]
 }
-
-const imageSizes =
-  '(max-width: 1024px) 100vw, (max-width: 1536px) calc(100vw - 7rem), min(90vw, 1600px)'
 
 function WorkHeroHeading({
   pageTitle,
@@ -51,9 +52,9 @@ export function WorkDetailHero({
         {tags.length > 0 ? (
           <div className="mb-5 flex flex-wrap gap-2 sm:mb-6 sm:gap-2.5">
             {tags.map((tag) => (
-              <TagPill key={tag} variant="accent">
+              <span key={tag} className={detailHeroTopicPillClass}>
                 {tag}
-              </TagPill>
+              </span>
             ))}
           </div>
         ) : null}
@@ -68,18 +69,13 @@ export function WorkDetailHero({
           {location}
         </p>
 
-        <div
-          className={cn(
-            'relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-image-well',
-            'sm:mt-10 sm:rounded-3xl lg:mt-12',
-          )}
-        >
+        <div className={cn(workDetailHeroMediaFrameClass, 'mt-8 sm:mt-10 lg:mt-12')}>
           {hasHero ? (
             <WorkDetailFillImage
               src={work.heroMedia?.url ?? ''}
               alt={work.heroMedia?.alt ?? ''}
               priority
-              sizes={imageSizes}
+              sizes={workDetailHeroMediaSizes}
             />
           ) : (
             <div className="flex size-full min-h-[14rem] items-center justify-center text-sm text-muted-foreground">

@@ -53,7 +53,7 @@ function TocHeader({ className }: { className?: string }) {
       <div className="min-w-0">
         <p className={cn('mb-1', landingSectionKickerClass)}>
           <span className={landingSectionKickerDotClass} aria-hidden />
-          <span className={insightDetailKickerClass}>On this page</span>
+          On this page
         </p>
         <p className={insightDetailTocHeadingClass}>Contents</p>
       </div>

@@ -1,4 +1,5 @@
 import type { WorkDetailContentBlock } from '@/lib/work-detail-content-blocks'
+import type { MediaAsset } from '@/lib/media-assets'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
 
 export type ResolvedWorkDetail = {
@@ -25,4 +26,21 @@ export type ResolvedWorkDetail = {
   secondaryImageDescriptionColumns?: ReadonlyArray<string>
   /** Flexible body: rich + images in order. When set and non-empty, legacy below-meta fields are ignored. */
   contentBlocks?: ReadonlyArray<WorkDetailContentBlock>
+  /** When set, a fixed “Visit website” button stays at the bottom of the viewport while scrolling. */
+  websiteUrl?: string
+  client?: string
+  industry?: string
+  duration?: string
+  /** Case-study video below the intro description. `null` hides the block. */
+  storyVideo?: MediaAsset | null
+  /** Title below the story video — separate from the page H1 and intro description. */
+  storyVideoTitle?: string
+  /** Body copy below the story video title. */
+  storyVideoDescription?: string
+  /** Photos below the below-video copy (two on top, one full width below). */
+  storyGalleryImages?: ReadonlyArray<{ src: string; alt: string }>
+  /** Title below the gallery — separate from the below-video title. */
+  storyGalleryTitle?: string
+  /** Description below the gallery title. */
+  storyGalleryDescription?: string
 }

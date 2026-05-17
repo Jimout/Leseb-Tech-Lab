@@ -5,12 +5,19 @@ import { cn } from '@/lib/utils'
 
 export type WorksLabGridItem = WorksLabCardProps & { id: string }
 
+function workLabCardDesc(work: ShowcaseWork): string {
+  const summary = work.cardSummary?.trim()
+  if (summary) return summary
+  const tag = worksLabPrimaryTag(work.category)
+  return tag ? `${tag} at Leseb Tech Lab.` : 'Product and research at Leseb Tech Lab.'
+}
+
 export function showcaseWorkToLabItem(work: ShowcaseWork): WorksLabGridItem {
   return {
     id: work.id,
     title: work.title,
     tag: worksLabPrimaryTag(work.category),
-    desc: work.location,
+    desc: workLabCardDesc(work),
     year: work.year,
     href: `/work/${work.slug}`,
     heroMedia: work.heroMedia,
@@ -63,10 +70,19 @@ export function WorksLabShowcaseGrid({
 type WorksLabShowcaseFromWorksProps = {
   works: readonly ShowcaseWork[]
   lcpPriority?: boolean
+  /** Match landing “In the Lab” card sizing and aspect ratio. */
+  layout?: 'landing' | 'catalog'
   className?: string
 }
 
-export function WorksLabShowcaseFromWorks({ works, lcpPriority, className }: WorksLabShowcaseFromWorksProps) {
+export function WorksLabShowcaseFromWorks({
+  works,
+  lcpPriority,
+  layout = 'catalog',
+  className,
+}: WorksLabShowcaseFromWorksProps) {
   const items = works.map(showcaseWorkToLabItem)
-  return <WorksLabShowcaseGrid items={items} lcpPriority={lcpPriority} className={className} />
+  return (
+    <WorksLabShowcaseGrid items={items} lcpPriority={lcpPriority} layout={layout} className={className} />
+  )
 }

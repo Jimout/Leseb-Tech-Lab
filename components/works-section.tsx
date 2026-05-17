@@ -1,5 +1,6 @@
 import { FluidSplitButton } from '@/components/fluid-split-button'
-import { WorksLabShowcaseGrid, type WorksLabGridItem } from '@/components/works-lab-grid'
+import { showcaseWorkToLabItem, WorksLabShowcaseGrid } from '@/components/works-lab-grid'
+import { getLandingLabWorks } from '@/lib/works-showcase-data'
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
@@ -14,37 +15,7 @@ import {
 } from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
-const projects: WorksLabGridItem[] = [
-  {
-    id: 'selam-os',
-    title: 'Selam OS',
-    tag: 'Conversational AI',
-    desc: 'An assistant that speaks your language, literally and culturally.',
-    imgSrc:
-      'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=80',
-    year: '2026',
-    href: '/work',
-  },
-  {
-    id: 'mesob',
-    title: 'Mesob',
-    tag: 'Civic Tech',
-    desc: 'Tools that help communities organize, decide, and act together.',
-    imgSrc: '/images/biom.jpg',
-    year: '2026',
-    href: '/work',
-  },
-  {
-    id: 'atlas',
-    title: 'Atlas',
-    tag: 'Knowledge Systems',
-    desc: 'Structured memory and retrieval so teams can ship with shared context.',
-    imgSrc:
-      'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80',
-    year: '2026',
-    href: '/work',
-  },
-]
+const landingLabItems = getLandingLabWorks().map(showcaseWorkToLabItem)
 
 export function WorksSection() {
   return (
@@ -68,7 +39,7 @@ export function WorksSection() {
           </div>
         </div>
 
-        <WorksLabShowcaseGrid items={projects} layout="landing" />
+        <WorksLabShowcaseGrid items={landingLabItems} layout="landing" />
       </div>
     </section>
   )

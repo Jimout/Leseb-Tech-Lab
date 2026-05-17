@@ -14,6 +14,7 @@ import {
   landingHeroBodyClass,
   landingHeroEyebrowClass,
   landingHeroSubkickerClass,
+  landingSectionKickerDotClass,
   landingHeroTitleClass,
   landingMetaClass,
   landingSectionTitleAccentClass,
@@ -28,7 +29,7 @@ export function HeroSection() {
     <section
       data-nav-surface="dark"
       className={cn(
-        'relative -mt-14 min-h-dvh min-w-0 overflow-x-clip overflow-y-hidden bg-background py-0',
+        'relative -mt-14 min-h-dvh min-w-0 overflow-x-clip overflow-y-hidden bg-background py-0 2xl:min-h-0',
         landingPageGutterClass,
       )}
     >
@@ -72,7 +73,7 @@ export function HeroSection() {
         <div className="mt-10 sm:mt-12 md:mt-14 lg:mt-16 xl:mt-16 2xl:mt-20 3xl:mt-24 4xl:mt-28 grid min-w-0 grid-cols-1 items-end gap-8 sm:gap-10 md:grid-cols-12 lg:gap-12 2xl:gap-14 3xl:gap-16">
           <div className="min-w-0 md:col-span-5 animate-fade-up" style={{ animationDelay: '200ms' }}>
             <div className={landingHeroSubkickerClass}>
-              <span className="size-1.5 shrink-0 rounded-full bg-signal" aria-hidden /> What is Leseb?
+              <span className={landingSectionKickerDotClass} aria-hidden /> What is Leseb?
             </div>
             <p className={landingHeroBodyClass}>
               <span className="text-foreground">Leseb (ለሰብ)</span> in Ge&apos;ez means{' '}

@@ -25,57 +25,11 @@ type Override = Partial<
     | 'descriptionBelowImages'
     | 'secondaryImageDescriptionColumns'
     | 'contentBlocks'
+    | 'websiteUrl'
   >
 >
 
-const OVERRIDES: Partial<Record<string, Override>> = {
-  'arch-community-residence': {
-    secondaryHeroImage: {
-      src: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=2000&q=80',
-      alt: 'Residential project exterior at dusk with warm interior lighting',
-    },
-    additionalImages: [
-      {
-        src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80',
-        alt: 'Modern residential facade with landscaping and warm evening light',
-      },
-    ],
-    secondaryImageDescriptionColumns: [
-      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-    ],
-  },
-  'eih-landscape': {
-    pageTitle: 'Ethiopian Investment Holdings Head Quarter Landscape',
-    pageTitleLines: ['Ethiopian Investment Holdings', 'Head Quarter Landscape'],
-    descriptionNote:
-      'For the Ethiopian Investment Holdings Headquarters, we led the landscape design and site planning, integrating parking and outdoor spaces with the natural terrain and nearby river. We designed walkable paths to enhance circulation, selected indigenous, edible, and fragrant plants like lavender along lounge areas, and ensured the landscape emphasized flow, accessibility, and sensory experience.',
-    descriptionBelowImages: [
-      {
-        src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2000&q=80',
-        alt: 'Urban plaza with trees and pedestrian circulation near a headquarters complex',
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=2000&q=80',
-        alt: 'Landscape path and green corridor along a water edge',
-      },
-    ],
-    year: '2025',
-    tags: ['Landscape Design', '3D Modeling', 'Visualization'],
-    projectType: 'Office Architecture',
-    roles: ['Lead Landscape Designer', 'Architectural Visualizer'],
-    body:
-      'The landscape strategy weaves parking, circulation, and river-edge planting into one coherent ground plane. Layered green buffers soften the approach to the headquarters, while long sightlines and durable paving keep daily operations clear and legible. The proposal balances regulatory requirements with a calm, planted character that reads from both aerial and pedestrian scales.',
-    additionalImages: [
-      {
-        src: 'https://images.unsplash.com/photo-1600607687644-c7171b42498b?auto=format&fit=crop&w=1400&q=80',
-        alt: 'Ground level view of the headquarters building with landscaping',
-      },
-    ],
-  },
-}
+const OVERRIDES: Partial<Record<string, Override>> = {}
 
 function stripWorkRowToShowcase(row: WorkRow): ShowcaseWork {
   const { detail: _d, ...card } = row
@@ -116,6 +70,24 @@ function mergeRowOnResolved(base: ResolvedWorkDetail, row: WorkRow): ResolvedWor
       d.contentBlocks && d.contentBlocks.length > 0
         ? d.contentBlocks
         : base.contentBlocks,
+    websiteUrl: d.websiteUrl?.trim() || base.websiteUrl,
+    client: d.client?.trim() || base.client,
+    industry: d.industry?.trim() || d.projectType?.trim() || base.industry,
+    duration: d.duration?.trim() || d.solution?.trim() || base.duration,
+    storyVideo:
+      d.storyVideo === null
+        ? null
+        : d.storyVideo?.url?.trim()
+          ? d.storyVideo
+          : base.storyVideo,
+    storyVideoTitle: d.storyVideoTitle?.trim() || base.storyVideoTitle,
+    storyVideoDescription: d.storyVideoDescription?.trim() || base.storyVideoDescription,
+    storyGalleryImages:
+      d.storyGalleryImages && d.storyGalleryImages.length > 0
+        ? d.storyGalleryImages
+        : base.storyGalleryImages,
+    storyGalleryTitle: d.storyGalleryTitle?.trim() || base.storyGalleryTitle,
+    storyGalleryDescription: d.storyGalleryDescription?.trim() || base.storyGalleryDescription,
   }
 }
 
@@ -148,6 +120,7 @@ export async function getWorkDetailBySlug(slug: string): Promise<ResolvedWorkDet
         descriptionNote: o.descriptionNote,
         descriptionBelowImages: o.descriptionBelowImages,
         secondaryImageDescriptionColumns: o.secondaryImageDescriptionColumns,
+        websiteUrl: o.websiteUrl ?? base.websiteUrl,
       }
 
   if (!row) return resolvedFromOverrides

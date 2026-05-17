@@ -96,7 +96,7 @@ export function LandingInsightsSection() {
         </div>
 
         <StripPagination
-          className="mt-8 sm:mt-10"
+          className="mt-6 sm:mt-7"
           currentPage={page}
           totalPages={totalPages}
           onPageChange={goToPage}

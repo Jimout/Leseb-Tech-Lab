@@ -5,7 +5,7 @@ import * as React from 'react'
 import { WorkPageFilterBar } from '@/components/work-page-filter-bar'
 import { WorksLabShowcaseFromWorks } from '@/components/works-lab-grid'
 import { landingPageContentMaxClass, landingPageGutterClass } from '@/lib/landing-page-layout'
-import { PillPagination } from '@/components/ui/pill-pagination'
+import { StripPagination } from '@/components/strip-pagination'
 import { buildWorkInsightFilterDefinitions } from '@/lib/portfolio-catalog-filters'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import { useWorksShowcaseMerged } from '@/hooks/use-works-showcase-merged'
@@ -81,18 +81,13 @@ export function WorkPageContent() {
             </p>
           ) : (
             <>
-              <WorksLabShowcaseFromWorks works={pageWorks} lcpPriority={page === 1} />
-              {totalPages > 1 ? (
-                <div className="mt-12 flex justify-center sm:mt-14 md:mt-16">
-                  <PillPagination
-                    currentPage={page}
-                    totalPages={totalPages}
-                    onPageChange={setWorkPage}
-                    hidePrev={page <= 1}
-                    hideNext={page >= totalPages}
-                  />
-                </div>
-              ) : null}
+              <WorksLabShowcaseFromWorks works={pageWorks} lcpPriority={page === 1} layout="landing" />
+              <StripPagination
+                className="mt-8 sm:mt-10"
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={setWorkPage}
+              />
             </>
           )}
         </div>

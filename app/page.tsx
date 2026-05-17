@@ -13,7 +13,7 @@ import { FooterSection } from '@/components/footer-section'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 import { siteSeoConfig } from '@/lib/seo/site-config'
-import { landingHomeStackGapClass } from '@/lib/landing-page-layout'
+import { landingHomeFooterTightClass, landingHomeStackGapClass } from '@/lib/landing-page-layout'
 import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import { cn } from '@/lib/utils'
 
@@ -43,7 +43,7 @@ export default function Home() {
         <WorksSection />
         <ApproachSection />
         <LandingInsightsSection />
-        <FooterSection className="pt-0" />
+        <FooterSection className={cn('pt-0', landingHomeFooterTightClass)} />
       </main>
       <Toaster />
     </>

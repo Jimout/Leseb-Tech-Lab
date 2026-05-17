@@ -1,4 +1,8 @@
-import { sectionKickerTextClass } from '@/lib/section-kicker-classes'
+import {
+  pageEyebrowDotClass,
+  pageEyebrowRowClass,
+  pageEyebrowTextClass,
+} from '@/lib/section-kicker-classes'
 import { cn } from '@/lib/utils'
 
 /** Section headlines — scales with insights showcase from `2xl` up. */
@@ -11,12 +15,10 @@ export const landingUltraHeadingClass = cn(
 /** Dark-band sections inherit `main` foreground; explicit for clarity in nested trees. */
 export const landingBandClass = 'text-foreground'
 
-/** Kicker row — same scale as insights index filter bar. */
-export const landingSectionKickerClass = cn('flex items-center gap-2', sectionKickerTextClass)
+/** Section / page eyebrow row — green dot, lemon mono label (work index style). */
+export const landingSectionKickerClass = cn(pageEyebrowRowClass, pageEyebrowTextClass)
 
-export const landingSectionKickerDotClass = cn(
-  'size-1.5 shrink-0 rounded-full bg-signal',
-)
+export const landingSectionKickerDotClass = pageEyebrowDotClass
 
 /** Primary section headline scale. */
 export const landingSectionTitleClass = cn(
@@ -98,7 +100,9 @@ export const landingHeroTitleClass = cn(
 )
 
 export const landingHeroSubkickerClass = cn(
-  'mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground sm:mb-4 md:mb-5',
+  'mb-3 sm:mb-4 md:mb-5',
+  pageEyebrowRowClass,
+  pageEyebrowTextClass,
 )
 
 export const landingHeroBodyClass = cn(
@@ -153,27 +157,27 @@ export const landingCardDescClass = cn(
 
 /** Work index / lab — boxed project cards (system surfaces; not insight overlay cards). */
 export const workLabCardShellClass = cn(
-  'group relative flex min-h-0 flex-col overflow-hidden rounded-xl border border-border bg-box',
+  'group relative flex min-h-0 flex-col overflow-hidden rounded-lg border border-border bg-box lg:rounded-xl',
   'text-left outline-none transition-[border-color,background-color,box-shadow] duration-500',
   'hover:border-foreground/20 hover:bg-card-hover hover:shadow-[0_14px_32px_-24px_rgba(0,0,0,0.4)]',
   'focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
 )
 
 export const workLabCardMediaClass = cn(
-  'relative aspect-[2/1] w-full shrink-0 overflow-hidden bg-image-well',
+  'relative aspect-[5/3] w-full shrink-0 overflow-hidden bg-image-well lg:aspect-[2/1]',
 )
 
 /** Taller media block for landing single-row cards. */
 export const workLabCardLandingMediaClass = cn(
-  'relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-image-well',
+  'relative aspect-[3/2] w-full shrink-0 overflow-hidden bg-image-well lg:aspect-[4/3]',
 )
 
 export const workLabCardBodyClass = cn(
-  'flex min-w-0 flex-1 flex-col gap-1.5 border-t border-border px-3 py-2.5 sm:px-3.5 sm:py-3',
+  'flex min-w-0 flex-1 flex-col gap-1 border-t border-border px-2.5 py-2 sm:px-3 sm:py-2.5 lg:gap-1.5 lg:px-3.5 lg:py-3',
 )
 
 export const workLabCardLandingBodyClass = cn(
-  'flex min-w-0 flex-1 flex-col gap-2 border-t border-border px-3 py-3 sm:px-3.5 sm:py-3.5',
+  'flex min-w-0 flex-1 flex-col gap-1.5 border-t border-border px-2.5 py-2.5 sm:px-3 sm:py-3 lg:gap-2 lg:px-3.5 lg:py-3.5',
 )
 
 export const workLabCardHeaderClass = cn('flex items-center justify-between gap-2')
@@ -188,32 +192,32 @@ export const workLabCardYearClass = cn(
 )
 
 export const workLabCardTitleClass = cn(
-  'font-display text-pretty text-base font-semibold leading-[1.15] tracking-tight text-foreground',
-  'line-clamp-2 transition-colors duration-500 group-hover:text-signal sm:text-[1.05rem]',
+  'font-display text-pretty text-sm font-semibold leading-[1.15] tracking-tight text-foreground',
+  'line-clamp-2 transition-colors duration-500 group-hover:text-signal sm:text-[0.95rem] lg:text-base xl:text-[1.05rem]',
 )
 
 export const workLabCardFooterClass = cn(
-  'mt-auto flex items-center justify-between gap-2 border-t border-border/70 pt-1.5',
+  'mt-auto flex items-center justify-between gap-2 border-t border-border/70 pt-1 lg:pt-1.5',
 )
 
 export const workLabCardLocationClass = cn(
-  'min-w-0 truncate text-[11px] leading-snug text-muted-foreground',
+  'min-w-0 truncate text-[10px] leading-snug text-muted-foreground lg:text-[11px]',
 )
 
 export const workLabCardCtaClass = cn(
   'inline-flex shrink-0 items-center gap-0.5 rounded-full border border-foreground/20 bg-transparent',
-  'px-2 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-foreground/85 transition-colors duration-500',
-  'sm:text-[9px] group-hover:border-signal/45 group-hover:text-signal',
+  'px-1.5 py-0.5 font-mono text-[7px] uppercase tracking-[0.14em] text-foreground/85 transition-colors duration-500',
+  'lg:px-2 lg:py-1 lg:text-[8px] lg:tracking-[0.16em] xl:text-[9px] group-hover:border-signal/45 group-hover:text-signal',
 )
 
 /** Landing “In the Lab” — one row of three on large screens. */
 export const workLabCardLandingGridClass = cn(
-  'grid list-none grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5 xl:gap-6',
+  'grid list-none grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5 xl:gap-6',
 )
 
 /** Work index — catalog grid. */
 export const workLabCardGridClass = cn(
-  'grid list-none grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5 xl:gap-6',
+  'grid list-none grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5 xl:gap-6',
 )
 
 export const landingEmptyCoverClass = 'text-xs font-medium text-muted-foreground'
@@ -280,19 +284,30 @@ export const landingStripDotInactiveClass = 'w-2 bg-foreground/30 hover:bg-foreg
 
 export const landingStripDotActiveClass = 'w-7 bg-signal'
 
-/** Work / insights catalog filter pills (`/work`, `/insights`). */
+/** Shared shell for topic pills and catalog filters. */
 export const catalogFilterPillBaseClass = cn(
   'inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5',
-  'font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-300',
-  'sm:px-3.5 sm:py-2',
+  'font-sans text-[11px] font-medium tracking-tight transition-colors duration-300',
+  'sm:px-3.5 sm:py-2 sm:text-xs',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
 )
 
-export const catalogFilterPillInactiveClass = cn(
+/** Topic labels — work detail header, insight detail hero (on page background). */
+export const detailHeroTopicPillClass = cn(
   catalogFilterPillBaseClass,
   'border-foreground/15 bg-foreground/[0.04] text-muted-foreground',
   'hover:border-foreground/25 hover:bg-foreground/[0.07] hover:text-foreground',
 )
+
+/** Topic labels over hero media — insight detail hero image overlay. */
+export const detailHeroTopicPillOnImageClass = cn(
+  detailHeroTopicPillClass,
+  'border-white/25 bg-white/15 text-white backdrop-blur-sm',
+  'hover:border-white/40 hover:bg-white/25 hover:text-white',
+)
+
+/** Work / insights catalog filter pills (`/work`, `/insights`). */
+export const catalogFilterPillInactiveClass = detailHeroTopicPillClass
 
 export const catalogFilterPillActiveClass = cn(
   catalogFilterPillBaseClass,
@@ -363,4 +378,22 @@ export const landingPillarCardClass = cn(
   'group relative isolate flex min-h-[260px] flex-col justify-between overflow-hidden bg-background',
   'p-8 sm:min-h-[280px] sm:p-9 md:min-h-[300px] md:p-10',
   '2xl:min-h-[320px] 2xl:p-12 3xl:min-h-[340px] 3xl:p-14 4xl:min-h-[360px] 4xl:p-16',
+)
+
+/** Services page — Space Grotesk stack (same as landing); no separate display face. */
+export const servicesPageRootClass = 'font-sans'
+
+export const servicesHeroIntroClass = cn(
+  landingSectionIntroClass,
+  'max-w-md md:text-right lg:max-w-sm',
+)
+
+export const servicesPracticeDescriptionClass = cn(landingSectionIntroClass, 'max-w-lg text-foreground/80')
+
+export const servicesOfferingIndexClass = cn(
+  'w-7 shrink-0 font-mono text-sm tabular-nums tracking-[0.2em] text-muted-foreground md:text-base',
+)
+
+export const servicesOfferingLabelClass = cn(
+  'font-sans text-base font-medium leading-snug text-foreground md:text-lg lg:text-xl',
 )

@@ -293,7 +293,7 @@ export function SiteFooter({
 
         {/* Black footer */}
         <div data-nav-surface="dark" className="border-t border-border bg-background text-white">
-          <div className="grid gap-10 px-8 py-10 sm:px-10 sm:py-12 md:grid-cols-12 md:gap-8 md:px-14 md:py-14 lg:px-16 lg:py-16 xl:px-18 xl:py-18 2xl:px-20 2xl:py-20 3xl:px-24 3xl:py-24 4xl:px-28 4xl:py-28">
+          <div className="grid gap-12 px-8 py-12 sm:px-10 sm:py-14 md:grid-cols-12 md:gap-x-16 md:gap-y-14 md:px-14 md:py-16 lg:gap-x-20 lg:gap-y-16 lg:px-16 lg:py-18 xl:gap-x-24 xl:px-18 xl:py-20 2xl:gap-x-28 2xl:px-20 2xl:py-20 3xl:gap-x-32 3xl:px-24 3xl:py-24 4xl:gap-x-36 4xl:px-28 4xl:py-28">
           <div className="md:col-span-4">
             <div className="flex items-center gap-3">
               <span className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl">leseb</span>
@@ -319,7 +319,7 @@ export function SiteFooter({
           </div>
 
           <div className="md:col-span-8">
-            <div className="grid grid-cols-2 gap-10 md:grid-cols-3">
+            <div className="grid grid-cols-2 gap-12 sm:gap-14 md:grid-cols-3 md:gap-16 lg:gap-20 xl:gap-24">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/55">Platform</p>
                 <ul className="mt-4 space-y-2 text-sm text-white/75">

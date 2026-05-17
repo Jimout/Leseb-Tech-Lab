@@ -3,6 +3,10 @@
 import * as React from 'react'
 
 import type { WorkFilterDefinition } from '@/lib/work-filter-definition'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { DEFAULT_WORK_CATALOG_FILTER_SEEDS } from '@/lib/works-catalog-seeds'
 import { cn } from '@/lib/utils'
 
@@ -104,10 +108,8 @@ export function WorksFilterMenu({
       <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-5 sm:py-10 md:px-7 md:py-11 lg:px-9">
         {/* Mobile: tight kicker, then 2×4 grid */}
         <div className="flex flex-col gap-4 md:hidden">
-          <p className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-secondary dark:text-accent">
-            <span className="text-secondary dark:text-accent" aria-hidden>
-              •
-            </span>
+          <p className={landingSectionKickerClass}>
+            <span className={landingSectionKickerDotClass} aria-hidden />
             {kicker}
           </p>
           <div className="grid grid-cols-2 gap-x-3 gap-y-4">
@@ -124,13 +126,9 @@ export function WorksFilterMenu({
 
         {/* Desktop: kicker + row1 on one line; faint column lines via cell borders */}
         <div className="hidden md:grid md:grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] md:items-start md:gap-x-0 md:gap-y-6 lg:gap-y-7">
-          <div className="col-start-1 row-start-1 flex min-w-0 items-start gap-2 pr-2 pt-0.5 lg:pr-3">
-            <span className="shrink-0 text-secondary dark:text-accent" aria-hidden>
-              •
-            </span>
-            <span className="text-[11px] font-medium uppercase leading-snug tracking-[0.14em] text-secondary dark:text-accent lg:text-xs">
-              {kicker}
-            </span>
+          <div className={cn('col-start-1 row-start-1 min-w-0 pr-2 pt-0.5 lg:pr-3', landingSectionKickerClass)}>
+            <span className={landingSectionKickerDotClass} aria-hidden />
+            {kicker}
           </div>
           {row1.map((item, i) => (
             <FilterCell

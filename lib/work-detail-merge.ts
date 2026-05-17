@@ -76,6 +76,24 @@ function mergePatch(
       base.secondaryImageDescriptionColumns as string[] | undefined,
     ),
     contentBlocks: asContentBlocks(d.contentBlocks, base.contentBlocks as typeof d.contentBlocks),
+    websiteUrl: d.websiteUrl?.trim() || base.websiteUrl,
+    client: d.client?.trim() || base.client,
+    industry: d.industry?.trim() || d.projectType?.trim() || base.industry,
+    duration: d.duration?.trim() || d.solution?.trim() || base.duration,
+    storyVideo:
+      d.storyVideo === null
+        ? null
+        : d.storyVideo?.url?.trim()
+          ? d.storyVideo
+          : base.storyVideo,
+    storyVideoTitle: d.storyVideoTitle?.trim() || base.storyVideoTitle,
+    storyVideoDescription: d.storyVideoDescription?.trim() || base.storyVideoDescription,
+    storyGalleryImages: asMediaArray(
+      d.storyGalleryImages,
+      base.storyGalleryImages as Array<{ src: string; alt: string }> | undefined,
+    ),
+    storyGalleryTitle: d.storyGalleryTitle?.trim() || base.storyGalleryTitle,
+    storyGalleryDescription: d.storyGalleryDescription?.trim() || base.storyGalleryDescription,
   }
 }
 
@@ -107,6 +125,15 @@ export function mergeWorkDetailRow(
       year: cardDefaults.year,
       tags: cardDefaults.tags,
       location: work.location,
+      client: cardDefaults.client,
+      industry: cardDefaults.industry,
+      duration: cardDefaults.duration,
+      storyVideo: cardDefaults.storyVideo,
+      storyVideoTitle: cardDefaults.storyVideoTitle,
+      storyVideoDescription: cardDefaults.storyVideoDescription,
+      storyGalleryImages: cardDefaults.storyGalleryImages,
+      storyGalleryTitle: cardDefaults.storyGalleryTitle,
+      storyGalleryDescription: cardDefaults.storyGalleryDescription,
     }
   }
 

@@ -1,3 +1,4 @@
+import type { MediaAsset } from '@/lib/media-assets'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
 import type { WorkDetailContentBlock } from '@/lib/work-detail-content-blocks'
 
@@ -23,6 +24,20 @@ export type WorkDetailPatch = {
   secondaryImageDescriptionColumns?: string[]
   /** Ordered rich text + images below the meta bar. When present and non-empty, replaces legacy layout fields. */
   contentBlocks?: WorkDetailContentBlock[]
+  /** External project URL — shows a fixed “Visit website” button on the project page. */
+  websiteUrl?: string
+  client?: string
+  industry?: string
+  duration?: string
+  /** Case-study video below description. `null` removes the block on the public page. */
+  storyVideo?: MediaAsset | null
+  storyVideoTitle?: string
+  storyVideoDescription?: string
+  storyGalleryImages?: Array<{ src: string; alt: string; publicId?: string }>
+  storyGalleryTitle?: string
+  storyGalleryDescription?: string
+  /** @deprecated Use `duration` — read for backward compatibility. */
+  solution?: string
 }
 
 export type WorkRow = ShowcaseWork & {

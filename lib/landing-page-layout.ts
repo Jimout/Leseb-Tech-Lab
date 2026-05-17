@@ -27,6 +27,11 @@ export const landingPageShellClass = cn(containerMaxWidthClass, containerPadding
 /** Inner rail used inside a `landingPageGutterClass` section (manifesto, lab, hero, …). */
 export const landingSectionInnerClass = cn('relative mx-auto min-w-0', landingPageContentMaxClass)
 
+/** First content row below sticky nav — work / insights filter bars, services hero. */
+export const catalogPageBelowNavPadTopClass = 'pt-6 sm:pt-8 md:pt-10 lg:pt-11'
+
+export const catalogPageFilterBarPadClass = 'py-6 sm:py-8 md:py-10 lg:py-11'
+
 /** Hero-only top inset to clear the sticky nav (`-mt-14` on the section). */
 export const landingHeroPadTopClass = cn(
   'pt-28 sm:pt-32 md:pt-36 lg:pt-40 xl:pt-44',
@@ -37,6 +42,12 @@ export const landingHeroPadTopClass = cn(
 export const landingHomeStackGapClass = cn(
   'flex flex-col gap-16 md:gap-20 lg:gap-24 xl:gap-28',
   '2xl:gap-32 3xl:gap-36 4xl:gap-40',
+)
+
+/** Pull footer up on home — offsets part of `landingHomeStackGapClass` after the insights band. */
+export const landingHomeFooterTightClass = cn(
+  '-mt-10 md:-mt-14 lg:-mt-18 xl:-mt-20',
+  '2xl:-mt-24 3xl:-mt-28 4xl:-mt-32',
 )
 
 /** Uniform vertical padding inside a band (contact, insight related, etc.). */

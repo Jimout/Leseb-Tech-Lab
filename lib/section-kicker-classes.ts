@@ -9,3 +9,13 @@ export const sectionKickerTextClass =
  * Same ink as kickers — bullets, middots, and inline bits next to a kicker line.
  */
 export const sectionKickerAccentClass = 'text-secondary dark:text-accent'
+
+/**
+ * Page eyebrow — work index style (“Our work”): brand green dot, lemon (`signal`) mono label.
+ */
+export const pageEyebrowRowClass = 'flex items-center gap-2'
+
+export const pageEyebrowDotClass = 'size-1.5 shrink-0 rounded-full bg-primary'
+
+export const pageEyebrowTextClass =
+  'font-mono text-[10px] uppercase tracking-[0.25em] text-signal'

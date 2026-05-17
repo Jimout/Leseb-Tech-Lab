@@ -8,7 +8,6 @@ import type { InsightDetail } from '@/lib/insight-detail-types'
 import {
   insightDetailHeroDescriptionClass,
   insightDetailHeroTitleClass,
-  insightDetailKickerClass,
   insightDetailSansClass,
 } from '@/lib/insight-detail-typography'
 import {
@@ -17,7 +16,7 @@ import {
   landingPageGutterClass,
 } from '@/lib/landing-page-layout'
 import {
-  catalogFilterPillInactiveClass,
+  detailHeroTopicPillOnImageClass,
   landingEmptyCoverClass,
   landingMetaClass,
   landingSectionKickerClass,
@@ -30,13 +29,6 @@ export type InsightDetailHeroProps = Pick<
   InsightDetail,
   'title' | 'date' | 'dateIso' | 'description' | 'heroMedia' | 'filterIds'
 >
-
-const heroImageTagPillClass = cn(
-  catalogFilterPillInactiveClass,
-  insightDetailSansClass,
-  'border-white/25 bg-white/15 text-white backdrop-blur-sm',
-  'hover:border-white/40 hover:bg-white/25 hover:text-white',
-)
 
 function HeroImageTagOverlay({
   filterIds,
@@ -69,7 +61,7 @@ function HeroImageTagOverlay({
       <ul className="relative flex flex-wrap gap-2 p-4 sm:p-5" aria-label="Topics">
         {pills.map((label) => (
           <li key={label}>
-            <span className={cn(heroImageTagPillClass, 'pointer-events-none')}>{label}</span>
+            <span className={cn(detailHeroTopicPillOnImageClass, 'pointer-events-none')}>{label}</span>
           </li>
         ))}
       </ul>
@@ -125,7 +117,7 @@ export function InsightDetailHero({
             className={cn(landingSectionKickerClass, 'w-fit transition-opacity hover:opacity-80')}
           >
             <span className={landingSectionKickerDotClass} aria-hidden />
-            <span className={insightDetailKickerClass}>Insight blog</span>
+            Insight blog
           </Link>
         </div>
 

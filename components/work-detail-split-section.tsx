@@ -1,6 +1,7 @@
 import { MediaRenderer } from '@/components/media-renderer'
 import { WorkDetailFillImage } from '@/components/work-detail-fill-image'
-import { WorkDetailMetaBar } from '@/components/work-detail-meta-bar'
+import { WorkDetailProjectFacts } from '@/components/work-detail-project-facts'
+import { WorkDetailStoryVideo } from '@/components/work-detail-story-video'
 import type { WorkDetailContentBlock } from '@/lib/work-detail-content-blocks'
 import type { ResolvedWorkDetail } from '@/lib/work-detail-types'
 import { sanitizeInsightHtml } from '@/lib/sanitize-insight-html'
@@ -103,8 +104,7 @@ type WorkDetailSplitSectionProps = {
 }
 
 export function WorkDetailSplitSection({ detail, overview }: WorkDetailSplitSectionProps) {
-  const { pageTitle, pageTitleLines, location, projectType, year, roles, secondaryImageDescriptionColumns } =
-    detail
+  const { pageTitle, pageTitleLines, secondaryImageDescriptionColumns } = detail
 
   const useBlocks = Boolean(detail.contentBlocks?.length)
   const partitioned = useBlocks
@@ -162,16 +162,14 @@ export function WorkDetailSplitSection({ detail, overview }: WorkDetailSplitSect
           ) : (
             <p className={workDetailSplitBodyClass}>{overview}</p>
           )}
+          <WorkDetailProjectFacts
+            client={detail.client}
+            industry={detail.industry}
+            duration={detail.duration}
+          />
         </div>
       </div>
-
-      <WorkDetailMetaBar
-        className="mt-12 border-t border-border/80 pt-10 sm:mt-14 sm:pt-12"
-        location={location}
-        projectType={projectType}
-        year={year}
-        roles={roles}
-      />
+      <WorkDetailStoryVideo detail={detail} />
     </section>
   )
 }

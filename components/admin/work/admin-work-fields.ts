@@ -5,14 +5,12 @@ export { WORK_STORAGE_KEY } from '@/lib/admin/work-storage-key'
 
 export function emptyWorkDetail(): WorkDetailPatch {
   return {
-    pageTitle: '',
-    pageTitleLine1: '',
-    pageTitleLine2: '',
-    year: '',
-    projectType: '',
-    body: '',
     descriptionNote: '',
-    secondaryImageDescriptionColumns: ['', '', '', ''],
+    websiteUrl: '',
+    client: '',
+    industry: '',
+    duration: '',
+    storyGalleryImages: [],
   }
 }
 
@@ -27,6 +25,7 @@ export function emptyWork(): WorkRow {
     location: '',
     title: '',
     category: '',
+    cardSummary: '',
     filterIds: [],
     detail: emptyWorkDetail(),
   }

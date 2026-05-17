@@ -36,6 +36,7 @@ model Work {
   location        String
   title           String
   category        String
+  cardSummary     String   @default("")
   filterIds       String[]
   detail          Json?
   sortOrder       Int      @default(0)

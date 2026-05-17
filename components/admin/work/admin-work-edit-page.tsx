@@ -22,12 +22,12 @@ export function AdminWorkEditPage({ id }: { id: string }) {
   return (
     <AdminWorkFormPage
       title="Edit work"
-      description="Update this work entry."
+      description="Sections match the work grid and project page top to bottom."
       backHref="/admin/work"
-      submitLabel="Update"
+      submitLabel="Save"
       initial={initial}
       onSubmit={(next) => upsert(next)}
-      confirmUpdate
+      mode="edit"
     />
   )
 }

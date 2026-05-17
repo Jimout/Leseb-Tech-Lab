@@ -4,26 +4,33 @@ import { useMemo } from 'react'
 
 import { AdminWorkFormPage } from '@/components/admin/work/admin-work-form-page'
 import { useToast } from '@/hooks/use-toast'
-import { useWorkAdminCollection } from '@/hooks/use-work-admin-collection'
 import { createNotificationEventClient } from '@/lib/notifications/client'
+import { createWorkRowClient } from '@/lib/work-admin-create-client'
 
 import { emptyWork } from './admin-work-fields'
 
 export function AdminWorkNewPage() {
-  const { upsert } = useWorkAdminCollection()
   const { toast } = useToast()
   const initial = useMemo(() => emptyWork(), [])
 
   return (
     <AdminWorkFormPage
       title="Add work"
-      description="Create a work entry."
+      description="Sections match the work grid and project page top to bottom."
       backHref="/admin/work"
-      submitLabel="Create"
+      submitLabel="Create work"
+      mode="create"
       initial={initial}
       onSubmit={async (next) => {
-        const ok = await upsert(next)
-        if (!ok) return false
+        const result = await createWorkRowClient(next)
+        if (!result.ok) {
+          toast({
+            title: 'Could not save work',
+            description: result.error,
+            variant: 'destructive',
+          })
+          return false
+        }
         void createNotificationEventClient({
           type: 'WORK_PUBLISHED',
           title: `New work: ${next.title}`,

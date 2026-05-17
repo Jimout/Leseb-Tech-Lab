@@ -10,6 +10,7 @@ export type WorkDetailContentBlock =
       alt: string
       /** Tall full-width hero proportion vs aspect-video gallery */
       variant: 'hero' | 'wide'
+      publicId?: string
     }
   | {
       id: string

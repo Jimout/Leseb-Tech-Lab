@@ -42,6 +42,7 @@ function normalizeWorkRow(input: unknown): (Omit<WorkRow, 'slug'> & { slug?: str
     location: typeof row.location === 'string' ? row.location : '',
     title,
     category: typeof row.category === 'string' ? row.category : '',
+    cardSummary: typeof row.cardSummary === 'string' ? row.cardSummary : '',
     filterIds: migrateCatalogFilterIds(
       Array.isArray(row.filterIds) ? row.filterIds.filter((x): x is string => typeof x === 'string') : [],
     ),
@@ -95,6 +96,7 @@ function toWorkRow(inner: Record<string, unknown>): WorkRow | null {
     location: typeof inner.location === 'string' ? inner.location : '',
     title: typeof inner.title === 'string' ? inner.title : '',
     category: typeof inner.category === 'string' ? inner.category : '',
+    cardSummary: typeof inner.cardSummary === 'string' ? inner.cardSummary : '',
     filterIds: Array.isArray(inner.filterIds)
       ? inner.filterIds.filter((x): x is string => typeof x === 'string')
       : [],
@@ -115,6 +117,7 @@ export async function getWorkRowByIdFromDb(id: string): Promise<WorkRow | null> 
     location: row.location,
     title: row.title,
     category: row.category,
+    cardSummary: row.cardSummary,
     filterIds: row.filterIds,
     detail: row.detail as unknown,
   })
@@ -133,6 +136,7 @@ export async function getWorkRowBySlugFromDb(slug: string): Promise<WorkRow | nu
     location: row.location,
     title: row.title,
     category: row.category,
+    cardSummary: row.cardSummary,
     filterIds: row.filterIds,
     detail: row.detail as unknown,
   })
@@ -156,6 +160,7 @@ export async function createWorkRowInDb(input: WorkRow): Promise<WorkRow | null>
         location: input.location,
         title: input.title,
         category: input.category,
+        cardSummary: input.cardSummary?.trim() ?? '',
         filterIds: [...input.filterIds],
         detail:
           input.detail === undefined || input.detail === null
@@ -174,6 +179,7 @@ export async function createWorkRowInDb(input: WorkRow): Promise<WorkRow | null>
         location: row.location,
         title: row.title,
         category: row.category,
+        cardSummary: row.cardSummary,
         filterIds: row.filterIds,
         detail: row.detail as unknown,
       }) ?? null
@@ -206,6 +212,7 @@ export async function updateWorkRowByIdInDb(id: string, input: WorkRow): Promise
         location: input.location,
         title: input.title,
         category: input.category,
+        cardSummary: input.cardSummary?.trim() ?? '',
         filterIds: [...input.filterIds],
         detail:
           input.detail === undefined || input.detail === null
@@ -224,6 +231,7 @@ export async function updateWorkRowByIdInDb(id: string, input: WorkRow): Promise
         location: row.location,
         title: row.title,
         category: row.category,
+        cardSummary: row.cardSummary,
         filterIds: row.filterIds,
         detail: row.detail as unknown,
       }) ?? null
@@ -278,6 +286,7 @@ export async function saveWorkRowsToDb(nextRows: WorkRow[]): Promise<WorkRow[]> 
     location: row.location,
     title: row.title,
     category: row.category,
+    cardSummary: row.cardSummary?.trim() ?? '',
     filterIds: [...row.filterIds],
     detail:
       row.detail === undefined || row.detail === null

@@ -17,6 +17,7 @@ const workRowSchema = z.object({
   location: z.string(),
   title: z.string(),
   category: z.string(),
+  cardSummary: z.string().optional().default(''),
   filterIds: z.array(z.string()),
   detail: z.unknown().optional(),
 })

@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { X } from 'lucide-react'
+import { Upload, X } from 'lucide-react'
 
 import { MediaRenderer } from '@/components/media-renderer'
 import { Button } from '@/components/ui/button'
@@ -16,8 +16,13 @@ type Props = {
   mediaAlt: string
   onMediaUrl: (v: string) => void
   onMediaAlt: (v: string) => void
+  onUploadingChange?: (uploading: boolean) => void
+  onError?: (message: string) => void
   /** Default `insight` — only changes the help copy. */
   context?: 'insight' | 'work'
+  /** Manual URL / path field (off by default for insights). */
+  allowUrlInput?: boolean
+  required?: boolean
 }
 
 export function AdminInsightHeroImageField({
@@ -25,17 +30,38 @@ export function AdminInsightHeroImageField({
   mediaAlt,
   onMediaUrl,
   onMediaAlt,
+  onUploadingChange,
+  onError,
   context = 'insight',
+  allowUrlInput = false,
+  required = false,
 }: Props) {
+  const fileInputId = React.useId()
   const fileRef = React.useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = React.useState(false)
   const [progress, setProgress] = React.useState(0)
   const [dragOver, setDragOver] = React.useState(false)
 
+  const setUploadingState = React.useCallback(
+    (next: boolean) => {
+      setUploading(next)
+      onUploadingChange?.(next)
+    },
+    [onUploadingChange],
+  )
+
+  const reportError = React.useCallback(
+    (err: unknown) => {
+      const message = err instanceof Error ? err.message : 'Upload failed. Try again.'
+      onError?.(message)
+    },
+    [onError],
+  )
+
   const handleFileUpload = async (file: File | null) => {
     if (!file) return
     try {
-      setUploading(true)
+      setUploadingState(true)
       setProgress(0)
       const asset = await uploadMediaClient({
         file,
@@ -47,50 +73,82 @@ export function AdminInsightHeroImageField({
       onMediaUrl(asset.url)
       if (!mediaAlt.trim()) onMediaAlt(imageAltFromFileName(file.name))
     } catch (err) {
-      window.alert(err instanceof Error ? err.message : String(err))
+      reportError(err)
     } finally {
-      setUploading(false)
+      setUploadingState(false)
       setProgress(0)
     }
   }
+
   const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     e.target.value = ''
-    await handleFileUpload(file)
+    await handleFileUpload(file ?? null)
   }
 
-  const showUrlFallback = context !== 'work'
+  const showUrlFallback = allowUrlInput
   const urlValue = mediaUrl.startsWith('data:') ? '' : mediaUrl
+  const labelSuffix = required ? ' *' : ''
 
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Label className="text-white/80">Hero image — choose file</Label>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Label className="text-white/80">
+            Hero image{labelSuffix}
+          </Label>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="h-8 gap-1.5"
+              disabled={uploading}
+              asChild
+            >
+              <label htmlFor={fileInputId} className="cursor-pointer">
+                <Upload className="size-4" aria-hidden />
+                Choose file
+              </label>
+            </Button>
+            {mediaUrl ? (
+              <Button
+                type="button"
+                variant="destructive"
+                size="icon"
+                className="size-8"
+                disabled={uploading}
+                aria-label="Remove image"
+                title="Remove image"
+                onClick={() => {
+                  const oldPublicId = cloudinaryPublicIdFromUrl(mediaUrl)
+                  if (oldPublicId) void deleteMediaByPublicId(oldPublicId).catch(() => {})
+                  onMediaUrl('')
+                  if (fileRef.current) fileRef.current.value = ''
+                }}
+              >
+                <X className="size-4" aria-hidden />
+              </Button>
+            ) : null}
+          </div>
+        </div>
         <p className="text-xs text-white/55">
-          Uploads to Cloudinary and stores only media URL + metadata with this{' '}
+          Upload an image file (PNG, JPEG, WebP, GIF, or AVIF) for this{' '}
           {context === 'work' ? 'work entry' : 'insight'}.
-          {showUrlFallback ? (
-            <>
-              {' '}
-              For production, add the file under <code className="text-white/80">public/images/</code>{' '}
-              and use the path below instead.
-            </>
-          ) : null}
         </p>
         <Input
+          id={fileInputId}
           ref={fileRef}
           type="file"
-          accept="image/*"
-          className={cn(
-            'cursor-pointer border-white/15 bg-background/30 text-sm text-white file:mr-3 file:rounded-md',
-            'file:border-0 file:bg-white/15 file:px-3 file:py-1.5 file:text-white',
-          )}
+          accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
+          className="sr-only"
           onChange={onFile}
         />
         <div
           className={cn(
-            'rounded-md border border-dashed px-3 py-2 text-xs transition-colors',
+            'rounded-md border border-dashed px-3 py-3 text-xs transition-colors',
             dragOver ? 'border-white/40 bg-white/10 text-white/95' : 'border-white/15 text-white/60',
+            uploading && 'pointer-events-none opacity-60',
           )}
           onDragOver={(e) => {
             e.preventDefault()
@@ -106,7 +164,7 @@ export function AdminInsightHeroImageField({
         >
           Drag and drop an image here
         </div>
-        {uploading ? <p className="text-xs text-white/60">Uploading... {progress}%</p> : null}
+        {uploading ? <p className="text-xs text-white/60">Uploading… {progress}%</p> : null}
         {mediaUrl ? (
           <div className="flex flex-wrap items-start gap-3">
             <div className="relative h-28 w-44 shrink-0 overflow-hidden rounded-lg border border-white/15 bg-background/40">
@@ -116,21 +174,6 @@ export function AdminInsightHeroImageField({
                 variant="admin-preview"
               />
             </div>
-            <Button
-              type="button"
-              variant="secondary"
-              size="icon"
-              aria-label="Remove image"
-              title="Remove image"
-              onClick={() => {
-                const oldPublicId = cloudinaryPublicIdFromUrl(mediaUrl)
-                if (oldPublicId) void deleteMediaByPublicId(oldPublicId).catch(() => {})
-                onMediaUrl('')
-                if (fileRef.current) fileRef.current.value = ''
-              }}
-            >
-              <X className="size-4" aria-hidden />
-            </Button>
           </div>
         ) : null}
       </div>
@@ -148,11 +191,15 @@ export function AdminInsightHeroImageField({
       ) : null}
 
       <div className="space-y-2">
-        <Label className="text-white/80">Hero image alt text</Label>
+        <Label className="text-white/80">
+          Hero image alt text{labelSuffix}
+        </Label>
         <Input
           value={mediaAlt}
           onChange={(e) => onMediaAlt(e.target.value)}
+          placeholder="Describe the image for accessibility"
           className="border-white/15 bg-background/30 text-white"
+          required={required}
         />
       </div>
     </div>

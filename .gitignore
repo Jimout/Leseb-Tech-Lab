@@ -11,6 +11,9 @@ node_modules
 .next/
 .DS_Store
 
+# Local dev uploads when Cloudinary is not configured
+public/uploads/dev/
+
 # Local Lighthouse dumps (audit tooling)
 lighthouse-*.json
 .lighthouse/

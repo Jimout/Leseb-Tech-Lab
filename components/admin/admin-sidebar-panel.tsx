@@ -17,6 +17,7 @@ import { useAdminAuth } from '@/hooks/use-admin-auth'
 import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
 import {
   adminPanelSurfaceClass,
+  adminSidebarAccordionItemClass,
   adminSidebarAccordionTriggerClass,
   adminSidebarNavLinkBaseClass,
 } from '@/lib/admin/admin-layout-classes'
@@ -62,9 +63,9 @@ export function AdminSidebarPanel({
 
   const activeGroups = React.useMemo(() => {
     const path = pathname ?? ''
-    return groups.filter((g) =>
-      g.items.some((i) => path === i.href || path.startsWith(i.href + '/')),
-    ).map((g) => g.id)
+    return groups
+      .filter((g) => g.items.some((i) => path === i.href || path.startsWith(i.href + '/')))
+      .map((g) => g.id)
   }, [pathname, groups])
 
   const [open, setOpen] = React.useState<string[]>(() =>
@@ -77,73 +78,61 @@ export function AdminSidebarPanel({
   }, [activeGroups])
 
   return (
-    <div className={cn(adminPanelSurfaceClass, 'min-w-0 h-full flex flex-col', className)}>
+    <div className={cn(adminPanelSurfaceClass, 'flex h-full min-h-0 min-w-0 flex-col', className)}>
       <AdminSidebarBrand />
-      <div className="mt-4 h-px w-full bg-white/10" aria-hidden />
-      <nav className="mt-4 flex-1 min-h-0 overflow-y-auto overflow-x-hidden lg:overflow-visible" aria-label="Admin">
+      <div className="mt-4 h-px w-full shrink-0 bg-white/10" aria-hidden />
+      <nav
+        className="mt-4 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
+        aria-label="Admin"
+      >
         <Accordion
           type="multiple"
           value={open}
           onValueChange={setOpen}
-          className="space-y-2"
+          className="flex flex-col gap-1.5"
         >
           {groups.map((group) => (
-            <AccordionItem
-              key={group.id}
-              value={group.id}
-              className="overflow-hidden rounded-xl border-white/10 bg-transparent px-0"
-            >
-              <AccordionTrigger className={adminSidebarAccordionTriggerClass}>
+            <AccordionItem key={group.id} value={group.id} className={adminSidebarAccordionItemClass}>
+              <AccordionTrigger
+                className={cn(adminSidebarAccordionTriggerClass, 'w-full py-2.5 hover:no-underline')}
+              >
                 <span className="flex items-center gap-2">
-                  <span className="inline-block size-1.5 rounded-full bg-white/25" aria-hidden />
+                  <span className="inline-block size-1.5 shrink-0 rounded-full bg-white/25" aria-hidden />
                   {group.label}
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="pb-2">
-                <div className="ml-3 border-l border-white/10 pl-2">
-                  <div className="flex flex-col gap-1">
+              <AccordionContent variant="sidebar">
+                <div className="ml-3 border-l border-white/10 pl-3 pt-0.5">
+                  <ul className="flex flex-col gap-1">
                     {group.items.map((item) => {
                       const active = pathname === item.href
                       return (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          onClick={() => onNavigate?.()}
-                          className={cn(
-                            adminSidebarNavLinkBaseClass,
-                            active
-                              ? 'bg-accent text-accent-foreground'
-                              : 'text-white/80 hover:bg-white/5 hover:text-white',
-                          )}
-                        >
-                          {!active ? (
-                            <span
-                              className="absolute left-1.5 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-white/25 opacity-0 transition-opacity group-hover:opacity-100"
-                              aria-hidden
-                            />
-                          ) : null}
-                          {item.label}
-                        </Link>
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            onClick={() => onNavigate?.()}
+                            className={cn(
+                              adminSidebarNavLinkBaseClass,
+                              'block w-full',
+                              active
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-white/80 hover:bg-white/5 hover:text-white',
+                            )}
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
                       )
                     })}
-                  </div>
+                  </ul>
                 </div>
               </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
       </nav>
-      <p
-        className={cn(
-          'mt-6 leading-relaxed text-white/60',
-          'text-xs sm:text-sm lg:text-sm xl:text-sm',
-          '2xl:text-base 3xl:text-base 4xl:text-base',
-        )}
-      >
-        Site settings pages save to backend. Some content editors still use browser-local storage.
-      </p>
 
-      <div className="mt-6 border-t border-white/10 pt-4">
+      <div className="mt-6 shrink-0 border-t border-white/10 pt-4">
         <Button
           variant="secondary"
           className="w-full"

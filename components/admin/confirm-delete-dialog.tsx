@@ -11,16 +11,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Trash2 } from 'lucide-react'
 
 export function ConfirmDeleteDialog({
   title = 'Delete item?',
   description = 'This action cannot be undone.',
+  confirmLabel = 'Delete',
+  cancelLabel = 'Cancel',
   onConfirm,
   trigger,
 }: {
   title?: string
   description?: string
+  confirmLabel?: string
+  cancelLabel?: string
   onConfirm: () => void
   trigger: React.ReactNode
 }) {
@@ -33,10 +36,8 @@ export function ConfirmDeleteDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm} aria-label="Confirm delete" title="Confirm delete">
-            <Trash2 className="size-4" aria-hidden />
-          </AlertDialogAction>
+          <AlertDialogCancel>{cancelLabel}</AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm}>{confirmLabel}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

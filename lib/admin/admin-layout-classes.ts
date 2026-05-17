@@ -27,9 +27,14 @@ export const adminMainGridClass = cn(
   '4xl:grid-cols-[18rem_minmax(0,1fr)]',
 )
 
+/** One accordion group in the admin sidebar. */
+export const adminSidebarAccordionItemClass = cn(
+  'overflow-visible rounded-xl border-0 border-b-0 bg-white/[0.03]',
+)
+
 /** Accordion group labels in admin sidebar. */
 export const adminSidebarAccordionTriggerClass = cn(
-  'items-center rounded-xl px-3 py-2 font-semibold tracking-[0.14em] transition-colors duration-200',
+  'items-center rounded-xl px-3 py-2.5 font-semibold tracking-[0.14em] transition-colors duration-200',
   'text-[11px] sm:text-xs md:text-[12px] lg:text-[13px] xl:text-sm',
   '2xl:text-sm 3xl:text-base 4xl:text-base',
   'text-white/60 uppercase',
@@ -48,10 +53,7 @@ export const adminSidebarNavLinkBaseClass = cn(
  * `items-start` on the parent grid keeps this column from stretching to match the main column.
  */
 export const adminSidebarAsideClass = cn(
-  'sticky top-8 hidden w-full min-w-0 shrink-0 lg:block',
-  'self-start',
-  '2xl:self-stretch 3xl:self-stretch 4xl:self-stretch',
-  '2xl:h-full 3xl:h-full 4xl:h-full',
+  'sticky top-8 hidden w-full min-w-0 shrink-0 self-start lg:block',
 )
 
 /** Bordered panels (tables, list shells). */

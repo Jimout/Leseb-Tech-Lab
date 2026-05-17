@@ -8,10 +8,20 @@ type CloudinaryEnvKey =
   | 'CLOUDINARY_API_KEY'
   | 'CLOUDINARY_API_SECRET'
 
+export function isCloudinaryConfigured(): boolean {
+  return (
+    Boolean(process.env.CLOUDINARY_CLOUD_NAME?.trim()) &&
+    Boolean(process.env.CLOUDINARY_API_KEY?.trim()) &&
+    Boolean(process.env.CLOUDINARY_API_SECRET?.trim())
+  )
+}
+
 function requireEnv(key: CloudinaryEnvKey): string {
-  const value = process.env[key]
+  const value = process.env[key]?.trim()
   if (!value) {
-    throw new Error(`Missing required environment variable: ${key}`)
+    throw new Error(
+      `Cloudinary is not configured. Add ${key} to your .env file (see .env.example). Get credentials at https://console.cloudinary.com/settings/api-keys`,
+    )
   }
   return value
 }

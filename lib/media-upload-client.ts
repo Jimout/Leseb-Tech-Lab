@@ -1,6 +1,7 @@
 'use client'
 
 import type { MediaAsset } from '@/lib/media-assets'
+import { assertAllowedUploadMime, prepareFileForUpload } from '@/lib/media-file-type'
 import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
 
 type UploadMediaClientInput = {
@@ -14,40 +15,39 @@ type UploadMediaClientInput = {
 }
 
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024
-const ALLOWED_IMAGE_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif'])
-const ALLOWED_VIDEO_TYPES = new Set(['video/mp4', 'video/webm', 'video/quicktime'])
 
-function detectKindFromFile(file: File): 'image' | 'gif' | 'video' {
-  if (file.type === 'image/gif') return 'gif'
-  if (file.type.startsWith('video/')) return 'video'
+function detectKindFromMime(mime: string): 'image' | 'gif' | 'video' {
+  if (mime === 'image/gif') return 'gif'
+  if (mime.startsWith('video/')) return 'video'
   return 'image'
 }
 
 export async function uploadMediaClient(input: UploadMediaClientInput): Promise<MediaAsset> {
   const { file, folder, onProgress, signal, timeoutMs = 90_000, retries = 1, onRetry } = input
-  if (!file.type) throw new Error('File has no MIME type.')
-  const isVideo = file.type.startsWith('video/')
-  if (isVideo && !ALLOWED_VIDEO_TYPES.has(file.type)) {
-    throw new Error(`Unsupported video type: ${file.type}`)
+
+  const sessionHeader = getSessionHeaderFromStorage()
+  if (!sessionHeader) {
+    throw new Error('Session expired. Sign in again to upload images.')
   }
-  if (!isVideo && !ALLOWED_IMAGE_TYPES.has(file.type)) {
-    throw new Error(`Unsupported image type: ${file.type}`)
-  }
+
+  const prepared = prepareFileForUpload(file)
+  const mime = prepared.type
+  assertAllowedUploadMime(mime)
+
   if (file.size > MAX_UPLOAD_BYTES) {
     throw new Error('File too large (max 50 MB).')
   }
 
   const form = new FormData()
-  form.append('file', file)
+  form.append('file', prepared)
   if (folder) form.append('folder', folder)
-  form.append('kind', detectKindFromFile(file))
+  form.append('kind', detectKindFromMime(mime))
 
   const runOnce = async () =>
     await new Promise<MediaAsset>((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       xhr.open('POST', '/api/upload-media')
-      const sessionHeader = getSessionHeaderFromStorage()
-      if (sessionHeader) xhr.setRequestHeader('x-session', sessionHeader)
+      xhr.setRequestHeader('x-session', sessionHeader)
 
       const timeoutId = window.setTimeout(() => {
         xhr.abort()

@@ -1,8 +1,7 @@
-import bcrypt from 'bcrypt'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { prisma } from '@/lib/prisma'
+import { verifyAdminLogin } from '@/lib/admin/bootstrap-admin-user'
 import { encodeSessionHeader } from '@/lib/session-header-server'
 
 const loginSchema = z.object({
@@ -24,17 +23,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid login credentials' }, { status: 400 })
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email: parsed.data.email },
-    select: { id: true, email: true, name: true, password: true },
-  })
-
-  if (!user?.password) {
-    return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
-  }
-
-  const validPassword = await bcrypt.compare(parsed.data.password, user.password)
-  if (!validPassword) {
+  const user = await verifyAdminLogin(parsed.data.email, parsed.data.password)
+  if (!user) {
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
   }
 

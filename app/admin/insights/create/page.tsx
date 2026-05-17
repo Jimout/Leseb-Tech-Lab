@@ -1,5 +1,5 @@
-import { AdminInsightNewPage } from '@/components/admin/insights/admin-insight-new-page'
+import { AdminInsightCreatePage } from '@/components/admin/insights/admin-insight-create-page'
 
-export default function AdminInsightNewRoute() {
-  return <AdminInsightNewPage />
+export default function AdminInsightCreateRoute() {
+  return <AdminInsightCreatePage />
 }

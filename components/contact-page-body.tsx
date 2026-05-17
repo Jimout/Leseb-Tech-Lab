@@ -23,7 +23,7 @@ const contactLinkClass =
 export function ContactPageBody() {
   const { settings } = useSiteSettings()
   const contact = settings.contact
-  const phone = settings.footer.phone?.trim() ?? ''
+  const phone = (contact.phone || settings.footer.phone)?.trim() ?? ''
   const phoneHref = phone ? toTelHref(phone) : ''
 
   return (
@@ -38,10 +38,10 @@ export function ContactPageBody() {
           <aside className="min-w-0 md:col-span-4">
             <div className={cn('mb-4', landingSectionKickerClass)}>
               <span className={landingSectionKickerDotClass} aria-hidden />
-              Enquiries
+              {contact.sectionKicker}
             </div>
             <h2 id="contact-form-heading" className={cn(landingSectionTitleClass, 'text-3xl sm:text-4xl lg:text-5xl')}>
-              Get in touch.
+              {contact.sectionTitle}
             </h2>
 
             <div className="mt-8 space-y-6 md:mt-10">

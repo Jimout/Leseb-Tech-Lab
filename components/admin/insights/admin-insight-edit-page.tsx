@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 
+import { AdminLoadingScreen } from '@/components/admin/admin-loading-screen'
 import { AdminInsightFormPage } from '@/components/admin/insights/admin-insight-form'
 import { useInsightAdminCollection } from '@/hooks/use-insight-admin-collection'
 
@@ -13,7 +14,9 @@ export function AdminInsightEditPage({ id }: { id: string }) {
 
   const initial = useMemo(() => items.find((it) => it.id === id) ?? emptyInsight(), [id, items])
 
-  if (loading) return null
+  if (loading) {
+    return <AdminLoadingScreen message="Loading insight" className="min-h-[40vh]" />
+  }
   if (!exists) return null
 
   return (

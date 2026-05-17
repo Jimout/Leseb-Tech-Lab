@@ -1,51 +1,48 @@
 'use client'
 
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
-import { Card } from '@/components/ui/card'
-import { readJson } from '@/lib/admin/storage'
+import { DEFAULT_ADMIN_NAV_GROUPS } from '@/components/admin/admin-nav-config'
+import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
 import type { VisitEvent } from '@/lib/admin/visitors'
+import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
-const QUICK_LINKS = [
-  { href: '/admin/site', title: 'Site sections', description: 'Hero, footer, dual marquee.' },
-  { href: '/admin/pages', title: 'Pages', description: 'About + Contact content.' },
-  { href: '/admin/privacy', title: 'Privacy', description: 'Privacy policy + policy pages.' },
-  { href: '/admin/subscribers', title: 'Subscribers', description: 'Newsletter signups.' },
-  { href: '/admin/visitors', title: 'Visitors', description: 'Traffic + pageviews.' },
-  { href: '/admin/settings', title: 'Settings', description: 'Admin email + password.' },
-] as const
-
-function QuickLinkCard({
-  href,
-  title,
-  description,
-}: {
-  href: string
-  title: string
-  description: string
-}) {
-  return (
-    <Link href={href} className="block">
-      <Card className="group rounded-2xl border-white/10 bg-white/5 p-4 transition hover:bg-white/7 sm:p-5 md:p-6 lg:p-6 xl:p-6 2xl:p-7 3xl:p-8 4xl:p-8">
-        <div className="flex items-start justify-between gap-3 sm:gap-4 lg:gap-5">
-          <div className="min-w-0">
-            <p className="text-sm font-semibold text-white sm:text-base lg:text-[15px] xl:text-lg 2xl:text-xl 3xl:text-xl 4xl:text-2xl">
-              {title}
-            </p>
-            <p className="mt-1 text-sm text-white/65 sm:text-sm lg:text-base xl:text-base 2xl:text-lg 3xl:text-lg 4xl:text-lg">
-              {description}
-            </p>
-          </div>
-          <span className="shrink-0 text-lg text-white/40 transition group-hover:text-white/70 sm:text-xl 2xl:text-2xl">
-            →
-          </span>
-        </div>
-      </Card>
-    </Link>
-  )
+const LINK_HINTS: Record<string, string> = {
+  '/adminopia/insights': 'Create and edit insight articles.',
+  '/adminopia/work': 'Manage portfolio projects.',
+  '/adminopia/site/hero': 'Homepage hero headline and intro.',
+  '/adminopia/site/footer': 'Footer panels, contact, and social links.',
+  '/adminopia/site/insight-toc': 'Logo beside article table of contents.',
+  '/adminopia/site/catalog-filters': 'Categories for /work and /insights filters.',
+  '/adminopia/privacy': 'Privacy policy copy.',
+  '/adminopia/pages/about': 'About page sections and letter.',
+  '/adminopia/pages/contact': 'Contact page hero and form.',
+  '/adminopia/subscribers': 'Newsletter signups.',
+  '/adminopia/visitors': 'Traffic and pageviews.',
+  '/adminopia/settings': 'Admin email and password for this browser.',
 }
+
+const QUICK_SECTIONS = DEFAULT_ADMIN_NAV_GROUPS.filter((group) => group.id !== 'core').map(
+  (group) => ({
+    title: group.label,
+    links: group.items.map((item) => ({
+      href: item.href,
+      title: item.label,
+      description: LINK_HINTS[item.href] ?? '',
+    })),
+  }),
+)
+
+const KPI_ITEMS = [
+  { key: 'insights', label: 'Insights', hint: 'Published articles' },
+  { key: 'work', label: 'Work', hint: 'Portfolio projects' },
+  { key: 'subscribers', label: 'Subscribers', hint: 'Total signups' },
+  { key: 'visits', label: 'Visits', hint: 'Last 7 days' },
+] as const
 
 function dayKey(iso: string) {
   const d = new Date(iso)
@@ -79,35 +76,22 @@ function BarsChart({
 }) {
   const max = Math.max(1, ...values.map((v) => v.y))
   return (
-    <div className="w-full">
-      <p className="text-xs font-semibold tracking-wide text-white/70 sm:text-sm lg:text-sm xl:text-base 2xl:text-base 3xl:text-lg">
-        {label}
-      </p>
+    <div className="min-w-0">
+      <p className="text-sm font-medium text-white/80">{label}</p>
       <div className="mt-3 h-24 w-full">
-        <svg viewBox="0 0 100 40" className="h-full w-full">
+        <svg viewBox="0 0 100 40" className="h-full w-full" aria-hidden>
           {values.map((v, i) => {
             const w = 100 / values.length
             const x = i * w + w * 0.18
             const bw = w * 0.64
             const h = (v.y / max) * 34
             const y = 38 - h
-            return (
-              <g key={v.x}>
-                <rect
-                  x={x}
-                  y={y}
-                  width={bw}
-                  height={h}
-                  rx={1.8}
-                  className="fill-white/18"
-                />
-              </g>
-            )
+            return <rect key={v.x} x={x} y={y} width={bw} height={h} rx={1.8} className="fill-white/18" />
           })}
           <line x1="0" y1="38.5" x2="100" y2="38.5" className="stroke-white/10" />
         </svg>
       </div>
-      <div className="mt-2 flex items-center justify-between text-[10px] text-white/45 sm:text-xs lg:text-sm">
+      <div className="mt-2 flex items-center justify-between text-xs text-white/45">
         <span>{values[0]?.x.slice(5)}</span>
         <span>{values[values.length - 1]?.x.slice(5)}</span>
       </div>
@@ -115,39 +99,52 @@ function BarsChart({
   )
 }
 
-function KpiCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
+function ShortcutCard({
+  href,
+  title,
+  description,
+  section,
+}: {
+  href: string
+  title: string
+  description: string
+  section: string
+}) {
   return (
-    <Card className="rounded-2xl border-white/10 bg-white/5 p-4 sm:p-5 md:p-6 lg:p-6 xl:p-7 2xl:p-7 3xl:p-8 4xl:p-8">
-      <p className="text-xs font-semibold tracking-wide text-white/60 sm:text-sm lg:text-sm xl:text-base 2xl:text-base">
-        {label}
-      </p>
-      <p className="mt-2 text-2xl font-bold tracking-tight text-white lg:text-3xl xl:text-3xl 2xl:text-4xl 3xl:text-4xl 4xl:text-5xl">
-        {value}
-      </p>
-      {hint ? (
-        <p className="mt-1 text-sm text-white/55 lg:text-base xl:text-base 2xl:text-lg">{hint}</p>
-      ) : null}
-    </Card>
+    <Link href={href} className="group block h-full">
+      <Card className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-white/20 hover:bg-white/[0.07] sm:p-5">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">{section}</p>
+        <div className="mt-3 flex flex-1 items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-white sm:text-base">{title}</p>
+            {description ? <p className="mt-1.5 text-sm leading-relaxed text-white/55">{description}</p> : null}
+          </div>
+          <ChevronRight
+            className="mt-0.5 size-4 shrink-0 text-white/35 transition group-hover:translate-x-0.5 group-hover:text-white/65"
+            aria-hidden
+          />
+        </div>
+      </Card>
+    </Link>
   )
 }
 
 export function AdminOverviewPage() {
   const [subscribers, setSubscribers] = useState<Array<{ createdAt: string }>>([])
   const [visits, setVisits] = useState<VisitEvent[]>([])
-  const [insightsCount, setInsightsCount] = useState<number>(0)
-  const [resourcesCount, setResourcesCount] = useState<number>(0)
-  const [workCount, setWorkCount] = useState<number>(0)
+  const [insightsCount, setInsightsCount] = useState(0)
+  const [workCount, setWorkCount] = useState(0)
 
   useEffect(() => {
-    fetch('/api/admin/subscribers', { cache: 'no-store' })
+    void fetch('/api/admin/subscribers', { cache: 'no-store' })
       .then(async (response) => {
         if (!response.ok) return
         const data = (await response.json()) as { rows: Array<{ createdAt: string }> }
-        setSubscribers(data.rows)
+        setSubscribers(Array.isArray(data.rows) ? data.rows : [])
       })
       .catch(() => {})
 
-    fetch('/api/admin/visits?limit=1000&range=7d', { cache: 'no-store' })
+    void fetch('/api/admin/visits?limit=1000&range=7d', { cache: 'no-store' })
       .then(async (response) => {
         if (!response.ok) {
           setVisits([])
@@ -156,16 +153,32 @@ export function AdminOverviewPage() {
         const data = (await response.json()) as { rows?: VisitEvent[] }
         setVisits(Array.isArray(data.rows) ? data.rows : [])
       })
-      .catch(() => {
-        setVisits([])
-      })
+      .catch(() => setVisits([]))
 
-    const insights = readJson<unknown[]>('admin:insights:v1') ?? []
-    const resources = readJson<unknown[]>('admin:resources:v1') ?? []
-    const works = readJson<unknown[]>('admin:works:v1') ?? []
-    setInsightsCount(Array.isArray(insights) ? insights.length : 0)
-    setResourcesCount(Array.isArray(resources) ? resources.length : 0)
-    setWorkCount(Array.isArray(works) ? works.length : 0)
+    const sessionHeader = getSessionHeaderFromStorage()
+    if (!sessionHeader) return
+
+    void fetch('/api/admin/insights', {
+      cache: 'no-store',
+      headers: { 'x-session': sessionHeader },
+    })
+      .then(async (response) => {
+        if (!response.ok) return
+        const data = (await response.json()) as { insights?: unknown[] }
+        setInsightsCount(Array.isArray(data.insights) ? data.insights.length : 0)
+      })
+      .catch(() => {})
+
+    void fetch('/api/admin/work-rows', {
+      cache: 'no-store',
+      headers: { 'x-session': sessionHeader },
+    })
+      .then(async (response) => {
+        if (!response.ok) return
+        const data = (await response.json()) as { rows?: unknown[] }
+        setWorkCount(Array.isArray(data.rows) ? data.rows.length : 0)
+      })
+      .catch(() => {})
   }, [])
 
   const last7 = useMemo(() => lastNDaysKeys(7), [])
@@ -190,37 +203,73 @@ export function AdminOverviewPage() {
     return last7.map((k) => ({ x: k, y: counts.get(k) ?? 0 }))
   }, [last7, subscribers])
 
+  const visits7d = useMemo(() => visitsSeries.reduce((sum, row) => sum + row.y, 0), [visitsSeries])
+
+  const kpiValues: Record<(typeof KPI_ITEMS)[number]['key'], string> = {
+    insights: String(insightsCount),
+    work: String(workCount),
+    subscribers: String(subscribers.length),
+    visits: String(visits7d),
+  }
+
   return (
     <AdminPageShell
       title="Overview"
-      description="Manage site content, pages, policies, subscribers, and admin settings."
+      description="Activity at a glance and shortcuts to every section in the dashboard."
     >
-      <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-6 2xl:gap-7 3xl:gap-8">
-        <KpiCard label="Insights" value={String(insightsCount)} hint="Cards in admin storage" />
-        <KpiCard label="Resources" value={String(resourcesCount)} hint="Cards in admin storage" />
-        <KpiCard label="Work" value={String(workCount)} hint="Cards in admin storage" />
-      </div>
-
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:gap-5 sm:mt-8 lg:mt-10 lg:grid-cols-2 lg:gap-6 xl:gap-6 2xl:gap-7">
-        <Card className="rounded-2xl border-white/10 bg-white/5 p-4 sm:p-5 md:p-6 lg:p-6 xl:p-7 2xl:p-7 3xl:p-8">
-          <BarsChart label="Visits (last 7 days)" values={visitsSeries} />
+      <div className="space-y-6 lg:space-y-8">
+        <Card className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {KPI_ITEMS.map((item, index) => (
+              <div
+                key={item.key}
+                className={cn(
+                  'px-4 py-4 sm:px-5 sm:py-5',
+                  index % 2 === 0 && 'border-r border-white/10',
+                  index < 2 && 'border-b border-white/10 lg:border-b-0',
+                  index < 3 && 'lg:border-r lg:border-white/10',
+                )}
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/50">{item.label}</p>
+                <p className="mt-1.5 text-2xl font-bold tracking-tight text-white sm:text-3xl">{kpiValues[item.key]}</p>
+                <p className="mt-1 text-xs text-white/50 sm:text-sm">{item.hint}</p>
+              </div>
+            ))}
+          </div>
         </Card>
-        <Card className="rounded-2xl border-white/10 bg-white/5 p-4 sm:p-5 md:p-6 lg:p-6 xl:p-7 2xl:p-7 3xl:p-8">
-          <BarsChart label="Subscribers (last 7 days)" values={subsSeries} />
-        </Card>
-      </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:gap-5 sm:mt-8 lg:mt-10 lg:grid-cols-2 lg:gap-6 2xl:grid-cols-3 2xl:gap-6 3xl:gap-7 4xl:grid-cols-4 4xl:gap-8">
-        {QUICK_LINKS.map((l) => (
-          <QuickLinkCard
-            key={l.href}
-            href={l.href}
-            title={l.title}
-            description={l.description}
-          />
-        ))}
+        <Card className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-white/50">Activity</h2>
+          <div className="mt-4 grid gap-6 sm:grid-cols-2 sm:gap-8">
+            <BarsChart label="Visits" values={visitsSeries} />
+            <BarsChart label="New subscribers" values={subsSeries} />
+          </div>
+          <p className="mt-4 text-xs text-white/40">Last 7 days</p>
+        </Card>
+
+        <section aria-labelledby="overview-shortcuts-heading">
+          <h2
+            id="overview-shortcuts-heading"
+            className="text-sm font-semibold uppercase tracking-wider text-white/50"
+          >
+            Shortcuts
+          </h2>
+          <nav className="mt-5 space-y-8 sm:mt-6 sm:space-y-10" aria-label="Dashboard sections">
+            {QUICK_SECTIONS.map((section) => (
+              <div key={section.title}>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40">{section.title}</h3>
+                <ul className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+                  {section.links.map((link) => (
+                    <li key={link.href} className="min-h-0">
+                      <ShortcutCard {...link} section={section.title} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </section>
       </div>
     </AdminPageShell>
   )
 }
-

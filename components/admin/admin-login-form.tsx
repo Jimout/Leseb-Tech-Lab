@@ -21,8 +21,8 @@ export function AdminLoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('admin@leseb.com')
+  const [password, setPassword] = useState('admin123')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -164,7 +164,8 @@ export function AdminLoginForm() {
         Forgot password?
       </button>
       <p className="text-xs text-white/55 2xl:text-sm 4xl:text-base">
-        Dashboard access only. The public site does not require an account.
+        Default local login: admin@leseb.com / admin123 (from .env). Restart the dev
+        server after changing .env.
       </p>
     </form>
   )

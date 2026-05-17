@@ -36,7 +36,7 @@ export function NewsletterSubscribeBanner({
   const footer = settings.footer
   const line1 = footer.newsletterLine1?.trim() || 'Subscribe to'
   const line2 = footer.newsletterLine2?.trim() || 'our newsletter'
-  const logoSrc = footer.logoLightSrc?.trim() || footer.logoDarkSrc?.trim() || DEFAULT_NEWSLETTER_LOGO
+  const logoSrc = footer.newsletterBannerSrc?.trim() || DEFAULT_NEWSLETTER_LOGO
 
   return (
     <section

@@ -135,7 +135,7 @@ export function SiteFooter({
 }: SiteFooterProps) {
   const { settings } = useSiteSettings()
   const defaults = settings.footer
-  const configured = defaults.socialLinks ?? []
+  const configured = (defaults.socialLinks ?? []).filter((x) => x.visible !== false && x.href.trim())
   const resolvedSocial =
     configured.length > 0
       ? configured.map((x) => ({ href: x.href, label: footerSocialLabel(x.iconId), Icon: iconFor(x.iconId) }))
@@ -197,9 +197,9 @@ export function SiteFooter({
                       footerPanelMotionEase,
                     )}
                   >
-                    LET&apos;S WORK
+                    {defaults.workPanelLine1}
                     <br />
-                    TOGETHER
+                    {defaults.workPanelLine2}
                   </h3>
                   <p
                     className={cn(
@@ -208,7 +208,7 @@ export function SiteFooter({
                       footerPanelMotionEase,
                     )}
                   >
-                    Have an idea worth making real?{' '}
+                    {defaults.workPanelDescription}{' '}
                     <a
                       className={cn(
                         'font-medium text-foreground underline-offset-2 transition-colors group-hover:text-foreground hover:underline',
@@ -271,9 +271,9 @@ export function SiteFooter({
                       footerPanelMotionEase,
                     )}
                   >
-                    ABOUT
+                    {defaults.aboutPanelLine1}
                     <br />
-                    US
+                    {defaults.aboutPanelLine2}
                   </h3>
                   <p
                     className={cn(
@@ -282,7 +282,7 @@ export function SiteFooter({
                       footerPanelMotionEase,
                     )}
                   >
-                    Learn more about our journey and what we’re building.
+                    {defaults.aboutPanelDescription}
                   </p>
                 </div>
                 <FooterPanelArrowChip />
@@ -299,7 +299,7 @@ export function SiteFooter({
               <span className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl">leseb</span>
             </div>
             <p className="mt-4 space-y-1 text-sm text-white/70">
-              <span className="block">Have questions or want to chat?</span>
+              <span className="block">{defaults.contactIntro}</span>
               <span className="block">
                 Drop us a line →{' '}
                 <a className="text-signal hover:underline" href={`mailto:${footerEmail}`}>

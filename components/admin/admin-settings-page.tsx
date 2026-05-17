@@ -14,17 +14,20 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAdminAuth } from '@/hooks/use-admin-auth'
+import { useToast } from '@/hooks/use-toast'
 import { readAdminCreds, writeAdminCreds } from '@/lib/admin/auth'
+
+const adminDialogClass = 'border-white/10 bg-[#141414] text-white'
 
 export function AdminSettingsPage() {
   const { logout } = useAdminAuth()
+  const { toast } = useToast()
   const [current, setCurrent] = useState(() => readAdminCreds())
 
   const [email, setEmail] = useState(current.email)
@@ -33,24 +36,82 @@ export function AdminSettingsPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const changed = useMemo(() => email.trim() !== current.email || password !== current.password, [
-    current.email,
-    current.password,
-    email,
-    password,
-  ])
+  const [discardOpen, setDiscardOpen] = useState(false)
+  const [saveOpen, setSaveOpen] = useState(false)
+  const [logoutOpen, setLogoutOpen] = useState(false)
+
+  const changed = useMemo(
+    () => email.trim() !== current.email || password !== current.password,
+    [current.email, current.password, email, password],
+  )
 
   const passwordsMatch = confirmPassword === password
   const canSave = changed && email.trim().length >= 4 && password.length >= 1 && passwordsMatch
+
+  function resetFormToSaved() {
+    setEmail(current.email)
+    setPassword(current.password)
+    setConfirmPassword(current.password)
+  }
+
+  function confirmDiscard() {
+    resetFormToSaved()
+    setDiscardOpen(false)
+    toast({
+      title: 'Changes discarded',
+      description: 'Email and password fields were reset to the last saved values.',
+    })
+  }
+
+  function confirmSave() {
+    const next = { email: email.trim(), password }
+    writeAdminCreds(next)
+    setCurrent(next)
+    setConfirmPassword(next.password)
+    setSaveOpen(false)
+    toast({
+      title: 'Credentials saved',
+      description: 'Admin login for this browser has been updated.',
+    })
+  }
+
+  function confirmLogout() {
+    setLogoutOpen(false)
+    logout()
+  }
 
   return (
     <AdminPageShell
       title="Settings"
       description="Manage admin credentials for this browser."
       right={
-        <Button variant="secondary" onClick={logout}>
-          Log out
-        </Button>
+        <>
+          <Button type="button" variant="secondary" onClick={() => setLogoutOpen(true)}>
+            Log out
+          </Button>
+
+          <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
+            <AlertDialogContent className={adminDialogClass}>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Log out?</AlertDialogTitle>
+                <AlertDialogDescription className="text-white/65">
+                  You will leave the admin dashboard and need to sign in again to continue editing.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="border-white/15 bg-white/5 text-white hover:bg-white/10">
+                  Stay signed in
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  className="bg-white text-black hover:bg-white/90"
+                  onClick={confirmLogout}
+                >
+                  Log out
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </>
       }
     >
       <div className="grid grid-cols-1 gap-8">
@@ -135,61 +196,66 @@ export function AdminSettingsPage() {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="secondary" disabled={!changed}>
-                  Cancel
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Discard changes?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will revert the email and password fields to the last saved values.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Keep editing</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => {
-                      setEmail(current.email)
-                      setPassword(current.password)
-                      setConfirmPassword(current.password)
-                    }}
-                  >
-                    Discard
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={!changed}
+                onClick={() => setDiscardOpen(true)}
+              >
+                Cancel
+              </Button>
 
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button disabled={!canSave}>Save</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Save credentials?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will update the admin email/password for this browser.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => {
-                      const next = { email: email.trim(), password }
-                      writeAdminCreds(next)
-                      setCurrent(next)
-                      setConfirmPassword(next.password)
-                    }}
-                  >
-                    Save
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+              <AlertDialog open={discardOpen} onOpenChange={setDiscardOpen}>
+                <AlertDialogContent className={adminDialogClass}>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Discard changes?</AlertDialogTitle>
+                    <AlertDialogDescription className="text-white/65">
+                      Unsaved edits to email or password will be lost. Fields will reset to the last saved
+                      values.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="border-white/15 bg-white/5 text-white hover:bg-white/10">
+                      Keep editing
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-white text-black hover:bg-white/90"
+                      onClick={confirmDiscard}
+                    >
+                      Discard changes
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
+              <Button type="button" disabled={!canSave} onClick={() => setSaveOpen(true)}>
+                Save
+              </Button>
+
+              <AlertDialog open={saveOpen} onOpenChange={setSaveOpen}>
+                <AlertDialogContent className={adminDialogClass}>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Save credentials?</AlertDialogTitle>
+                    <AlertDialogDescription className="text-white/65">
+                      This will update the admin email and password used to sign in on this browser.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="border-white/15 bg-white/5 text-white hover:bg-white/10">
+                      Keep editing
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-accent text-accent-foreground hover:bg-accent/90"
+                      onClick={confirmSave}
+                    >
+                      Save changes
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
 
             <ConfirmDeleteDialog
               title="Reset credentials?"
@@ -202,9 +268,15 @@ export function AdminSettingsPage() {
                 setEmail(next.email)
                 setPassword(next.password)
                 setConfirmPassword(next.password)
+                toast({
+                  title: 'Credentials reset',
+                  description: 'Admin login was restored to the default for this browser.',
+                })
               }}
             >
-              <Button variant="destructive">Reset to default</Button>
+              <Button type="button" variant="destructive">
+                Reset to default
+              </Button>
             </ConfirmDeleteDialog>
           </div>
         </Card>
@@ -212,4 +284,3 @@ export function AdminSettingsPage() {
     </AdminPageShell>
   )
 }
-

@@ -15,23 +15,37 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
+  Heading2,
+  Heading3,
   Italic,
   List,
   ListOrdered,
+  Pilcrow,
   Underline as UnderlineIcon,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-/** Theme tokens from `globals.css` — no hard-coded light/dark colors. */
-const PRIMARY_ACCENT_COLOR = 'var(--accent)'
-const YELLOW_ACCENT_COLOR = 'var(--ring)'
+/** Brand text accents — lemon (signal) + green (primary) + default inherit. */
+const LEMON_ACCENT_COLOR = 'var(--secondary)'
+const GREEN_ACCENT_COLOR = 'var(--primary)'
+
+/** Legacy editor HTML may still use these tokens; treat as lemon when toggling active state. */
+const LEMON_LEGACY_COLORS = new Set(['var(--accent)', 'var(--ring)', LEMON_ACCENT_COLOR])
 
 function currentTextColor(editor: Editor | null): string | undefined {
   if (!editor) return undefined
   const c = editor.getAttributes('textStyle').color
   return typeof c === 'string' ? c : undefined
+}
+
+function isLemonAccent(color: string | undefined): boolean {
+  return Boolean(color && LEMON_LEGACY_COLORS.has(color))
+}
+
+function isGreenAccent(color: string | undefined): boolean {
+  return color === GREEN_ACCENT_COLOR
 }
 
 function ToolbarButton({
@@ -87,6 +101,28 @@ function AdminRichTextToolbar({ editor }: { editor: Editor | null }) {
       </ToolbarButton>
       <span className="mx-1 h-5 w-px bg-border/70" aria-hidden />
       <ToolbarButton
+        title="Paragraph"
+        active={editor.isActive('paragraph')}
+        onClick={() => editor.chain().focus().setParagraph().run()}
+      >
+        <Pilcrow className="size-4" />
+      </ToolbarButton>
+      <ToolbarButton
+        title="Heading 2 (section title — appears in page contents)"
+        active={editor.isActive('heading', { level: 2 })}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+      >
+        <Heading2 className="size-4" />
+      </ToolbarButton>
+      <ToolbarButton
+        title="Heading 3 (subsection — appears in page contents)"
+        active={editor.isActive('heading', { level: 3 })}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+      >
+        <Heading3 className="size-4" />
+      </ToolbarButton>
+      <span className="mx-1 h-5 w-px bg-border/70" aria-hidden />
+      <ToolbarButton
         title="Align left"
         active={editor.isActive({ textAlign: 'left' })}
         onClick={() => editor.chain().focus().setTextAlign('left').run()}
@@ -116,43 +152,36 @@ function AdminRichTextToolbar({ editor }: { editor: Editor | null }) {
       </ToolbarButton>
       <span className="mx-1 h-5 w-px bg-border/70" aria-hidden />
       <ToolbarButton
-        title="Primary accent (theme accent token)"
-        active={ink === PRIMARY_ACCENT_COLOR}
-        onClick={() => editor.chain().focus().setColor(PRIMARY_ACCENT_COLOR).run()}
+        title="Lemon accent"
+        active={isLemonAccent(ink)}
+        onClick={() => editor.chain().focus().setColor(LEMON_ACCENT_COLOR).run()}
       >
-        <span className="inline-flex items-center gap-1">
-          <span
-            className="size-2 rounded-full border border-border/70"
-            style={{ backgroundColor: PRIMARY_ACCENT_COLOR }}
-            aria-hidden
-          />
-          <span className="text-xs font-semibold" style={{ color: PRIMARY_ACCENT_COLOR }}>
-            A1
-          </span>
-        </span>
+        <span
+          className="size-3.5 rounded-full border border-border/70"
+          style={{ backgroundColor: LEMON_ACCENT_COLOR }}
+          aria-hidden
+        />
       </ToolbarButton>
       <ToolbarButton
-        title="Yellow accent (theme ring token, consistent across light/dark)"
-        active={ink === YELLOW_ACCENT_COLOR}
-        onClick={() => editor.chain().focus().setColor(YELLOW_ACCENT_COLOR).run()}
+        title="Green accent"
+        active={isGreenAccent(ink)}
+        onClick={() => editor.chain().focus().setColor(GREEN_ACCENT_COLOR).run()}
       >
-        <span className="inline-flex items-center gap-1">
-          <span
-            className="size-2 rounded-full border border-border/70"
-            style={{ backgroundColor: YELLOW_ACCENT_COLOR }}
-            aria-hidden
-          />
-          <span className="text-xs font-semibold" style={{ color: YELLOW_ACCENT_COLOR }}>
-            A2
-          </span>
-        </span>
+        <span
+          className="size-3.5 rounded-full border border-border/70"
+          style={{ backgroundColor: GREEN_ACCENT_COLOR }}
+          aria-hidden
+        />
       </ToolbarButton>
       <ToolbarButton
-        title="Default color (inherit)"
-        active={!ink}
+        title="Default color"
+        active={!ink || (!isLemonAccent(ink) && !isGreenAccent(ink))}
         onClick={() => editor.chain().focus().unsetColor().run()}
       >
-        <span className="text-xs font-semibold text-foreground">A</span>
+        <span
+          className="size-3.5 rounded-full border border-border/70 bg-foreground"
+          aria-hidden
+        />
       </ToolbarButton>
       <span className="mx-1 h-5 w-px bg-border/70" aria-hidden />
       <ToolbarButton
@@ -192,10 +221,10 @@ export function AdminRichTextEditor({
     immediatelyRender: false,
     extensions: [
       StarterKit.configure({
-        heading: false,
+        heading: { levels: [2, 3] },
       }),
       Underline,
-      TextAlign.configure({ types: ['paragraph'] }),
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
       TextStyle,
       Color,
     ],
@@ -204,6 +233,8 @@ export function AdminRichTextEditor({
       attributes: {
         class: cn(
           'prose max-w-none px-3 py-2 text-sm text-foreground focus:outline-none',
+          '[&_h2]:mt-5 [&_h2]:mb-2 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:leading-snug [&_h2]:first:mt-0',
+          '[&_h3]:mt-4 [&_h3]:mb-1.5 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:leading-snug',
           '[&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6',
           minHeightClass,
         ),

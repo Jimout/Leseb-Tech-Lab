@@ -4,6 +4,7 @@ import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
 
+import { AdminBrandMark } from '@/components/admin/admin-brand-mark'
 import { AdminRouteGuard } from '@/components/admin/admin-route-guard'
 import { AdminSidebar, AdminSidebarPanel } from '@/components/admin/admin-sidebar'
 import { Button } from '@/components/ui/button'
@@ -105,9 +106,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 />
               </SheetContent>
             </Sheet>
-            <p className="min-w-0 truncate text-sm font-semibold text-white">
-              natty<span className="text-accent">opia</span> space
-            </p>
+            <AdminBrandMark logoSize="sm" className="min-w-0" />
           </header>
 
           <div className={cn(adminMainGridClass, 'flex-1 min-h-0')}>

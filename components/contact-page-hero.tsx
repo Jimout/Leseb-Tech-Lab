@@ -1,3 +1,4 @@
+import type { ContactPageSettings } from '@/lib/admin/site-settings'
 import {
   landingHeroPadTopClass,
   landingPageGutterClass,
@@ -6,7 +7,11 @@ import {
 import { landingUltraHeadingClass } from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
-export function ContactPageHero() {
+type ContactPageHeroProps = {
+  contact: ContactPageSettings
+}
+
+export function ContactPageHero({ contact }: ContactPageHeroProps) {
   return (
     <section
       data-nav-surface="dark"
@@ -26,7 +31,7 @@ export function ContactPageHero() {
       >
         <p className="flex items-center gap-2.5 text-sm font-medium tracking-tight text-foreground md:text-[15px]">
           <span className="size-1.5 shrink-0 rounded-full bg-foreground" aria-hidden />
-          Contact
+          {contact.heroEyebrow}
         </p>
 
         <div className="mt-auto grid gap-10 pt-12 md:grid-cols-12 md:items-end md:gap-8 lg:gap-12 md:pt-16 lg:pt-20">
@@ -38,9 +43,10 @@ export function ContactPageHero() {
               landingUltraHeadingClass,
             )}
           >
-            Let&apos;s build
+            {contact.heroLine1}
             <br />
-            something <span className="font-light italic text-signal">for humans.</span>
+            {contact.heroLine2}
+            <span className="font-light italic text-signal">{contact.heroAccent}</span>
           </h1>
 
           <p
@@ -50,12 +56,10 @@ export function ContactPageHero() {
               '2xl:text-xl 3xl:text-2xl 4xl:text-2xl',
             )}
           >
-            Tell us about your product, partnership, or research question. We reply from Addis Ababa, usually
-            within a few working days.
+            {contact.heroDescription}
           </p>
         </div>
       </div>
     </section>
   )
 }
-

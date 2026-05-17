@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 
-import { AdminPrivacyDialogActions } from '@/components/admin/admin-privacy-dialog-actions'
+import { AdminPageSaveCancelActions } from '@/components/admin/admin-page-save-cancel-actions'
 import { AdminPrivacyEditorFields } from '@/components/admin/admin-privacy-editor-fields'
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
 import { Card } from '@/components/ui/card'
@@ -58,7 +58,19 @@ export function AdminPrivacyPage() {
     <AdminPageShell
       title="Privacy"
       description="Edit the Privacy Policy page content."
-      right={<AdminPrivacyDialogActions changed={changed} onDiscard={discard} onSave={save} />}
+      right={
+        <AdminPageSaveCancelActions
+          changed={changed}
+          pageName="Privacy policy"
+          publicPath="/privacy"
+          saveTitle="Save privacy policy?"
+          saveDescription="This will update the public /privacy page for all visitors."
+          discardTitle="Discard privacy changes?"
+          discardDescription="Unsaved edits to the privacy policy will be lost. All fields will reset to the last saved version."
+          onSave={save}
+          onDiscard={discard}
+        />
+      }
     >
       <Card className="rounded-2xl border-white/10 bg-white/5 p-5 sm:p-6">
         <AdminPrivacyEditorFields

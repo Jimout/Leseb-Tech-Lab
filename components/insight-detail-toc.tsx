@@ -29,8 +29,7 @@ const tocPanelClass = cn(landingNewsletterPanelClass, 'p-5 sm:p-6')
 function TocBrandMark({ className }: { className?: string }) {
   const { settings } = useSiteSettings()
   const toc = settings.insightToc
-  const footerLogo = settings.footer.logoLightSrc?.trim() || settings.footer.logoDarkSrc?.trim()
-  const src = toc.markLightSrc?.trim() || toc.markDarkSrc?.trim() || footerLogo || DEFAULT_TOC_LOGO
+  const src = toc.markSrc?.trim() || DEFAULT_TOC_LOGO
   const alt = toc.markAlt?.trim() || 'Leseb'
 
   return (

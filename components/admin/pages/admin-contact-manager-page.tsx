@@ -1,34 +1,27 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { ExternalLink } from 'lucide-react'
 
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
-import { ContactFormFieldsEditor, ContactSocialLinksEditor } from '@/components/admin/pages/contact/contact-editors'
+import {
+  AdminField,
+  ContactEnquiriesFields,
+  ContactFormFields,
+  ContactHeroFields,
+  ContactSocialFields,
+  contactFieldClass,
+} from '@/components/admin/pages/contact/contact-page-editors'
+import { AdminPageSaveCancelActions } from '@/components/admin/admin-page-save-cancel-actions'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Switch } from '@/components/ui/switch'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium text-white/85">{label}</p>
-      {children}
-    </div>
-  )
-}
+  buildContactSettingsForSave,
+  type ContactPageSettings,
+} from '@/lib/admin/site-settings'
 
 export function AdminContactManagerPage() {
   const { settings, patch, ready } = useSiteSettings()
@@ -36,269 +29,145 @@ export function AdminContactManagerPage() {
 
   const [metaTitle, setMetaTitle] = useState(settings.contact.metaTitle)
   const [metaDescription, setMetaDescription] = useState(settings.contact.metaDescription)
-  const [introLine1, setIntroLine1] = useState(settings.contact.introLine1)
-  const [introLine2, setIntroLine2] = useState(settings.contact.introLine2)
-  const [email, setEmail] = useState(settings.contact.email)
-  const [formVisible, setFormVisible] = useState(settings.contact.formVisible)
-  const [formSubmitLabel, setFormSubmitLabel] = useState(settings.contact.formSubmitLabel)
-  const [newsletterOptInVisible, setNewsletterOptInVisible] = useState(settings.contact.newsletterOptInVisible)
-  const [newsletterOptInLabel, setNewsletterOptInLabel] = useState(settings.contact.newsletterOptInLabel)
-  const [formFields, setFormFields] = useState(settings.contact.formFields)
-  const [socialVisible, setSocialVisible] = useState(settings.contact.socialVisible)
-  const [socialLinks, setSocialLinks] = useState(settings.contact.socialLinks)
+  const [contact, setContact] = useState<ContactPageSettings>(settings.contact)
 
   useEffect(() => {
     if (!ready || hydrated.current) return
     hydrated.current = true
-    const c = settings.contact
-    setMetaTitle(c.metaTitle)
-    setMetaDescription(c.metaDescription)
-    setIntroLine1(c.introLine1)
-    setIntroLine2(c.introLine2)
-    setEmail(c.email)
-    setFormVisible(c.formVisible)
-    setFormSubmitLabel(c.formSubmitLabel)
-    setNewsletterOptInVisible(c.newsletterOptInVisible)
-    setNewsletterOptInLabel(c.newsletterOptInLabel)
-    setFormFields(c.formFields)
-    setSocialVisible(c.socialVisible)
-    setSocialLinks(c.socialLinks)
+    setMetaTitle(settings.contact.metaTitle)
+    setMetaDescription(settings.contact.metaDescription)
+    setContact(settings.contact)
   }, [ready, settings.contact])
 
+  const savedContact = useMemo(
+    () => buildContactSettingsForSave(settings.contact, settings.footer.phone),
+    [settings.contact, settings.footer.phone],
+  )
+
   const changed = useMemo(() => {
+    const nextContact = buildContactSettingsForSave(contact, contact.phone)
     return (
       metaTitle !== settings.contact.metaTitle ||
       metaDescription !== settings.contact.metaDescription ||
-      introLine1 !== settings.contact.introLine1 ||
-      introLine2 !== settings.contact.introLine2 ||
-      email !== settings.contact.email ||
-      formVisible !== settings.contact.formVisible ||
-      formSubmitLabel !== settings.contact.formSubmitLabel ||
-      newsletterOptInVisible !== settings.contact.newsletterOptInVisible ||
-      newsletterOptInLabel !== settings.contact.newsletterOptInLabel ||
-      formFields !== settings.contact.formFields ||
-      socialVisible !== settings.contact.socialVisible ||
-      socialLinks !== settings.contact.socialLinks
+      JSON.stringify(nextContact) !== JSON.stringify(savedContact) ||
+      (contact.phone.trim() && contact.phone !== settings.footer.phone)
     )
-  }, [
-    email,
-    introLine1,
-    introLine2,
-    metaDescription,
-    metaTitle,
-    formFields,
-    formSubmitLabel,
-    formVisible,
-    newsletterOptInLabel,
-    newsletterOptInVisible,
-    socialLinks,
-    socialVisible,
-    settings.contact.email,
-    settings.contact.introLine1,
-    settings.contact.introLine2,
-    settings.contact.formFields,
-    settings.contact.formSubmitLabel,
-    settings.contact.formVisible,
-    settings.contact.newsletterOptInLabel,
-    settings.contact.newsletterOptInVisible,
-    settings.contact.metaDescription,
-    settings.contact.metaTitle,
-    settings.contact.socialLinks,
-    settings.contact.socialVisible,
-  ])
+  }, [contact, metaDescription, metaTitle, savedContact, settings.contact, settings.footer.phone])
+
+  function resetToSaved() {
+    setMetaTitle(settings.contact.metaTitle)
+    setMetaDescription(settings.contact.metaDescription)
+    setContact(settings.contact)
+  }
+
+  function saveNow() {
+    const nextContact = buildContactSettingsForSave(
+      { ...contact, metaTitle, metaDescription },
+      settings.footer.phone,
+    )
+    patch({
+      contact: nextContact,
+      footer: { ...settings.footer, phone: nextContact.phone },
+    })
+  }
+
+  function patchContact(patchSlice: Partial<ContactPageSettings>) {
+    setContact((prev) => ({ ...prev, ...patchSlice }))
+  }
 
   return (
     <AdminPageShell
       title="Contact page"
-      description="Manage Contact page metadata, form fields, and social links."
+      description="Sections match /contact top to bottom. Open one panel at a time."
       right={
         <div className="flex items-center gap-2">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="secondary" disabled={!changed}>
-                Cancel
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Discard changes?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will revert the Contact page fields back to the last saved values.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Keep editing</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => {
-                    setMetaTitle(settings.contact.metaTitle)
-                    setMetaDescription(settings.contact.metaDescription)
-                    setIntroLine1(settings.contact.introLine1)
-                    setIntroLine2(settings.contact.introLine2)
-                    setEmail(settings.contact.email)
-                    setFormVisible(settings.contact.formVisible)
-                    setFormSubmitLabel(settings.contact.formSubmitLabel)
-                    setNewsletterOptInVisible(settings.contact.newsletterOptInVisible)
-                    setNewsletterOptInLabel(settings.contact.newsletterOptInLabel)
-                    setFormFields(settings.contact.formFields)
-                    setSocialVisible(settings.contact.socialVisible)
-                    setSocialLinks(settings.contact.socialLinks)
-                  }}
-                >
-                  Discard
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <Button variant="outline" asChild className="border-white/15 bg-transparent text-white hover:bg-white/10">
+            <Link href="/contact" target="_blank" rel="noopener noreferrer">
+              View page
+              <ExternalLink className="ml-2 size-3.5 opacity-70" aria-hidden />
+            </Link>
+          </Button>
 
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button disabled={!changed}>Save</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Save Contact page?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This saves to the server and updates the live{' '}
-                  <span className="text-white/80">/contact</span> page for everyone.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() =>
-                    patch({
-                      contact: {
-                        metaTitle,
-                        metaDescription,
-                        introLine1,
-                        introLine2,
-                        email,
-                        formVisible,
-                        formSubmitLabel,
-                        privacyPolicyHref: '/privacy',
-                        newsletterOptInVisible,
-                        newsletterOptInLabel,
-                        formFields,
-                        socialVisible,
-                        socialLinks,
-                      },
-                    })
-                  }
-                >
-                  Save
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <AdminPageSaveCancelActions
+            changed={changed}
+            pageName="Contact"
+            publicPath="/contact"
+            onSave={saveNow}
+            onDiscard={resetToSaved}
+          />
         </div>
       }
     >
-      <Card className="rounded-2xl border-white/10 bg-white/5 p-5 sm:p-6">
-        <div className="grid grid-cols-1 gap-8">
-          <Row label="Meta title">
-            <Input
-              value={metaTitle}
-              onChange={(e) => setMetaTitle(e.target.value)}
-              className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-            />
-          </Row>
-          <Row label="Meta description">
-            <Input
-              value={metaDescription}
-              onChange={(e) => setMetaDescription(e.target.value)}
-              className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-            />
-          </Row>
-
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-            <Row label="Intro line 1">
+      <Accordion type="multiple" defaultValue={['hero']} className="space-y-3">
+        <AccordionItem value="seo" className="rounded-2xl border border-white/10 bg-white/5 px-0">
+          <AccordionTrigger className="px-5 py-4 text-white hover:no-underline sm:px-6">
+            <div className="text-left">
+              <p className="text-sm font-semibold">SEO</p>
+              <p className="mt-1 text-sm font-normal text-white/60">Search title and description</p>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-5 px-5 pb-6 sm:px-6">
+            <AdminField label="Meta title">
+              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className={contactFieldClass} />
+            </AdminField>
+            <AdminField label="Meta description">
               <Input
-                value={introLine1}
-                onChange={(e) => setIntroLine1(e.target.value)}
-                className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
+                value={metaDescription}
+                onChange={(e) => setMetaDescription(e.target.value)}
+                className={contactFieldClass}
               />
-            </Row>
-            <Row label="Intro line 2">
-              <Input
-                value={introLine2}
-                onChange={(e) => setIntroLine2(e.target.value)}
-                className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-              />
-            </Row>
-          </div>
+            </AdminField>
+          </AccordionContent>
+        </AccordionItem>
 
-          <Row label="Contact email">
-            <Input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-            />
-          </Row>
+        <AccordionItem value="hero" className="rounded-2xl border border-white/10 bg-white/5 px-0">
+          <AccordionTrigger className="px-5 py-4 text-white hover:no-underline sm:px-6">
+            <div className="text-left">
+              <p className="text-sm font-semibold">Hero</p>
+              <p className="mt-1 text-sm font-normal text-white/60">Large headline at the top of the page</p>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-5 pb-6 sm:px-6">
+            <ContactHeroFields value={contact} onChange={patchContact} />
+          </AccordionContent>
+        </AccordionItem>
 
-          <div className="rounded-2xl border border-white/10 bg-background/20 p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-white/90">Contact form</p>
-              <div className="flex items-center gap-3">
-                <p className="text-xs text-white/60">Visible</p>
-                <Switch checked={formVisible} onCheckedChange={setFormVisible} />
-              </div>
+        <AccordionItem value="enquiries" className="rounded-2xl border border-white/10 bg-white/5 px-0">
+          <AccordionTrigger className="px-5 py-4 text-white hover:no-underline sm:px-6">
+            <div className="text-left">
+              <p className="text-sm font-semibold">Enquiries</p>
+              <p className="mt-1 text-sm font-normal text-white/60">Left column — intro, email, and phone</p>
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-5">
-              <Row label="Submit button label">
-                <Input
-                  value={formSubmitLabel}
-                  onChange={(e) => setFormSubmitLabel(e.target.value)}
-                  className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-                />
-              </Row>
-            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-5 pb-6 sm:px-6">
+            <ContactEnquiriesFields value={contact} onChange={patchContact} />
+          </AccordionContent>
+        </AccordionItem>
 
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-white/90">Newsletter opt-in</p>
-              <div className="flex items-center gap-3">
-                <p className="text-xs text-white/60">Visible</p>
-                <Switch checked={newsletterOptInVisible} onCheckedChange={setNewsletterOptInVisible} />
-              </div>
+        <AccordionItem value="form" className="rounded-2xl border border-white/10 bg-white/5 px-0">
+          <AccordionTrigger className="px-5 py-4 text-white hover:no-underline sm:px-6">
+            <div className="text-left">
+              <p className="text-sm font-semibold">Form</p>
+              <p className="mt-1 text-sm font-normal text-white/60">Contact form on the right</p>
             </div>
-            <div className="mt-4">
-              <Row label="Opt-in label">
-                <Input
-                  value={newsletterOptInLabel}
-                  onChange={(e) => setNewsletterOptInLabel(e.target.value)}
-                  className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-                />
-              </Row>
-            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-5 pb-6 sm:px-6">
+            <ContactFormFields value={contact} onChange={patchContact} />
+          </AccordionContent>
+        </AccordionItem>
 
-            <div className="mt-6">
-              <p className="text-sm font-semibold text-white/90">Fields</p>
-              <div className="mt-4">
-                <ContactFormFieldsEditor fields={formFields} onChange={setFormFields} />
-              </div>
+        <AccordionItem value="social" className="rounded-2xl border border-white/10 bg-white/5 px-0">
+          <AccordionTrigger className="px-5 py-4 text-white hover:no-underline sm:px-6">
+            <div className="text-left">
+              <p className="text-sm font-semibold">Social</p>
+              <p className="mt-1 text-sm font-normal text-white/60">Elsewhere links below the intro</p>
             </div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-background/20 p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-white/90">Social links</p>
-              <div className="flex items-center gap-3">
-                <p className="text-xs text-white/60">Visible</p>
-                <Switch checked={socialVisible} onCheckedChange={setSocialVisible} />
-              </div>
-            </div>
-            <p className="mt-1 text-xs text-white/55">
-              Icon ids: instagram, tiktok, linkedin, telegram, youtube
-            </p>
-            <div className="mt-4">
-              <ContactSocialLinksEditor links={socialLinks} onChange={setSocialLinks} />
-            </div>
-          </div>
-        </div>
-        <p className="mt-4 text-xs text-white/55">
-          Public page: <span className="text-white/75">/contact</span>
-        </p>
-      </Card>
+          </AccordionTrigger>
+          <AccordionContent className="px-5 pb-6 sm:px-6">
+            <ContactSocialFields value={contact} onChange={patchContact} />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </AdminPageShell>
   )
 }
-

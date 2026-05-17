@@ -41,7 +41,7 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+        <ChevronDownIcon className="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-300 ease-in-out" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )
@@ -49,21 +49,25 @@ function AccordionTrigger({
 
 function AccordionContent({
   className,
+  variant = 'default',
   children,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Content> & {
+  variant?: 'default' | 'sidebar'
+}) {
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
       className={cn(
-        'grid overflow-hidden text-sm transition-[grid-template-rows,opacity] duration-200 ease-out',
-        'data-[state=closed]:grid-rows-[0fr] data-[state=closed]:opacity-0',
-        'data-[state=open]:grid-rows-[1fr] data-[state=open]:opacity-100',
+        'grid overflow-hidden text-sm',
+        variant === 'sidebar'
+          ? 'transition-[grid-template-rows] duration-300 ease-in-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]'
+          : 'transition-[grid-template-rows,opacity] duration-200 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=closed]:opacity-0 data-[state=open]:grid-rows-[1fr] data-[state=open]:opacity-100',
         className,
       )}
       {...props}
     >
-      <div className="min-h-0 pt-0 pb-4">{children}</div>
+      <div className={cn('min-h-0', variant === 'sidebar' ? 'pb-2 pt-0' : 'pb-4 pt-0')}>{children}</div>
     </AccordionPrimitive.Content>
   )
 }

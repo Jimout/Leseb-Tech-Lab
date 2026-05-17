@@ -21,9 +21,8 @@ export const DEFAULT_ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     items: [
       { href: '/adminopia/site/hero', label: 'Hero' },
       { href: '/adminopia/site/footer', label: 'Footer' },
-      { href: '/adminopia/site/dual-marquee', label: 'Dual marquee' },
-      { href: '/adminopia/site/insight-toc', label: 'Insight TOC mark' },
-      { href: '/adminopia/site/catalog-filters', label: 'Catalog filters' },
+      { href: '/adminopia/site/insight-toc', label: 'Insight TOC logo' },
+      { href: '/adminopia/site/catalog-filters', label: 'Category filters' },
       { href: '/adminopia/privacy', label: 'Privacy' },
     ],
   },

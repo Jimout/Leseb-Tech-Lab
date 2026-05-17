@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 
+import { AdminLoadingScreen } from '@/components/admin/admin-loading-screen'
 import { AdminWorkFormPage } from '@/components/admin/work/admin-work-form-page'
 import { useWorkAdminCollection } from '@/hooks/use-work-admin-collection'
 
@@ -13,7 +14,9 @@ export function AdminWorkEditPage({ id }: { id: string }) {
 
   const initial = useMemo(() => items.find((it) => it.id === id) ?? emptyWork(), [id, items])
 
-  if (loading) return null
+  if (loading) {
+    return <AdminLoadingScreen message="Loading project" className="min-h-[40vh]" />
+  }
   if (!exists) return null
 
   return (

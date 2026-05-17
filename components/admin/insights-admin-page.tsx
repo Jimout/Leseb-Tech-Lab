@@ -71,7 +71,7 @@ export function InsightsAdminPage() {
       description="Create and edit insights stored in the site database."
       right={
         <Button asChild>
-          <Link href="/admin/insights/create">Add insight</Link>
+          <Link href="/adminopia/insights/create">Add insight</Link>
         </Button>
       }
     >

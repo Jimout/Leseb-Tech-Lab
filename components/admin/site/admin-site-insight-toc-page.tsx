@@ -1,108 +1,103 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ExternalLink } from 'lucide-react'
 
+import { AdminPageSaveCancelActions } from '@/components/admin/admin-page-save-cancel-actions'
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
+import { AdminField } from '@/components/admin/pages/about/about-editorial-editors'
 import { ImageUploadField } from '@/components/admin/image-upload-field'
-import { useSiteSettings } from '@/hooks/use-site-settings'
-import type { SiteInsightTocSettings } from '@/lib/admin/site-settings'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { useSiteSettings } from '@/hooks/use-site-settings'
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
+  buildInsightTocSettingsForSave,
+  type SiteInsightTocSettings,
+} from '@/lib/admin/site-settings'
+
+const fieldClass = 'border-white/15 bg-white/5 text-white placeholder:text-white/40'
 
 export function AdminSiteInsightTocPage() {
-  const { settings, patch } = useSiteSettings()
-  const [draft, setDraft] = useState<SiteInsightTocSettings>(settings.insightToc)
+  const { settings, patch, ready } = useSiteSettings()
+  const hydrated = useRef(false)
+  const [toc, setToc] = useState<SiteInsightTocSettings>(settings.insightToc)
 
-  useEffect(() => setDraft(settings.insightToc), [settings.insightToc])
+  useEffect(() => {
+    if (!ready || hydrated.current) return
+    hydrated.current = true
+    setToc(settings.insightToc)
+  }, [ready, settings.insightToc])
+
+  const savedToc = useMemo(() => buildInsightTocSettingsForSave(settings.insightToc), [settings.insightToc])
 
   const changed = useMemo(
-    () => JSON.stringify(draft) !== JSON.stringify(settings.insightToc),
-    [draft, settings.insightToc],
+    () => JSON.stringify(buildInsightTocSettingsForSave(toc)) !== JSON.stringify(savedToc),
+    [toc, savedToc],
   )
+
+  function resetToSaved() {
+    setToc(settings.insightToc)
+  }
+
+  function saveNow() {
+    patch({ insightToc: buildInsightTocSettingsForSave(toc) })
+  }
+
+  function patchToc(patchSlice: Partial<SiteInsightTocSettings>) {
+    setToc((prev) => ({ ...prev, ...patchSlice }))
+  }
 
   return (
     <AdminPageShell
-      title="Insight TOC mark"
-      description="Logo images next to “Contents” on structured insight pages (table of contents). Dark mode uses the first image; light mode uses the second."
+      title="Insight TOC logo"
+      description="Logo beside “Contents” on structured insight articles."
       right={
         <div className="flex items-center gap-2">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="secondary" disabled={!changed}>
-                Cancel
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Discard changes?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will revert the TOC mark settings to the last saved values.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Keep editing</AlertDialogCancel>
-                <AlertDialogAction onClick={() => setDraft(settings.insightToc)}>Discard</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <Button variant="outline" asChild className="border-white/15 bg-transparent text-white hover:bg-white/10">
+            <Link href="/insights" target="_blank" rel="noopener noreferrer">
+              View insights
+              <ExternalLink className="ml-2 size-3.5 opacity-70" aria-hidden />
+            </Link>
+          </Button>
 
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button disabled={!changed}>Save</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Save TOC mark?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Updates the images shown on structured insight pages across the site.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => patch({ insightToc: draft })}>Save</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <AdminPageSaveCancelActions
+            changed={changed}
+            pageName="Insight TOC logo"
+            publicPath="/insights"
+            onSave={saveNow}
+            onDiscard={resetToSaved}
+          />
         </div>
       }
     >
-      <Card className="rounded-2xl border-white/10 bg-white/5 p-5 sm:p-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <ImageUploadField
-            label="Dark mode image"
-            value={draft.markDarkSrc}
-            onChange={(next) => setDraft((p) => ({ ...p, markDarkSrc: next }))}
-            aspectClassName="aspect-square"
-          />
-          <ImageUploadField
-            label="Light mode image"
-            value={draft.markLightSrc}
-            onChange={(next) => setDraft((p) => ({ ...p, markLightSrc: next }))}
-            aspectClassName="aspect-square"
-          />
-        </div>
-        <div className="mt-6 space-y-2">
-          <p className="text-sm font-medium text-white/85">Image alt text (optional)</p>
-          <Input
-            value={draft.markAlt}
-            onChange={(e) => setDraft((p) => ({ ...p, markAlt: e.target.value }))}
-            placeholder="Describe the logo for screen readers"
-            className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-          />
-        </div>
-      </Card>
+      <Accordion type="multiple" defaultValue={['logo']} className="space-y-3">
+        <AccordionItem value="logo" className="rounded-2xl border border-white/10 bg-white/5 px-0">
+          <AccordionTrigger className="px-5 py-4 text-white hover:no-underline sm:px-6">
+            <div className="text-left">
+              <p className="text-sm font-semibold">Logo</p>
+              <p className="mt-1 text-sm font-normal text-white/60">Shown in the table of contents sidebar on article pages</p>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-5 px-5 pb-6 sm:px-6">
+            <ImageUploadField
+              label="Logo image"
+              value={toc.markSrc}
+              onChange={(markSrc) => patchToc({ markSrc })}
+              aspectClassName="aspect-square"
+            />
+            <AdminField label="Alt text" hint="For screen readers.">
+              <Input
+                value={toc.markAlt}
+                onChange={(e) => patchToc({ markAlt: e.target.value })}
+                placeholder="Leseb Tech Lab"
+                className={fieldClass}
+              />
+            </AdminField>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </AdminPageShell>
   )
 }

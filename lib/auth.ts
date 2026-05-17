@@ -1,9 +1,9 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import bcrypt from "bcrypt"
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { z } from "zod"
 
+import { verifyAdminLogin } from "@/lib/admin/bootstrap-admin-user"
 import { prisma } from "@/lib/prisma"
 
 const DAY_SECONDS = 60 * 60 * 24
@@ -13,12 +13,20 @@ const credentialsSchema = z.object({
   password: z.string().min(1),
 })
 
-const authSecret = process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET
-const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase()
+function resolveAuthSecret(): string {
+  const fromEnv = process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET
+  if (fromEnv?.trim()) return fromEnv.trim()
+  if (process.env.NODE_ENV === "development") {
+    return "leseb-local-dev-nextauth-secret-set-NEXTAUTH_SECRET-in-env"
+  }
+  throw new Error(
+    "Missing NEXTAUTH_SECRET (or AUTH_SECRET). Add it to .env — see .env.example.",
+  )
+}
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  secret: authSecret,
+  secret: resolveAuthSecret(),
   pages: {
     signIn: "/adminopia/login",
   },
@@ -40,22 +48,17 @@ export const authOptions: NextAuthOptions = {
         const parsed = credentialsSchema.safeParse(credentials)
         if (!parsed.success) return null
 
-        const email = parsed.data.email.toLowerCase()
-        if (adminEmail && email !== adminEmail) return null
-        const user = await prisma.user.findUnique({
-          where: { email },
-        })
-
-        if (!user?.password) return null
-
-        const valid = await bcrypt.compare(parsed.data.password, user.password)
-        if (!valid) return null
+        const user = await verifyAdminLogin(
+          parsed.data.email,
+          parsed.data.password,
+        )
+        if (!user) return null
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
-          image: user.image,
+          image: null,
         }
       },
     }),

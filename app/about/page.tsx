@@ -19,7 +19,9 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await getSiteSettingsFromDb()
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -30,7 +32,7 @@ export default function AboutPage() {
       />
       <SiteNavbar logoHref="/" />
       <main className="min-h-dvh scroll-mt-24 overflow-x-clip bg-background text-foreground">
-        <AboutEditorialPage />
+        <AboutEditorialPage content={settings.aboutEditorial} />
         <FooterSection />
         <Toaster />
       </main>

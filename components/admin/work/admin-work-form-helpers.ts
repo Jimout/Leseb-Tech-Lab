@@ -32,6 +32,7 @@ export function mergeInitialDetail(d?: WorkDetailPatch): WorkDetailPatch {
 
 function compactDetailForStorage(d: WorkDetailPatch): WorkDetailPatch | undefined {
   const out: WorkDetailPatch = {}
+  const contentBlocks = normalizeWorkDetailContentBlocks(d.contentBlocks)
 
   const strKeys = [
     'descriptionNote',
@@ -39,10 +40,6 @@ function compactDetailForStorage(d: WorkDetailPatch): WorkDetailPatch | undefine
     'client',
     'industry',
     'duration',
-    'storyVideoTitle',
-    'storyVideoDescription',
-    'storyGalleryTitle',
-    'storyGalleryDescription',
   ] as const
 
   for (const k of strKeys) {
@@ -58,11 +55,22 @@ function compactDetailForStorage(d: WorkDetailPatch): WorkDetailPatch | undefine
     }
   }
 
-  const storyGalleryImages = (d.storyGalleryImages ?? []).filter((x) => x.src.trim())
-  if (storyGalleryImages.length) out.storyGalleryImages = storyGalleryImages
-
-  const contentBlocks = normalizeWorkDetailContentBlocks(d.contentBlocks)
-  if (contentBlocks.length) out.contentBlocks = contentBlocks
+  if (contentBlocks.length) {
+    out.contentBlocks = contentBlocks
+  } else {
+    const legacyKeys = [
+      'storyVideoTitle',
+      'storyVideoDescription',
+      'storyGalleryTitle',
+      'storyGalleryDescription',
+    ] as const
+    for (const k of legacyKeys) {
+      const v = d[k]
+      if (typeof v === 'string' && v.trim()) out[k] = v.trim()
+    }
+    const storyGalleryImages = (d.storyGalleryImages ?? []).filter((x) => x.src.trim())
+    if (storyGalleryImages.length) out.storyGalleryImages = storyGalleryImages
+  }
 
   if (Object.keys(out).length === 0) return undefined
   return out

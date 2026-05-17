@@ -40,33 +40,12 @@ function collectGalleryItems(detail: ResolvedWorkDetail): GalleryItem[] {
     if (img.src?.trim()) items.push({ kind: 'image', src: img.src, alt: img.alt })
   }
 
-  for (const block of detail.contentBlocks ?? []) {
-    if (block.type === 'image' && block.variant !== 'hero') {
-      if (block.src?.trim()) items.push({ kind: 'image', src: block.src, alt: block.alt })
-    }
-    if (block.type === 'video' || block.type === 'gif' || block.type === 'embed360') {
-      items.push({ kind: block.type, block })
-    }
-  }
-
   return items
 }
 
-function partitionContentBlocks(blocks: ReadonlyArray<WorkDetailContentBlock>) {
-  const media: GalleryItem[] = []
-  const richHtml: string[] = []
-
-  for (const block of blocks) {
-    if (block.type === 'rich' && block.html?.trim()) {
-      richHtml.push(block.html)
-    } else if (block.type === 'image' && block.variant !== 'hero') {
-      if (block.src?.trim()) media.push({ kind: 'image', src: block.src, alt: block.alt })
-    } else if (block.type === 'video' || block.type === 'gif' || block.type === 'embed360') {
-      media.push({ kind: block.type, block })
-    }
-  }
-
-  return { media, richHtml }
+function firstLegacyRichOverview(blocks: ReadonlyArray<WorkDetailContentBlock> | undefined): string | null {
+  const rich = blocks?.find((b) => b.type === 'rich' && b.html?.trim())
+  return rich?.type === 'rich' ? rich.html : null
 }
 
 function GalleryMedia({ item }: { item: GalleryItem }) {
@@ -106,17 +85,12 @@ type WorkDetailSplitSectionProps = {
 export function WorkDetailSplitSection({ detail, overview }: WorkDetailSplitSectionProps) {
   const { pageTitle, pageTitleLines, secondaryImageDescriptionColumns } = detail
 
-  const useBlocks = Boolean(detail.contentBlocks?.length)
-  const partitioned = useBlocks
-    ? partitionContentBlocks(detail.contentBlocks ?? [])
-    : { media: [] as GalleryItem[], richHtml: [] as string[] }
-
-  const gallery = useBlocks ? partitioned.media : collectGalleryItems(detail)
+  const gallery = collectGalleryItems(detail)
   const secondaryParagraphs = (secondaryImageDescriptionColumns ?? [])
     .map((p) => p.trim())
     .filter(Boolean)
 
-  const overviewHtml = useBlocks && partitioned.richHtml.length > 0 ? partitioned.richHtml[0] : null
+  const overviewHtml = firstLegacyRichOverview(detail.contentBlocks)
   const showHtmlOverview = Boolean(overviewHtml)
 
   return (

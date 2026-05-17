@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react'
 
-import { AdminWorkRepeatableImages } from '@/components/admin/work/admin-work-repeatable-images'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -90,71 +89,22 @@ export function AdminWorkFormDetailMetaFields({ detail: d, setDetail }: Props) {
 
       <SectionDivider />
 
-      <div className="space-y-6">
-        <p className="text-xs font-semibold uppercase tracking-wider text-white/45">Story video & gallery</p>
-
-        <FieldGroup
-          label="Story video URL"
-          hint="Shown below the facts row. Leave empty to use the default clip on seeded projects."
-        >
-          <Input
-            value={d.storyVideo?.url ?? ''}
-            onChange={(e) => {
-              const url = e.target.value.trim()
-              setDetail({
-                storyVideo: url ? { type: 'video', url, alt: d.storyVideo?.alt ?? '' } : undefined,
-              })
-            }}
-            placeholder="e.g. /0001-0120.mp4 or https://..."
-            className={fieldClass}
-          />
-        </FieldGroup>
-
-        <FieldGroup label="Below-video title">
-          <Input
-            value={d.storyVideoTitle ?? ''}
-            onChange={(e) => setDetail({ storyVideoTitle: e.target.value })}
-            placeholder="Headline under the video"
-            className={fieldClass}
-          />
-        </FieldGroup>
-
-        <FieldGroup label="Below-video description">
-          <Textarea
-            value={d.storyVideoDescription ?? ''}
-            onChange={(e) => setDetail({ storyVideoDescription: e.target.value })}
-            rows={4}
-            placeholder="Copy under the below-video title"
-            className={fieldClass}
-          />
-        </FieldGroup>
-
-        <AdminWorkRepeatableImages
-          label="Photo gallery"
-          description="Up to 3 images — two on top, one full width below."
-          items={d.storyGalleryImages ?? []}
-          onChange={(storyGalleryImages) => setDetail({ storyGalleryImages })}
+      <FieldGroup
+        label="Story video URL"
+        hint="Full-width video on the project page. Add flexible sections below it in the next panel."
+      >
+        <Input
+          value={d.storyVideo?.url ?? ''}
+          onChange={(e) => {
+            const url = e.target.value.trim()
+            setDetail({
+              storyVideo: url ? { type: 'video', url, alt: d.storyVideo?.alt ?? '' } : undefined,
+            })
+          }}
+          placeholder="e.g. /0001-0120.mp4 or https://..."
+          className={fieldClass}
         />
-
-        <FieldGroup label="Below-gallery title">
-          <Input
-            value={d.storyGalleryTitle ?? ''}
-            onChange={(e) => setDetail({ storyGalleryTitle: e.target.value })}
-            placeholder="Headline under the gallery"
-            className={fieldClass}
-          />
-        </FieldGroup>
-
-        <FieldGroup label="Below-gallery description">
-          <Textarea
-            value={d.storyGalleryDescription ?? ''}
-            onChange={(e) => setDetail({ storyGalleryDescription: e.target.value })}
-            rows={4}
-            placeholder="Copy under the gallery grid"
-            className={fieldClass}
-          />
-        </FieldGroup>
-      </div>
+      </FieldGroup>
     </div>
   )
 }

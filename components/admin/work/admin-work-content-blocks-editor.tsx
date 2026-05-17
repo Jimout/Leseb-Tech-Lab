@@ -1,6 +1,6 @@
 'use client'
 
-import { Film, Globe, ImageIcon, Plus, Type } from 'lucide-react'
+import { ExternalLink, ImageIcon, Type } from 'lucide-react'
 
 import { AdminWorkContentBlockRow } from '@/components/admin/work/admin-work-content-block-row'
 import { Button } from '@/components/ui/button'
@@ -24,7 +24,14 @@ export function AdminWorkContentBlocksEditor({
   setDetail: (patch: Partial<WorkDetailPatch>) => void
 }) {
   const setBlocks = (next: WorkDetailContentBlock[]) => {
-    setDetail({ contentBlocks: next })
+    setDetail({
+      contentBlocks: next,
+      storyVideoTitle: '',
+      storyVideoDescription: '',
+      storyGalleryImages: [],
+      storyGalleryTitle: '',
+      storyGalleryDescription: '',
+    })
   }
 
   const patchAt = (i: number, b: WorkDetailContentBlock) => {
@@ -44,14 +51,10 @@ export function AdminWorkContentBlocksEditor({
   return (
     <div className="space-y-4 rounded-xl border border-white/10 bg-background/15 p-4 sm:p-5">
       <div>
-        <Label className="text-base text-white">Flexible page body</Label>
+        <Label className="text-base text-white">Below the video</Label>
         <p className="mt-1.5 text-sm leading-relaxed text-white/60">
-          Each <strong className="font-medium text-white/80">text block</strong> is one layout unit — usually a
-          single paragraph. Images break the flow.{' '}
-          <strong className="font-medium text-white/80">Consecutive text blocks</strong> sit in a{' '}
-          <strong className="font-medium text-white/80">two-column</strong> grid from medium screens up (2 blocks
-          = one row; 3–4 = wrap into rows). Use <span className="text-white/80">tall</span> or{' '}
-          <span className="text-white/80">wide</span> images for full-width sections.
+          Add sections in order — text (title + description), photo grids (pick column count), or a
+          link button like “Visit website”. Drag order with the arrows on each section.
         </p>
       </div>
 
@@ -64,12 +67,12 @@ export function AdminWorkContentBlocksEditor({
           onClick={() =>
             setBlocks([
               ...blocks,
-              { id: newContentBlockId(), type: 'rich', html: '<p></p>' },
+              { id: newContentBlockId(), type: 'text', title: '', description: '' },
             ])
           }
         >
           <Type className="size-4" />
-          Paragraph block
+          Text section
         </Button>
         <Button
           type="button"
@@ -81,103 +84,37 @@ export function AdminWorkContentBlocksEditor({
               ...blocks,
               {
                 id: newContentBlockId(),
-                type: 'image',
-                src: '',
-                alt: '',
-                variant: 'hero',
-              },
-            ])
-          }
-        >
-          <ImageIcon className="size-4" />
-          Tall image
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="gap-1.5"
-          onClick={() =>
-            setBlocks([
-              ...blocks,
-              {
-                id: newContentBlockId(),
-                type: 'gif',
-                src: '',
-                alt: '',
-                variant: 'hero',
-              },
-            ])
-          }
-        >
-          <ImageIcon className="size-4" />
-          Tall GIF
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="gap-1.5"
-          onClick={() =>
-            setBlocks([
-              ...blocks,
-              {
-                id: newContentBlockId(),
-                type: 'image',
-                src: '',
-                alt: '',
-                variant: 'wide',
-              },
-            ])
-          }
-        >
-          <Plus className="size-4" />
-          Wide image
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="gap-1.5"
-          onClick={() =>
-            setBlocks([
-              ...blocks,
-              {
-                id: newContentBlockId(),
-                type: 'video',
-                src: '',
-                poster: '',
-                alt: '',
-                variant: 'wide',
-                controls: true,
-                autoplay: false,
-              },
-            ])
-          }
-        >
-          <Film className="size-4" />
-          Video block
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="gap-1.5"
-          onClick={() =>
-            setBlocks([
-              ...blocks,
-              {
-                id: newContentBlockId(),
-                type: 'embed360',
-                embedUrl: '',
+                type: 'gallery',
                 title: '',
-                variant: 'wide',
+                description: '',
+                columns: 2,
+                images: [],
               },
             ])
           }
         >
-          <Globe className="size-4" />
-          360 embed
+          <ImageIcon className="size-4" />
+          Photo gallery
+        </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="gap-1.5"
+          onClick={() =>
+            setBlocks([
+              ...blocks,
+              {
+                id: newContentBlockId(),
+                type: 'button',
+                label: 'Visit website',
+                url: '',
+              },
+            ])
+          }
+        >
+          <ExternalLink className="size-4" />
+          Link button
         </Button>
       </div>
 
@@ -195,9 +132,10 @@ export function AdminWorkContentBlocksEditor({
         ))}
 
         {!blocks.length ? (
-          <p className="text-sm text-white/45">No blocks yet — add text or images above.</p>
+          <p className="text-sm text-white/45">No sections yet — add text, photos, or a link above.</p>
         ) : null}
       </div>
     </div>
   )
 }
+

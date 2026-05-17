@@ -2,11 +2,29 @@
 
 import { ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
 
-import { AdminRichTextEditor } from '@/components/admin/admin-rich-text-editor'
-import { AdminWorkContentBlockImageFields } from '@/components/admin/work/admin-work-content-block-image-fields'
+import { AdminWorkRepeatableImages } from '@/components/admin/work/admin-work-repeatable-images'
 import { Button } from '@/components/ui/button'
-import type { WorkDetailContentBlock } from '@/lib/work-detail-content-blocks'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import type { GalleryColumnCount, WorkDetailContentBlock } from '@/lib/work-detail-content-blocks'
 import { cn } from '@/lib/utils'
+
+const fieldClass = 'border-white/15 bg-background/30 text-white'
+
+const COLUMN_OPTIONS: { value: GalleryColumnCount; label: string }[] = [
+  { value: 1, label: '1 column' },
+  { value: 2, label: '2 columns' },
+  { value: 3, label: '3 columns' },
+  { value: 4, label: '4 columns' },
+]
+
+function blockLabel(block: WorkDetailContentBlock): string {
+  if (block.type === 'text') return 'Text section'
+  if (block.type === 'gallery') return `Photo gallery · ${block.columns} col`
+  if (block.type === 'button') return 'Link button'
+  return 'Section'
+}
 
 export function AdminWorkContentBlockRow({
   block,
@@ -23,34 +41,10 @@ export function AdminWorkContentBlockRow({
   onRemove: () => void
   onMove: (dir: -1 | 1) => void
 }) {
-  const label =
-    block.type === 'rich'
-      ? 'Paragraph'
-      : block.type === 'embed360'
-        ? block.variant === 'hero'
-          ? 'Tall 360 embed'
-          : 'Wide 360 embed'
-      : block.type === 'video'
-        ? block.variant === 'hero'
-          ? 'Tall video'
-          : 'Wide video'
-        : block.type === 'gif'
-          ? block.variant === 'hero'
-            ? 'Tall GIF'
-            : 'Wide GIF'
-          : block.variant === 'hero'
-            ? 'Tall image'
-            : 'Wide image'
-
   return (
-    <div
-      className={cn(
-        'rounded-md border border-white/10 bg-background/25 p-3',
-        'space-y-3',
-      )}
-    >
+    <div className={cn('rounded-md border border-white/10 bg-background/25 p-3', 'space-y-3')}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="text-xs font-medium uppercase tracking-wide text-white/55">{label}</span>
+        <span className="text-xs font-medium uppercase tracking-wide text-white/55">{blockLabel(block)}</span>
         <div className="flex flex-wrap gap-1">
           <Button
             type="button"
@@ -79,7 +73,7 @@ export function AdminWorkContentBlockRow({
             variant="ghost"
             size="icon"
             className="size-8 text-red-400/90"
-            title="Remove block"
+            title="Remove section"
             onClick={onRemove}
           >
             <Trash2 className="size-4" />
@@ -87,36 +81,103 @@ export function AdminWorkContentBlockRow({
         </div>
       </div>
 
-      {block.type === 'rich' ? (
-        <AdminRichTextEditor
-          value={block.html}
-          onChange={(html) => onPatch({ ...block, html })}
-          minHeightClass="min-h-[160px]"
-        />
-      ) : block.type === 'embed360' ? (
+      {block.type === 'text' ? (
         <div className="space-y-3">
           <div className="space-y-2">
-            <label className="text-sm text-white/70">Embed URL</label>
-            <input
-              value={block.embedUrl}
-              onChange={(e) => onPatch({ ...block, embedUrl: e.target.value })}
-              placeholder="https://my.matterport.com/show/?m=..."
-              className="w-full rounded-md border border-white/15 bg-background/30 px-3 py-2 text-sm text-white"
+            <Label className="text-white/70">Title (optional)</Label>
+            <Input
+              value={block.title ?? ''}
+              onChange={(e) => onPatch({ ...block, title: e.target.value })}
+              placeholder="Section headline"
+              className={fieldClass}
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm text-white/70">Title (optional)</label>
-            <input
-              value={block.title ?? ''}
-              onChange={(e) => onPatch({ ...block, title: e.target.value })}
-              placeholder="360 preview"
-              className="w-full rounded-md border border-white/15 bg-background/30 px-3 py-2 text-sm text-white"
+            <Label className="text-white/70">Description</Label>
+            <Textarea
+              value={block.description}
+              onChange={(e) => onPatch({ ...block, description: e.target.value })}
+              rows={4}
+              placeholder="Paragraph shown beside the title on the project page"
+              className={fieldClass}
             />
           </div>
         </div>
-      ) : (
-        <AdminWorkContentBlockImageFields block={block} onPatch={onPatch} />
-      )}
+      ) : null}
+
+      {block.type === 'gallery' ? (
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label className="text-white/70">Grid columns</Label>
+            <div className="flex flex-wrap gap-2">
+              {COLUMN_OPTIONS.map((opt) => (
+                <Button
+                  key={opt.value}
+                  type="button"
+                  size="sm"
+                  variant={block.columns === opt.value ? 'default' : 'secondary'}
+                  onClick={() => onPatch({ ...block, columns: opt.value })}
+                >
+                  {opt.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label className="text-white/70">Title (optional)</Label>
+            <Input
+              value={block.title ?? ''}
+              onChange={(e) => onPatch({ ...block, title: e.target.value })}
+              placeholder="Headline above the photos"
+              className={fieldClass}
+            />
+          </div>
+          <AdminWorkRepeatableImages
+            label="Photos"
+            description="Upload images — they flow in the column grid you chose."
+            items={block.images}
+            onChange={(images) => onPatch({ ...block, images })}
+          />
+          <div className="space-y-2">
+            <Label className="text-white/70">Description (optional)</Label>
+            <Textarea
+              value={block.description ?? ''}
+              onChange={(e) => onPatch({ ...block, description: e.target.value })}
+              rows={3}
+              placeholder="Copy below the photo grid"
+              className={fieldClass}
+            />
+          </div>
+        </div>
+      ) : null}
+
+      {block.type === 'button' ? (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label className="text-white/70">Button label</Label>
+            <Input
+              value={block.label}
+              onChange={(e) => onPatch({ ...block, label: e.target.value })}
+              placeholder="Visit website"
+              className={fieldClass}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-white/70">Link URL</Label>
+            <Input
+              value={block.url}
+              onChange={(e) => onPatch({ ...block, url: e.target.value })}
+              placeholder="https://example.com"
+              className={fieldClass}
+              inputMode="url"
+              autoComplete="url"
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
+
+
+

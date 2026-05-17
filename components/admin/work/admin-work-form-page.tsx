@@ -377,19 +377,21 @@ export function AdminWorkFormPage({
             <AccordionTrigger className={accordionTriggerClass}>
               <span className="text-left">
                 <span className="block text-sm font-semibold text-white">Case study</span>
-                <span className="mt-0.5 block text-xs font-normal text-white/50">Intro, facts, video & gallery</span>
+                <span className="mt-0.5 block text-xs font-normal text-white/50">Intro, facts, video & below-video sections</span>
               </span>
             </AccordionTrigger>
             <AccordionContent className={cn(accordionContentClass, 'flex flex-col gap-6')}>
               <SectionIntro
                 title="Case study body"
-                description="Intro and facts first, then story video and gallery — same order as the live project page."
+                description="Intro and facts first, then the story video. Everything under the video is built from flexible sections."
               />
               <AdminWorkFormDetailMetaFields detail={d} setDetail={setDetail} />
               <SectionDivider />
+              <AdminWorkContentBlocksEditor blocks={contentBlocks} setDetail={setDetail} />
+              <SectionDivider />
               <FieldGroup
-                label="Project website"
-                hint="Shows a fixed “Visit website” bar at the bottom of the project page when set."
+                label="Project website (sticky bar)"
+                hint="Optional fixed “Visit website” bar at the bottom of the page. You can also add an inline link button in a section above."
               >
                 <Input
                   value={d.websiteUrl ?? ''}
@@ -400,22 +402,6 @@ export function AdminWorkFormPage({
                   autoComplete="url"
                 />
               </FieldGroup>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="blocks" className={accordionItemClass}>
-            <AccordionTrigger className={accordionTriggerClass}>
-              <span className="text-left">
-                <span className="block text-sm font-semibold text-white">Body blocks</span>
-                <span className="mt-0.5 block text-xs font-normal text-white/50">Extra paragraphs & media</span>
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className={cn(accordionContentClass, 'flex flex-col gap-6')}>
-              <SectionIntro
-                title="Flexible content"
-                description="Optional blocks below the case study. The first rich paragraph can replace the intro when present."
-              />
-              <AdminWorkContentBlocksEditor blocks={contentBlocks} setDetail={setDetail} />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

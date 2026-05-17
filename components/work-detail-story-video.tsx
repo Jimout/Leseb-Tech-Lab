@@ -1,9 +1,8 @@
 'use client'
 
-import { WorkDetailStoryGallery } from '@/components/work-detail-story-gallery'
-import { WorkDetailStorySplitCopy } from '@/components/work-detail-story-split-copy'
-import { resolveWorkDetailStoryGallery } from '@/lib/work-detail-story-gallery'
+import { WorkDetailStorySections } from '@/components/work-detail-story-sections'
 import { MediaRenderer } from '@/components/media-renderer'
+import { resolveWorkDetailStorySections } from '@/lib/work-detail-story-sections'
 import { resolveWorkDetailStoryVideo } from '@/lib/work-detail-story-video'
 import {
   workDetailHeroMediaFrameClass,
@@ -11,7 +10,6 @@ import {
   workDetailStoryVideoSectionClass,
 } from '@/lib/work-detail-typography'
 import type { ResolvedWorkDetail } from '@/lib/work-detail-types'
-import { cn } from '@/lib/utils'
 
 type WorkDetailStoryVideoProps = {
   detail: ResolvedWorkDetail
@@ -19,16 +17,9 @@ type WorkDetailStoryVideoProps = {
 
 export function WorkDetailStoryVideo({ detail }: WorkDetailStoryVideoProps) {
   const media = resolveWorkDetailStoryVideo(detail)
-  const title = detail.storyVideoTitle
-  const description = detail.storyVideoDescription
-  const hasGallery = resolveWorkDetailStoryGallery(detail).length > 0
-  const hasGalleryCopy = Boolean(
-    detail.storyGalleryTitle?.trim() || detail.storyGalleryDescription?.trim(),
-  )
+  const sections = resolveWorkDetailStorySections(detail)
 
-  if (!media && !title?.trim() && !description?.trim() && !hasGallery && !hasGalleryCopy) {
-    return null
-  }
+  if (!media && sections.length === 0) return null
 
   return (
     <div className={workDetailStoryVideoSectionClass}>
@@ -44,13 +35,7 @@ export function WorkDetailStoryVideo({ detail }: WorkDetailStoryVideoProps) {
         </div>
       ) : null}
 
-      <WorkDetailStorySplitCopy
-        title={title}
-        description={description}
-        className={cn(!media && 'mt-0')}
-      />
-
-      <WorkDetailStoryGallery detail={detail} />
+      {sections.length > 0 ? <WorkDetailStorySections blocks={sections} /> : null}
     </div>
   )
 }

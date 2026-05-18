@@ -1,11 +1,9 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { z } from "zod"
 
 import { ADMIN_LOGIN_PATH } from "@/lib/admin/admin-routes"
 import { verifyAdminLogin } from "@/lib/admin/bootstrap-admin-user"
-import { prisma } from "@/lib/prisma"
 
 const DAY_SECONDS = 60 * 60 * 24
 
@@ -36,21 +34,13 @@ function resolveAuthSecret(): string {
   )
 }
 
-/** Fail fast at request time if production is running without a real secret. */
-export function assertProductionAuthSecret(): void {
-  const fromEnv = process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET
-  if (fromEnv?.trim()) return
-  if (process.env.NODE_ENV !== "production") return
-  throw new Error(
-    "Missing NEXTAUTH_SECRET (or AUTH_SECRET). Set it in Vercel → Project → Settings → Environment Variables.",
-  )
-}
-
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  // JWT + credentials only — PrismaAdapter conflicts with credentials and can 500 on Vercel.
   secret: resolveAuthSecret(),
+  trustHost: true,
   pages: {
     signIn: ADMIN_LOGIN_PATH,
+    error: ADMIN_LOGIN_PATH,
   },
   session: {
     strategy: "jwt",
@@ -70,17 +60,22 @@ export const authOptions: NextAuthOptions = {
         const parsed = credentialsSchema.safeParse(credentials)
         if (!parsed.success) return null
 
-        const user = await verifyAdminLogin(
-          parsed.data.email,
-          parsed.data.password,
-        )
-        if (!user) return null
+        try {
+          const user = await verifyAdminLogin(
+            parsed.data.email,
+            parsed.data.password,
+          )
+          if (!user) return null
 
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: null,
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: null,
+          }
+        } catch (error) {
+          console.error("[auth] authorize failed:", error)
+          return null
         }
       },
     }),

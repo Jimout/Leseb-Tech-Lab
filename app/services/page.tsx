@@ -6,11 +6,11 @@ import { ServicesPageContent } from '@/components/services-page-content'
 import { SiteNavbar } from '@/components/site-navbar'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Services',
-  description:
-    'Human centered AI, web and software development, data platforms, and community driven innovation from Leseb Tech Lab in Addis Ababa.',
+  description: `Human-centered AI, web and software, data platforms, and community programs from ${SITE_BRAND_FULL_NAME} in Addis Ababa.`,
   path: '/services',
 })
 

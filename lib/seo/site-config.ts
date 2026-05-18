@@ -2,6 +2,12 @@
  * Central site URL and identity for canonical URLs, sitemap, robots, and Open Graph.
  * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://your-app.vercel.app).
  */
+import {
+  SITE_BRAND_FULL_NAME,
+  SITE_DESCRIPTION,
+  SITE_TAGLINE,
+} from '@/lib/site-brand'
+
 export function getSiteUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim()
   if (fromEnv) return fromEnv.replace(/\/$/, '')
@@ -17,24 +23,24 @@ export function absoluteUrl(path: string): string {
 }
 
 export const siteSeoConfig = {
-  /** Legal / schema name */
-  personName: 'Leseb Tech Lab',
+  /** Legal / schema organization name */
+  personName: SITE_BRAND_FULL_NAME,
   /** Default share title (og:title, twitter:title on home) */
-  ogTitle: 'Leseb Tech Lab',
+  ogTitle: SITE_BRAND_FULL_NAME,
   /** Social / brand handle (no @ in sameAs) */
   handle: 'leseb',
-  tagline: 'Technology built for humans',
+  tagline: SITE_TAGLINE,
   jobTitle: 'Technology Lab',
-  defaultDescription:
-    'Leseb Tech Lab builds software, AI, and product experiences for humans — work, insights, and experiments from Addis Ababa and beyond.',
+  defaultDescription: SITE_DESCRIPTION,
   keywords: [
     'Leseb',
     'Leseb Tech Lab',
     'technology lab',
-    'software',
-    'artificial intelligence',
+    'human-centered AI',
+    'software development',
     'product design',
-    'human-centered technology',
+    'data platforms',
+    'community technology',
     'Addis Ababa',
     'Ethiopia',
   ],

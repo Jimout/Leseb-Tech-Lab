@@ -8,7 +8,7 @@ import {
   landingSectionHeaderAsideClass,
   landingSectionHeaderGridClass,
   landingSectionHeaderLeadClass,
-  landingSectionIntroClass,
+  landingSectionHeaderIntroClass,
   landingSectionKickerClass,
   landingSectionKickerDotClass,
   landingPillarBodyClass,
@@ -70,9 +70,9 @@ export function ApproachSection() {
             </h2>
           </div>
           <div className={landingSectionHeaderAsideClass}>
-            <p className={landingSectionIntroClass}>
-              Most labs optimize for output. We optimize for outcome, slower starts, deeper roots, and software that
-              still makes sense five years from now.
+            <p className={landingSectionHeaderIntroClass}>
+              We optimize for outcomes, not output. Slower starts, deeper roots, and software that still makes sense
+              years from now.
             </p>
           </div>
         </div>

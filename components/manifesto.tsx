@@ -14,7 +14,6 @@ import {
   landingManifestoBodyClass,
   landingManifestoGridClass,
   landingManifestoLeadClass,
-  landingMetaClass,
   landingSectionKickerClass,
   landingSectionKickerDotClass,
 } from '@/lib/landing-page-typography'
@@ -34,7 +33,6 @@ export const Manifesto = () => (
           <div className={landingSectionKickerClass}>
             <span className={landingSectionKickerDotClass} aria-hidden /> Manifesto
           </div>
-          <p className={cn('mt-4', landingMetaClass)}>01 to 03</p>
         </div>
       </div>
 
@@ -56,7 +54,7 @@ export const Manifesto = () => (
             />
             <div className="absolute inset-0 bg-linear-to-t from-background/80 via-background/25 to-transparent" />
             <div className={cn('absolute bottom-6 left-6', landingCaptionClass)}>
-              02 Human × Machine
+              Human × Machine
             </div>
           </div>
 

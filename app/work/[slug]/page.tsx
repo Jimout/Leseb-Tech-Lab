@@ -8,6 +8,7 @@ import { JsonLd } from '@/components/seo/json-ld'
 import { SiteNavbar } from '@/components/site-navbar'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import { creativeWorkJsonLd } from '@/lib/seo/schema'
 import { resolveWorkPageBySlug } from '@/lib/work-detail-slug-resolution'
 import { canonicalWorkSlugForRequestSlug, getAllWorkSlugs, getWorkDetailBySlug } from '@/lib/work-detail-data'
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!detail) {
     return buildPageMetadata({
       title: 'Work',
-      description: 'Software and product project from Leseb Tech Lab.',
+      description: `Software and product project from ${SITE_BRAND_FULL_NAME}.`,
       path: `/work/${canonical}`,
       ogImage,
     })
@@ -51,7 +52,7 @@ export default async function WorkDetailPage({ params }: PageProps) {
     detail.descriptionNote?.trim() ||
     detail.body?.trim() ||
     detail.work.title ||
-    'Software and product project from Leseb Tech Lab.'
+    `Software and product project from ${SITE_BRAND_FULL_NAME}.`
 
   return (
     <>

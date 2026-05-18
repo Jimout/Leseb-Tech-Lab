@@ -1,11 +1,12 @@
 'use client'
 
 import * as React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { FluidSplitButton } from '@/components/fluid-split-button'
-import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { SITE_BRAND_NAME, SITE_NAV_LOGO_SRC } from '@/lib/site-brand'
 import { NavbarMobileMenuPanel, NavbarMobileMenuTrigger } from '@/components/navbar-mobile-menu'
 import { useNavigationUiStore } from '@/stores/use-navigation-ui-store'
 import { useNavSurfaceScroll } from '@/hooks/use-nav-surface-scroll'
@@ -78,18 +79,32 @@ export type SiteNavbarProps = {
   logoHref?: string
 }
 
+function SiteNavbarLogo() {
+  return (
+    <span className="relative block h-9 w-[8.5rem] shrink-0 sm:h-10 sm:w-[9.5rem] md:h-11 md:w-[10.5rem]">
+      <Image
+        src={SITE_NAV_LOGO_SRC}
+        alt={SITE_BRAND_NAME}
+        fill
+        className="object-contain object-left"
+        sizes="(max-width: 768px) 136px, 168px"
+        priority
+      />
+    </span>
+  )
+}
+
 export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
   const active = useActiveSegment()
   const { mobileNavOpen, setMobileNavOpen } = useNavigationUiStore()
   const surface = useNavSurfaceScroll()
 
   const logoClass = cn(
-    'inline-flex items-center gap-2 rounded-full px-3 py-2',
-    'font-display text-2xl font-semibold tracking-tight md:text-3xl',
+    'inline-flex items-center rounded-full px-2 py-1.5 sm:px-2.5',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
     surface === 'dark'
-      ? 'text-white focus-visible:ring-white focus-visible:ring-offset-background'
-      : 'text-foreground focus-visible:ring-offset-background',
+      ? 'focus-visible:ring-white focus-visible:ring-offset-background'
+      : 'focus-visible:ring-offset-background',
   )
 
   return (
@@ -112,11 +127,11 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
         >
           {logoHref.startsWith('/') ? (
             <Link href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} | go to home`}>
-              {SITE_BRAND_NAME}
+              <SiteNavbarLogo />
             </Link>
           ) : (
             <a href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} | go to home`}>
-              {SITE_BRAND_NAME}
+              <SiteNavbarLogo />
             </a>
           )}
 

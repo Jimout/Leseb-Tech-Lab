@@ -1,3 +1,4 @@
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import type { ResolvedWorkDetail } from '@/lib/work-detail-types'
 import { CATALOG_FILTER_LABEL_BY_ID } from '@/lib/works-catalog-seeds'
 import { defaultStoryGalleryForWork } from '@/lib/work-detail-story-gallery'
@@ -32,7 +33,7 @@ const SHOWCASE_PROJECT_FACTS: Partial<
   Record<string, { client: string; industry: string; duration: string }>
 > = {
   'selam-os': {
-    client: 'Leseb Tech Lab',
+    client: SITE_BRAND_FULL_NAME,
     industry: 'AI',
     duration: '16 Weeks',
   },
@@ -42,7 +43,7 @@ const SHOWCASE_PROJECT_FACTS: Partial<
     duration: '12 Weeks',
   },
   atlas: {
-    client: 'Leseb Tech Lab',
+    client: SITE_BRAND_FULL_NAME,
     industry: 'Data',
     duration: '8 Weeks',
   },
@@ -56,7 +57,7 @@ function resolveProjectFacts(work: ShowcaseWork): {
   const seed = SHOWCASE_PROJECT_FACTS[work.slug] ?? SHOWCASE_PROJECT_FACTS[work.id]
   const industry = filterIdToProjectType(work)
   return {
-    client: seed?.client ?? 'Leseb Tech Lab',
+    client: seed?.client ?? SITE_BRAND_FULL_NAME,
     industry: seed?.industry ?? industry,
     duration: seed?.duration ?? '12 Weeks',
   }

@@ -7,6 +7,7 @@ import { Container } from '@/components/layout/container'
 import { SiteNavbar } from '@/components/site-navbar'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 
 const WorkPageContent = dynamic(
   () => import('@/components/work-page-content').then((mod) => mod.WorkPageContent),
@@ -30,8 +31,7 @@ const WorkPageContent = dynamic(
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Work',
-  description:
-    'Software, AI, data, and community projects from Leseb Tech Lab — explore the portfolio by practice and filter.',
+  description: `Software, AI, data, and community projects from ${SITE_BRAND_FULL_NAME}. Filter by practice and explore case studies.`,
   path: '/work',
 })
 

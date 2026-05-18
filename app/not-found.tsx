@@ -16,7 +16,7 @@ const NOT_FOUND_DESCRIPTION =
   'This page is missing or the link is outdated. Explore work, insights, or contact from the homepage.'
 
 const NOT_FOUND_OG_DESCRIPTION =
-  'This page is missing or the link is outdated. Explore the portfolio from the homepage.'
+  'This page is missing or the link is outdated. Explore work, insights, or contact from the homepage.'
 
 export const metadata: Metadata = {
   title: { absolute: `404 | ${SITE_BRAND_NAME}` },

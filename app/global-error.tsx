@@ -2,11 +2,9 @@
 
 import { useEffect } from 'react'
 
-import { SiteLink } from '@/components/seo/site-link'
-import { Button } from '@/components/ui/button'
-
 /**
  * Root-level error UI (replaces the root layout when the error boundary catches root failures).
+ * Avoid next/link and navigation hooks here — the layout router is not mounted.
  */
 export default function GlobalError({
   error,
@@ -29,12 +27,19 @@ export default function GlobalError({
             Please try again. If the problem continues, return to the homepage.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Button type="button" onClick={() => reset()}>
+            <button
+              type="button"
+              onClick={() => reset()}
+              className="inline-flex h-10 items-center justify-center rounded-md bg-white px-4 text-sm font-medium text-black"
+            >
               Try again
-            </Button>
-            <Button asChild variant="secondary">
-              <SiteLink href="/">Home</SiteLink>
-            </Button>
+            </button>
+            <a
+              href="/"
+              className="inline-flex h-10 items-center justify-center rounded-md border border-white/20 bg-white/10 px-4 text-sm font-medium text-white"
+            >
+              Home
+            </a>
           </div>
         </main>
       </body>

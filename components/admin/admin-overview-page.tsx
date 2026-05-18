@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils'
 
 const LINK_HINTS: Record<string, string> = {
   '/adminopia/insights': 'Create and edit insight articles.',
-  '/adminopia/work': 'Manage portfolio projects.',
+  '/adminopia/work': 'Manage work projects.',
   '/adminopia/site/hero': 'Homepage hero headline and intro.',
   '/adminopia/site/footer': 'Footer panels, contact, and social links.',
   '/adminopia/site/insight-toc': 'Logo beside article table of contents.',

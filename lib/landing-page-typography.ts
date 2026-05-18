@@ -33,19 +33,25 @@ export const landingSectionTitleAccentClass = 'font-light italic text-signal'
 
 /** Label + title | supporting copy (Lab, Approach). */
 export const landingSectionHeaderGridClass = cn(
-  'mb-10 grid gap-10 md:mb-12 md:grid-cols-12 md:gap-12 lg:mb-14',
+  'mb-10 grid gap-10 md:mb-12 md:grid-cols-12 md:items-end md:gap-12 lg:mb-14',
   '2xl:mb-16 2xl:gap-16 3xl:mb-20 3xl:gap-20 4xl:mb-24 4xl:gap-24',
 )
 
 export const landingSectionHeaderLeadClass = 'min-w-0 md:col-span-5'
 
 export const landingSectionHeaderAsideClass = cn(
-  'flex min-w-0 items-end md:col-span-6 md:col-start-7',
+  'flex min-w-0 flex-col items-end md:col-span-6 md:col-start-7',
 )
 
 export const landingSectionIntroClass = cn(
   'text-balance text-lg leading-relaxed text-muted-foreground md:text-xl',
   '2xl:text-xl 3xl:text-2xl 4xl:text-2xl',
+)
+
+/** Intro copy in homepage section headers (Services / Approach asides). */
+export const landingSectionHeaderIntroClass = cn(
+  landingSectionIntroClass,
+  'max-w-md text-right text-pretty lg:max-w-sm',
 )
 
 /** Title block + trailing CTA (Works, Insights). */

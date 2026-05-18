@@ -70,13 +70,13 @@ export function articleJsonLd(opts: {
     datePublished: opts.datePublished,
     dateModified: opts.dateModified ?? opts.datePublished,
     author: {
-      '@type': 'Person',
-      name: siteSeoConfig.personName,
+      '@type': 'Organization',
+      name: SITE_BRAND_FULL_NAME,
       url: getSiteUrl(),
     },
     publisher: {
-      '@type': 'Person',
-      name: siteSeoConfig.personName,
+      '@type': 'Organization',
+      name: SITE_BRAND_FULL_NAME,
       url: getSiteUrl(),
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
@@ -104,8 +104,8 @@ export function creativeWorkJsonLd(opts: {
     description: opts.description,
     url,
     creator: {
-      '@type': 'Person',
-      name: siteSeoConfig.personName,
+      '@type': 'Organization',
+      name: SITE_BRAND_FULL_NAME,
       url: getSiteUrl(),
     },
     ...(image ? { image } : {}),
@@ -115,7 +115,7 @@ export function creativeWorkJsonLd(opts: {
 }
 
 /**
- * Single site-wide @graph: Person + WebSite + ProfessionalService with stable @id IRIs.
+ * Single site-wide @graph: Organization + WebSite + ProfessionalService with stable @id IRIs.
  * Injected from the root layout so every public HTML response includes global entity SEO.
  */
 export function siteGraphJsonLd() {

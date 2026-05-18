@@ -1,5 +1,4 @@
-import Link from 'next/link'
-
+import { FluidSplitButton } from '@/components/fluid-split-button'
 import {
   landingPageContentMaxClass,
   landingPageGutterClass,
@@ -8,7 +7,7 @@ import {
   landingSectionHeaderAsideClass,
   landingSectionHeaderGridClass,
   landingSectionHeaderLeadClass,
-  landingSectionIntroClass,
+  landingSectionHeaderIntroClass,
   landingSectionKickerClass,
   landingSectionKickerDotClass,
   landingPillarBodyClass,
@@ -44,17 +43,17 @@ export function LabSection() {
             </h2>
           </div>
           <div className={landingSectionHeaderAsideClass}>
-            <p className={landingSectionIntroClass}>
+            <p className={landingSectionHeaderIntroClass}>
               Four practices, one brief, software that serves the human in front of the screen.
             </p>
-            <p className="mt-4">
-              <Link
+            <div className="mt-4 shrink-0">
+              <FluidSplitButton
+                label="View services page"
                 href="/services"
-                className="font-mono text-xs uppercase tracking-[0.2em] text-signal underline-offset-4 hover:underline"
-              >
-                View services page →
-              </Link>
-            </p>
+                variant="secondary"
+                size="navbar"
+              />
+            </div>
           </div>
         </div>
 

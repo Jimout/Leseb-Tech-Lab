@@ -7,11 +7,11 @@ import { Toaster } from '@/components/ui/toaster'
 import { FooterSection } from '@/components/footer-section'
 import { PrivacyPolicyContent } from '@/components/privacy-policy-content'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Privacy Policy',
-  description:
-    'How Leseb Tech Lab collects, uses, and protects information when you use this website and contact features.',
+  description: `How ${SITE_BRAND_FULL_NAME} collects, uses, and protects information when you use this website and contact features.`,
   path: '/privacy',
 })
 

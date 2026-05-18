@@ -62,7 +62,7 @@ export function WorksAdminPage() {
   return (
     <AdminPageShell
       title="Work"
-      description="Manage portfolio projects for /work and project pages."
+      description="Manage work projects for /work and project pages."
       right={
         <Button asChild>
           <Link href="/admin/work/create">Add work</Link>

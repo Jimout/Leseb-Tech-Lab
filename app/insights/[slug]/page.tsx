@@ -8,6 +8,7 @@ import { JsonLd } from '@/components/seo/json-ld'
 import { SiteNavbar } from '@/components/site-navbar'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import { articleJsonLd } from '@/lib/seo/schema'
 import { canonicalInsightSlugForRequestSlug, getAllInsightSlugs, getInsightDetailBySlug } from '@/lib/insight-detail-data'
 import { resolveInsightPageBySlug } from '@/lib/insight-detail-slug-resolution'
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!detail) {
     return buildPageMetadata({
       title: 'Insight',
-      description: 'Insight article from Leseb Tech Lab.',
+      description: `Insight article from ${SITE_BRAND_FULL_NAME}.`,
       path: `/insights/${canonical}`,
       ogImage,
     })

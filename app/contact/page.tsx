@@ -7,6 +7,7 @@ import { SiteNavbar } from '@/components/site-navbar'
 import { Toaster } from '@/components/ui/toaster'
 import { DEFAULT_SITE_SETTINGS } from '@/lib/admin/site-settings'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import { getSiteSettingsFromDb } from '@/lib/site-settings-db'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       s.contact.metaDescription?.trim() ||
       d.metaDescription ||
-      'Get in touch with Leseb Tech Lab for partnerships, product builds, and research enquiries from Addis Ababa.',
+      `Get in touch with ${SITE_BRAND_FULL_NAME} for partnerships, product builds, and research enquiries from Addis Ababa.`,
     path: '/contact',
   })
 }

@@ -1,5 +1,6 @@
 import { WorksLabCard, worksLabPrimaryTag, type WorksLabCardProps } from '@/components/works-lab-card'
 import { workLabCardGridClass, workLabCardLandingGridClass } from '@/lib/landing-page-typography'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
 import { cn } from '@/lib/utils'
 
@@ -9,7 +10,7 @@ function workLabCardDesc(work: ShowcaseWork): string {
   const summary = work.cardSummary?.trim()
   if (summary) return summary
   const tag = worksLabPrimaryTag(work.category)
-  return tag ? `${tag} at Leseb Tech Lab.` : 'Product and research at Leseb Tech Lab.'
+  return tag ? `${tag} at ${SITE_BRAND_FULL_NAME}.` : `Product and research at ${SITE_BRAND_FULL_NAME}.`
 }
 
 export function showcaseWorkToLabItem(work: ShowcaseWork): WorksLabGridItem {

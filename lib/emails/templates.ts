@@ -1,4 +1,5 @@
 import { appBaseUrl } from '@/lib/mailer'
+import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 
 type EmailLayoutInput = {
   eyebrow?: string
@@ -23,7 +24,7 @@ function absoluteUrl(url: string) {
 
 export function renderBrandedEmail(input: EmailLayoutInput) {
   const homeUrl = appBaseUrl()
-  const brandName = input.brandName ?? 'Leseb Tech Lab'
+  const brandName = input.brandName ?? SITE_BRAND_FULL_NAME
   const logoUrl = input.logoUrl ?? process.env.EMAIL_LOGO_URL ?? `${homeUrl}/images/Logo.png`
   const ctaUrl = input.ctaUrl ? absoluteUrl(input.ctaUrl) : null
   const bodyHtml = input.bodyHtml ?? ''

@@ -7,7 +7,7 @@ import {
 } from '@/lib/portfolio-catalog-filters'
 import { z } from 'zod'
 
-import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { SITE_BRAND_FULL_NAME, SITE_BRAND_NAME, SITE_DESCRIPTION } from '@/lib/site-brand'
 
 export type SiteHeroSettings = {
   eyebrow: string
@@ -292,7 +292,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
       '{{Leseb (ለሰብ)}} in Ge\'ez means [[for humans]] and that is the foundation of our identity. We design AI and software that serve people, never overwhelm them.',
     whoAmIButtonLabel: 'Read the Manifesto',
     whoAmIButtonHref: '#manifesto',
-    roleLine1: 'Tech Lab · Est. 2025',
+    roleLine1: 'Tech Lab · Est. 2026',
     roleLine2: 'Building human-centered AI\nfrom Addis Ababa to the world.',
   },
   footer: {
@@ -323,8 +323,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   },
   about: {
     metaTitle: `About — ${SITE_BRAND_NAME}`,
-    metaDescription:
-      'Leseb Tech Lab builds software, AI, and product design for communities across Ethiopia and beyond.',
+    metaDescription: SITE_DESCRIPTION,
   },
   aboutEditorial: {
     heroEyebrow: 'About',
@@ -395,9 +394,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   aboutJourney: {
     visible: true,
     headingName: SITE_BRAND_NAME,
-    headingRole: 'Architect | Architectural Visualisation Specialist',
+    headingRole: 'Human-centered technology lab',
     intro:
-      'A glimpse into our journey, shaping our expertise in software, AI, product design, and human-centered technology across local and international projects.',
+      'How we work across AI, software, product design, and community programs, from early research through production.',
     cvHref: '/downloads/Leseb-Tech-Lab-CV.pdf',
     educationVisible: true,
     experienceVisible: true,
@@ -407,61 +406,45 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
       {
         id: 'edu-1',
         visible: true,
-        title: 'Data Science & Machine Learning',
-        detail: 'AIX Africa | 2025 - Present',
+        title: 'Applied AI & machine learning',
+        detail: 'ALX Africa · ongoing',
       },
       {
         id: 'edu-2',
         visible: true,
-        title: 'Bachelor of Architecture',
-        detail: 'Addis Ababa University | 2019 - 2024',
-      },
-      {
-        id: 'edu-3',
-        visible: true,
-        title: 'High School Diploma',
-        detail: 'Abune Gorgorious Schools | 2015 - 2018',
+        title: 'Product design & human-centered research',
+        detail: 'Leseb Tech Lab · continuous',
       },
     ],
     experience: [
       {
         id: 'exp-1',
         visible: true,
-        title: 'Project Architect & Architectural Visualization Specialist',
-        detail: 'Persona Design Studio | Nov 2025 - Present',
+        title: 'AI & software products',
+        detail: 'Leseb Tech Lab · present',
         description:
-          'Leading design development and visualization for U.S. based and local projects, producing permit drawings, interior designs, and high-quality renderings aligned with client goals and regulations.',
+          'Research, prototyping, and production systems for community platforms, assistants, and data tools across Ethiopia and partner markets.',
       },
       {
         id: 'exp-2',
         visible: true,
-        title: 'Project Architect',
-        detail: 'BKW Consulting Architects | Aug 2024 - Present',
+        title: 'Product design & brand systems',
+        detail: 'Roha Digitals · 2024 to 2025',
         description:
-          'Managing design and construction phases across residential, commercial, and institutional projects, collaborating with multidisciplinary teams to deliver precise and functional architectural solutions.',
+          'Digital product design, UI systems, and visual identity for clients building software and community-facing tools.',
       },
       {
         id: 'exp-3',
         visible: true,
-        title: 'Brand & Graphic Designer',
-        detail: 'Roha Digitals | Jul 2024 - Oct 2025',
+        title: 'Community & data programs',
+        detail: 'Partner collaborations · ongoing',
         description:
-          'Developed brand identities and digital experiences, working on UI/UX design and visual communication for various clients.',
-      },
-      {
-        id: 'exp-4',
-        visible: true,
-        title: 'Freelance Architect & Interior Designer',
-        detail: 'Self-Employed | May 2023 - Present',
-        description:
-          'Delivering architectural and interior design services for residential and commercial clients—from concept and spatial planning through documentation and visualization.',
+          'Field research, pilot deployments, and long-term support for programs that need reliable software in low-connectivity environments.',
       },
     ],
     certifications: [
-      { id: 'cert-1', visible: true, title: 'ALX Ventures Founder Academy', detail: 'ALX Africa | 2025' },
-      { id: 'cert-2', visible: true, title: 'Professional Development Skills', detail: 'ALX Africa | 2025' },
-      { id: 'cert-3', visible: true, title: 'D.D.I Certificate', detail: '2023' },
-      { id: 'cert-4', visible: true, title: 'Appreciation Certificate', detail: 'EiABC | 2023' },
+      { id: 'cert-1', visible: true, title: 'ALX Ventures Founder Academy', detail: 'ALX Africa · 2025' },
+      { id: 'cert-2', visible: true, title: 'Professional development', detail: 'ALX Africa · 2025' },
     ],
     toolkitSections: [
       {
@@ -532,10 +515,10 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     visible: true,
     ctaVisible: true,
     headlineLines: [
-      'Creative and experimental',
-      'ventures we have co-founded',
-      'across architecture, design,',
-      'and technology.',
+      'Ventures and partners',
+      'we build alongside',
+      'across product, data,',
+      'and community programs.',
     ],
     logos: [
       { id: 'logo-1', visible: true, src: '/images/clogo/Nedf.png', alt: 'NEDF Studios', href: '' },
@@ -549,8 +532,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   },
   contact: {
     metaTitle: `Contact | ${SITE_BRAND_NAME}`,
-    metaDescription:
-      'Contact Leseb Tech Lab for partnerships, product builds, and human-centered AI and software enquiries.',
+    metaDescription: `Contact ${SITE_BRAND_FULL_NAME} for partnerships, product builds, and human-centered AI and software enquiries.`,
     heroEyebrow: 'Contact',
     heroLine1: "Let's build",
     heroLine2: 'something ',
@@ -632,7 +614,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     intro: 'Because your privacy is important to us.',
     body: [
       '1. Information we collect',
-      `When you use this website (${SITE_BRAND_NAME} portfolio), including the contact form, newsletter signup, or project inquiries, we may collect the details you submit—such as your name, email address, and message. If we use analytics, we may also process limited technical data (for example device or browser type) in aggregate to understand how the site is used.`,
+      `When you use this website (${SITE_BRAND_FULL_NAME}), including the contact form, newsletter signup, or project inquiries, we may collect the details you submit, such as your name, email address, and message. If we use analytics, we may also process limited technical data (for example device or browser type) in aggregate to understand how the site is used.`,
       '',
       '2. How we use your information',
       'We use this information to respond to you, operate and improve the site, and—only if you opt in—to send updates about work or services. We do not sell your personal data.',
@@ -650,7 +632,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   },
   insightToc: {
     markSrc: '/Leseb-logo.png',
-    markAlt: 'Leseb Tech Lab',
+    markAlt: SITE_BRAND_FULL_NAME,
   },
   portfolioCatalogFilters: getDefaultPortfolioCatalogFilters(),
 }
@@ -679,6 +661,8 @@ const LEGACY_CONTACT_PROJECT_PLACEHOLDER = 'Tell me about your project:'
 const LEGACY_VENTURES_LINE_2 = 'Associated Ventures I’ve'
 const LEGACY_ABOUT_META_DESCRIPTION =
   'Architect focused on design development, interiors, and visualization across multiple scales.'
+const LEGACY_ABOUT_JOURNEY_HEADING_ROLE = 'Architect | Architectural Visualisation Specialist'
+const LEGACY_ABOUT_JOURNEY_HEADING_ROLE_ALT = 'Architect | Architectural Visualization Specialist'
 const LEGACY_NEWSLETTER_SPLASH_LIGHT = '/images/newspaper%202.png'
 const LEGACY_NEWSLETTER_SPLASH_DARK = '/images/newspaper%201.png'
 const LEGACY_FOOTER_LOGO = '/images/Logo.png'
@@ -1103,6 +1087,9 @@ export function normalizeSiteHeroSettings(value: LegacySiteHeroSettings): SiteHe
     roleLine1 = def.roleLine1
     roleLine2 = def.roleLine2
   }
+  if (roleLine1 === 'Tech Lab · Est. 2025') {
+    roleLine1 = def.roleLine1
+  }
 
   return {
     eyebrow: nonEmptyString(value.eyebrow, def.eyebrow),
@@ -1216,6 +1203,22 @@ export function normalizeStoredSiteSettings(raw: unknown): SiteSettings {
     next = {
       ...next,
       aboutJourney: { ...next.aboutJourney, intro: DEFAULT_SITE_SETTINGS.aboutJourney.intro },
+    }
+  }
+  if (
+    next.aboutJourney.headingRole === LEGACY_ABOUT_JOURNEY_HEADING_ROLE ||
+    next.aboutJourney.headingRole === LEGACY_ABOUT_JOURNEY_HEADING_ROLE_ALT
+  ) {
+    next = {
+      ...next,
+      aboutJourney: {
+        ...next.aboutJourney,
+        headingRole: DEFAULT_SITE_SETTINGS.aboutJourney.headingRole,
+        intro: DEFAULT_SITE_SETTINGS.aboutJourney.intro,
+        education: [...DEFAULT_SITE_SETTINGS.aboutJourney.education],
+        experience: [...DEFAULT_SITE_SETTINGS.aboutJourney.experience],
+        certifications: [...DEFAULT_SITE_SETTINGS.aboutJourney.certifications],
+      },
     }
   }
   if (next.contact.newsletterOptInLabel === LEGACY_NEWSLETTER_OPT_IN) {

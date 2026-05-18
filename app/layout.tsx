@@ -13,7 +13,7 @@ import { getSiteSettingsFromDb } from '@/lib/site-settings-db'
 
 
 export const viewport: Viewport = {
-  themeColor: '#1f1d1b',
+  themeColor: '#0a0a0a',
   width: 'device-width',
   initialScale: 1,
 }

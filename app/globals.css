@@ -5,7 +5,7 @@
 
 :root {
   /** Site canvas — warm near-black (single source for surfaces) */
-  --canvas: #1f1d1b;
+  --canvas: #0a0a0a;
   --background: var(--canvas);
   --foreground: #ffffff;
 

@@ -22,7 +22,7 @@ export default async function Image({ params }: Props) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          background: 'linear-gradient(160deg, #1f1d1b 0%, #302e2b 100%)',
+          background: 'linear-gradient(160deg, #0a0a0a 0%, #302e2b 100%)',
           padding: 64,
           fontFamily: 'ui-sans-serif, system-ui, sans-serif',
         }}

@@ -23,7 +23,7 @@ export default async function Image({ params }: Props) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          background: '#1f1d1b',
+          background: '#0a0a0a',
           padding: 64,
           fontFamily: 'ui-sans-serif, system-ui, sans-serif',
         }}

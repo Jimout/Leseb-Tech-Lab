@@ -2,13 +2,11 @@ import NextAuth from "next-auth"
 import { NextResponse } from "next/server"
 
 import { ADMIN_LOGIN_PATH } from "@/lib/admin/admin-routes"
-import { authOptions } from "@/lib/auth"
+import { buildAuthOptions } from "@/lib/auth"
 import { ensureNextAuthRuntimeEnv, hasAuthSecret } from "@/lib/auth-env"
 import { getSiteUrl } from "@/lib/seo/site-config"
 
 export const runtime = "nodejs"
-
-const nextAuthHandler = NextAuth(authOptions)
 
 function redirectToLogin(errorCode: string) {
   const login = new URL(ADMIN_LOGIN_PATH, getSiteUrl())
@@ -16,10 +14,9 @@ function redirectToLogin(errorCode: string) {
   return NextResponse.redirect(login)
 }
 
-async function handler(
-  req: Parameters<typeof nextAuthHandler>[0],
-  context: Parameters<typeof nextAuthHandler>[1],
-) {
+type RouteContext = { params: Promise<{ nextauth: string[] }> }
+
+async function handleAuth(req: Request, context: RouteContext) {
   ensureNextAuthRuntimeEnv()
 
   if (process.env.NODE_ENV === "production" && !hasAuthSecret()) {
@@ -28,11 +25,19 @@ async function handler(
   }
 
   try {
-    return await nextAuthHandler(req, context)
+    const handler = NextAuth(buildAuthOptions())
+    const params = await context.params
+    return handler(req, { params })
   } catch (error) {
     console.error("[nextauth] handler error:", error)
     return redirectToLogin("Configuration")
   }
 }
 
-export { handler as GET, handler as POST }
+export function GET(req: Request, context: RouteContext) {
+  return handleAuth(req, context)
+}
+
+export function POST(req: Request, context: RouteContext) {
+  return handleAuth(req, context)
+}

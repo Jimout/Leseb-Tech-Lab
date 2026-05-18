@@ -13,14 +13,35 @@ const credentialsSchema = z.object({
   password: z.string().min(1),
 })
 
+/** Used only while `next build` collects page data (e.g. Vercel before env is injected). */
+const AUTH_SECRET_BUILD_PLACEHOLDER =
+  "leseb-build-phase-placeholder-set-NEXTAUTH_SECRET-in-vercel"
+
+function isNextProductionBuild(): boolean {
+  return process.env.NEXT_PHASE === "phase-production-build"
+}
+
 function resolveAuthSecret(): string {
   const fromEnv = process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET
   if (fromEnv?.trim()) return fromEnv.trim()
   if (process.env.NODE_ENV === "development") {
     return "leseb-local-dev-nextauth-secret-set-NEXTAUTH_SECRET-in-env"
   }
+  if (isNextProductionBuild()) {
+    return AUTH_SECRET_BUILD_PLACEHOLDER
+  }
   throw new Error(
     "Missing NEXTAUTH_SECRET (or AUTH_SECRET). Add it to .env — see .env.example.",
+  )
+}
+
+/** Fail fast at request time if production is running without a real secret. */
+export function assertProductionAuthSecret(): void {
+  const fromEnv = process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET
+  if (fromEnv?.trim()) return
+  if (process.env.NODE_ENV !== "production") return
+  throw new Error(
+    "Missing NEXTAUTH_SECRET (or AUTH_SECRET). Set it in Vercel → Project → Settings → Environment Variables.",
   )
 }
 

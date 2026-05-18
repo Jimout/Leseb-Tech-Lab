@@ -3,7 +3,10 @@ import { NextResponse } from "next/server"
 
 import { ADMIN_LOGIN_PATH } from "@/lib/admin/admin-routes"
 import { buildAuthOptions } from "@/lib/auth"
-import { ensureNextAuthRuntimeEnv, hasAuthSecret } from "@/lib/auth-env"
+import {
+  ensureNextAuthRuntimeEnv,
+  isAuthConfiguredForProduction,
+} from "@/lib/auth-env"
 import { getSiteUrl } from "@/lib/seo/site-config"
 
 export const runtime = "nodejs"
@@ -19,8 +22,8 @@ type RouteContext = { params: Promise<{ nextauth: string[] }> }
 async function handleAuth(req: Request, context: RouteContext) {
   ensureNextAuthRuntimeEnv()
 
-  if (process.env.NODE_ENV === "production" && !hasAuthSecret()) {
-    console.error("[nextauth] Missing NEXTAUTH_SECRET in production")
+  if (process.env.NODE_ENV === "production" && !isAuthConfiguredForProduction()) {
+    console.error("[nextauth] Auth env not configured for production")
     return redirectToLogin("Configuration")
   }
 

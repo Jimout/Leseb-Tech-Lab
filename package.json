@@ -11,6 +11,7 @@
     "build": "node scripts/run-next.mjs build --webpack",
     "postinstall": "prisma generate",
     "admin:seed": "node scripts/ensure-admin.cjs",
+    "auth:secret": "node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\"",
     "db:backfill-slugs": "npx tsx scripts/backfill-work-insight-slugs.ts",
     "db:seed-insights": "npx tsx scripts/seed-insights.ts",
     "db:migrate-legacy-media": "npx tsx scripts/migrate-legacy-media.ts --dry-run",

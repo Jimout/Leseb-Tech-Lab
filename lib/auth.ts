@@ -4,7 +4,7 @@ import { z } from "zod"
 
 import { ADMIN_LOGIN_PATH } from "@/lib/admin/admin-routes"
 import { verifyAdminLogin } from "@/lib/admin/bootstrap-admin-user"
-import { ensureNextAuthRuntimeEnv } from "@/lib/auth-env"
+import { ensureNextAuthRuntimeEnv, syncAuthEnvAliases } from "@/lib/auth-env"
 import { getSiteUrl } from "@/lib/seo/site-config"
 
 const DAY_SECONDS = 60 * 60 * 24
@@ -28,6 +28,7 @@ function resolveAuthSecret(): string {
 }
 
 function authPages(): NonNullable<NextAuthOptions["pages"]> {
+  syncAuthEnvAliases()
   ensureNextAuthRuntimeEnv()
   const base = getSiteUrl().replace(/\/$/, "")
   const login = `${base}${ADMIN_LOGIN_PATH}`

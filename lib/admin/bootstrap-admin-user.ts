@@ -8,7 +8,7 @@ export function getAdminCredentialsFromEnv(): {
   name: string
 } | null {
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase()
-  const password = process.env.ADMIN_PASSWORD
+  const password = process.env.ADMIN_PASSWORD?.trim()
   if (!email || !password) return null
   return {
     email,
@@ -56,31 +56,33 @@ export async function verifyAdminLogin(
     return null
   }
 
-  let user = await prisma.user.findUnique({
-    where: { email: normalizedEmail },
-    select: { id: true, email: true, name: true, password: true },
-  })
-
-  if (!user?.password && envAdmin && normalizedEmail === envAdmin.email) {
-    const bootstrapped = await bootstrapAdminUserFromEnv()
-    if (bootstrapped) {
-      user = bootstrapped
-    }
-  }
-
-  if (!user?.password) return null
-
-  const valid = await bcrypt.compare(password, user.password)
-  if (!valid) {
-    if (envAdmin && normalizedEmail === envAdmin.email && password === envAdmin.password) {
+  try {
+    // Env admin: always sync password hash from Vercel/local env before checking.
+    if (envAdmin && normalizedEmail === envAdmin.email) {
       const bootstrapped = await bootstrapAdminUserFromEnv()
       if (!bootstrapped?.password) return null
-      const retry = await bcrypt.compare(password, bootstrapped.password)
-      if (!retry) return null
-      return { id: bootstrapped.id, email: bootstrapped.email, name: bootstrapped.name }
+      const valid = await bcrypt.compare(password.trim(), bootstrapped.password)
+      if (!valid) return null
+      return {
+        id: bootstrapped.id,
+        email: bootstrapped.email,
+        name: bootstrapped.name,
+      }
     }
+
+    const user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+      select: { id: true, email: true, name: true, password: true },
+    })
+
+    if (!user?.password) return null
+
+    const valid = await bcrypt.compare(password.trim(), user.password)
+    if (!valid) return null
+
+    return { id: user.id, email: user.email, name: user.name }
+  } catch (error) {
+    console.error('[auth] verifyAdminLogin failed:', error)
     return null
   }
-
-  return { id: user.id, email: user.email, name: user.name }
 }

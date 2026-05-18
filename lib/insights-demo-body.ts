@@ -5,7 +5,7 @@ import { isInsightHtmlEmpty } from '@/lib/sanitize-insight-html'
 /** Slugs that receive long demo body copy when the CMS has no article/HTML yet (local QA). */
 const DEMO_BODY_SLUGS = new Set([
   'sample-intent-to-interface',
-  'biomimicry-architecture',
+  'human-ai-with-restraint',
   'sample-metrics-that-move-teams',
 ])
 
@@ -160,7 +160,7 @@ const DEMO_BY_SLUG: Record<
     bodyMode: 'structured',
     article: SAMPLE_INTENT_ARTICLE,
   },
-  'biomimicry-architecture': {
+  'human-ai-with-restraint': {
     bodyMode: 'simple',
     simpleBodyHtml: longSimpleHtml(),
   },

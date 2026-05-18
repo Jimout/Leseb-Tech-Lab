@@ -12,6 +12,7 @@
     "postinstall": "prisma generate",
     "admin:seed": "node scripts/ensure-admin.cjs",
     "db:backfill-slugs": "npx tsx scripts/backfill-work-insight-slugs.ts",
+    "db:seed-insights": "npx tsx scripts/seed-insights.ts",
     "db:migrate-legacy-media": "npx tsx scripts/migrate-legacy-media.ts --dry-run",
     "db:validate-media": "npx tsx scripts/validate-media-integrity.ts --dry-run",
     "db:find-orphaned-media": "npx tsx scripts/find-orphaned-cloudinary-assets.ts --dry-run",

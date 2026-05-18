@@ -5,6 +5,7 @@ import { migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
 import { insightHref, type ShowcaseInsight } from '@/lib/insights-showcase-data'
 import type { InsightArticle } from '@/lib/insight-types'
 import type { MediaAsset } from '@/lib/media-assets'
+import { insightDbNeedsBootstrap, seedInsightsFromShowcaseIfNeeded } from '@/lib/insights-seed-db'
 import { prisma } from '@/lib/prisma'
 import { generateUniqueSlug, normalizeSlugInput, recordSlugHistory } from '@/lib/slug-service'
 
@@ -118,9 +119,16 @@ function toInsightRow(db: {
 
 export async function getInsightsFromDb(): Promise<ShowcaseInsight[]> {
   try {
-    const rows = await prisma.insight.findMany({
+    let rows = await prisma.insight.findMany({
       orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
     })
+    const slugs = rows.map((r) => r.slug.trim()).filter(Boolean)
+    if (insightDbNeedsBootstrap(slugs)) {
+      await seedInsightsFromShowcaseIfNeeded()
+      rows = await prisma.insight.findMany({
+        orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
+      })
+    }
     return rows.map((row) => toInsightRow(row)).filter((x): x is ShowcaseInsight => x !== null)
   } catch (error) {
     console.error('[insights] getInsightsFromDb failed:', error)

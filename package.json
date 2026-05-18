@@ -8,9 +8,10 @@
   "scripts": {
     "dev": "node scripts/run-next.mjs dev --webpack",
     "dev:fresh": "node scripts/run-next.mjs dev --webpack --clean",
-    "build": "node scripts/run-next.mjs build --webpack",
+    "build": "node scripts/vercel-build.mjs",
+    "build:next": "node scripts/run-next.mjs build --webpack",
     "postinstall": "prisma generate",
-    "admin:seed": "node scripts/ensure-admin.cjs",
+    "admin:seed": "npx tsx scripts/ensure-admin.ts",
     "auth:secret": "node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\"",
     "db:backfill-slugs": "npx tsx scripts/backfill-work-insight-slugs.ts",
     "db:seed-insights": "npx tsx scripts/seed-insights.ts",

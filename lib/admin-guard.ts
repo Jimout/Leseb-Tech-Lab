@@ -1,13 +1,19 @@
+import { userHasPassword } from '@/lib/admin/user-auth'
+
 type SessionLike = {
   user?: {
     email?: string | null
   } | null
 } | null
 
-export function isAllowedAdminSession(session: SessionLike) {
-  const sessionEmail = session?.user?.email?.toLowerCase()
-  const adminEmail = process.env.ADMIN_EMAIL?.toLowerCase()
+/** True when the session email belongs to a database user with a password (admin login). */
+export async function isAllowedAdminSession(session: SessionLike): Promise<boolean> {
+  const sessionEmail = session?.user?.email?.trim().toLowerCase()
   if (!sessionEmail) return false
-  if (!adminEmail) return true
-  return sessionEmail === adminEmail
+  try {
+    return await userHasPassword(sessionEmail)
+  } catch (error) {
+    console.error('[auth] isAllowedAdminSession failed:', error)
+    return false
+  }
 }

@@ -14,7 +14,7 @@ function sanitizeFolder(folder: string | null): string {
 }
 
 export async function POST(request: NextRequest) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   try {
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   try {

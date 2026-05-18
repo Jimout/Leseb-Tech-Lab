@@ -47,7 +47,7 @@ const insightsPayloadSchema = z.object({
 })
 
 export async function GET(request: NextRequest) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   try {
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   let body: unknown
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   let body: unknown

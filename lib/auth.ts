@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import { z } from "zod"
 
 import { ADMIN_LOGIN_PATH } from "@/lib/admin/admin-routes"
-import { verifyAdminLogin } from "@/lib/admin/bootstrap-admin-user"
+import { verifyUserLogin } from "@/lib/admin/user-auth"
 import { ensureNextAuthRuntimeEnv, syncAuthEnvAliases } from "@/lib/auth-env"
 import { getSiteUrl } from "@/lib/seo/site-config"
 
@@ -14,7 +14,6 @@ const credentialsSchema = z.object({
   password: z.string().min(1),
 })
 
-/** Used when NEXTAUTH_SECRET is missing during build or at runtime (handler redirects). */
 const AUTH_SECRET_BUILD_PLACEHOLDER =
   "leseb-build-phase-placeholder-set-NEXTAUTH_SECRET-in-vercel"
 
@@ -58,22 +57,17 @@ export function buildAuthOptions(): NextAuthOptions {
           const parsed = credentialsSchema.safeParse(credentials)
           if (!parsed.success) return null
 
-          try {
-            const user = await verifyAdminLogin(
-              parsed.data.email,
-              parsed.data.password,
-            )
-            if (!user) return null
+          const user = await verifyUserLogin(
+            parsed.data.email,
+            parsed.data.password,
+          )
+          if (!user) return null
 
-            return {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              image: null,
-            }
-          } catch (error) {
-            console.error("[auth] authorize failed:", error)
-            return null
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: null,
           }
         },
       }),

@@ -13,7 +13,7 @@ export async function GET() {
   if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  if (!isAllowedAdminSession(session)) {
+  if (!(await isAllowedAdminSession(session))) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 

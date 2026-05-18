@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { verifyAdminLogin } from '@/lib/admin/bootstrap-admin-user'
+import { verifyUserLogin } from '@/lib/admin/user-auth'
 import { encodeSessionHeader } from '@/lib/session-header-server'
 
 const loginSchema = z.object({
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid login credentials' }, { status: 400 })
   }
 
-  const user = await verifyAdminLogin(parsed.data.email, parsed.data.password)
+  const user = await verifyUserLogin(parsed.data.email, parsed.data.password)
   if (!user) {
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
   }

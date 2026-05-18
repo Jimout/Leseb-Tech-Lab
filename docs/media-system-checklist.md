@@ -4,7 +4,7 @@
 
 - Set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
 - Ensure `DATABASE_URL` points to production DB before migration scripts.
-- Confirm admin auth is configured (`ADMIN_EMAIL`, session signing secret).
+- Confirm admin auth is configured (`DATABASE_URL`, seeded admin user, `NEXTAUTH_SECRET`).
 
 ### Migration Order
 

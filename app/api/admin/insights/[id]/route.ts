@@ -28,7 +28,7 @@ const insightPartialSchema = z.object({
 })
 
 export async function GET(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   const { id } = await ctx.params
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest, ctx: { params: Promise<{ id: str
 }
 
 export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   const { id } = await ctx.params
@@ -90,7 +90,7 @@ export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: s
 }
 
 export async function DELETE(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
-  const authError = requireAdminAccess(request)
+  const authError = await requireAdminAccess(request)
   if (authError) return authError
 
   const { id } = await ctx.params

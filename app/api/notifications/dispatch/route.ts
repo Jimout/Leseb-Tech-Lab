@@ -26,7 +26,7 @@ function hasValidSecret(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
-  const allowedBySession = !!session?.user && isAllowedAdminSession(session)
+  const allowedBySession = !!session?.user && (await isAllowedAdminSession(session))
   if (!allowedBySession && !hasValidSecret(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

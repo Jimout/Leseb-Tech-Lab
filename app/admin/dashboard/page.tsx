@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 
-/** Alias — admin home is `/adminopia/overview`, not `/adminopia/dashboard`. */
+/** Alias — admin home is `/leseb-admin/overview`, not `/leseb-admin/dashboard`. */
 export default function AdminDashboardAliasPage() {
-  redirect('/adminopia/overview')
+  redirect('/leseb-admin/overview')
 }

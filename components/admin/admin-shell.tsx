@@ -15,12 +15,13 @@ import {
   adminMainGridClass,
   adminShellPaddingClass,
 } from '@/lib/admin/admin-layout-classes'
+import { isAdminLoginPath } from '@/lib/admin/admin-routes'
 import { cn } from '@/lib/utils'
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false)
-  const isLogin = pathname?.startsWith('/adminopia/login')
+  const isLogin = isAdminLoginPath(pathname)
 
   React.useEffect(() => {
     if (typeof document === 'undefined') return

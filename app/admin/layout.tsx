@@ -5,8 +5,8 @@ import { AdminShell } from '@/components/admin/admin-shell'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Admin',
-    template: '%s — Admin',
+    default: 'LesebAdmin',
+    template: '%s — LesebAdmin',
   },
   description: 'Private admin area — not indexed by search engines.',
   robots: {

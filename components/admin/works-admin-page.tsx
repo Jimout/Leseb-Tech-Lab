@@ -65,7 +65,7 @@ export function WorksAdminPage() {
       description="Manage work projects for /work and project pages."
       right={
         <Button asChild>
-          <Link href="/admin/work/create">Add work</Link>
+          <Link href="/leseb-admin/work/create">Add work</Link>
         </Button>
       }
     >

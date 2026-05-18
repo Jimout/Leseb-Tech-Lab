@@ -12,18 +12,18 @@ import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 const LINK_HINTS: Record<string, string> = {
-  '/adminopia/insights': 'Create and edit insight articles.',
-  '/adminopia/work': 'Manage work projects.',
-  '/adminopia/site/hero': 'Homepage hero headline and intro.',
-  '/adminopia/site/footer': 'Footer panels, contact, and social links.',
-  '/adminopia/site/insight-toc': 'Logo beside article table of contents.',
-  '/adminopia/site/catalog-filters': 'Categories for /work and /insights filters.',
-  '/adminopia/privacy': 'Privacy policy copy.',
-  '/adminopia/pages/about': 'About page sections and letter.',
-  '/adminopia/pages/contact': 'Contact page hero and form.',
-  '/adminopia/subscribers': 'Newsletter signups.',
-  '/adminopia/visitors': 'Traffic and pageviews.',
-  '/adminopia/settings': 'Admin email and password for this browser.',
+  '/leseb-admin/insights': 'Create and edit insight articles.',
+  '/leseb-admin/work': 'Manage work projects.',
+  '/leseb-admin/site/hero': 'Homepage hero headline and intro.',
+  '/leseb-admin/site/footer': 'Footer panels, contact, and social links.',
+  '/leseb-admin/site/insight-toc': 'Logo beside article table of contents.',
+  '/leseb-admin/site/catalog-filters': 'Categories for /work and /insights filters.',
+  '/leseb-admin/privacy': 'Privacy policy copy.',
+  '/leseb-admin/pages/about': 'About page sections and letter.',
+  '/leseb-admin/pages/contact': 'Contact page hero and form.',
+  '/leseb-admin/subscribers': 'Newsletter signups.',
+  '/leseb-admin/visitors': 'Traffic and pageviews.',
+  '/leseb-admin/settings': 'Admin email and password for this browser.',
 }
 
 const QUICK_SECTIONS = DEFAULT_ADMIN_NAV_GROUPS.filter((group) => group.id !== 'core').map(

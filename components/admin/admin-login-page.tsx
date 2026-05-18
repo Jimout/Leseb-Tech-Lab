@@ -8,13 +8,8 @@ import { AdminBrandMark } from '@/components/admin/admin-brand-mark'
 import { AdminLoginForm } from '@/components/admin/admin-login-form'
 import { AdminLoadingScreen } from '@/components/admin/admin-loading-screen'
 import { Card } from '@/components/ui/card'
+import { safeAdminCallbackUrl } from '@/lib/admin/admin-routes'
 import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
-
-function safeCallbackUrl(raw: string | null): string {
-  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/adminopia/overview'
-  if (!raw.startsWith('/adminopia')) return '/adminopia/overview'
-  return raw
-}
 
 export function AdminLoginPage() {
   const router = useRouter()
@@ -33,7 +28,7 @@ export function AdminLoginPage() {
     setHasHeaderSession(hasHeader)
 
     if (hasHeader) {
-      router.replace(safeCallbackUrl(searchParams.get('callbackUrl')))
+      router.replace(safeAdminCallbackUrl(searchParams.get('callbackUrl')))
     }
   }, [status, router, searchParams])
 

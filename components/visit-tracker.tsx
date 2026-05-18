@@ -9,7 +9,7 @@ export function VisitTracker() {
 
   useEffect(() => {
     if (!pathname) return
-    if (pathname.startsWith('/admin') || pathname.startsWith('/adminopia')) return
+    if (pathname.startsWith('/admin') || pathname.startsWith('/leseb-admin')) return
 
     const now = Date.now()
     const key = `${pathname}:${Math.floor(now / 2000)}`

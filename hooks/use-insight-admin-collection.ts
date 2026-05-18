@@ -16,8 +16,8 @@ export function useInsightAdminCollection() {
   const [error, setError] = React.useState<string | null>(null)
 
   const redirectToLogin = React.useCallback(() => {
-    const next = pathname ?? '/adminopia/overview'
-    router.replace(`/adminopia/login?callbackUrl=${encodeURIComponent(next)}`)
+    const next = pathname ?? '/leseb-admin/overview'
+    router.replace(`/leseb-admin/login?callbackUrl=${encodeURIComponent(next)}`)
   }, [pathname, router])
 
   React.useEffect(() => {

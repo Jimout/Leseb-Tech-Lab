@@ -15,7 +15,16 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/admin/', '/adminopia', '/adminopia/', '/api', '/api/'],
+        disallow: [
+          '/admin',
+          '/admin/',
+          '/leseb-admin',
+          '/leseb-admin/',
+          '/adminopia',
+          '/adminopia/',
+          '/api',
+          '/api/',
+        ],
       },
     ],
     host,

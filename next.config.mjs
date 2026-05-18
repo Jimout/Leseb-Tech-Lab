@@ -15,33 +15,43 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/adminopia',
+        destination: '/leseb-admin',
+        permanent: true,
+      },
+      {
+        source: '/adminopia/:path*',
+        destination: '/leseb-admin/:path*',
+        permanent: true,
+      },
+      {
         source: '/admin',
-        destination: '/adminopia',
+        destination: '/leseb-admin',
         permanent: true,
       },
       {
         source: '/admin/:path*',
-        destination: '/adminopia/:path*',
+        destination: '/leseb-admin/:path*',
         permanent: true,
       },
       {
         source: '/dashboard',
-        destination: '/adminopia/overview',
+        destination: '/leseb-admin/overview',
         permanent: false,
       },
       {
         source: '/admin/dashboard',
-        destination: '/adminopia/overview',
+        destination: '/leseb-admin/overview',
         permanent: false,
       },
       {
         source: '/admin/work/new',
-        destination: '/adminopia/work/create',
+        destination: '/leseb-admin/work/create',
         permanent: true,
       },
       {
         source: '/admin/insights/new',
-        destination: '/adminopia/insights/create',
+        destination: '/leseb-admin/insights/create',
         permanent: true,
       },
     ]
@@ -60,11 +70,11 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/adminopia',
+        source: '/leseb-admin',
         destination: '/admin',
       },
       {
-        source: '/adminopia/:path*',
+        source: '/leseb-admin/:path*',
         destination: '/admin/:path*',
       },
     ]

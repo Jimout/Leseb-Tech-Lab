@@ -1,14 +1,10 @@
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
-function isAdminLoginPath(pathname: string): boolean {
-  return (
-    pathname === "/admin/login" ||
-    pathname.startsWith("/admin/login/") ||
-    pathname === "/adminopia/login" ||
-    pathname.startsWith("/adminopia/login/")
-  )
-}
+import {
+  ADMIN_LOGIN_PATH,
+  isAdminLoginPath,
+} from "@/lib/admin/admin-routes"
 
 export default withAuth(
   function middleware() {
@@ -23,11 +19,18 @@ export default withAuth(
       },
     },
     pages: {
-      signIn: "/adminopia/login",
+      signIn: ADMIN_LOGIN_PATH,
     },
   }
 )
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/adminopia", "/adminopia/:path*"],
+  matcher: [
+    "/admin",
+    "/admin/:path*",
+    "/leseb-admin",
+    "/leseb-admin/:path*",
+    "/adminopia",
+    "/adminopia/:path*",
+  ],
 }

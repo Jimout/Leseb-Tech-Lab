@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid path' }, { status: 400 })
   }
 
-  if (path.startsWith('/admin') || path.startsWith('/adminopia') || path.startsWith('/api')) {
+  if (path.startsWith('/admin') || path.startsWith('/leseb-admin') || path.startsWith('/api')) {
     return NextResponse.json({ ok: true, skipped: true })
   }
 

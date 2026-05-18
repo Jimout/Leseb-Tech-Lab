@@ -9,13 +9,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Spinner } from '@/components/ui/spinner'
+import { safeAdminCallbackUrl } from '@/lib/admin/admin-routes'
 import { saveSessionHeaderToStorage } from '@/lib/session-header-client'
-
-function safeCallbackUrl(raw: string | null): string {
-  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/adminopia/overview'
-  if (!raw.startsWith('/adminopia')) return '/adminopia/overview'
-  return raw
-}
 
 export function AdminLoginForm() {
   const router = useRouter()
@@ -67,7 +62,7 @@ export function AdminLoginForm() {
             }
             saveSessionHeaderToStorage(sessionHeader)
             router.push(
-              safeCallbackUrl(searchParams.get('callbackUrl')),
+              safeAdminCallbackUrl(searchParams.get('callbackUrl')),
             )
             router.refresh()
           }

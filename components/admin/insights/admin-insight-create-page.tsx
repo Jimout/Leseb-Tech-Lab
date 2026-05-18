@@ -45,7 +45,7 @@ export function AdminInsightCreatePage() {
           </AlertDialogCancel>
           <AlertDialogAction
             className="bg-white/15 text-white hover:bg-white/20"
-            onClick={() => router.push('/adminopia/insights')}
+            onClick={() => router.push('/leseb-admin/insights')}
           >
             Leave
           </AlertDialogAction>
@@ -54,7 +54,7 @@ export function AdminInsightCreatePage() {
     </AlertDialog>
   ) : (
     <Button variant="secondary" asChild>
-      <Link href="/adminopia/insights">Back to insights</Link>
+      <Link href="/leseb-admin/insights">Back to insights</Link>
     </Button>
   )
 
@@ -66,7 +66,7 @@ export function AdminInsightCreatePage() {
     >
       <AdminInsightCreateForm
         onDirtyChange={setDirty}
-        onCreated={() => router.push('/adminopia/insights')}
+        onCreated={() => router.push('/leseb-admin/insights')}
       />
     </AdminPageShell>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-/** Publish form for /adminopia/insights/create */
+/** Publish form for /leseb-admin/insights/create */
 import * as React from 'react'
 import { createId } from '@paralleldrive/cuid2'
 

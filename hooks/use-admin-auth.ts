@@ -11,7 +11,7 @@ export function useAdminAuth() {
 
   const logout = useCallback(() => {
     clearSessionHeaderFromStorage()
-    void signOut({ callbackUrl: '/adminopia/login' })
+    void signOut({ callbackUrl: '/leseb-admin/login' })
   }, [])
 
   return { authed, logout }

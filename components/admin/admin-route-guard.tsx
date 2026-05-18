@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { AdminLoadingScreen } from '@/components/admin/admin-loading-screen'
+import { ADMIN_LOGIN_PATH, isAdminLoginPath } from '@/lib/admin/admin-routes'
 import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
 
 export function AdminRouteGuard({ children }: { children: React.ReactNode }) {
@@ -14,13 +15,13 @@ export function AdminRouteGuard({ children }: { children: React.ReactNode }) {
   const [headerChecked, setHeaderChecked] = useState(false)
   const [hasSessionHeader, setHasSessionHeader] = useState(false)
 
-  const isLogin = pathname?.startsWith('/adminopia/login') ?? false
+  const isLogin = isAdminLoginPath(pathname)
 
   useEffect(() => {
     if (!pathname || isLogin) return
     if (status === 'unauthenticated') {
       router.replace(
-        `/adminopia/login?callbackUrl=${encodeURIComponent(pathname)}`,
+        `${ADMIN_LOGIN_PATH}?callbackUrl=${encodeURIComponent(pathname)}`,
       )
     }
   }, [pathname, status, isLogin, router])
@@ -38,7 +39,7 @@ export function AdminRouteGuard({ children }: { children: React.ReactNode }) {
 
     if (!hasHeader) {
       router.replace(
-        `/adminopia/login?callbackUrl=${encodeURIComponent(pathname)}`,
+        `${ADMIN_LOGIN_PATH}?callbackUrl=${encodeURIComponent(pathname)}`,
       )
     }
   }, [pathname, status, isLogin, router])

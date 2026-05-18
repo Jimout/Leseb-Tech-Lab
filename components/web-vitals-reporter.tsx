@@ -74,7 +74,7 @@ export function WebVitalsReporter() {
     if (!REPORTED_METRICS.has(metric.name)) return
 
     const path = pathRef.current
-    if (path.startsWith('/admin') || path.startsWith('/adminopia')) return
+    if (path.startsWith('/admin') || path.startsWith('/leseb-admin')) return
 
     const payload = {
       schemaVersion: 1 as const,

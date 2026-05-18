@@ -3,6 +3,7 @@ import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { z } from "zod"
 
+import { ADMIN_LOGIN_PATH } from "@/lib/admin/admin-routes"
 import { verifyAdminLogin } from "@/lib/admin/bootstrap-admin-user"
 import { prisma } from "@/lib/prisma"
 
@@ -49,7 +50,7 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: resolveAuthSecret(),
   pages: {
-    signIn: "/adminopia/login",
+    signIn: ADMIN_LOGIN_PATH,
   },
   session: {
     strategy: "jwt",

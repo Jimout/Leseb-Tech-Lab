@@ -181,7 +181,10 @@ export function NavbarMobileMenuPanel({
             {introText}
           </p>
 
-          <nav className="flex w-full flex-col gap-2 sm:gap-3" aria-label="Primary">
+          <nav
+            className="mb-8 flex w-full flex-col gap-2 sm:mb-10 sm:gap-3"
+            aria-label="Primary"
+          >
             {items.map((item, i) => (
               <Link
                 key={item.segment}
@@ -206,10 +209,10 @@ export function NavbarMobileMenuPanel({
           <FluidSplitButton
             label={ctaLabel}
             href={ctaHref}
-            size="default"
+            size="mobileMenu"
             variant="secondary"
             className={cn(
-              'mt-auto w-fit self-start pt-8 transition-all duration-500 sm:pt-10',
+              'mt-auto w-fit self-start transition-all duration-500',
               staggerEase,
               'translate-y-3 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none',
               open && 'translate-y-0 opacity-100',

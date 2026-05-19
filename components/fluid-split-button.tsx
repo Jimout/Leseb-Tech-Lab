@@ -29,6 +29,13 @@ const SIZE_STYLES = {
     iconWrap: 'w-8 h-8',
     icon: 'w-4 h-4',
   },
+  /** Mobile nav drawer — padding on outer shell so label/icon share equal vertical inset */
+  mobileMenu: {
+    shell: 'pl-5 text-[11px] leading-none tracking-[0.18em]',
+    outer: 'gap-2.5 py-1.5 pr-1.5',
+    iconWrap: 'w-7 h-7 shrink-0',
+    icon: 'w-3.5 h-3.5',
+  },
 } as const
 
 type SizeKey = keyof typeof SIZE_STYLES
@@ -40,7 +47,7 @@ type FluidSplitButtonProps = {
   className?: string
   /** `primary` = brand teal (default). `secondary` = lemon signal on dark bars. */
   variant?: FluidSplitVariant
-  /** `xs` / `navbar` / `sm` for compact UI. Default matches hero CTAs. */
+  /** `xs` / `navbar` / `mobileMenu` / `sm` for compact UI. Default matches hero CTAs. */
   size?: SizeKey
 } & (
   | ({ href: string } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'>)
@@ -102,13 +109,15 @@ function FluidSplitSurface({
 function FluidSplitButton(props: FluidSplitButtonProps) {
   const variant = props.variant ?? 'primary'
   const v = VARIANT_SHELL[variant]
+  const size = props.size ?? 'default'
+  const outerPad = 'outer' in SIZE_STYLES[size] ? SIZE_STYLES[size].outer : undefined
 
   if ('href' in props && typeof props.href === 'string') {
-    const { label, className, href, size = 'default', variant: _v, ...anchorRest } = props
+    const { label, className, href, size: _size, variant: _v, ...anchorRest } = props
     return (
       <a
         href={href}
-        className={cn(shellBaseClass, v.shell, v.focusRing, className)}
+        className={cn(shellBaseClass, v.shell, outerPad, v.focusRing, className)}
         {...anchorRest}
       >
         <FluidSplitSurface label={label} size={size} variant={variant} />
@@ -116,9 +125,13 @@ function FluidSplitButton(props: FluidSplitButtonProps) {
     )
   }
 
-  const { label, className, type = 'button', size = 'default', variant: _v2, ...buttonRest } = props
+  const { label, className, type = 'button', size: _size2, variant: _v2, ...buttonRest } = props
   return (
-    <button type={type} className={cn(shellBaseClass, v.shell, v.focusRing, className)} {...buttonRest}>
+    <button
+      type={type}
+      className={cn(shellBaseClass, v.shell, outerPad, v.focusRing, className)}
+      {...buttonRest}
+    >
       <FluidSplitSurface label={label} size={size} variant={variant} />
     </button>
   )

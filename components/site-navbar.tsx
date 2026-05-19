@@ -147,8 +147,7 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
             'relative isolate flex items-center justify-between gap-3 px-3 py-2',
             'rounded-xl border border-white/10 md:rounded-2xl',
             'bg-background/40 text-white backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]',
-            mobileNavOpen &&
-              'max-md:bg-background/92 max-md:backdrop-blur-[40px] max-md:backdrop-saturate-150 max-md:backdrop-brightness-95 max-md:supports-backdrop-filter:bg-background/78 max-md:ring-1 max-md:ring-inset max-md:ring-white/[0.07]',
+            mobileNavOpen && 'max-md:bg-muted max-md:backdrop-blur-none',
           )}
         >
           {logoHref.startsWith('/') ? (

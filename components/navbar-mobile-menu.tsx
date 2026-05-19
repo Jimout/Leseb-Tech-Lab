@@ -21,36 +21,17 @@ const staggerEase = 'ease-[cubic-bezier(0.22,1,0.36,1)]'
 const iconMorphTransition =
   'origin-center transition-all duration-400 ease-[cubic-bezier(0.34,1.2,0.64,1)] motion-reduce:transition-none motion-reduce:duration-0'
 
-/** Shell chrome for the expanded mobile drawer */
-export const mobileNavGlassShellClass = cn(
-  'relative min-h-0 overflow-hidden rounded-xl border border-white/10',
+/** Solid expanded drawer on small screens (md:hidden panel only) */
+export const mobileNavPanelShellClass = cn(
+  'relative min-h-0 overflow-hidden rounded-xl border border-white/10 bg-muted',
   'shadow-[0_4px_30px_rgba(0,0,0,0.35)] ring-1 ring-inset ring-white/[0.07]',
 )
 
-/** Fills the gap between the logo bar and the drawer so hero content cannot peek through */
-const mobileNavGapFrostClass = cn(
-  'pointer-events-none absolute -top-2 left-0 right-0 z-0 h-2 sm:-top-3 sm:h-3',
-  'bg-background/90 backdrop-blur-[48px] backdrop-saturate-150 backdrop-brightness-95',
-  'supports-backdrop-filter:bg-background/75 supports-backdrop-filter:backdrop-blur-[40px]',
-)
+/** Fills the gap between the logo bar and the drawer */
+const mobileNavGapSolidClass =
+  'pointer-events-none absolute -top-2 left-0 right-0 z-0 h-2 bg-muted sm:-top-3 sm:h-3'
 
-/** Stacked frost layers — heavy blur + tint so nothing behind reads clearly */
-const mobileNavFrostPrimaryClass = cn(
-  'pointer-events-none absolute inset-0 z-0',
-  'bg-background/92 backdrop-blur-[64px] backdrop-saturate-[1.85] backdrop-brightness-90',
-  'supports-backdrop-filter:bg-background/78 supports-backdrop-filter:backdrop-blur-[64px]',
-)
-
-const mobileNavFrostSecondaryClass = cn(
-  'pointer-events-none absolute inset-0 z-0',
-  'bg-background/55 backdrop-blur-3xl backdrop-saturate-150',
-  'supports-backdrop-filter:bg-background/40',
-)
-
-export const mobileNavGlassScrimClass = cn(
-  'bg-background/80 backdrop-blur-2xl backdrop-saturate-150 backdrop-brightness-95',
-  'supports-backdrop-filter:bg-background/60 supports-backdrop-filter:backdrop-blur-3xl',
-)
+export const mobileNavScrimClass = 'bg-background/70'
 
 export function NavbarMobileMenuTrigger({
   open,
@@ -170,7 +151,7 @@ export function NavbarMobileMenuPanel({
       <div
         className={cn(
           'fixed inset-x-0 bottom-0 top-[var(--site-nav-header-height,4.25rem)] z-0 md:hidden',
-          mobileNavGlassScrimClass,
+          mobileNavScrimClass,
           'transition-opacity duration-300 motion-reduce:transition-none',
           open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
@@ -188,13 +169,11 @@ export function NavbarMobileMenuPanel({
           open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
         )}
       >
-      <div className={mobileNavGlassShellClass}>
-        <div className={mobileNavGapFrostClass} aria-hidden />
-        <div className={mobileNavFrostPrimaryClass} aria-hidden />
-        <div className={mobileNavFrostSecondaryClass} aria-hidden />
+      <div className={mobileNavPanelShellClass}>
+        <div className={mobileNavGapSolidClass} aria-hidden />
         <div
           className={cn(
-            'relative z-10 flex min-h-[min(72dvh,34rem)] flex-col',
+            'relative flex min-h-[min(72dvh,34rem)] flex-col',
             'px-4 pb-10 pt-7 sm:min-h-[min(78dvh,38rem)] sm:px-6 sm:pb-12 sm:pt-9',
             'opacity-0 transition-opacity duration-300 motion-reduce:transition-none',
             open && 'opacity-100',

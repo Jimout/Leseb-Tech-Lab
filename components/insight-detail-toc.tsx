@@ -24,7 +24,10 @@ import { useInsightTocMobileStore } from '@/stores/use-insight-toc-mobile-store'
 const DEFAULT_TOC_LOGO = '/Leseb-logo.png'
 const SCROLL_ACTIVATION_PX = 140
 
-const tocPanelClass = cn(landingNewsletterPanelClass, 'p-5 sm:p-6')
+const tocPanelClass = cn(
+  landingNewsletterPanelClass,
+  'overflow-visible p-5 sm:p-6',
+)
 
 function TocBrandMark({ className }: { className?: string }) {
   const { settings } = useSiteSettings()
@@ -191,7 +194,7 @@ function TocLinks({
               onClick={() => onNavigate?.()}
               aria-current={active ? 'location' : undefined}
               className={cn(
-                'group flex items-start gap-3 rounded-xl border border-transparent px-3 py-2.5 pr-7',
+                'group flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-2.5 pr-8',
                 'transition-colors duration-300 motion-reduce:transition-none',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                 active
@@ -199,13 +202,7 @@ function TocLinks({
                   : 'text-foreground/75 hover:bg-foreground/[0.05] hover:text-foreground',
               )}
             >
-              <span
-                className={cn(
-                  insightDetailTocLinkClass,
-                  'min-w-0 flex-1',
-                  active ? 'font-medium' : undefined,
-                )}
-              >
+              <span className={cn(insightDetailTocLinkClass, active ? 'font-medium' : undefined)}>
                 {label}
               </span>
             </a>
@@ -225,7 +222,7 @@ export function InsightDetailTocDesktop({
   activeId: string
 }) {
   return (
-    <nav className={cn('hidden lg:block', tocPanelClass)} aria-label="Table of contents">
+    <nav className={cn('hidden w-full min-w-0 lg:block', tocPanelClass)} aria-label="Table of contents">
       <TocHeader />
       <TocLinks items={items} activeId={activeId} />
     </nav>
@@ -274,11 +271,11 @@ export function InsightDetailTocMobile({
         'top-16 sm:-mx-5 sm:px-5 sm:top-17 lg:hidden',
       )}
     >
-      <div className="flex min-w-0 items-center gap-2.5">
+      <div className="flex min-w-0 flex-1 items-start gap-2.5">
         <TocBrandMark className="size-9 p-1.5 sm:size-10" />
-        <p className="min-w-0 truncate text-left">
+        <p className="min-w-0 text-left">
           <span className={cn(insightDetailKickerClass, 'block')}>On this page</span>
-          <span className={cn(insightDetailTocLinkClass, 'block truncate font-medium text-foreground')}>
+          <span className={cn(insightDetailTocLinkClass, 'block font-medium text-foreground')}>
             {activeLabel}
           </span>
         </p>
@@ -303,17 +300,14 @@ export function InsightDetailTocMobile({
           anchorTopPx={anchorTop}
           showCloseButton={false}
           className={cn(
-            'left-0 right-0 flex max-h-[min(72dvh,28rem)] justify-start border-0 bg-transparent p-0 pt-1 shadow-none gap-0 overflow-visible',
+            'left-0 right-0 flex h-auto max-h-none justify-start border-0 bg-transparent p-0 pt-1 shadow-none gap-0 overflow-visible',
             'px-4 sm:px-5',
           )}
+          style={{ maxHeight: 'none' }}
         >
           <SheetTitle className="sr-only">Table of contents</SheetTitle>
           <nav
-            className={cn(
-              tocPanelClass,
-              'w-full max-w-md overflow-y-auto overscroll-contain sm:max-w-lg',
-              'max-h-[min(calc(72dvh-1rem),26rem)]',
-            )}
+            className={cn(tocPanelClass, 'w-full overflow-visible')}
             aria-label="Table of contents"
           >
             <TocHeader />

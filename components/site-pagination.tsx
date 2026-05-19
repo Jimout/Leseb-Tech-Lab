@@ -19,6 +19,8 @@ export type SitePaginationProps = {
   hidePrev?: boolean
   hideNext?: boolean
   hideWhenSinglePage?: boolean
+  /** Always show page numbers (catalog grids); default uses dots when ≤5 pages. */
+  numbered?: boolean
 }
 
 const paginationTrackClass = cn(
@@ -170,11 +172,12 @@ export function SitePagination({
   hidePrev = false,
   hideNext = false,
   hideWhenSinglePage = true,
+  numbered = false,
 }: SitePaginationProps) {
   const currentPage = currentPageProp ?? page ?? 1
   const canPrev = currentPage > 1
   const canNext = currentPage < totalPages
-  const useDots = totalPages <= DOT_MODE_MAX_PAGES
+  const useDots = !numbered && totalPages <= DOT_MODE_MAX_PAGES
   const items = useDots ? null : getPaginationItems(currentPage, totalPages)
 
   if (hideWhenSinglePage && totalPages <= 1) {

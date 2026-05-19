@@ -35,7 +35,6 @@ export const insightDetailSectionTitleClass = cn(insightDetailSansClass, typeH3)
 
 export const insightDetailSidebarStickyClass = cn(
   'lg:sticky lg:top-24 lg:z-10 lg:self-start',
-  'lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto lg:overscroll-contain',
 )
 
 /** Article band shell. */
@@ -65,6 +64,9 @@ export const insightDetailProseClass = cn(
   '[&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:sm:pl-6 [&_p]:leading-relaxed [&_p+p]:mt-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:sm:pl-6',
 )
 
-export const insightDetailTocLinkClass = cn(insightDetailSansClass, 'text-sm leading-snug')
+export const insightDetailTocLinkClass = cn(
+  insightDetailSansClass,
+  'text-sm leading-snug break-words [overflow-wrap:anywhere]',
+)
 
 export const insightDetailTocHeadingClass = cn(insightDetailSansClass, typeH4, 'text-base sm:text-lg')

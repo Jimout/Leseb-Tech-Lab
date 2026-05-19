@@ -83,6 +83,7 @@ export function WorkPageContent() {
             <>
               <WorksLabShowcaseFromWorks works={pageWorks} lcpPriority={page === 1} layout="landing" />
               <StripPagination
+                numbered
                 className="mt-8 sm:mt-10"
                 currentPage={page}
                 totalPages={totalPages}

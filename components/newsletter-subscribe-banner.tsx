@@ -14,9 +14,14 @@ import {
   landingSectionKickerDotClass,
   landingSectionTitleAccentClass,
 } from '@/lib/landing-page-typography'
+import { SITE_BRAND_NAME } from '@/lib/site-brand'
+import { typeBodySm } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 const DEFAULT_NEWSLETTER_LOGO = '/Leseb-logo.png'
+
+const DEFAULT_INSIGHTS_NEWSLETTER_DESCRIPTION =
+  'New essays and studio thinking, sent only when we have something worth sharing.'
 
 export type NewsletterSubscribeBannerProps = {
   className?: string
@@ -24,6 +29,8 @@ export type NewsletterSubscribeBannerProps = {
   /** Overrides CMS line 1 + 2 when set. */
   heading?: string
   placeholder?: string
+  /** Short line beside the signup on the insights listing page */
+  description?: string
 }
 
 export function NewsletterSubscribeBanner({
@@ -31,6 +38,7 @@ export function NewsletterSubscribeBanner({
   kicker = 'Newsletter',
   heading,
   placeholder = 'Your email',
+  description = DEFAULT_INSIGHTS_NEWSLETTER_DESCRIPTION,
 }: NewsletterSubscribeBannerProps) {
   const { settings } = useSiteSettings()
   const footer = settings.footer
@@ -46,8 +54,23 @@ export function NewsletterSubscribeBanner({
     >
       <div className={cn('mx-auto w-full max-w-none', containerPaddingClass)}>
         <div className={landingNewsletterPanelClass}>
-          <div className="flex flex-col gap-10 p-6 sm:p-8 md:p-10 lg:flex-row lg:items-end lg:justify-between lg:gap-14 lg:p-12 xl:gap-16 xl:p-14 2xl:p-16">
-            <div className="min-w-0 flex-1 space-y-5 lg:space-y-6">
+          <div className="relative p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16">
+            <div
+              className="pointer-events-none absolute right-8 top-8 sm:right-10 sm:top-10 lg:right-12 lg:top-12 xl:right-14 xl:top-14"
+              aria-label={SITE_BRAND_NAME}
+            >
+              <div className="relative h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12">
+                <Image
+                  src={logoSrc}
+                  alt=""
+                  fill
+                  sizes="48px"
+                  className="object-contain object-right-top"
+                />
+              </div>
+            </div>
+
+            <div className="min-w-0 space-y-5 pr-12 sm:space-y-6 sm:pr-14 lg:pr-[4.5rem]">
               <div className={landingSectionKickerClass}>
                 <span className={landingSectionKickerDotClass} aria-hidden />
                 {kicker}
@@ -67,23 +90,22 @@ export function NewsletterSubscribeBanner({
               </h2>
 
               <NewsletterForm
-                formClassName="w-full max-w-full flex-col gap-3 sm:flex-row sm:items-stretch lg:max-w-3xl xl:max-w-4xl"
+                formClassName="w-full min-w-0 max-w-[18rem] flex-col gap-3 sm:max-w-[22rem] sm:flex-row sm:items-stretch md:max-w-[26rem]"
                 inputClassName={landingNewsletterFieldClass}
                 buttonClassName={landingNewsletterSubmitClass}
                 placeholder={placeholder}
               />
-            </div>
 
-            <div className="flex w-full max-w-[min(100%,34rem)] items-end justify-end lg:ml-auto lg:w-[min(100%,34rem)] lg:translate-y-6 xl:translate-y-8 2xl:translate-y-10">
-              <div className="relative h-28 w-28 shrink-0 sm:h-32 sm:w-32 md:h-40 md:w-40 lg:h-48 lg:w-48 xl:h-56 xl:w-56 2xl:h-60 2xl:w-60">
-                <Image
-                  src={logoSrc}
-                  alt="Leseb"
-                  fill
-                  sizes="240px"
-                  className="object-contain object-center"
-                />
-              </div>
+              <aside className="w-full max-w-[18rem] sm:absolute sm:bottom-10 sm:right-10 sm:z-10 sm:w-auto sm:max-w-[14rem] lg:bottom-12 lg:right-12 lg:max-w-[16rem] xl:bottom-14 xl:right-14 xl:max-w-[18rem]">
+                <p
+                  className={cn(
+                    typeBodySm,
+                    'text-pretty text-left leading-relaxed text-muted-foreground sm:text-right sm:text-base',
+                  )}
+                >
+                  {description}
+                </p>
+              </aside>
             </div>
           </div>
         </div>

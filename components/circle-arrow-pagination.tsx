@@ -1,4 +1,4 @@
 export {
-  SitePagination as CircleArrowPagination,
-  type SitePaginationProps as CircleArrowPaginationProps,
-} from '@/components/site-pagination'
+  StripPagination as CircleArrowPagination,
+  type StripPaginationProps as CircleArrowPaginationProps,
+} from '@/components/strip-pagination'

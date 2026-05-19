@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 
-import { CircleArrowPagination } from '@/components/circle-arrow-pagination'
+import { StripPagination } from '@/components/strip-pagination'
 import { MediaRenderer } from '@/components/media-renderer'
 import { useFinePointerHover } from '@/hooks/use-fine-pointer-hover'
 import type { MediaAsset } from '@/lib/media-assets'
@@ -262,7 +262,7 @@ export function WorkCardSurface({
         onClick={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
       >
-        <CircleArrowPagination
+        <StripPagination
           currentPage={pagination.currentPage}
           totalPages={pagination.totalPages}
           onPageChange={pagination.onPageChange}

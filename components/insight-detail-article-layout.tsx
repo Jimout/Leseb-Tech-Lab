@@ -40,7 +40,7 @@ export function InsightDetailArticleLayout({
       <aside
         className={cn(
           'order-2 min-w-0 lg:order-1',
-          showToc ? 'lg:col-span-4 xl:col-span-3 2xl:col-span-3' : 'lg:col-span-4 xl:col-span-3 2xl:hidden',
+          showToc ? 'lg:col-span-5 xl:col-span-4 2xl:col-span-3' : 'lg:col-span-4 xl:col-span-3 2xl:hidden',
         )}
       >
         <div className={cn(insightDetailSidebarStickyClass, 'flex flex-col gap-8')}>
@@ -52,7 +52,7 @@ export function InsightDetailArticleLayout({
       <div
         className={cn(
           'order-1 min-w-0 lg:order-2',
-          'lg:col-span-8 xl:col-span-9',
+          showToc ? 'lg:col-span-7 xl:col-span-8' : 'lg:col-span-8 xl:col-span-9',
           showToc ? '2xl:col-span-6' : '2xl:col-span-9',
         )}
       >

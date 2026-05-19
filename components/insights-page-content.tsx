@@ -138,6 +138,7 @@ export function InsightsPageContent() {
         ) : null}
         {filtered.length > 0 ? (
           <StripPagination
+            numbered
             className="mt-8 sm:mt-10"
             currentPage={page}
             totalPages={totalPages}

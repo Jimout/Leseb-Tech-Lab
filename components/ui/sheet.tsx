@@ -70,10 +70,13 @@ function SheetContent({
   const contentStyle = React.useMemo(() => {
     if (floatingInset || !useAnchor) return style
     const base = style && typeof style === 'object' ? { ...style } : {}
+    const maxHeight =
+      base.maxHeight ??
+      `min(92dvh, calc(100dvh - ${anchorTopPx}px))`
     return {
       ...base,
       top: anchorTopPx,
-      maxHeight: `min(92dvh, calc(100dvh - ${anchorTopPx}px))`,
+      maxHeight,
       transformOrigin: 'top center',
     }
   }, [anchorTopPx, floatingInset, style, useAnchor])

@@ -9,18 +9,14 @@ import { useSiteSettings } from '@/hooks/use-site-settings'
 import type { ShowcaseInsight } from '@/lib/insights-showcase-data'
 import {
   landingEmptyCoverClass,
-  landingPanelEaseClass,
-  workLabCardCtaClass,
-  workLabCardFooterClass,
-  workLabCardHeaderClass,
-  workLabCardLandingBodyClass,
-  workLabCardLandingMediaClass,
-  workLabCardLocationClass,
-  workLabCardShellClass,
-  workLabCardTagClass,
-  workLabCardTitleClass,
-  workLabCardYearClass,
+  landingInsightCardClass,
+  landingInsightCardCtaClass,
+  landingInsightCardFooterClass,
+  landingInsightCardMediaDescClass,
+  landingInsightCardMediaTitleClass,
+  landingInsightCardPillClass,
   landingInsightCardWidthClass,
+  landingPanelEaseClass,
 } from '@/lib/landing-page-typography'
 import { cn } from '@/lib/utils'
 
@@ -46,13 +42,6 @@ export function primaryInsightCategory(
   return { pill: 'INSIGHT', meta: 'Insights' }
 }
 
-const insightCardMediaImageClass = cn(
-  'absolute inset-0 size-full object-cover object-center',
-  'transition-transform duration-500 motion-reduce:transition-none',
-  'group-hover:scale-[1.03] motion-reduce:group-hover:scale-100',
-  landingPanelEaseClass,
-)
-
 export type InsightLandingCardProps = {
   item: ShowcaseInsight
   categoryPill: string
@@ -61,7 +50,7 @@ export type InsightLandingCardProps = {
   imageSizes?: string
 }
 
-/** Insight card — same shell, media ratio, and body layout as landing work lab cards. */
+/** Insight card — overlay title on media + footer bar (distinct from work lab cards). */
 export function InsightLandingCard({
   item,
   categoryPill,
@@ -76,60 +65,65 @@ export function InsightLandingCard({
     <Link
       href={item.href}
       draggable={false}
-      className={cn(workLabCardShellClass, className)}
+      className={cn(landingInsightCardClass, className)}
       aria-label={summary ? `${item.title}, ${summary}` : item.title}
     >
-      <div className={workLabCardLandingMediaClass}>
+      <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden bg-image-well">
         {!hasCover ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-catalog-card-media" aria-hidden>
+          <div className="absolute inset-0 flex items-center justify-center bg-image-well" aria-hidden>
             <span className={landingEmptyCoverClass}>No cover</span>
           </div>
         ) : (
           <MediaRenderer
             media={item.heroMedia!}
-            className={insightCardMediaImageClass}
+            className={cn(
+              'absolute inset-0 size-full object-cover object-center',
+              'transition-transform duration-500 motion-reduce:transition-none',
+              'group-hover:scale-[1.03] motion-reduce:group-hover:scale-100',
+              landingPanelEaseClass,
+            )}
             sizes={imageSizes}
             controls={false}
             autoplay={false}
           />
         )}
+        <span className={landingInsightCardPillClass}>{categoryPill}</span>
+        <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-1 bg-linear-to-t from-background/88 via-background/45 to-transparent px-3.5 pb-3.5 pt-16 sm:px-4 sm:pb-4 sm:pt-20">
+          <h3 className={landingInsightCardMediaTitleClass}>{item.title}</h3>
+          {item.description?.trim() ? (
+            <p className={landingInsightCardMediaDescClass}>{item.description}</p>
+          ) : null}
+        </div>
       </div>
 
-      <div className={workLabCardLandingBodyClass}>
-        <div className={workLabCardHeaderClass}>
-          <p className={workLabCardTagClass}>{categoryPill}</p>
+      <div className={landingInsightCardFooterClass}>
+        <div className="relative min-w-0">
           {item.date ? (
             item.dateIso ? (
-              <time dateTime={item.dateIso} className={workLabCardYearClass}>
+              <time
+                dateTime={item.dateIso}
+                className="text-[11px] font-semibold text-foreground transition-colors duration-500 group-hover:text-signal sm:text-xs"
+              >
                 {item.date}
               </time>
             ) : (
-              <p className={workLabCardYearClass}>{item.date}</p>
+              <p className="text-[11px] font-semibold text-foreground transition-colors duration-500 group-hover:text-signal sm:text-xs">
+                {item.date}
+              </p>
             )
           ) : null}
+          <p className="mt-0.5 truncate text-[10px] text-foreground/60 transition-colors duration-500 group-hover:text-foreground/85 sm:text-[11px]">
+            {categoryMeta}
+          </p>
         </div>
-
-        <h3 className={workLabCardTitleClass} title={item.title}>
-          {item.title}
-        </h3>
-
-        <div className={workLabCardFooterClass}>
-          {summary ? (
-            <p className={workLabCardLocationClass} title={summary}>
-              {summary}
-            </p>
-          ) : (
-            <span className="min-w-0 flex-1" aria-hidden />
-          )}
-          <span className={workLabCardCtaClass}>
-            Read
-            <ArrowUpRight
-              strokeWidth={2}
-              className="size-2.5 text-signal transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100"
-              aria-hidden
-            />
-          </span>
-        </div>
+        <span className={landingInsightCardCtaClass}>
+          Read
+          <ArrowUpRight
+            strokeWidth={2}
+            className="size-3 text-signal transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100 sm:size-3.5"
+            aria-hidden
+          />
+        </span>
       </div>
     </Link>
   )

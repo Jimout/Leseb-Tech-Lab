@@ -2,6 +2,9 @@
 
 import { useEffect } from 'react'
 
+import { typeH2 } from '@/lib/type-scale'
+import { cn } from '@/lib/utils'
+
 /**
  * Route-level error UI. Avoid components that call usePathname/useRouter — they can
  * throw "layout router to be mounted" when the app router is in a bad state.
@@ -21,7 +24,7 @@ export default function RouteError({
     <main className="min-h-dvh scroll-mt-24 bg-background px-6 py-20 text-foreground sm:py-28">
       <article className="mx-auto max-w-xl text-center">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">Error</p>
-        <h1 className="mt-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className={cn('mt-4', typeH2)}>
           Something went wrong
         </h1>
         <p className="mt-4 text-pretty text-base text-muted-foreground">

@@ -9,7 +9,7 @@ const heroSizes =
 const wideSizes = '(max-width: 1023px) 100vw, 90vw'
 
 const richProseClass =
-  'prose prose-sm max-w-none text-justify text-[13px] font-light leading-snug text-foreground/60 sm:text-sm [&_p]:mb-0 [&_p+p]:mt-3'
+  'prose prose-sm max-w-none font-sans text-justify text-[13px] font-normal leading-snug text-foreground/60 sm:text-sm [&_p]:mb-0 [&_p+p]:mt-3'
 
 function RichRun({ blocks }: { blocks: Extract<WorkDetailContentBlock, { type: 'rich' }>[] }) {
   if (!blocks.length) return null

@@ -4,7 +4,7 @@ import {
   landingPageGutterClass,
   landingSectionInnerClass,
 } from '@/lib/landing-page-layout'
-import { landingUltraHeadingClass } from '@/lib/landing-page-typography'
+import { typeAccentItalic, typeContactHero } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 type ContactPageHeroProps = {
@@ -37,16 +37,12 @@ export function ContactPageHero({ contact }: ContactPageHeroProps) {
         <div className="mt-auto grid gap-10 pt-12 md:grid-cols-12 md:items-end md:gap-8 lg:gap-12 md:pt-16 lg:pt-20">
           <h1
             id="contact-hero-heading"
-            className={cn(
-              'font-display text-balance font-medium leading-[1.02] tracking-[-0.03em] text-foreground',
-              'text-[2.65rem] sm:text-5xl md:col-span-7 md:text-[3.25rem] lg:text-7xl xl:text-[5.25rem]',
-              landingUltraHeadingClass,
-            )}
+            className={cn(typeContactHero, 'md:col-span-7')}
           >
             {contact.heroLine1}
             <br />
             {contact.heroLine2}
-            <span className="font-light italic text-signal">{contact.heroAccent}</span>
+            <span className={typeAccentItalic}>{contact.heroAccent}</span>
           </h1>
 
           <p

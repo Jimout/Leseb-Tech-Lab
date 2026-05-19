@@ -16,6 +16,12 @@ import { FooterNewsletterSubscribe } from '@/components/footer-newsletter-subscr
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import { footerSocialLabel } from '@/lib/admin/site-settings'
 import { toTelHref } from '@/lib/phone-tel'
+import {
+  typeCaptionOnDark,
+  typeFooterBrand,
+  typeFooterPanelTitle,
+  typeLabelMuted,
+} from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 export type FooterSocialItem = {
@@ -192,7 +198,8 @@ export function SiteFooter({
                 >
                   <h3
                     className={cn(
-                      'font-display text-4xl font-semibold leading-[0.9] tracking-[-0.04em] text-current transition-colors group-hover:text-foreground md:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl 4xl:text-9xl',
+                      typeFooterPanelTitle,
+                      'text-current transition-colors group-hover:text-foreground',
                       footerPanelMotionDuration,
                       footerPanelMotionEase,
                     )}
@@ -266,7 +273,8 @@ export function SiteFooter({
                 >
                   <h3
                     className={cn(
-                      'font-display text-4xl font-semibold leading-[0.9] tracking-[-0.04em] text-current transition-colors group-hover:text-foreground md:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl 4xl:text-9xl',
+                      typeFooterPanelTitle,
+                      'text-current transition-colors group-hover:text-foreground',
                       footerPanelMotionDuration,
                       footerPanelMotionEase,
                     )}
@@ -296,7 +304,7 @@ export function SiteFooter({
           <div className="grid gap-12 px-8 py-12 sm:px-10 sm:py-14 md:grid-cols-12 md:gap-x-16 md:gap-y-14 md:px-14 md:py-16 lg:gap-x-20 lg:gap-y-16 lg:px-16 lg:py-18 xl:gap-x-24 xl:px-18 xl:py-20 2xl:gap-x-28 2xl:px-20 2xl:py-20 3xl:gap-x-32 3xl:px-24 3xl:py-24 4xl:gap-x-36 4xl:px-28 4xl:py-28">
           <div className="md:col-span-4">
             <div className="flex items-center gap-3">
-              <span className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl">leseb</span>
+              <span className={typeFooterBrand}>leseb</span>
             </div>
             <p className="mt-4 space-y-1 text-sm text-white/70">
               <span className="block">{defaults.contactIntro}</span>
@@ -321,7 +329,7 @@ export function SiteFooter({
           <div className="md:col-span-8">
             <div className="grid grid-cols-2 gap-12 sm:gap-14 md:grid-cols-3 md:gap-16 lg:gap-20 xl:gap-24">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/55">Platform</p>
+                <p className={typeCaptionOnDark}>Platform</p>
                 <ul className="mt-4 space-y-2 text-sm text-white/75">
                   <li><Link className="hover:text-white" href="/">Home</Link></li>
                   <li><Link className="hover:text-white" href="/work">Work</Link></li>
@@ -329,14 +337,14 @@ export function SiteFooter({
                 </ul>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/55">Company</p>
+                <p className={typeCaptionOnDark}>Company</p>
                 <ul className="mt-4 space-y-2 text-sm text-white/75">
                   <li><Link className="hover:text-white" href="/about">About</Link></li>
                   <li><Link className="hover:text-white" href="/contact">Contact</Link></li>
                 </ul>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/55">Legal</p>
+                <p className={typeCaptionOnDark}>Legal</p>
                 <ul className="mt-4 space-y-2 text-sm text-white/75">
                   <li><Link className="hover:text-white" href={footerPrivacyHref}>Privacy</Link></li>
                 </ul>
@@ -344,7 +352,7 @@ export function SiteFooter({
             </div>
 
             <div className="mt-10">
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/55">Elsewhere</p>
+              <p className={typeCaptionOnDark}>Elsewhere</p>
               <div className="mt-4 flex flex-row flex-wrap items-start gap-2 md:flex-nowrap">
                 {resolvedSocial.map((item) => (
                   <SocialIconLink key={item.label} {...item} />
@@ -355,13 +363,13 @@ export function SiteFooter({
           </div>
 
           <div className="flex flex-col gap-3 border-t border-white/10 px-8 py-6 text-xs text-white/55 sm:px-10 md:flex-row md:items-center md:justify-between md:px-14 lg:px-16 xl:px-18 2xl:px-20 3xl:px-24 4xl:px-28">
-            <p className="font-mono uppercase tracking-[0.2em]">
+            <p className={typeLabelMuted}>
               Leseb © {copyrightYear} | All rights reserved
             </p>
             <a
               href="#home"
               onClick={scrollToHomeSmooth}
-              className="inline-flex items-center gap-2 font-mono uppercase tracking-[0.2em] text-signal hover:text-signal/90"
+              className={cn('inline-flex items-center gap-2 text-signal hover:text-signal/90', typeLabelMuted)}
             >
               <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-signal text-secondary-foreground">
                 <ArrowUp className="size-3.5 stroke-2" aria-hidden />

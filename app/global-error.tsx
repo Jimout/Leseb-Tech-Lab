@@ -2,6 +2,9 @@
 
 import { useEffect } from 'react'
 
+import { typeH3 } from '@/lib/type-scale'
+import { cn } from '@/lib/utils'
+
 /**
  * Root-level error UI (replaces the root layout when the error boundary catches root failures).
  * Avoid next/link and navigation hooks here — the layout router is not mounted.
@@ -22,7 +25,7 @@ export default function GlobalError({
       <body className="min-h-dvh bg-background px-6 py-16 font-sans text-[#fafafa] antialiased">
         <main className="mx-auto max-w-md text-center">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/50">Error</p>
-          <h1 className="mt-4 text-2xl font-bold tracking-tight">Something went wrong</h1>
+          <h1 className={cn('mt-4 text-2xl', typeH3)}>Something went wrong</h1>
           <p className="mt-3 text-sm text-white/65">
             Please try again. If the problem continues, return to the homepage.
           </p>

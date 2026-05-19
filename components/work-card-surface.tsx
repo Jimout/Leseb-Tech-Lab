@@ -98,13 +98,13 @@ function WorkCardCategoryCutout({
       {shown.map((label) => (
         <span
           key={label}
-          className="max-w-40 truncate rounded-full bg-secondary px-2.5 py-1.5 text-center text-[12px] font-light leading-tight text-secondary-foreground sm:px-3 sm:py-1.5 sm:text-xs"
+          className="max-w-40 truncate rounded-full bg-secondary px-2.5 py-1.5 text-center font-sans text-[12px] font-medium leading-tight text-secondary-foreground sm:px-3 sm:py-1.5 sm:text-xs"
         >
           {label}
         </span>
       ))}
       {more > 0 ? (
-        <span className="rounded-full bg-secondary px-2.5 py-1.5 text-[12px] font-light tabular-nums text-secondary-foreground sm:py-1.5 sm:text-xs">
+        <span className="rounded-full bg-secondary px-2.5 py-1.5 font-sans text-[12px] font-medium tabular-nums text-secondary-foreground sm:py-1.5 sm:text-xs">
           + {more}
         </span>
       ) : null}

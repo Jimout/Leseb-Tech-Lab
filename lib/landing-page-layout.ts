@@ -38,6 +38,12 @@ export const landingHeroPadTopClass = cn(
   '2xl:pt-48 3xl:pt-52 4xl:pt-56',
 )
 
+/** Home hero — extra clearance below sticky nav at 2xl+. */
+export const landingHomeHeroPadTopClass = cn(
+  'pt-28 sm:pt-32 md:pt-36 lg:pt-40 xl:pt-44',
+  '2xl:pt-56 3xl:pt-64 4xl:pt-72',
+)
+
 /** Equal space between home page sections (use on `main`; do not pair with per-section `py`). */
 export const landingHomeStackGapClass = cn(
   'flex flex-col gap-16 md:gap-20 lg:gap-24 xl:gap-28',
@@ -66,9 +72,11 @@ export const landingSectionPadBottomClass = cn(
   '2xl:pb-20 3xl:pb-24 4xl:pb-28',
 )
 
-/** Insights-style horizontal bleed for card strips at ultra-wide breakpoints. */
+/**
+ * Insights strip: bleed only to the right (past section gutter) so the carousel
+ * can scroll off-screen. Left edge stays aligned with section headings at all breakpoints.
+ */
 export const landingStripBleedClass = cn(
   '-mr-8 sm:-mr-10 md:-mr-12 lg:-mr-14 xl:-mr-16',
   '2xl:-mr-20 3xl:-mr-28 4xl:-mr-32',
-  '2xl:-ml-12 3xl:-ml-16 4xl:-ml-20',
 )

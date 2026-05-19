@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 
+import { typeUiSm } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 const SIZE_STYLES = {
@@ -64,7 +65,7 @@ const VARIANT_SHELL: Record<
 
 const shellBaseClass = cn(
   'group inline-flex items-center rounded-full',
-  'font-mono uppercase',
+  typeUiSm,
   'transition-transform hover:scale-[1.03] active:scale-[1.01]',
   'outline-none focus-visible:ring-[3px]',
   'disabled:pointer-events-none disabled:opacity-50',

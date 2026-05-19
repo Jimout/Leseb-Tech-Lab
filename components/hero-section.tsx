@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import {
-  landingHeroPadTopClass,
+  landingHomeHeroPadTopClass,
   landingPageGutterClass,
   landingSectionInnerClass,
 } from '@/lib/landing-page-layout'
@@ -15,6 +15,7 @@ import {
   landingHeroEyebrowClass,
   landingHeroSubkickerClass,
   landingSectionKickerDotClass,
+  landingHeroCtaClass,
   landingHeroTitleClass,
   landingMetaClass,
   landingSectionTitleAccentClass,
@@ -41,7 +42,7 @@ export function HeroSection() {
       <div
         className={cn(
           landingSectionInnerClass,
-          landingHeroPadTopClass,
+          landingHomeHeroPadTopClass,
           'pb-0',
         )}
       >

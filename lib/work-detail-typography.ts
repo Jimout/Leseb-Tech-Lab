@@ -1,33 +1,37 @@
+import {
+  typeBodySm,
+  typeFont,
+  typeH2,
+  typeH3,
+  typeLabel,
+  typeWeightHeading,
+} from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
-export const workDetailSansClass = 'font-sans hyphens-none'
+export const workDetailSansClass = cn(typeFont, 'hyphens-none')
 
-export const workDetailHeroTitleClass = cn(
-  'font-display text-balance font-semibold leading-[1.06] tracking-tight text-foreground',
-  'text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem]',
-)
+export const workDetailHeroTitleClass = typeH2
 
 export const workDetailSplitTitleClass = cn(
-  'hyphens-none font-display text-balance font-semibold leading-[1.05] tracking-tight text-foreground',
+  'hyphens-none',
+  typeH2,
   'text-3xl sm:text-4xl md:text-[2.75rem] lg:text-5xl xl:text-[3.25rem]',
 )
 
 export const workDetailSplitBodyClass = cn(
   workDetailSansClass,
-  'text-pretty text-base leading-relaxed text-foreground/85 sm:text-[17px] sm:leading-[1.75]',
+  typeBodySm,
+  'text-foreground/85 sm:text-[17px] sm:leading-[1.75]',
 )
 
-export const workDetailFactLabelClass = cn(
-  workDetailSansClass,
-  'text-sm text-muted-foreground',
-)
+export const workDetailFactLabelClass = cn(workDetailSansClass, 'text-sm text-muted-foreground')
 
 export const workDetailFactValueClass = cn(
   workDetailSansClass,
-  'mt-1.5 text-lg font-semibold leading-snug tracking-tight text-foreground sm:text-xl',
+  'mt-1.5 text-lg leading-snug tracking-tight text-foreground sm:text-xl',
+  typeWeightHeading,
 )
 
-/** Same frame as the project hero image (16:9, full content width). */
 export const workDetailHeroMediaFrameClass = cn(
   'relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-image-well sm:rounded-3xl',
 )
@@ -54,17 +58,14 @@ export const workDetailSplitSecondaryClass = cn(
   'text-pretty text-sm leading-relaxed text-muted-foreground sm:text-[15px]',
 )
 
-export const workDetailMetaLabelClass = cn(
-  workDetailSansClass,
-  'text-sm text-muted-foreground',
-)
+export const workDetailMetaLabelClass = cn(workDetailSansClass, 'text-sm text-muted-foreground')
 
 export const workDetailMetaValueClass = cn(
   workDetailSansClass,
-  'mt-1 text-base font-semibold text-foreground sm:text-lg',
+  'mt-1 text-base text-foreground sm:text-lg',
+  typeWeightHeading,
 )
 
-/** Full-bleed media in flexible content blocks below the split section. */
 export const workDetailMainImageHeightClass = cn(
   'relative w-full overflow-hidden rounded-2xl sm:rounded-3xl',
   'aspect-[16/10] min-h-[min(52vh,640px)] sm:min-h-[min(58vh,720px)] lg:min-h-[min(64vh,800px)]',

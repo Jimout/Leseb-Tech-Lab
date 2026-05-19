@@ -4,6 +4,17 @@ import { ArrowUpRight } from 'lucide-react'
 import { splitAboutLetterBody, type AboutEditorialContentSettings } from '@/lib/admin/site-settings'
 import { landingPageContentMaxClass, landingPageGutterClass } from '@/lib/landing-page-layout'
 import { renderInlineAccentMarkers } from '@/lib/render-accent-markers'
+import {
+  typeAccentItalic,
+  typeBody,
+  typeDisplayEditorial,
+  typeH1,
+  typeH2,
+  typeH3,
+  typeLabelMuted,
+  typeLabelSm,
+  typeLead,
+} from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 const rail = cn(landingPageContentMaxClass, landingPageGutterClass)
@@ -27,15 +38,15 @@ export function AboutEditorialPage({ content }: AboutEditorialPageProps) {
         <div className={cn('relative', rail)}>
           <div className="grid items-end gap-10 md:grid-cols-12">
             <div className="md:col-span-2">
-              <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-signal">
+              <div className="flex items-center gap-2 typeLabelSm">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden /> {content.heroEyebrow}
               </div>
             </div>
             <div className="md:col-span-10">
-              <h1 className="font-display text-[12vw] leading-[0.92] tracking-[-0.04em] text-balance md:text-[8vw]">
+              <h1 className={typeDisplayEditorial}>
                 {content.heroLine1}
                 <br />
-                <span className="font-light italic text-signal">{content.heroAccent}</span>
+                <span className={typeAccentItalic}>{content.heroAccent}</span>
               </h1>
             </div>
           </div>
@@ -46,8 +57,8 @@ export function AboutEditorialPage({ content }: AboutEditorialPageProps) {
         <div className={cn('grid gap-10 md:grid-cols-12', landingPageContentMaxClass)}>
           <aside className="md:col-span-3">
             <div className="md:sticky md:top-32 md:space-y-2">
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-signal">{content.letterSidebarLabel}</p>
-              <p className="mt-2 font-mono text-xs text-muted-foreground md:mt-0">
+              <p className="typeLabelSm">{content.letterSidebarLabel}</p>
+              <p className={cn('mt-2 md:mt-0', typeLabelMuted, 'normal-case')}>
                 {letterSidebarLines.map((line, index) => (
                   <span key={`${line}-${index}`}>
                     {index > 0 ? <br /> : null}
@@ -58,19 +69,19 @@ export function AboutEditorialPage({ content }: AboutEditorialPageProps) {
             </div>
           </aside>
           <div className="space-y-10 md:col-span-9">
-            <p className="font-display text-balance text-3xl leading-[1.15] tracking-tight md:text-5xl">
+            <p className={cn(typeH1, 'text-3xl md:text-5xl')}>
               {renderInlineAccentMarkers(content.letterOpening)}
             </p>
             {letterBodyParagraphs.map((paragraph, index) => (
               <p
                 key={`letter-${index}`}
-                className="max-w-3xl text-lg leading-relaxed text-foreground/80 md:text-xl"
+                className={cn('max-w-3xl', typeBody, 'text-foreground/80')}
               >
                 {renderInlineAccentMarkers(paragraph)}
               </p>
             ))}
 
-            <p className="pt-6 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">{content.letterSignOff}</p>
+            <p className={cn('pt-6', typeLabelMuted)}>{content.letterSignOff}</p>
           </div>
         </div>
       </section>
@@ -85,8 +96,8 @@ export function AboutEditorialPage({ content }: AboutEditorialPageProps) {
         >
           <div className={landingPageContentMaxClass}>
             <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
-              <h2 className="font-display text-4xl tracking-tight text-white md:text-6xl">{content.principlesHeading}</h2>
-              <p className="hidden font-mono text-xs uppercase tracking-[0.25em] text-signal md:block">
+              <h2 className={cn(typeH1, 'text-white')}>{content.principlesHeading}</h2>
+              <p className={cn('hidden md:block', typeLabelSm)}>
                 {content.principlesSubheading}
               </p>
             </div>
@@ -96,12 +107,12 @@ export function AboutEditorialPage({ content }: AboutEditorialPageProps) {
                   key={p.id}
                   className="grid gap-6 px-2 py-10 transition-colors hover:bg-white/5 md:grid-cols-12 md:py-14"
                 >
-                  <div className="font-display text-3xl tracking-tight text-signal md:col-span-2 md:text-5xl">{p.numeral}</div>
+                  <div className={cn(typeH1, 'text-signal md:col-span-2 md:text-5xl')}>{p.numeral}</div>
                   <div className="md:col-span-4">
-                    <h3 className="font-display text-2xl tracking-tight text-white md:text-3xl">{p.title}</h3>
+                    <h3 className={cn(typeH3, 'text-white')}>{p.title}</h3>
                   </div>
                   <div className="md:col-span-6">
-                    <p className="text-base leading-relaxed text-white/70 md:text-lg">{p.body}</p>
+                    <p className={cn(typeBody, 'text-white/70')}>{p.body}</p>
                   </div>
                 </li>
               ))}
@@ -114,10 +125,10 @@ export function AboutEditorialPage({ content }: AboutEditorialPageProps) {
         <div className={landingPageContentMaxClass}>
           <div className="grid gap-12 md:grid-cols-12 md:gap-10">
             <div className="md:col-span-4">
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-signal">{content.foundersEyebrow}</p>
-              <h2 className="mt-4 font-display text-3xl tracking-tight md:text-4xl">{content.foundersTitle}</h2>
+              <p className="typeLabelSm">{content.foundersEyebrow}</p>
+              <h2 className={cn('mt-4', typeH2)}>{content.foundersTitle}</h2>
             </div>
-            <div className="space-y-6 text-lg leading-relaxed text-foreground/80 md:col-span-8 md:text-xl">
+            <div className={cn('space-y-6 md:col-span-8', typeLead, 'text-foreground/80')}>
               {content.foundersParagraphs.map((paragraph, index) => (
                 <p key={`founders-${index}`} className={index === 1 ? 'text-muted-foreground' : undefined}>
                   {paragraph}
@@ -133,14 +144,17 @@ export function AboutEditorialPage({ content }: AboutEditorialPageProps) {
         className={cn('border-t border-white/10 bg-background py-32 text-white', landingPageGutterClass)}
       >
         <div className={cn('text-center', landingPageContentMaxClass)}>
-          <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-signal">{content.ctaEyebrow}</p>
-          <h2 className="font-display text-balance text-4xl tracking-tight text-white md:text-7xl">
+          <p className="mb-6 typeLabelSm">{content.ctaEyebrow}</p>
+          <h2 className={cn(typeH1, 'text-white md:text-7xl')}>
             {content.ctaHeadingBefore}{' '}
-            <span className="font-light italic text-signal">{content.ctaHeadingAccent}</span>
+            <span className={typeAccentItalic}>{content.ctaHeadingAccent}</span>
           </h2>
           <Link
             href={content.ctaHref}
-            className="group mt-12 inline-flex items-center gap-3 rounded-full bg-secondary py-3 pr-3 pl-7 font-mono text-xs uppercase tracking-[0.2em] text-secondary-foreground transition-transform hover:scale-[1.03]"
+            className={cn(
+              'group mt-12 inline-flex items-center gap-3 rounded-full bg-secondary py-3 pr-3 pl-7 text-secondary-foreground transition-transform hover:scale-[1.03]',
+              typeLabelSm,
+            )}
           >
             {content.ctaButtonLabel}
             <span className="grid size-8 place-items-center rounded-full bg-secondary-foreground/10 transition-transform group-hover:rotate-45">

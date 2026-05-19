@@ -59,7 +59,7 @@ function EducationSection({ items }: { items: EducationItem[] }) {
   return (
     <div className="relative">
       <TimelineDot className="top-2.5" />
-      <h3 className="text-sm font-bold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
+      <h3 className="font-sans text-sm font-semibold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
         Education
       </h3>
       <ul className="mt-5 space-y-5 sm:mt-6 sm:space-y-6">
@@ -80,7 +80,7 @@ function ExperienceSection({ items }: { items: ExperienceItem[] }) {
   return (
     <div className="relative">
       <TimelineDot className="top-2.5" />
-      <h3 className="text-sm font-bold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
+      <h3 className="font-sans text-sm font-semibold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
         Professional Experience
       </h3>
       <ul className="mt-8 space-y-12 sm:mt-10 sm:space-y-14">
@@ -110,7 +110,7 @@ function CertificationsSection({ items }: { items: CertificationItem[] }) {
   return (
     <div className="relative">
       <TimelineDot className="top-2.5" />
-      <h3 className="text-sm font-bold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
+      <h3 className="font-sans text-sm font-semibold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
         Certifications
       </h3>
       <ul className="mt-6 space-y-4 sm:mt-7 sm:space-y-5">
@@ -155,7 +155,7 @@ function ToolkitSection() {
   return (
     <div className="relative">
       <TimelineDot className="top-2.5" />
-      <h3 className="text-sm font-bold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
+      <h3 className="font-sans text-sm font-semibold tracking-tight text-foreground sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl">
         Toolkit
       </h3>
       <div className="mt-6 space-y-7 sm:space-y-8">

@@ -36,7 +36,7 @@ export function AdminBrandMark({
       {showWordmark ? (
         <p
           className={cn(
-            'truncate font-display font-semibold tracking-tight text-white',
+            'truncate font-sans font-semibold tracking-tight text-white',
             'text-sm sm:text-base lg:text-lg',
           )}
         >

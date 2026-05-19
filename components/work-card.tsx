@@ -33,7 +33,7 @@ function WorkCardBody({
 }: Pick<WorkCardProps, 'year' | 'location' | 'title' | 'category'>) {
   return (
     <div className="flex flex-col gap-3 pt-1.5 sm:gap-3.5">
-      <p className="text-sm font-light leading-relaxed text-foreground">
+      <p className="font-sans text-sm font-normal leading-relaxed text-foreground">
         {year}
         <span className="mx-2 text-accent" aria-hidden>
           •
@@ -43,7 +43,7 @@ function WorkCardBody({
       <h3 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl md:text-2xl md:leading-tight 2xl:text-[1.75rem] 3xl:text-2xl 4xl:text-[2.25rem]">
         {title}
       </h3>
-      <p className={cn('text-sm font-light sm:text-[15px]', sectionKickerAccentClass)}>{category}</p>
+      <p className={cn('font-sans text-sm font-normal sm:text-[15px]', sectionKickerAccentClass)}>{category}</p>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import { ADMIN_BRAND_NAME, ADMIN_LOGO_SRC } from '@/lib/admin/admin-brand'
 import { pageEyebrowDotClass } from '@/lib/section-kicker-classes'
+import { typeH3 } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 type AdminLoadingScreenProps = {
@@ -47,7 +48,7 @@ export function AdminLoadingScreen({
       <div className="mt-8 flex flex-col items-center gap-2 text-center">
         <div className="flex items-center gap-2">
           <span className={pageEyebrowDotClass} aria-hidden />
-          <p className="font-display text-xl font-semibold tracking-tight text-white sm:text-2xl">
+          <p className={cn(typeH3, 'text-white sm:text-2xl')}>
             {ADMIN_BRAND_NAME}
           </p>
         </div>

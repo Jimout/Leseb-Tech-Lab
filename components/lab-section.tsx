@@ -16,6 +16,7 @@ import {
   landingPillarTitleClass,
   landingSectionTitleAccentClass,
   landingSectionTitleClass,
+  landingCaptionClass,
 } from '@/lib/landing-page-typography'
 import { SERVICE_PILLARS } from '@/lib/services-pillars'
 import { cn } from '@/lib/utils'
@@ -68,7 +69,7 @@ export function LabSection() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs tracking-[0.25em] text-muted-foreground transition-colors duration-500 group-hover:text-foreground/70">
+                <span className={cn(landingCaptionClass, 'text-muted-foreground transition-colors duration-500 group-hover:text-foreground/70')}>
                   {n}
                 </span>
                 <Icon

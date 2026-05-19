@@ -67,7 +67,7 @@ function FilterCell({
         className={cn(
           'inline font-sans tracking-tight',
           active
-            ? 'text-lg font-bold text-foreground md:text-xl'
+            ? 'text-lg font-semibold text-foreground md:text-xl'
             : 'text-base font-normal text-muted-foreground group-hover:text-foreground/80 md:text-lg',
         )}
       >

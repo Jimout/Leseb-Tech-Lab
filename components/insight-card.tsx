@@ -80,7 +80,7 @@ function InsightCardBody({
 
       <div className="flex flex-col gap-1 pt-2.5 sm:gap-1.5 sm:pt-3">
         {dateEl}
-        <h3 className="text-sm font-bold leading-snug tracking-tight text-foreground sm:text-base">
+        <h3 className="font-sans text-sm font-semibold leading-snug tracking-tight text-foreground sm:text-base">
           {title}
         </h3>
         <p className="line-clamp-3 text-[11px] leading-relaxed text-muted-foreground sm:text-xs">

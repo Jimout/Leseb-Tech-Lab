@@ -14,6 +14,7 @@ import {
   landingSectionKickerDotClass,
   landingSectionTitleClass,
 } from '@/lib/landing-page-typography'
+import { typeLabel } from '@/lib/type-scale'
 import { toTelHref } from '@/lib/phone-tel'
 import { cn } from '@/lib/utils'
 
@@ -66,7 +67,7 @@ export function ContactPageBody() {
 
             {contact.socialVisible ? (
               <div className="mt-10 border-t border-border pt-8 md:mt-12">
-                <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                <p className={cn('mb-4', typeLabel)}>
                   Elsewhere
                 </p>
                 <ContactSocialRow />

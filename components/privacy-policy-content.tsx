@@ -80,7 +80,7 @@ export function PrivacyPolicyContent() {
             </p>
             <h1
               className={cn(
-                'mt-4 text-balance font-bold tracking-tight text-foreground',
+                'mt-4 text-balance font-sans font-semibold tracking-tight text-foreground',
                 'text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-6xl 3xl:text-7xl',
               )}
             >

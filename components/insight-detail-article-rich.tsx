@@ -1,5 +1,6 @@
 import type { InsightSection, InsightSectionBlock } from '@/lib/insight-types'
 import {
+  insightDetailBlogContentClass,
   insightDetailBodyClass,
   insightDetailSectionStackClass,
   insightDetailSectionTitleClass,
@@ -8,7 +9,7 @@ import {
 import { sanitizeInsightHtml } from '@/lib/sanitize-insight-html'
 import { cn } from '@/lib/utils'
 
-const pClass = cn(insightDetailBodyClass, 'max-w-3xl text-pretty')
+const pClass = cn(insightDetailBodyClass, insightDetailBlogContentClass, 'text-pretty')
 
 const listItemClass = cn(insightDetailBodyClass, 'text-pretty')
 
@@ -23,7 +24,12 @@ function BlockRenderer({ block }: { block: InsightSectionBlock }) {
   }
   if (block.type === 'ol') {
     return (
-      <ol className="max-w-3xl list-decimal space-y-3 pl-6 marker:text-foreground/60">
+      <ol
+        className={cn(
+          insightDetailBlogContentClass,
+          'list-decimal space-y-3 pl-5 marker:text-foreground/60 sm:pl-6',
+        )}
+      >
         {block.items.map((item) => (
           <li key={item} className={listItemClass}>
             {item}
@@ -33,7 +39,7 @@ function BlockRenderer({ block }: { block: InsightSectionBlock }) {
     )
   }
   return (
-    <ul className="max-w-3xl space-y-3">
+    <ul className={cn(insightDetailBlogContentClass, 'space-y-3')}>
       {block.items.map((item) => (
         <li key={item} className={cn('flex gap-3', listItemClass)}>
           <span className="shrink-0 pt-0.5 text-signal" aria-hidden>

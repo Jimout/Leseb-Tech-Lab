@@ -17,6 +17,7 @@ import {
   landingSectionKickerClass,
   landingSectionKickerDotClass,
 } from '@/lib/landing-page-typography'
+import { typeAccentItalic } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 export const Manifesto = () => (
@@ -39,7 +40,7 @@ export const Manifesto = () => (
       <div className={landingManifestoBodyClass}>
         <p className={landingManifestoLeadClass}>
           We founded <span className="text-signal">Leseb Tech Lab</span> because we believe technology should
-          <em className="font-light italic"> serve people</em>, not overwhelm them.
+          <em className={typeAccentItalic}> serve people</em>, not overwhelm them.
         </p>
 
         <div className="grid min-w-0 items-center gap-10 md:grid-cols-2 md:gap-12 lg:gap-14 2xl:gap-16">

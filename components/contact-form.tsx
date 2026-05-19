@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { FluidSplitButton } from '@/components/fluid-split-button'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import { useToast } from '@/hooks/use-toast'
+import { typeLabel } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
 export type ContactFormProps = {
@@ -22,7 +23,7 @@ const fieldInputClass = cn(
 
 const fieldTextareaClass = cn(fieldInputClass, 'min-h-[10rem] resize-y py-3 sm:min-h-[11rem]')
 
-const fieldLabelClass = 'font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground'
+const fieldLabelClass = cn(typeLabel, 'text-muted-foreground')
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null

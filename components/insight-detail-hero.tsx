@@ -7,11 +7,12 @@ import { useInsightFilterLabelMap } from '@/components/insight-landing-card'
 import type { InsightDetail } from '@/lib/insight-detail-types'
 import {
   insightDetailHeroDescriptionClass,
+  insightDetailHeroImageClass,
   insightDetailHeroTitleClass,
   insightDetailSansClass,
 } from '@/lib/insight-detail-typography'
 import {
-  landingHeroPadTopClass,
+  catalogPageBelowNavPadTopClass,
   landingPageContentMaxClass,
   landingPageGutterClass,
 } from '@/lib/landing-page-layout'
@@ -99,8 +100,7 @@ export function InsightDetailHero({
       data-nav-surface="dark"
       className={cn(
         'relative overflow-hidden bg-background',
-        '-mt-14',
-        landingHeroPadTopClass,
+        catalogPageBelowNavPadTopClass,
         'pb-8 sm:pb-10 md:pb-12',
       )}
     >
@@ -151,11 +151,7 @@ export function InsightDetailHero({
 
         <div
           tabIndex={topicIds.length > 0 ? 0 : undefined}
-          className={cn(
-            'group relative mt-8 aspect-[16/9] w-full max-h-[14.5rem] overflow-hidden rounded-2xl bg-image-well',
-            'sm:mt-10 sm:max-h-[15.5rem] md:max-h-[17rem] md:rounded-3xl lg:max-h-[19rem]',
-            'outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-          )}
+          className={insightDetailHeroImageClass}
         >
           {hasCover ? (
             <HeroCover media={heroMedia!} />

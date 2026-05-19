@@ -15,6 +15,7 @@ import {
   landingPillarCardClass,
   landingPillarGridClass,
   landingPillarTitleClass,
+  landingCaptionClass,
   landingSectionTitleAccentClass,
   landingSectionTitleClass,
 } from '@/lib/landing-page-typography'
@@ -88,7 +89,7 @@ export function ApproachSection() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs tracking-[0.25em] text-muted-foreground transition-colors duration-500 group-hover:text-foreground/70">
+                <span className={cn(landingCaptionClass, 'text-muted-foreground transition-colors duration-500 group-hover:text-foreground/70')}>
                   {n}
                 </span>
                 <Icon

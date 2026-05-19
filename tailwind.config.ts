@@ -20,8 +20,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
         display: ['Space Grotesk', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+        mono: ['Space Grotesk', 'system-ui', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',

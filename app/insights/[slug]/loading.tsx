@@ -1,6 +1,6 @@
 import { SiteNavbar } from '@/components/site-navbar'
 import {
-  landingHeroPadTopClass,
+  catalogPageBelowNavPadTopClass,
   landingPageContentMaxClass,
   landingPageGutterClass,
 } from '@/lib/landing-page-layout'
@@ -13,8 +13,8 @@ export default function InsightDetailLoading() {
       <main className="min-h-dvh scroll-mt-24 bg-background text-foreground">
         <section
           className={cn(
-            '-mt-14 animate-pulse',
-            landingHeroPadTopClass,
+            'animate-pulse',
+            catalogPageBelowNavPadTopClass,
             'pb-12',
             landingPageGutterClass,
           )}

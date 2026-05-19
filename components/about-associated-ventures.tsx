@@ -44,7 +44,7 @@ export function AboutAssociatedVentures({ className }: { className?: string }) {
       <Container>
         {ventures.visible ? (
           <div className="flex flex-col gap-10 overflow-x-clip lg:flex-row lg:items-center lg:justify-between lg:gap-12 xl:gap-16">
-            <p className="max-w-none text-pretty text-base font-bold leading-tight tracking-tight text-foreground sm:text-lg lg:max-w-[48ch] lg:text-[1.6rem] lg:leading-[1.22] xl:max-w-[52ch] xl:text-[1.85rem] xl:leading-[1.3] 2xl:text-[3.35rem] 2xl:leading-[1.14] 3xl:text-[4.35rem] 3xl:leading-[1.12] 4xl:text-[5.4rem] 4xl:leading-[1.1]">
+            <p className="max-w-none text-pretty text-base font-sans font-semibold leading-tight tracking-tight text-foreground sm:text-lg lg:max-w-[48ch] lg:text-[1.6rem] lg:leading-[1.22] xl:max-w-[52ch] xl:text-[1.85rem] xl:leading-[1.3] 2xl:text-[3.35rem] 2xl:leading-[1.14] 3xl:text-[4.35rem] 3xl:leading-[1.12] 4xl:text-[5.4rem] 4xl:leading-[1.1]">
               {ventures.headlineLines.map((line, idx) => (
                 <span key={idx} className="block lg:whitespace-nowrap">
                   {renderHeadlineWithAssociatedVenturesAccent(line)}
@@ -90,7 +90,7 @@ export function AboutAssociatedVentures({ className }: { className?: string }) {
 
         {ventures.ctaVisible ? (
           <div className="mt-16 flex flex-col items-center justify-center gap-8 sm:mt-20 sm:gap-10 lg:mt-24">
-            <h2 className="text-center text-balance text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl xl:text-[2.75rem] xl:leading-[1.18] 2xl:text-[4.75rem] 2xl:leading-[1.08] 3xl:text-[6rem] 3xl:leading-[1.04] 4xl:text-[7.5rem] 4xl:leading-[1.02]">
+            <h2 className="text-center text-balance text-2xl font-sans font-semibold leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl xl:text-[2.75rem] xl:leading-[1.18] 2xl:text-[4.75rem] 2xl:leading-[1.08] 3xl:text-[6rem] 3xl:leading-[1.04] 4xl:text-[7.5rem] 4xl:leading-[1.02]">
               {ventures.ctaHeadingLines.map((line, idx) => (
                 <span key={idx} className="block">
                   {renderInlineAccentMarkers(line)}
@@ -98,7 +98,7 @@ export function AboutAssociatedVentures({ className }: { className?: string }) {
               ))}
             </h2>
             <FluidSplitButton label={ventures.ctaButtonLabel} href={ventures.ctaHref} />
-            <p className="pt-6 text-center text-[clamp(2.75rem,7.5vw,6.75rem)] font-bold tracking-tight text-foreground 2xl:text-[10rem] 2xl:leading-none 3xl:text-[12rem] 3xl:leading-[0.97] 4xl:text-[14.5rem] 4xl:leading-[0.95]">
+            <p className="pt-6 text-center text-[clamp(2.75rem,7.5vw,6.75rem)] font-sans font-semibold tracking-tight text-foreground 2xl:text-[10rem] 2xl:leading-none 3xl:text-[12rem] 3xl:leading-[0.97] 4xl:text-[14.5rem] 4xl:leading-[0.95]">
               {ventures.signatureName}
             </p>
           </div>

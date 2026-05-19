@@ -1,3 +1,5 @@
+import { typeLabel, typeLabelSm } from '@/lib/type-scale'
+
 /**
  * Shared responsive type scale for section kickers (“Our work”, “Our insights”, …).
  * Light mode: second accent (`--secondary`); dark mode: accent yellow (`--accent`).
@@ -11,11 +13,13 @@ export const sectionKickerTextClass =
 export const sectionKickerAccentClass = 'text-secondary dark:text-accent'
 
 /**
- * Page eyebrow — work index style (“Our work”): brand green dot, lemon (`signal`) mono label.
+ * Page eyebrow — brand green dot + signal label.
  */
 export const pageEyebrowRowClass = 'flex items-center gap-2'
 
 export const pageEyebrowDotClass = 'size-1.5 shrink-0 rounded-full bg-primary'
 
-export const pageEyebrowTextClass =
-  'font-mono text-[10px] uppercase tracking-[0.25em] text-signal'
+export const pageEyebrowTextClass = typeLabel
+
+/** Larger page eyebrows (contact hero, etc.). */
+export const pageEyebrowTextLgClass = typeLabelSm

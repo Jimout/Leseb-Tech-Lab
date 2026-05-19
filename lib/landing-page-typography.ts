@@ -100,7 +100,7 @@ export const landingHeroTitleClass = cn(
   typeWeightHeading,
   'text-balance leading-[0.92] tracking-[-0.04em]',
   'text-[2.2rem] sm:text-[2.6rem] md:text-[3.1rem] lg:text-[3.8rem] xl:text-[4.6rem]',
-  '2xl:text-[6rem] 3xl:text-[7rem] 4xl:text-[8rem]',
+  '2xl:text-[8rem] 3xl:text-[10rem] 4xl:text-[12rem]',
 )
 
 export const landingHeroSubkickerClass = cn(
@@ -162,26 +162,26 @@ export const landingCardDescClass = cn(
 )
 
 export const workLabCardShellClass = cn(
-  'group relative flex min-h-0 flex-col overflow-hidden rounded-lg border border-border bg-box lg:rounded-xl',
+  'group relative flex min-h-0 flex-col overflow-hidden rounded-lg border border-catalog-card-border bg-catalog-card lg:rounded-xl',
   'text-left outline-none transition-[border-color,background-color,box-shadow] duration-500',
-  'hover:border-foreground/20 hover:bg-card-hover hover:shadow-[0_14px_32px_-24px_rgba(0,0,0,0.4)]',
+  'hover:border-foreground/18 hover:bg-catalog-card-hover hover:shadow-[0_16px_36px_-24px_rgba(0,0,0,0.55)]',
   'focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
 )
 
 export const workLabCardMediaClass = cn(
-  'relative aspect-[5/3] w-full shrink-0 overflow-hidden bg-image-well lg:aspect-[2/1]',
+  'relative aspect-[5/3] w-full shrink-0 overflow-hidden bg-catalog-card-media lg:aspect-[2/1]',
 )
 
 export const workLabCardLandingMediaClass = cn(
-  'relative aspect-[3/2] w-full shrink-0 overflow-hidden bg-image-well lg:aspect-[4/3]',
+  'relative aspect-[3/2] w-full shrink-0 overflow-hidden bg-catalog-card-media lg:aspect-[4/3]',
 )
 
 export const workLabCardBodyClass = cn(
-  'flex min-w-0 flex-1 flex-col gap-1 border-t border-border px-2.5 py-2 sm:px-3 sm:py-2.5 lg:gap-1.5 lg:px-3.5 lg:py-3',
+  'flex min-w-0 flex-1 flex-col gap-1 border-t border-catalog-card-border px-2.5 py-2 sm:px-3 sm:py-2.5 lg:gap-1.5 lg:px-3.5 lg:py-3',
 )
 
 export const workLabCardLandingBodyClass = cn(
-  'flex min-w-0 flex-1 flex-col gap-1.5 border-t border-border px-2.5 py-2.5 sm:px-3 sm:py-3 lg:gap-2 lg:px-3.5 lg:py-3.5',
+  'flex min-w-0 flex-1 flex-col gap-1.5 border-t border-catalog-card-border px-2.5 py-2.5 sm:px-3 sm:py-3 lg:gap-2 lg:px-3.5 lg:py-3.5',
 )
 
 export const workLabCardHeaderClass = cn('flex items-center justify-between gap-2')
@@ -200,7 +200,7 @@ export const workLabCardYearClass = cn(
 export const workLabCardTitleClass = typeCardTitle
 
 export const workLabCardFooterClass = cn(
-  'mt-auto flex items-center justify-between gap-2 border-t border-border/70 pt-1 lg:pt-1.5',
+  'mt-auto flex items-center justify-between gap-2 border-t border-catalog-card-border/80 pt-1 lg:pt-1.5',
 )
 
 export const workLabCardLocationClass = cn(
@@ -225,11 +225,8 @@ export const workLabCardGridClass = cn(
 export const landingEmptyCoverClass = cn(typeFont, 'text-xs font-medium text-muted-foreground')
 
 export const landingInsightCardClass = cn(
-  'group relative flex max-w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-foreground/12',
-  'bg-foreground/[0.04] text-left outline-none backdrop-blur-[2px]',
-  'transition-shadow duration-500 hover:border-foreground/18',
-  'hover:shadow-[0_24px_48px_-24px_color-mix(in_srgb,var(--background)_85%,transparent)]',
-  'focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  workLabCardShellClass,
+  'rounded-2xl lg:rounded-2xl',
 )
 
 export const landingInsightCardMediaTitleClass = typeCardTitleLg

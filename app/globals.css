@@ -59,6 +59,11 @@
   /** Lift cards on hover */
   --card-hover: #302e2b;
   --card-hover-foreground: var(--foreground);
+  /** Work / insights catalog cards — warm lift from canvas, still lighter than full box */
+  --catalog-card: color-mix(in srgb, var(--canvas) 28%, var(--box));
+  --catalog-card-hover: color-mix(in srgb, var(--canvas) 14%, var(--card-hover));
+  --catalog-card-border: color-mix(in srgb, var(--border) 72%, var(--canvas));
+  --catalog-card-media: color-mix(in srgb, var(--canvas) 18%, var(--box));
 
   /** Gradients & effects */
   --gradient-signal: linear-gradient(
@@ -221,6 +226,10 @@
   --color-control-filled-foreground: var(--control-filled-foreground);
   --color-card-hover: var(--card-hover);
   --color-card-hover-foreground: var(--card-hover-foreground);
+  --color-catalog-card: var(--catalog-card);
+  --color-catalog-card-hover: var(--catalog-card-hover);
+  --color-catalog-card-border: var(--catalog-card-border);
+  --color-catalog-card-media: var(--catalog-card-media);
 }
 
 @layer base {

@@ -48,11 +48,15 @@ function marqueeWordClass(index: number) {
 
 const MARQUEE_DURATION_SEC = 100
 
-export const Marquee = () => {
+type MarqueeProps = {
+  className?: string
+}
+
+export const Marquee = ({ className }: MarqueeProps) => {
   const track = [...phrases, ...phrases]
 
   return (
-    <div data-nav-surface="dark" className={landingMarqueeBandClass}>
+    <div data-nav-surface="dark" className={cn(landingMarqueeBandClass, className)}>
       <div className={landingMarqueeFadeClass} aria-hidden />
       <div className={landingMarqueeFadeRightClass} aria-hidden />
 

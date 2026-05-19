@@ -81,7 +81,7 @@ export function InsightLandingCard({
     >
       <div className={workLabCardLandingMediaClass}>
         {!hasCover ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-image-well" aria-hidden>
+          <div className="absolute inset-0 flex items-center justify-center bg-catalog-card-media" aria-hidden>
             <span className={landingEmptyCoverClass}>No cover</span>
           </div>
         ) : (

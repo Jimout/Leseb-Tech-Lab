@@ -41,7 +41,7 @@ export const landingHeroPadTopClass = cn(
 /** Home hero — extra clearance below sticky nav at 2xl+. */
 export const landingHomeHeroPadTopClass = cn(
   'pt-28 sm:pt-32 md:pt-36 lg:pt-40 xl:pt-44',
-  '2xl:pt-56 3xl:pt-64 4xl:pt-72',
+  '2xl:pt-80 3xl:pt-96 4xl:pt-[32rem]',
 )
 
 /** Equal space between home page sections (use on `main`; do not pair with per-section `py`). */

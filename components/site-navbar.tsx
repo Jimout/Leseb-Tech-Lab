@@ -98,6 +98,29 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
   const active = useActiveSegment()
   const { mobileNavOpen, setMobileNavOpen } = useNavigationUiStore()
   const surface = useNavSurfaceScroll()
+  const headerRef = React.useRef<HTMLElement>(null)
+
+  React.useLayoutEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+
+    const syncHeaderHeight = () => {
+      document.documentElement.style.setProperty(
+        '--site-nav-header-height',
+        `${el.getBoundingClientRect().height}px`,
+      )
+    }
+
+    syncHeaderHeight()
+    const observer = new ResizeObserver(syncHeaderHeight)
+    observer.observe(el)
+    window.addEventListener('resize', syncHeaderHeight)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', syncHeaderHeight)
+    }
+  }, [])
 
   const logoClass = cn(
     'inline-flex items-center rounded-full px-2 py-1.5 sm:px-2.5',
@@ -109,6 +132,7 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
 
   return (
     <header
+      ref={headerRef}
       className={cn(
         'sticky top-0 z-50 mx-auto flex w-full justify-center',
         'font-sans',
@@ -120,17 +144,23 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
         <div
           data-site-navbar-track
           className={cn(
-            'relative flex items-center justify-between gap-3 px-3 py-2',
+            'relative isolate flex items-center justify-between gap-3 px-3 py-2',
             'rounded-xl border border-white/10 md:rounded-2xl',
             'bg-background/40 text-white backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]',
+            mobileNavOpen &&
+              'max-md:bg-background/92 max-md:backdrop-blur-[40px] max-md:backdrop-saturate-150 max-md:backdrop-brightness-95 max-md:supports-backdrop-filter:bg-background/78 max-md:ring-1 max-md:ring-inset max-md:ring-white/[0.07]',
           )}
         >
           {logoHref.startsWith('/') ? (
-            <Link href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} | go to home`}>
+            <Link
+              href={logoHref}
+              className={cn(logoClass, 'relative z-10')}
+              aria-label={`${SITE_BRAND_NAME} | go to home`}
+            >
               <SiteNavbarLogo />
             </Link>
           ) : (
-            <a href={logoHref} className={logoClass} aria-label={`${SITE_BRAND_NAME} | go to home`}>
+            <a href={logoHref} className={cn(logoClass, 'relative z-10')} aria-label={`${SITE_BRAND_NAME} | go to home`}>
               <SiteNavbarLogo />
             </a>
           )}
@@ -156,7 +186,7 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
             />
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="relative z-10 flex items-center gap-2 md:hidden">
             <NavbarMobileMenuTrigger open={mobileNavOpen} onOpenChange={setMobileNavOpen} scrolled surface={surface} />
           </div>
 

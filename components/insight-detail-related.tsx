@@ -43,7 +43,11 @@ export function InsightDetailRelated({ excludeId }: { excludeId: string }) {
 
   return (
     <section
-      className={cn(landingSectionYClass, landingPageGutterClass, 'border-t border-foreground/10')}
+      className={cn(
+        landingSectionYClass,
+        landingPageGutterClass,
+        'overflow-x-clip border-t border-foreground/10',
+      )}
       aria-labelledby="insight-related-heading"
     >
       <div className={cn('mx-auto min-w-0', landingPageContentMaxClass)}>
@@ -81,7 +85,7 @@ export function InsightDetailRelated({ excludeId }: { excludeId: string }) {
                   categoryPill={cat.pill}
                   categoryMeta={cat.meta}
                   className={insightLandingCardStripWidthClass}
-                  imageSizes="(max-width: 768px) 82vw, 320px"
+                  imageSizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               )
             })}

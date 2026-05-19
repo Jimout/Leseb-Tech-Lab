@@ -46,7 +46,7 @@ export function LandingInsightsSection() {
     <section
       id="insights"
       data-nav-surface="dark"
-      className={cn('scroll-mt-24 py-0', landingBandClass, landingPageGutterClass)}
+      className={cn('scroll-mt-24 overflow-x-clip py-0', landingBandClass, landingPageGutterClass)}
     >
       <div className={cn('mx-auto min-w-0', landingPageContentMaxClass)}>
         <div className={landingSectionHeaderSplitClass}>
@@ -88,7 +88,7 @@ export function LandingInsightsSection() {
                   categoryPill={cat.pill}
                   categoryMeta={cat.meta}
                   className={insightLandingCardStripWidthClass}
-                  imageSizes="(max-width: 768px) 82vw, 320px"
+                  imageSizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               )
             })}

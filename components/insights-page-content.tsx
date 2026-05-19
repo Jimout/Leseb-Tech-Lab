@@ -15,14 +15,12 @@ import { StripPagination } from '@/components/strip-pagination'
 import { useInsightsShowcaseMerged } from '@/hooks/use-insights-showcase-merged'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import type { ShowcaseInsight } from '@/lib/insights-showcase-data'
+import { workLabCardLandingGridClass } from '@/lib/landing-page-typography'
 import { buildWorkInsightFilterDefinitions } from '@/lib/portfolio-catalog-filters'
 import { useCatalogUiStore } from '@/stores/use-catalog-ui-store'
 
 /** One “page”: up to six cards, newsletter, then up to six more (two lg rows). */
 const INSIGHTS_PER_PAGE = 12
-
-const INSIGHT_GRID_CLASS =
-  'grid list-none grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-8 md:gap-y-10 lg:grid-cols-3 lg:gap-x-7 lg:gap-y-10 xl:gap-x-8'
 
 function InsightCardsGrid({
   items,
@@ -35,7 +33,7 @@ function InsightCardsGrid({
 }) {
   if (items.length === 0) return null
   return (
-    <ul className={INSIGHT_GRID_CLASS} aria-label={ariaLabel}>
+    <ul className={workLabCardLandingGridClass} aria-label={ariaLabel}>
       {items.map((item, i) => {
         const cat = primaryInsightCategory(item, filterLabels)
         return (

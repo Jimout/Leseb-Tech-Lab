@@ -73,10 +73,10 @@ export const landingSectionPadBottomClass = cn(
 )
 
 /**
- * Insights strip: bleed only to the right (past section gutter) so the carousel
- * can scroll off-screen. Left edge stays aligned with section headings at all breakpoints.
+ * Insights strip: bleed to the right below `2xl` so the carousel can scroll off-screen.
+ * From `2xl` up, stay inside `landingPageGutterClass` — same right edge as work / manifesto.
  */
 export const landingStripBleedClass = cn(
   '-mr-8 sm:-mr-10 md:-mr-12 lg:-mr-14 xl:-mr-16',
-  '2xl:-mr-20 3xl:-mr-28 4xl:-mr-32',
+  '2xl:mr-0 3xl:mr-0 4xl:mr-0',
 )

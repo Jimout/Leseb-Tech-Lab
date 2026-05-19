@@ -265,10 +265,10 @@ export const landingInsightStripClass = cn(
   'max-md:cursor-default md:cursor-grab md:active:cursor-grabbing',
 )
 
+/** Same column width as `workLabCardLandingGridClass` (2-col sm gap-4, 3-col lg gap-5, xl gap-6). */
 export const landingInsightCardWidthClass = cn(
-  'w-[min(82vw,17.5rem)] max-w-none shrink-0 snap-start sm:w-[min(78vw,18.5rem)]',
-  'md:w-[calc((100%-1.25rem)/2.5)] lg:w-[calc((100%-2rem)/2.75)] xl:w-[calc((100%-2.5rem)/3)]',
-  '2xl:w-[calc((100%-2.5rem)/2.3)] 3xl:w-[calc((100%-2.5rem)/2.15)] 4xl:w-[calc((100%-2.5rem)/2)]',
+  'w-full max-w-full shrink-0 snap-start',
+  'sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2.5rem)/3)] xl:w-[calc((100%-3rem)/3)]',
 )
 
 export const landingStripNavButtonClass = cn(

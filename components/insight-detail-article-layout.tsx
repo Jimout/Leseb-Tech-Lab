@@ -45,7 +45,7 @@ export function InsightDetailArticleLayout({
       >
         <div className={cn(insightDetailSidebarStickyClass, 'flex flex-col gap-8')}>
           {showToc ? <InsightDetailTocDesktop items={tocItems} activeId={activeId} /> : null}
-          <InsightDetailShare className="2xl:hidden" />
+          <InsightDetailShare className="hidden lg:block 2xl:hidden" />
         </div>
       </aside>
 
@@ -56,7 +56,10 @@ export function InsightDetailArticleLayout({
           showToc ? '2xl:col-span-6' : '2xl:col-span-9',
         )}
       >
-        {showToc ? <InsightDetailTocMobile items={tocItems} activeId={activeId} /> : null}
+        <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:gap-5 lg:hidden">
+          {showToc ? <InsightDetailTocMobile items={tocItems} activeId={activeId} /> : null}
+          <InsightDetailShare className="px-4 sm:px-5" />
+        </div>
         <div className={insightDetailBlogMeasureClass}>{children}</div>
       </div>
 

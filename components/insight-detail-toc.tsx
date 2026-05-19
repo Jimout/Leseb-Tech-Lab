@@ -2,10 +2,9 @@
 
 import * as React from 'react'
 import Image from 'next/image'
-import { List } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import type { InsightTocItem } from '@/lib/insight-types'
 import {
@@ -28,6 +27,27 @@ const tocPanelClass = cn(
   landingNewsletterPanelClass,
   'overflow-visible p-5 sm:p-6',
 )
+
+const tocMobileShellClass = cn(
+  'relative sticky z-40 -mx-4 px-4 sm:-mx-5 sm:px-5 lg:hidden',
+  'top-16 sm:top-17',
+)
+
+/** Match solid mobile hamburger drawer (`mobileNavPanelShellClass`). */
+const tocMobileSurfaceClass = cn(
+  'border border-white/10 bg-muted',
+  'shadow-[0_4px_30px_rgba(0,0,0,0.35)] ring-1 ring-inset ring-white/[0.07]',
+)
+
+const tocMobileBoxClass = cn('relative rounded-2xl', tocMobileSurfaceClass)
+
+const tocMobileDropdownClass = cn(
+  'absolute inset-x-0 top-full z-50 overflow-hidden rounded-b-2xl',
+  'border-x border-b border-white/10 bg-muted ring-1 ring-inset ring-white/[0.07]',
+  'transition-[max-height,opacity] duration-300 ease-out motion-reduce:transition-none',
+)
+
+const tocMobileDropdownNavClass = 'px-4 pb-4 pt-3 sm:px-5'
 
 function TocBrandMark({ className }: { className?: string }) {
   const { settings } = useSiteSettings()
@@ -236,85 +256,72 @@ export function InsightDetailTocMobile({
   items: readonly InsightTocItem[]
   activeId: string
 }) {
-  const { open, anchorTop, setOpen, setAnchorTop, toggleOpen, close } =
-    useInsightTocMobileStore()
-  const barRef = React.useRef<HTMLDivElement>(null)
+  const { open, toggleOpen, close } = useInsightTocMobileStore()
+  const panelId = React.useId()
   const activeLabel = items.find((i) => i.id === activeId)?.label ?? 'Contents'
-
-  const syncAnchor = React.useCallback(() => {
-    const el = barRef.current
-    if (!el) return
-    setAnchorTop(Math.ceil(el.getBoundingClientRect().bottom + 6))
-  }, [setAnchorTop])
-
-  React.useLayoutEffect(() => {
-    if (!open) return
-    syncAnchor()
-    window.addEventListener('resize', syncAnchor)
-    window.addEventListener('scroll', syncAnchor, { passive: true })
-    return () => {
-      window.removeEventListener('resize', syncAnchor)
-      window.removeEventListener('scroll', syncAnchor)
-    }
-  }, [open, syncAnchor])
 
   React.useEffect(() => {
     return () => close()
   }, [close])
 
   return (
-    <div
-      ref={barRef}
-      className={cn(
-        'sticky z-30 -mx-4 flex items-center justify-between gap-3 border-b border-foreground/10 px-4',
-        'bg-background/95 py-3 backdrop-blur-md supports-backdrop-filter:bg-background/90',
-        'top-16 sm:-mx-5 sm:px-5 sm:top-17 lg:hidden',
-      )}
-    >
-      <div className="flex min-w-0 flex-1 items-start gap-2.5">
-        <TocBrandMark className="size-9 p-1.5 sm:size-10" />
-        <p className="min-w-0 text-left">
-          <span className={cn(insightDetailKickerClass, 'block')}>On this page</span>
-          <span className={cn(insightDetailTocLinkClass, 'block font-medium text-foreground')}>
-            {activeLabel}
-          </span>
-        </p>
-      </div>
-      <Sheet open={open} onOpenChange={setOpen}>
-        <Button
+    <div className={tocMobileShellClass}>
+      <div className={cn(tocMobileBoxClass, open && 'rounded-b-none border-b-transparent')}>
+        <div className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5">
+          <div className="flex min-w-0 flex-1 items-start gap-2.5">
+            <TocBrandMark className="size-9 p-1.5 sm:size-10" />
+            <p className="min-w-0 text-left">
+              <span className={cn(insightDetailKickerClass, 'block')}>On this page</span>
+              <span className={cn(insightDetailTocLinkClass, 'block font-medium text-foreground')}>
+                {activeLabel}
+              </span>
+            </p>
+          </div>
+          <Button
           type="button"
           variant="ghost"
           size="icon"
           className={cn(
-            'size-10 shrink-0 rounded-full border border-foreground/20 bg-foreground/[0.04]',
+            'size-8 shrink-0 rounded-full border border-foreground/20 bg-foreground/[0.06]',
             'text-foreground transition-colors hover:border-signal/40 hover:bg-signal/10 hover:text-signal',
           )}
           aria-expanded={open}
-          aria-label={open ? 'Close table of contents' : 'Open table of contents'}
+          aria-controls={panelId}
+          aria-label={open ? 'Collapse table of contents' : 'Expand table of contents'}
           onClick={toggleOpen}
         >
-          <List className="size-4" strokeWidth={2} aria-hidden />
+          <ChevronDown
+            className={cn(
+              'size-3.5 transition-transform duration-300 motion-reduce:transition-none',
+              open && 'rotate-180',
+            )}
+            strokeWidth={1.75}
+            aria-hidden
+          />
         </Button>
-        <SheetContent
-          side="top"
-          anchorTopPx={anchorTop}
-          showCloseButton={false}
+      </div>
+
+        <div
+          id={panelId}
           className={cn(
-            'left-0 right-0 flex h-auto max-h-none justify-start border-0 bg-transparent p-0 pt-1 shadow-none gap-0 overflow-visible',
-            'px-4 sm:px-5',
+            tocMobileDropdownClass,
+            open
+              ? 'max-h-[min(70dvh,28rem)] opacity-100'
+              : 'max-h-0 opacity-0 pointer-events-none',
           )}
-          style={{ maxHeight: 'none' }}
+          aria-hidden={!open}
         >
-          <SheetTitle className="sr-only">Table of contents</SheetTitle>
           <nav
-            className={cn(tocPanelClass, 'w-full overflow-visible')}
+            className={cn(
+              tocMobileDropdownNavClass,
+              'max-h-[min(70dvh,28rem)] overflow-y-auto overscroll-contain',
+            )}
             aria-label="Table of contents"
           >
-            <TocHeader />
             <TocLinks items={items} activeId={activeId} onNavigate={close} />
           </nav>
-        </SheetContent>
-      </Sheet>
+        </div>
+      </div>
     </div>
   )
 }

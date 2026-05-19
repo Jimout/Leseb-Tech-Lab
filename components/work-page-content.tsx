@@ -7,13 +7,15 @@ import { WorksLabShowcaseFromWorks } from '@/components/works-lab-grid'
 import { landingPageContentMaxClass, landingPageGutterClass } from '@/lib/landing-page-layout'
 import { StripPagination } from '@/components/strip-pagination'
 import { buildWorkInsightFilterDefinitions } from '@/lib/portfolio-catalog-filters'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import { useWorksShowcaseMerged } from '@/hooks/use-works-showcase-merged'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
 import { useCatalogUiStore } from '@/stores/use-catalog-ui-store'
 import { cn } from '@/lib/utils'
 
-const PAGE_SIZE = 8
+const PAGE_SIZE_MOBILE = 4
+const PAGE_SIZE_DESKTOP = 8
 
 function useFilteredWorks(works: ShowcaseWork[], activeId: string) {
   return React.useMemo(() => {
@@ -35,6 +37,8 @@ function useFilterDefinitions(
 export function WorkPageContent() {
   const { workActiveId: activeId, workPage: page, setWorkActiveId, setWorkPage } =
     useCatalogUiStore()
+  const isMobile = useIsMobile()
+  const pageSize = isMobile ? PAGE_SIZE_MOBILE : PAGE_SIZE_DESKTOP
   const { settings } = useSiteSettings()
   const works = useWorksShowcaseMerged()
   const filters = useFilterDefinitions(works, settings.portfolioCatalogFilters.workInsights)
@@ -45,7 +49,7 @@ export function WorkPageContent() {
     if (!ids.has(activeId)) setWorkActiveId('all')
   }, [filters, activeId, setWorkActiveId])
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
 
   React.useEffect(() => {
     setWorkPage(1)
@@ -56,9 +60,9 @@ export function WorkPageContent() {
   }, [totalPages, setWorkPage])
 
   const pageWorks = React.useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE
-    return filtered.slice(start, start + PAGE_SIZE)
-  }, [filtered, page])
+    const start = (page - 1) * pageSize
+    return filtered.slice(start, start + pageSize)
+  }, [filtered, page, pageSize])
 
   return (
     <>

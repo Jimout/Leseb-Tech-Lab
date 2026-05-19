@@ -56,10 +56,8 @@ export function InsightDetailArticleLayout({
           showToc ? '2xl:col-span-6' : '2xl:col-span-9',
         )}
       >
-        <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:gap-5 lg:hidden">
-          {showToc ? <InsightDetailTocMobile items={tocItems} activeId={activeId} /> : null}
-          <InsightDetailShare className="px-4 sm:px-5" />
-        </div>
+        {showToc ? <InsightDetailTocMobile items={tocItems} activeId={activeId} /> : null}
+        <InsightDetailShare className="mb-8 px-4 sm:mb-10 sm:px-5 lg:hidden" />
         <div className={insightDetailBlogMeasureClass}>{children}</div>
       </div>
 

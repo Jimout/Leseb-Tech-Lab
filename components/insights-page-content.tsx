@@ -20,8 +20,9 @@ import { workLabCardLandingGridClass } from '@/lib/landing-page-typography'
 import { buildWorkInsightFilterDefinitions } from '@/lib/portfolio-catalog-filters'
 import { useCatalogUiStore } from '@/stores/use-catalog-ui-store'
 
-/** Mobile: one grid of four. Desktop: six cards, newsletter, then six more. */
+/** Mobile: two cards, newsletter, two more. Desktop: six cards, newsletter, six more. */
 const INSIGHTS_PER_PAGE_MOBILE = 4
+const INSIGHTS_ROW_MOBILE = 2
 const INSIGHTS_PER_PAGE_DESKTOP = 12
 const INSIGHTS_TOP_ROW_DESKTOP = 6
 
@@ -103,8 +104,12 @@ export function InsightsPageContent() {
     return filtered.slice(start, start + insightsPerPage)
   }, [filtered, page, insightsPerPage])
 
-  const topInsights = isMobile ? pageSlice : pageSlice.slice(0, INSIGHTS_TOP_ROW_DESKTOP)
-  const bottomInsights = isMobile ? [] : pageSlice.slice(INSIGHTS_TOP_ROW_DESKTOP, INSIGHTS_PER_PAGE_DESKTOP)
+  const topInsights = isMobile
+    ? pageSlice.slice(0, INSIGHTS_ROW_MOBILE)
+    : pageSlice.slice(0, INSIGHTS_TOP_ROW_DESKTOP)
+  const bottomInsights = isMobile
+    ? pageSlice.slice(INSIGHTS_ROW_MOBILE, INSIGHTS_PER_PAGE_MOBILE)
+    : pageSlice.slice(INSIGHTS_TOP_ROW_DESKTOP, INSIGHTS_PER_PAGE_DESKTOP)
 
   return (
     <>

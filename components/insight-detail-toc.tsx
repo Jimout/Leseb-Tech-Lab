@@ -29,21 +29,22 @@ const tocPanelClass = cn(
 )
 
 const tocMobileShellClass = cn(
-  'relative sticky z-40 -mx-4 px-4 sm:-mx-5 sm:px-5 lg:hidden',
-  'top-16 sm:top-17',
+  'sticky z-40 -mx-4 mb-4 px-4 sm:-mx-5 sm:mb-5 sm:px-5 lg:hidden',
+  'top-[var(--site-nav-header-height,4.25rem)]',
 )
 
-/** Match solid mobile hamburger drawer (`mobileNavPanelShellClass`). */
+/** Match work / insight catalog cards (`workLabCardShellClass`). */
 const tocMobileSurfaceClass = cn(
-  'border border-white/10 bg-muted',
-  'shadow-[0_4px_30px_rgba(0,0,0,0.35)] ring-1 ring-inset ring-white/[0.07]',
+  'border border-catalog-card-border bg-catalog-card',
+  'shadow-[0_16px_36px_-24px_rgba(0,0,0,0.45)]',
 )
 
-const tocMobileBoxClass = cn('relative rounded-2xl', tocMobileSurfaceClass)
+const tocMobileBoxClass = cn('relative rounded-2xl lg:rounded-2xl', tocMobileSurfaceClass)
 
 const tocMobileDropdownClass = cn(
   'absolute inset-x-0 top-full z-50 overflow-hidden rounded-b-2xl',
-  'border-x border-b border-white/10 bg-muted ring-1 ring-inset ring-white/[0.07]',
+  'border-x border-b border-catalog-card-border bg-catalog-card',
+  'shadow-[0_16px_36px_-24px_rgba(0,0,0,0.45)]',
   'transition-[max-height,opacity] duration-300 ease-out motion-reduce:transition-none',
 )
 

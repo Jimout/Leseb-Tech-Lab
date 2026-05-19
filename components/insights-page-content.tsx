@@ -12,6 +12,7 @@ import { NewsletterSubscribeBanner } from '@/components/newsletter-subscribe-ban
 import { WorkPageFilterBar } from '@/components/work-page-filter-bar'
 import type { WorkFilterDefinition } from '@/lib/work-filter-definition'
 import { StripPagination } from '@/components/strip-pagination'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { useInsightsShowcaseMerged } from '@/hooks/use-insights-showcase-merged'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import type { ShowcaseInsight } from '@/lib/insights-showcase-data'
@@ -19,8 +20,10 @@ import { workLabCardLandingGridClass } from '@/lib/landing-page-typography'
 import { buildWorkInsightFilterDefinitions } from '@/lib/portfolio-catalog-filters'
 import { useCatalogUiStore } from '@/stores/use-catalog-ui-store'
 
-/** One “page”: up to six cards, newsletter, then up to six more (two lg rows). */
-const INSIGHTS_PER_PAGE = 12
+/** Mobile: one grid of four. Desktop: six cards, newsletter, then six more. */
+const INSIGHTS_PER_PAGE_MOBILE = 4
+const INSIGHTS_PER_PAGE_DESKTOP = 12
+const INSIGHTS_TOP_ROW_DESKTOP = 6
 
 function InsightCardsGrid({
   items,
@@ -72,6 +75,8 @@ function useInsightFilterDefinitions(
 export function InsightsPageContent() {
   const { insightActiveId: activeId, insightPage: page, setInsightActiveId, setInsightPage } =
     useCatalogUiStore()
+  const isMobile = useIsMobile()
+  const insightsPerPage = isMobile ? INSIGHTS_PER_PAGE_MOBILE : INSIGHTS_PER_PAGE_DESKTOP
   const { settings } = useSiteSettings()
   const insights = useInsightsShowcaseMerged()
   const filters = useInsightFilterDefinitions(settings.portfolioCatalogFilters.workInsights, insights)
@@ -83,7 +88,7 @@ export function InsightsPageContent() {
     if (!ids.has(activeId)) setInsightActiveId('all')
   }, [filters, activeId, setInsightActiveId])
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / INSIGHTS_PER_PAGE))
+  const totalPages = Math.max(1, Math.ceil(filtered.length / insightsPerPage))
 
   React.useEffect(() => {
     setInsightPage(1)
@@ -94,12 +99,12 @@ export function InsightsPageContent() {
   }, [totalPages, setInsightPage])
 
   const pageSlice = React.useMemo(() => {
-    const start = (page - 1) * INSIGHTS_PER_PAGE
-    return filtered.slice(start, start + INSIGHTS_PER_PAGE)
-  }, [filtered, page])
+    const start = (page - 1) * insightsPerPage
+    return filtered.slice(start, start + insightsPerPage)
+  }, [filtered, page, insightsPerPage])
 
-  const topInsights = pageSlice.slice(0, 6)
-  const bottomInsights = pageSlice.slice(6, 12)
+  const topInsights = isMobile ? pageSlice : pageSlice.slice(0, INSIGHTS_TOP_ROW_DESKTOP)
+  const bottomInsights = isMobile ? [] : pageSlice.slice(INSIGHTS_TOP_ROW_DESKTOP, INSIGHTS_PER_PAGE_DESKTOP)
 
   return (
     <>

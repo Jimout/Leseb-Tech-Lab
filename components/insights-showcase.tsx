@@ -271,7 +271,7 @@ export function InsightsShowcase({
             page={desktopScroller.page}
             totalPages={desktopScroller.totalPages}
             onPageChange={desktopScroller.goToPage}
-            className="inline-flex"
+            className="w-full"
           />
         </div>
       </div>
@@ -341,7 +341,7 @@ export function InsightsShowcase({
         page={splitMobileDesktop ? mobileScroller.page : desktopScroller.page}
         totalPages={splitMobileDesktop ? mobileScroller.totalPages : desktopScroller.totalPages}
         onPageChange={splitMobileDesktop ? mobileScroller.goToPage : desktopScroller.goToPage}
-        className={cn('lg:hidden', mobileTwoUp && 'hidden')}
+        className={cn('w-full lg:hidden', mobileTwoUp && 'hidden')}
       />
     </div>
   )

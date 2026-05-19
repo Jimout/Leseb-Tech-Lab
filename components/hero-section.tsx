@@ -32,7 +32,8 @@ export function HeroSection() {
     <section
       data-nav-surface="dark"
       className={cn(
-        'relative -mt-14 min-h-dvh min-w-0 overflow-x-clip overflow-y-hidden bg-background py-0 2xl:min-h-0',
+        'relative -mt-14 min-w-0 overflow-x-clip overflow-y-hidden bg-background py-0',
+        'max-xl:min-h-0 xl:min-h-dvh 2xl:min-h-0',
         landingPageGutterClass,
       )}
     >

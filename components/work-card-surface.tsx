@@ -258,7 +258,7 @@ export function WorkCardSurface({
     <div className="flex min-h-0 w-full flex-col gap-4 sm:gap-5">
       {track}
       <div
-        className="relative z-10 flex justify-start sm:justify-center"
+        className="relative z-10 flex w-full justify-center"
         onClick={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
       >

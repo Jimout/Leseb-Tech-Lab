@@ -157,17 +157,18 @@ export function NavbarMobileMenuPanel({
           open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
         )}
       >
-      <div className="min-h-0 overflow-hidden">
+      <div className="min-h-0 -mt-px overflow-hidden rounded-b-xl border border-t-0 border-white/10 md:rounded-b-2xl">
         <div
           className={cn(
-            'border-t border-border/40 bg-background px-1 pb-4 pt-5 sm:px-2 sm:pb-5 sm:pt-6',
+            'flex min-h-[min(72dvh,34rem)] flex-col bg-background',
+            'px-4 pb-10 pt-7 sm:min-h-[min(78dvh,38rem)] sm:px-6 sm:pb-12 sm:pt-9',
             'opacity-0 transition-opacity duration-300 motion-reduce:transition-none',
             open && 'opacity-100',
           )}
         >
           <p
             className={cn(
-              'mb-4 flex items-center gap-2 text-sm text-muted-foreground transition-all duration-500 sm:mb-6 sm:gap-2.5',
+              'mb-6 flex items-center gap-2 text-sm text-muted-foreground transition-all duration-500 sm:mb-8 sm:gap-2.5 sm:text-base',
               staggerEase,
               'translate-y-2 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none',
               open && 'translate-y-0 opacity-100',
@@ -180,14 +181,14 @@ export function NavbarMobileMenuPanel({
             {introText}
           </p>
 
-          <nav className="flex w-full flex-col gap-0 sm:gap-1" aria-label="Primary">
+          <nav className="flex w-full flex-col gap-2 sm:gap-3" aria-label="Primary">
             {items.map((item, i) => (
               <Link
                 key={item.segment}
                 href={item.href}
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  'block w-full text-left text-6xl font-medium leading-[1.02] tracking-tight transition-all duration-500 sm:text-7xl',
+                  'block w-full text-left text-7xl font-medium leading-[1.02] tracking-tight transition-all duration-500 sm:text-8xl',
                   staggerEase,
                   'opacity-0',
                   i % 2 === 0 ? 'translate-x-6' : '-translate-x-6',
@@ -208,7 +209,7 @@ export function NavbarMobileMenuPanel({
             size="default"
             variant="secondary"
             className={cn(
-              'mt-5 w-fit self-start transition-all duration-500 sm:mt-7',
+              'mt-auto w-fit self-start pt-8 transition-all duration-500 sm:pt-10',
               staggerEase,
               'translate-y-3 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none',
               open && 'translate-y-0 opacity-100',

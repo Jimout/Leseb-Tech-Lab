@@ -218,7 +218,7 @@ export function SiteFooter({
                     {defaults.workPanelDescription}{' '}
                     <a
                       className={cn(
-                        'font-medium text-foreground underline-offset-2 transition-colors group-hover:text-foreground hover:underline',
+                        'font-medium text-signal underline-offset-2 transition-colors hover:text-signal hover:underline',
                         footerPanelMotionDuration,
                         footerPanelMotionEase,
                       )}

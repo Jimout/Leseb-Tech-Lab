@@ -390,7 +390,7 @@ export function AdminSubscribersPage() {
 
         {totalPages > 1 ? (
           <div className="mt-6 flex justify-center">
-            <PillPagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <PillPagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
           </div>
         ) : null}
       </Card>

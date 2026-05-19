@@ -41,27 +41,33 @@ export const landingSectionTitleXLClass = landingSectionTitleClass
 
 export const landingSectionTitleAccentClass = typeAccentItalic
 
+/** Space between section title block and cards / pillars (services, work, insights). */
+export const landingSectionTitleToContentClass = cn(
+  'mb-10 md:mb-12 lg:mb-14 2xl:mb-16 3xl:mb-20 4xl:mb-24',
+)
+
 export const landingSectionHeaderGridClass = cn(
-  'mb-10 grid gap-10 md:mb-12 md:grid-cols-12 md:items-end md:gap-12 lg:mb-14',
-  '2xl:mb-16 2xl:gap-16 3xl:mb-20 3xl:gap-20 4xl:mb-24 4xl:gap-24',
+  landingSectionTitleToContentClass,
+  'grid gap-10 md:grid-cols-12 md:items-end md:gap-12',
+  '2xl:gap-16 3xl:gap-20 4xl:gap-24',
 )
 
 export const landingSectionHeaderLeadClass = 'min-w-0 md:col-span-5'
 
 export const landingSectionHeaderAsideClass = cn(
-  'flex min-w-0 flex-col items-end md:col-span-6 md:col-start-7',
+  'flex min-w-0 flex-col items-start md:col-span-6 md:col-start-7 md:items-end',
 )
 
 export const landingSectionIntroClass = typeLead
 
 export const landingSectionHeaderIntroClass = cn(
   landingSectionIntroClass,
-  'max-w-md text-right text-pretty lg:max-w-sm',
+  'max-w-md text-left text-pretty md:text-right lg:max-w-sm',
 )
 
 export const landingSectionHeaderSplitClass = cn(
-  'mb-12 flex min-w-0 flex-col gap-6 sm:mb-14 md:mb-16 md:flex-row md:items-end md:justify-between lg:mb-16 xl:mb-20',
-  '2xl:mb-20 3xl:mb-24 4xl:mb-28',
+  landingSectionTitleToContentClass,
+  'flex min-w-0 flex-col gap-6 md:flex-row md:items-end md:justify-between',
 )
 
 export const landingManifestoGridClass = cn(

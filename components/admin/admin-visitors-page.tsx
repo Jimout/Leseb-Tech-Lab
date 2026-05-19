@@ -295,7 +295,11 @@ export function AdminVisitorsPage() {
               </div>
               {filteredTopWork.length > 0 && workTotalPages > 1 ? (
                 <div className="flex justify-center pt-1">
-                  <PillPagination page={workPage} totalPages={workTotalPages} onPageChange={setWorkPage} />
+                  <PillPagination
+                    currentPage={workPage}
+                    totalPages={workTotalPages}
+                    onPageChange={setWorkPage}
+                  />
                 </div>
               ) : null}
             </TabsContent>
@@ -338,7 +342,7 @@ export function AdminVisitorsPage() {
               {filteredTopInsights.length > 0 && insightTotalPages > 1 ? (
                 <div className="flex justify-center pt-1">
                   <PillPagination
-                    page={insightPage}
+                    currentPage={insightPage}
                     totalPages={insightTotalPages}
                     onPageChange={setInsightPage}
                   />

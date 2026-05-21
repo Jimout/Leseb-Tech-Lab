@@ -35,6 +35,7 @@ export const typeDisplayEditorial = cn(
   typeWeightHeading,
   'text-balance leading-[0.92] tracking-[-0.04em]',
   'text-[12vw] md:text-[8vw]',
+  '2xl:text-[12rem] 2xl:leading-[1.15] 3xl:text-[15rem] 3xl:leading-[1.15] 4xl:text-[18rem] 4xl:leading-[1.15]',
 )
 
 /** Page & section titles. */

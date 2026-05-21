@@ -15,8 +15,8 @@ import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
   { href: '/services', segment: 'services', label: 'Services' },
-  { href: '/work', segment: 'work', label: 'Work' },
-  { href: '/insights', segment: 'insights', label: 'Insights' },
+  { href: '/work', segment: 'work', label: 'Projects' },
+  { href: '/insights', segment: 'insights', label: 'Blog' },
   { href: '/about', segment: 'about', label: 'About' },
 ] as const
 

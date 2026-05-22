@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import type { WorkDetailContentBlock } from '@/lib/work-detail-content-blocks'
+import { adminFileInputClass } from '@/lib/admin/admin-layout-classes'
 import { imageAltFromFileName } from '@/lib/media-assets'
 import { deleteMediaByPublicId, uploadMediaClient } from '@/lib/media-upload-client'
 import { cn } from '@/lib/utils'
@@ -86,18 +87,15 @@ export function AdminWorkContentBlockImageFields({
   return (
     <div className="space-y-3">
       <div className="space-y-2">
-        <Label className="text-white/70">{fileLabel}</Label>
-        <p className="text-xs text-white/50">
+        <Label className="text-white/80">{fileLabel}</Label>
+        <p className="text-xs text-white/45">
           Upload from your computer to Cloudinary or paste a media URL below.
         </p>
         <Input
           ref={fileRef}
           type="file"
           accept={fileAccept}
-          className={cn(
-            'cursor-pointer border-white/15 bg-background/30 text-sm text-white file:mr-3 file:rounded-md',
-            'file:border-0 file:bg-white/15 file:px-3 file:py-1.5 file:text-white',
-          )}
+          className={adminFileInputClass}
           onChange={onFile}
         />
       </div>
@@ -131,7 +129,7 @@ export function AdminWorkContentBlockImageFields({
         </div>
       ) : null}
       <div className="space-y-2">
-        <Label className="text-white/70">{isVideo ? 'Media URL' : 'Image URL'}</Label>
+        <Label className="text-white/80">{isVideo ? 'Media URL' : 'Image URL'}</Label>
         <Input
           value={block.src}
           onChange={(e) => onPatch({ ...block, src: e.target.value })}
@@ -142,25 +140,23 @@ export function AdminWorkContentBlockImageFields({
       {block.type === 'video' ? (
         <>
           <div className="space-y-2">
-            <Label className="text-white/70">Poster image (optional)</Label>
-            <div className="flex gap-2">
-              <Input
-                value={block.poster ?? ''}
-                onChange={(e) => onPatch({ ...block, poster: e.target.value })}
-                placeholder="https://.../poster.jpg"
-                className="border-white/15 bg-background/30 text-white"
-              />
-              <Input
-                ref={posterRef}
-                type="file"
-                accept="image/*"
-                className={cn(
-                  'max-w-56 cursor-pointer border-white/15 bg-background/30 text-sm text-white file:mr-3 file:rounded-md',
-                  'file:border-0 file:bg-white/15 file:px-3 file:py-1.5 file:text-white',
-                )}
-                onChange={onPosterFile}
-              />
-            </div>
+            <Label className="text-white/80">Poster image URL (optional)</Label>
+            <Input
+              value={block.poster ?? ''}
+              onChange={(e) => onPatch({ ...block, poster: e.target.value })}
+              placeholder="https://.../poster.jpg"
+              className="border-white/15 bg-background/30 text-white"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-white/80">Poster image file (optional)</Label>
+            <Input
+              ref={posterRef}
+              type="file"
+              accept="image/*"
+              className={adminFileInputClass}
+              onChange={onPosterFile}
+            />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex items-center gap-2 text-sm text-white/75">
@@ -183,7 +179,7 @@ export function AdminWorkContentBlockImageFields({
         </>
       ) : null}
       <div className="space-y-2">
-        <Label className="text-white/70">{isVideo ? 'Fallback text (optional)' : 'Alt text'}</Label>
+        <Label className="text-white/80">{isVideo ? 'Fallback text (optional)' : 'Alt text'}</Label>
         <Input
           value={block.alt ?? ''}
           onChange={(e) => onPatch({ ...block, alt: e.target.value })}

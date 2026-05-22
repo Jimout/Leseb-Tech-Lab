@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
 import { AdminBrandMark } from '@/components/admin/admin-brand-mark'
@@ -16,25 +16,16 @@ export function AdminLoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { status } = useSession()
-  const [hasHeaderSession, setHasHeaderSession] = useState<boolean | null>(null)
+  const hasHeaderSession =
+    status === 'authenticated' ? Boolean(getSessionHeaderFromStorage()) : false
 
   useEffect(() => {
-    if (status !== 'authenticated') {
-      setHasHeaderSession(null)
-      return
-    }
+    if (status !== 'authenticated' || !hasHeaderSession) return
+    router.replace(safeAdminCallbackUrl(searchParams.get('callbackUrl')))
+  }, [status, hasHeaderSession, router, searchParams])
 
-    const sessionHeader = getSessionHeaderFromStorage()
-    const hasHeader = Boolean(sessionHeader)
-    setHasHeaderSession(hasHeader)
-
-    if (hasHeader) {
-      router.replace(safeAdminCallbackUrl(searchParams.get('callbackUrl')))
-    }
-  }, [status, router, searchParams])
-
-  if (status === 'loading' || (status === 'authenticated' && hasHeaderSession === null)) {
-    return <AdminLoadingScreen message="Signing in" fullViewport className="min-h-0 py-12" />
+  if (status === 'loading') {
+    return <AdminLoadingScreen fullViewport className="min-h-0 py-12" />
   }
 
   if (status === 'authenticated' && hasHeaderSession) {

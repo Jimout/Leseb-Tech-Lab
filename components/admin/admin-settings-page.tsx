@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ThreeDotsLoader } from '@/components/three-dots-loader'
 import { Spinner } from '@/components/ui/spinner'
 import { useAdminAuth } from '@/hooks/use-admin-auth'
 import { useToast } from '@/hooks/use-toast'
@@ -200,7 +201,7 @@ export function AdminSettingsPage() {
     return (
       <AdminPageShell title="Settings" description="Loading your account…" right={logoutButton}>
         <div className="flex justify-center py-16">
-          <Spinner className="size-8 text-white/70" />
+          <ThreeDotsLoader />
         </div>
       </AdminPageShell>
     )

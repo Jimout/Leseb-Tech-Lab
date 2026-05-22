@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { ThreeDotsLoader } from '@/components/three-dots-loader'
 import { decodeSessionHeaderPayload, type SessionHeaderUser } from '@/lib/session-header-shared'
 
 const SESSION_STORAGE_KEY = 'user-session-header'
@@ -53,8 +54,8 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <main className="mx-auto flex min-h-[60vh] max-w-xl items-center justify-center px-4">
-        <p className="text-sm text-white/70">Loading dashboard...</p>
+      <main className="flex min-h-[60vh] items-center justify-center">
+        <ThreeDotsLoader />
       </main>
     )
   }

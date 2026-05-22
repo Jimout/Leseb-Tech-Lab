@@ -15,15 +15,17 @@ function FieldGroup({
   hint,
   children,
   className,
+  labelClassName = 'text-white/80',
 }: {
   label: string
   hint?: string
   children: ReactNode
   className?: string
+  labelClassName?: string
 }) {
   return (
     <div className={cn('space-y-2', className)}>
-      <Label className="text-white/80">{label}</Label>
+      <Label className={labelClassName}>{label}</Label>
       {children}
       {hint ? <p className="text-xs text-white/45">{hint}</p> : null}
     </div>
@@ -37,21 +39,45 @@ function SectionDivider() {
 type Props = {
   detail: WorkDetailPatch
   setDetail: (patch: Partial<WorkDetailPatch>) => void
+  labelClassName?: string
+  fieldClassName?: string
 }
 
 /** Case study fields in the same order as the live project page. */
-export function AdminWorkFormDetailMetaFields({ detail: d, setDetail }: Props) {
+export function AdminWorkFormDetailMetaFields({
+  detail: d,
+  setDetail,
+  labelClassName = 'text-white/80',
+  fieldClassName = fieldClass,
+}: Props) {
   const industryValue = d.industry?.trim() || d.projectType?.trim() || ''
 
   return (
     <div className="flex flex-col gap-6">
-      <FieldGroup label="Intro description" hint="Main case study paragraph beside the gallery column.">
+      <FieldGroup
+        label="Case study title"
+        hint="Headline in the left column of the case study intro (can differ from the work card title)."
+        labelClassName={labelClassName}
+      >
+        <Input
+          value={d.pageTitle ?? ''}
+          onChange={(e) => setDetail({ pageTitle: e.target.value })}
+          placeholder="e.g. Client name or project headline"
+          className={fieldClassName}
+        />
+      </FieldGroup>
+
+      <FieldGroup
+        label="Case study description"
+        hint="Main paragraph in the right column beside the title and gallery."
+        labelClassName={labelClassName}
+      >
         <Textarea
           value={d.descriptionNote ?? ''}
           onChange={(e) => setDetail({ descriptionNote: e.target.value })}
           rows={6}
           placeholder="Project overview — same tone as your case study intro"
-          className={fieldClass}
+          className={fieldClassName}
         />
       </FieldGroup>
 
@@ -60,51 +86,32 @@ export function AdminWorkFormDetailMetaFields({ detail: d, setDetail }: Props) {
       <div className="space-y-3">
         <p className="text-xs font-semibold uppercase tracking-wider text-white/45">Project facts</p>
         <div className="grid gap-4 sm:grid-cols-3">
-          <FieldGroup label="Client">
+          <FieldGroup label="Client" labelClassName={labelClassName}>
             <Input
               value={d.client ?? ''}
               onChange={(e) => setDetail({ client: e.target.value })}
               placeholder="e.g. Leseb Tech Lab"
-              className={fieldClass}
+              className={fieldClassName}
             />
           </FieldGroup>
-          <FieldGroup label="Industry">
+          <FieldGroup label="Industry" labelClassName={labelClassName}>
             <Input
               value={industryValue}
               onChange={(e) => setDetail({ industry: e.target.value, projectType: e.target.value })}
               placeholder="e.g. AI"
-              className={fieldClass}
+              className={fieldClassName}
             />
           </FieldGroup>
-          <FieldGroup label="Duration">
+          <FieldGroup label="Duration" labelClassName={labelClassName}>
             <Input
               value={d.duration ?? d.solution ?? ''}
               onChange={(e) => setDetail({ duration: e.target.value })}
               placeholder="e.g. 16 Weeks"
-              className={fieldClass}
+              className={fieldClassName}
             />
           </FieldGroup>
         </div>
       </div>
-
-      <SectionDivider />
-
-      <FieldGroup
-        label="Story video URL"
-        hint="Full-width video on the project page. Add flexible sections below it in the next panel."
-      >
-        <Input
-          value={d.storyVideo?.url ?? ''}
-          onChange={(e) => {
-            const url = e.target.value.trim()
-            setDetail({
-              storyVideo: url ? { type: 'video', url, alt: d.storyVideo?.alt ?? '' } : undefined,
-            })
-          }}
-          placeholder="e.g. /0001-0120.mp4 or https://..."
-          className={fieldClass}
-        />
-      </FieldGroup>
     </div>
   )
 }

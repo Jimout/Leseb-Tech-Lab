@@ -100,6 +100,12 @@ export function SiteNavbar({ className, logoHref = '#home' }: SiteNavbarProps) {
   const surface = useNavSurfaceScroll()
   const headerRef = React.useRef<HTMLElement>(null)
 
+  // Close mobile nav on mount to clear any stale open state from previous navigation
+  React.useEffect(() => {
+    setMobileNavOpen(false)
+    document.body.style.overflow = ''
+  }, [setMobileNavOpen])
+
   React.useLayoutEffect(() => {
     const el = headerRef.current
     if (!el) return

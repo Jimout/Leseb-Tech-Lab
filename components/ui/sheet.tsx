@@ -36,9 +36,10 @@ function SheetOverlay({
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
       className={cn(
-        'fixed inset-0 z-50 bg-background/50 pointer-events-auto',
+        'fixed inset-0 z-50 bg-background/50 pointer-events-none',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        'data-[state=open]:pointer-events-auto',
         'data-[state=closed]:pointer-events-none',
         className,
       )}
@@ -93,7 +94,7 @@ function SheetContent({
       <SheetPrimitive.Content
         data-slot="sheet-content"
         className={cn(
-          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out flex flex-col shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
+          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out flex flex-col shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-300',
           floatingInset
             ? cn(
                 'fixed inset-4 z-60 gap-0 overflow-hidden rounded-3xl border border-border/50 bg-card shadow-2xl sm:inset-5',

@@ -383,7 +383,7 @@ export function AdminWorkFormPage({
             <AccordionContent className={cn(accordionContentClass, 'flex flex-col gap-6')}>
               <SectionIntro
                 title="Case study body"
-                description="Intro and facts first, then the story video. Everything under the video is built from flexible sections."
+                description="Intro and facts, then flexible page sections — add text, photos, or links; each new section appears under the add buttons."
               />
               <AdminWorkFormDetailMetaFields detail={d} setDetail={setDetail} />
               <SectionDivider />

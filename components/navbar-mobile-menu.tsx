@@ -123,7 +123,10 @@ export function NavbarMobileMenuPanel({
   }, [pathname, onOpenChange])
 
   React.useEffect(() => {
-    if (!open) return
+    if (!open) {
+      document.body.style.overflow = ''
+      return
+    }
     const mq = window.matchMedia('(max-width: 767px)')
     const sync = () => {
       if (mq.matches) document.body.style.overflow = 'hidden'

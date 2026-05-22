@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic'
 
 import { BreadcrumbJsonLd } from '@/components/seo/breadcrumb-json-ld'
 import { FooterSection } from '@/components/footer-section'
-import { Container } from '@/components/layout/container'
 import { SiteNavbar } from '@/components/site-navbar'
+import { ThreeDotsLoader } from '@/components/three-dots-loader'
 import { Toaster } from '@/components/ui/toaster'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
@@ -13,18 +13,9 @@ const WorkPageContent = dynamic(
   () => import('@/components/work-page-content').then((mod) => mod.WorkPageContent),
   {
     loading: () => (
-      <section className="pb-10 pt-6 sm:pb-14 sm:pt-8 md:pb-16 md:pt-10 lg:pb-20 lg:pt-12">
-        <Container>
-          <div className="animate-pulse space-y-4">
-            <div className="h-9 w-48 rounded bg-white/10" />
-            <div className="h-4 w-72 rounded bg-white/10" />
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="h-64 rounded-2xl bg-white/8" />
-              <div className="h-64 rounded-2xl bg-white/8" />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <ThreeDotsLoader />
+      </div>
     ),
   },
 )

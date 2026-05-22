@@ -16,10 +16,10 @@ import { Button } from '@/components/ui/button'
 import { useAdminAuth } from '@/hooks/use-admin-auth'
 import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
 import {
-  adminPanelSurfaceClass,
   adminSidebarAccordionItemClass,
   adminSidebarAccordionTriggerClass,
   adminSidebarNavLinkBaseClass,
+  adminSidebarPanelClass,
 } from '@/lib/admin/admin-layout-classes'
 import { cn } from '@/lib/utils'
 
@@ -78,7 +78,7 @@ export function AdminSidebarPanel({
   }, [activeGroups])
 
   return (
-    <div className={cn(adminPanelSurfaceClass, 'flex h-full min-h-0 min-w-0 flex-col', className)}>
+    <div className={cn(adminSidebarPanelClass, className)}>
       <AdminSidebarBrand />
       <div className="mt-4 h-px w-full shrink-0 bg-white/10" aria-hidden />
       <nav
@@ -94,11 +94,12 @@ export function AdminSidebarPanel({
           {groups.map((group) => (
             <AccordionItem key={group.id} value={group.id} className={adminSidebarAccordionItemClass}>
               <AccordionTrigger
+                indicator="sidebar"
                 className={cn(adminSidebarAccordionTriggerClass, 'w-full py-2.5 hover:no-underline')}
               >
-                <span className="flex items-center gap-2">
+                <span className="flex min-w-0 items-center gap-2">
                   <span className="inline-block size-1.5 shrink-0 rounded-full bg-white/25" aria-hidden />
-                  {group.label}
+                  <span className="min-w-0 truncate">{group.label}</span>
                 </span>
               </AccordionTrigger>
               <AccordionContent variant="sidebar">
@@ -113,7 +114,6 @@ export function AdminSidebarPanel({
                             onClick={() => onNavigate?.()}
                             className={cn(
                               adminSidebarNavLinkBaseClass,
-                              'block w-full',
                               active
                                 ? 'bg-accent text-accent-foreground'
                                 : 'text-white/80 hover:bg-white/5 hover:text-white',

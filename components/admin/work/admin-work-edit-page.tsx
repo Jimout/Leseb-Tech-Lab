@@ -15,7 +15,7 @@ export function AdminWorkEditPage({ id }: { id: string }) {
   const initial = useMemo(() => items.find((it) => it.id === id) ?? emptyWork(), [id, items])
 
   if (loading) {
-    return <AdminLoadingScreen message="Loading project" className="min-h-[40vh]" />
+    return <AdminLoadingScreen className="min-h-[40vh]" />
   }
   if (!exists) return null
 

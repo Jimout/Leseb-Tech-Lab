@@ -1,9 +1,13 @@
 import type { ContactPageSettings } from '@/lib/admin/site-settings'
 import {
-  landingHeroPadTopClass,
+  catalogPageBelowNavPadTopClass,
+  landingPageContentMaxClass,
   landingPageGutterClass,
-  landingSectionInnerClass,
 } from '@/lib/landing-page-layout'
+import {
+  landingSectionKickerClass,
+  landingSectionKickerDotClass,
+} from '@/lib/landing-page-typography'
 import { typeAccentItalic, typeContactHero } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
@@ -17,24 +21,19 @@ export function ContactPageHero({ contact }: ContactPageHeroProps) {
       data-nav-surface="dark"
       aria-labelledby="contact-hero-heading"
       className={cn(
-        'relative overflow-hidden bg-background py-0',
-        '-mt-14',
+        'relative overflow-hidden bg-background',
+        catalogPageBelowNavPadTopClass,
+        'pb-12 md:pb-16 lg:pb-20',
         landingPageGutterClass,
       )}
     >
-      <div
-        className={cn(
-          landingSectionInnerClass,
-          landingHeroPadTopClass,
-          'flex min-h-[min(72vh,40rem)] flex-col pb-12 md:pb-16 lg:pb-20',
-        )}
-      >
-        <p className="flex items-center gap-2.5 text-sm font-medium tracking-tight text-foreground md:text-[15px]">
-          <span className="size-1.5 shrink-0 rounded-full bg-foreground" aria-hidden />
+      <div className={cn('relative mx-auto min-w-0', landingPageContentMaxClass)}>
+        <div className={cn('mb-4', landingSectionKickerClass)}>
+          <span className={landingSectionKickerDotClass} aria-hidden />
           {contact.heroEyebrow}
-        </p>
+        </div>
 
-        <div className="mt-auto grid gap-10 pt-12 md:grid-cols-12 md:items-end md:gap-8 lg:gap-12 md:pt-16 lg:pt-20">
+        <div className="grid gap-10 md:grid-cols-12 md:items-end md:gap-8 lg:gap-12">
           <h1
             id="contact-hero-heading"
             className={cn(typeContactHero, 'md:col-span-7')}

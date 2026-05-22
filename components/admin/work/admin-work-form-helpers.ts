@@ -15,6 +15,9 @@ export function mergeInitialDetail(d?: WorkDetailPatch): WorkDetailPatch {
 
   return {
     ...base,
+    pageTitle: d.pageTitle ?? '',
+    pageTitleLine1: d.pageTitleLine1 ?? '',
+    pageTitleLine2: d.pageTitleLine2 ?? '',
     descriptionNote: d.descriptionNote ?? '',
     websiteUrl: d.websiteUrl ?? '',
     client: d.client ?? '',
@@ -35,6 +38,9 @@ function compactDetailForStorage(d: WorkDetailPatch): WorkDetailPatch | undefine
   const contentBlocks = normalizeWorkDetailContentBlocks(d.contentBlocks)
 
   const strKeys = [
+    'pageTitle',
+    'pageTitleLine1',
+    'pageTitleLine2',
     'descriptionNote',
     'websiteUrl',
     'client',
@@ -52,6 +58,7 @@ function compactDetailForStorage(d: WorkDetailPatch): WorkDetailPatch | undefine
       type: 'video',
       url: d.storyVideo.url.trim(),
       alt: d.storyVideo.alt?.trim() || '',
+      ...(d.storyVideo.publicId ? { publicId: d.storyVideo.publicId } : {}),
     }
   }
 

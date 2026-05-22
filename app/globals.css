@@ -177,6 +177,29 @@
   }
 }
 
+/** Vertical accordion (admin sidebar nav groups) */
+@keyframes accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
 @theme inline {
   --font-sans: 'Space Grotesk', system-ui, sans-serif;
   --font-display: var(--font-sans);
@@ -252,6 +275,14 @@
 
   .animate-float {
     animation: float 6.5s ease-in-out infinite;
+  }
+
+  .animate-accordion-down {
+    animation: accordion-down 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-accordion-up {
+    animation: accordion-up 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   .bg-grid {
@@ -344,6 +375,11 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .animate-accordion-down,
+    .animate-accordion-up {
+      animation: none;
+    }
+
     .animate-work-card-slide-next,
     .animate-work-card-slide-prev {
       animation: none;

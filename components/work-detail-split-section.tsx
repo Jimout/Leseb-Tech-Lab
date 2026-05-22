@@ -48,10 +48,13 @@ function firstLegacyRichOverview(blocks: ReadonlyArray<WorkDetailContentBlock> |
   return rich?.type === 'rich' ? rich.html : null
 }
 
-function GalleryMedia({ item }: { item: GalleryItem }) {
+function GalleryMedia({ item, isLast }: { item: GalleryItem; isLast?: boolean }) {
   if (item.kind === 'image') {
     return (
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-image-well sm:rounded-3xl">
+      <div className={cn(
+        'relative w-full overflow-hidden rounded-2xl bg-image-well sm:rounded-3xl',
+        'aspect-[4/3]',
+      )}>
         <WorkDetailFillImage src={item.src} alt={item.alt} sizes={gallerySizes} />
       </div>
     )
@@ -93,6 +96,10 @@ export function WorkDetailSplitSection({ detail, overview }: WorkDetailSplitSect
   const overviewHtml = firstLegacyRichOverview(detail.contentBlocks)
   const showHtmlOverview = Boolean(overviewHtml)
 
+  // Split last image out to render full-width below the grid (matching video width)
+  const inColumnGallery = gallery.length > 1 ? gallery.slice(0, -1) : gallery
+  const lastImage = gallery.length > 1 ? gallery[gallery.length - 1] : null
+
   return (
     <section className="mt-12 sm:mt-14 md:mt-16 lg:mt-20">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-x-10 lg:gap-x-14 xl:gap-x-16">
@@ -108,9 +115,9 @@ export function WorkDetailSplitSection({ detail, overview }: WorkDetailSplitSect
             )}
           </div>
 
-          {gallery.length > 0 ? (
+          {inColumnGallery.length > 0 ? (
             <div className="flex flex-col gap-5 sm:gap-6">
-              {gallery.map((item, index) => (
+              {inColumnGallery.map((item, index) => (
                 <GalleryMedia key={`${item.kind}-${index}`} item={item} />
               ))}
             </div>
@@ -143,6 +150,14 @@ export function WorkDetailSplitSection({ detail, overview }: WorkDetailSplitSect
           />
         </div>
       </div>
+
+      {/* Last image — full width to match the video below */}
+      {lastImage ? (
+        <div className="mt-10 sm:mt-12 md:mt-14 lg:mt-16">
+          <GalleryMedia item={lastImage} />
+        </div>
+      ) : null}
+
       <WorkDetailStoryVideo detail={detail} />
     </section>
   )

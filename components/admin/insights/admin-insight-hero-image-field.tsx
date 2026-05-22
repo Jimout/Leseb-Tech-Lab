@@ -89,53 +89,52 @@ export function AdminInsightHeroImageField({
   const showUrlFallback = allowUrlInput
   const urlValue = mediaUrl.startsWith('data:') ? '' : mediaUrl
   const labelSuffix = required ? ' *' : ''
+  const fieldInputClass = 'border-white/15 bg-background/30 text-white'
 
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <Label className="text-white/80">
-            Hero image{labelSuffix}
-          </Label>
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="h-8 gap-1.5"
-              disabled={uploading}
-              asChild
-            >
-              <label htmlFor={fileInputId} className="cursor-pointer">
-                <Upload className="size-4" aria-hidden />
-                Choose file
-              </label>
-            </Button>
-            {mediaUrl ? (
-              <Button
-                type="button"
-                variant="destructive"
-                size="icon"
-                className="size-8"
-                disabled={uploading}
-                aria-label="Remove image"
-                title="Remove image"
-                onClick={() => {
-                  const oldPublicId = cloudinaryPublicIdFromUrl(mediaUrl)
-                  if (oldPublicId) void deleteMediaByPublicId(oldPublicId).catch(() => {})
-                  onMediaUrl('')
-                  if (fileRef.current) fileRef.current.value = ''
-                }}
-              >
-                <X className="size-4" aria-hidden />
-              </Button>
-            ) : null}
-          </div>
-        </div>
+        <Label className="text-white/80">
+          Hero image{labelSuffix}
+        </Label>
         <p className="text-xs text-white/55">
           Upload an image file (PNG, JPEG, WebP, GIF, or AVIF) for this{' '}
           {context === 'work' ? 'work entry' : 'insight'}.
         </p>
+        <div className="flex w-full flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            className="h-9 gap-1.5"
+            disabled={uploading}
+            asChild
+          >
+            <label htmlFor={fileInputId} className="cursor-pointer">
+              <Upload className="size-4" aria-hidden />
+              Choose file
+            </label>
+          </Button>
+          {mediaUrl ? (
+            <Button
+              type="button"
+              variant="destructive"
+              size="icon"
+              className="size-9 shrink-0"
+              disabled={uploading}
+              aria-label="Remove image"
+              title="Remove image"
+              onClick={() => {
+                const oldPublicId = cloudinaryPublicIdFromUrl(mediaUrl)
+                if (oldPublicId) void deleteMediaByPublicId(oldPublicId).catch(() => {})
+                onMediaUrl('')
+                if (fileRef.current) fileRef.current.value = ''
+              }}
+            >
+              <X className="size-4" aria-hidden />
+            </Button>
+          ) : null}
+        </div>
         <Input
           id={fileInputId}
           ref={fileRef}
@@ -146,7 +145,7 @@ export function AdminInsightHeroImageField({
         />
         <div
           className={cn(
-            'rounded-md border border-dashed px-3 py-3 text-xs transition-colors',
+            'w-full rounded-md border border-dashed px-3 py-3 text-xs transition-colors',
             dragOver ? 'border-white/40 bg-white/10 text-white/95' : 'border-white/15 text-white/60',
             uploading && 'pointer-events-none opacity-60',
           )}
@@ -166,14 +165,12 @@ export function AdminInsightHeroImageField({
         </div>
         {uploading ? <p className="text-xs text-white/60">Uploading… {progress}%</p> : null}
         {mediaUrl ? (
-          <div className="flex flex-wrap items-start gap-3">
-            <div className="relative h-28 w-44 shrink-0 overflow-hidden rounded-lg border border-white/15 bg-background/40">
-              <MediaRenderer
-                media={{ type: 'image', url: mediaUrl, alt: mediaAlt || 'Hero preview' }}
-                className="size-full object-cover"
-                variant="admin-preview"
-              />
-            </div>
+          <div className="relative h-28 w-full max-w-xs overflow-hidden rounded-lg border border-white/15 bg-background/40">
+            <MediaRenderer
+              media={{ type: 'image', url: mediaUrl, alt: mediaAlt || 'Hero preview' }}
+              className="size-full object-cover"
+              variant="admin-preview"
+            />
           </div>
         ) : null}
       </div>
@@ -185,7 +182,7 @@ export function AdminInsightHeroImageField({
             value={urlValue}
             onChange={(e) => onMediaUrl(e.target.value)}
             placeholder="/images/my-photo.jpg or https://…"
-            className="border-white/15 bg-background/30 text-white"
+            className={fieldInputClass}
           />
         </div>
       ) : null}
@@ -198,7 +195,7 @@ export function AdminInsightHeroImageField({
           value={mediaAlt}
           onChange={(e) => onMediaAlt(e.target.value)}
           placeholder="Describe the image for accessibility"
-          className="border-white/15 bg-background/30 text-white"
+          className={fieldInputClass}
           required={required}
         />
       </div>

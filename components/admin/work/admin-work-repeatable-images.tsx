@@ -6,9 +6,9 @@ import { MediaRenderer } from '@/components/media-renderer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { adminFileInputClass } from '@/lib/admin/admin-layout-classes'
 import { imageAltFromFileName } from '@/lib/media-assets'
 import { deleteMediaByPublicId, uploadMediaClient } from '@/lib/media-upload-client'
-import { cn } from '@/lib/utils'
 
 export type ImagePair = { src: string; alt: string; publicId?: string }
 
@@ -43,21 +43,18 @@ function AdminWorkImagePairRow({ value, onChange, onRemove }: RowProps) {
   return (
     <div className="space-y-3 rounded-lg border border-white/10 bg-background/20 p-4">
       <div className="space-y-2">
-        <Label className="text-white/70">Image file</Label>
-        <p className="text-xs text-white/50">Uploaded to Cloudinary; this entry stores URL metadata only.</p>
+        <Label className="text-white/80">Image file</Label>
+        <p className="text-xs text-white/45">Uploaded to Cloudinary; this entry stores URL metadata only.</p>
         <Input
           ref={fileRef}
           type="file"
           accept="image/*"
-          className={cn(
-            'cursor-pointer border-white/15 bg-background/30 text-sm text-white file:mr-3 file:rounded-md',
-            'file:border-0 file:bg-white/15 file:px-3 file:py-1.5 file:text-white',
-          )}
+          className={adminFileInputClass}
           onChange={onFile}
         />
       </div>
       <div className="space-y-2">
-        <Label className="text-white/70">Alt text</Label>
+        <Label className="text-white/80">Alt text</Label>
         <Input
           value={value.alt}
           onChange={(e) => onChange({ ...value, alt: e.target.value })}

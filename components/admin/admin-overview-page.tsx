@@ -6,8 +6,6 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
 import { DEFAULT_ADMIN_NAV_GROUPS } from '@/components/admin/admin-nav-config'
-import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
-import type { VisitEvent } from '@/lib/admin/visitors'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
@@ -116,8 +114,10 @@ function ShortcutCard({
         <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">{section}</p>
         <div className="mt-3 flex flex-1 items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-white sm:text-base">{title}</p>
-            {description ? <p className="mt-1.5 text-sm leading-relaxed text-white/55">{description}</p> : null}
+            <p className="break-words text-sm font-semibold text-white sm:text-base">{title}</p>
+            {description ? (
+              <p className="mt-1.5 break-words text-sm leading-relaxed text-white/55">{description}</p>
+            ) : null}
           </div>
           <ChevronRight
             className="mt-0.5 size-4 shrink-0 text-white/35 transition group-hover:translate-x-0.5 group-hover:text-white/65"
@@ -131,54 +131,35 @@ function ShortcutCard({
 
 export function AdminOverviewPage() {
   const [subscribers, setSubscribers] = useState<Array<{ createdAt: string }>>([])
-  const [visits, setVisits] = useState<VisitEvent[]>([])
+  const [visits, setVisits] = useState<Array<{ createdAtIso: string }>>([])
   const [insightsCount, setInsightsCount] = useState(0)
   const [workCount, setWorkCount] = useState(0)
 
   useEffect(() => {
-    void fetch('/api/admin/subscribers', { cache: 'no-store' })
-      .then(async (response) => {
-        if (!response.ok) return
-        const data = (await response.json()) as { rows: Array<{ createdAt: string }> }
-        setSubscribers(Array.isArray(data.rows) ? data.rows : [])
-      })
-      .catch(() => {})
+    let cancelled = false
 
-    void fetch('/api/admin/visits?limit=1000&range=7d', { cache: 'no-store' })
+    void fetch('/api/admin/overview-stats', { cache: 'no-store' })
       .then(async (response) => {
-        if (!response.ok) {
-          setVisits([])
-          return
+        if (!response.ok || cancelled) return
+        const data = (await response.json()) as {
+          insightsCount?: number
+          workCount?: number
+          subscribers?: Array<{ createdAt: string }>
+          visits?: Array<{ createdAtIso: string }>
         }
-        const data = (await response.json()) as { rows?: VisitEvent[] }
-        setVisits(Array.isArray(data.rows) ? data.rows : [])
+        if (cancelled) return
+        setInsightsCount(typeof data.insightsCount === 'number' ? data.insightsCount : 0)
+        setWorkCount(typeof data.workCount === 'number' ? data.workCount : 0)
+        setSubscribers(Array.isArray(data.subscribers) ? data.subscribers : [])
+        setVisits(Array.isArray(data.visits) ? data.visits : [])
       })
-      .catch(() => setVisits([]))
-
-    const sessionHeader = getSessionHeaderFromStorage()
-    if (!sessionHeader) return
-
-    void fetch('/api/admin/insights', {
-      cache: 'no-store',
-      headers: { 'x-session': sessionHeader },
-    })
-      .then(async (response) => {
-        if (!response.ok) return
-        const data = (await response.json()) as { insights?: unknown[] }
-        setInsightsCount(Array.isArray(data.insights) ? data.insights.length : 0)
+      .catch(() => {
+        if (!cancelled) setVisits([])
       })
-      .catch(() => {})
 
-    void fetch('/api/admin/work-rows', {
-      cache: 'no-store',
-      headers: { 'x-session': sessionHeader },
-    })
-      .then(async (response) => {
-        if (!response.ok) return
-        const data = (await response.json()) as { rows?: unknown[] }
-        setWorkCount(Array.isArray(data.rows) ? data.rows.length : 0)
-      })
-      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const last7 = useMemo(() => lastNDaysKeys(7), [])
@@ -217,14 +198,14 @@ export function AdminOverviewPage() {
       title="Overview"
       description="Activity at a glance and shortcuts to every section in the dashboard."
     >
-      <div className="space-y-6 lg:space-y-8">
-        <Card className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-          <div className="grid grid-cols-2 lg:grid-cols-4">
+      <div className="min-w-0 space-y-6 lg:space-y-8">
+        <Card className="min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+          <div className="grid min-w-0 grid-cols-2 lg:grid-cols-4">
             {KPI_ITEMS.map((item, index) => (
               <div
                 key={item.key}
                 className={cn(
-                  'px-4 py-4 sm:px-5 sm:py-5',
+                  'min-w-0 px-4 py-4 sm:px-5 sm:py-5',
                   index % 2 === 0 && 'border-r border-white/10',
                   index < 2 && 'border-b border-white/10 lg:border-b-0',
                   index < 3 && 'lg:border-r lg:border-white/10',
@@ -238,16 +219,16 @@ export function AdminOverviewPage() {
           </div>
         </Card>
 
-        <Card className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
+        <Card className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-white/50">Activity</h2>
-          <div className="mt-4 grid gap-6 sm:grid-cols-2 sm:gap-8">
+          <div className="mt-4 grid min-w-0 gap-6 sm:grid-cols-2 sm:gap-8">
             <BarsChart label="Visits" values={visitsSeries} />
             <BarsChart label="New subscribers" values={subsSeries} />
           </div>
           <p className="mt-4 text-xs text-white/40">Last 7 days</p>
         </Card>
 
-        <section aria-labelledby="overview-shortcuts-heading">
+        <section className="min-w-0" aria-labelledby="overview-shortcuts-heading">
           <h2
             id="overview-shortcuts-heading"
             className="text-sm font-semibold uppercase tracking-wider text-white/50"
@@ -258,7 +239,7 @@ export function AdminOverviewPage() {
             {QUICK_SECTIONS.map((section) => (
               <div key={section.title}>
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40">{section.title}</h3>
-                <ul className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+                <ul className="mt-3 grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
                   {section.links.map((link) => (
                     <li key={link.href} className="min-h-0">
                       <ShortcutCard {...link} section={section.title} />

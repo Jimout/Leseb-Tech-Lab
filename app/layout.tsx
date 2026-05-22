@@ -69,7 +69,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className="2xl:px-[160px] 3xl:px-[200px] 4xl:px-[240px] font-sans antialiased"
+        className="font-sans antialiased"
       >
         <GlobalJsonLd />
         <AuthSessionProvider>

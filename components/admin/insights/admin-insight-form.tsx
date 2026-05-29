@@ -18,7 +18,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -35,6 +34,7 @@ import { slugifyTitle } from '@/lib/slug-format'
 import { cn } from '@/lib/utils'
 import type { MediaAsset } from '@/lib/media-assets'
 
+import { buildInsightPayload, insightRowSnapshot } from './admin-insight-form-helpers'
 import { emptyInsight, type InsightRow } from './admin-insight-fields'
 
 function defaultArticle(): InsightArticle {
@@ -46,6 +46,18 @@ function defaultArticle(): InsightArticle {
         blocks: [{ type: 'p', html: '<p></p>' }],
       },
     ],
+  }
+}
+
+function normalizeInsightRow(initial: InsightRow): InsightRow {
+  return {
+    ...emptyInsight(),
+    ...initial,
+    slug: initial.slug || (!initial.id ? slugifyTitle(initial.title) : ''),
+    filterIds: [...initial.filterIds],
+    bodyMode: initial.bodyMode ?? (initial.article ? 'structured' : 'simple'),
+    simpleBodyHtml: initial.simpleBodyHtml ?? '<p></p>',
+    article: initial.article,
   }
 }
 
@@ -63,7 +75,7 @@ export function AdminInsightFormPage({
   backHref: string
   submitLabel: string
   initial: InsightRow
-  onSubmit: (value: InsightRow) => void
+  onSubmit: (value: InsightRow) => Promise<boolean> | boolean
   confirmUpdate?: boolean
 }) {
   const router = useRouter()
@@ -73,28 +85,15 @@ export function AdminInsightFormPage({
     [settings.portfolioCatalogFilters.workInsights],
   )
   const slugSyncedRef = React.useRef(!initial.id)
+  const savedSnapshotRef = React.useRef(insightRowSnapshot(normalizeInsightRow(initial)))
 
-  const [row, setRow] = React.useState<InsightRow>(() => ({
-    ...emptyInsight(),
-    ...initial,
-    slug: initial.slug || (!initial.id ? slugifyTitle(initial.title) : ''),
-    filterIds: [...initial.filterIds],
-    bodyMode: initial.bodyMode ?? (initial.article ? 'structured' : 'simple'),
-    simpleBodyHtml: initial.simpleBodyHtml ?? '<p></p>',
-    article: initial.article ?? undefined,
-  }))
+  const [row, setRow] = React.useState<InsightRow>(() => normalizeInsightRow(initial))
 
   React.useEffect(() => {
     slugSyncedRef.current = !initial.id
-    setRow({
-      ...emptyInsight(),
-      ...initial,
-      slug: initial.slug || (!initial.id ? slugifyTitle(initial.title) : ''),
-      filterIds: [...initial.filterIds],
-      bodyMode: initial.bodyMode ?? (initial.article ? 'structured' : 'simple'),
-      simpleBodyHtml: initial.simpleBodyHtml ?? '<p></p>',
-      article: initial.article,
-    })
+    const next = normalizeInsightRow(initial)
+    savedSnapshotRef.current = insightRowSnapshot(next)
+    setRow(next)
   }, [initial])
 
   React.useEffect(() => {
@@ -103,6 +102,12 @@ export function AdminInsightFormPage({
   }, [row.title])
 
   const mode: InsightBodyMode = row.bodyMode ?? 'simple'
+  const changed = insightRowSnapshot(row) !== savedSnapshotRef.current
+
+  const [submitError, setSubmitError] = React.useState<string | null>(null)
+  const [submitting, setSubmitting] = React.useState(false)
+  const [discardOpen, setDiscardOpen] = React.useState(false)
+  const [saveOpen, setSaveOpen] = React.useState(false)
 
   const setMode = (m: InsightBodyMode) => {
     setRow((r) => {
@@ -120,38 +125,35 @@ export function AdminInsightFormPage({
       return { ...r, filterIds }
     })
   }
-  const saveInsight = () => {
-    if (!String(row.title || '').trim()) return
-    const id = String(row.id || '').trim()
-    const slug = slugifyTitle(String(row.slug || '').trim() || row.title)
-    const base: InsightRow = {
-      id,
-      publicId: row.publicId,
-      slug,
-      href: insightHref(slug),
-      date: row.date,
-      dateIso: row.dateIso,
-      title: row.title,
-      description: row.description,
-      heroMedia: row.heroMedia,
-      mediaAssets: row.mediaAssets,
-      filterIds: row.filterIds,
-      bodyMode: mode,
+
+  const saveInsight = async () => {
+    if (!changed) return
+    const payload = buildInsightPayload(row)
+    if (!payload) return
+
+    setSubmitError(null)
+    setSubmitting(true)
+    const ok = await onSubmit(payload)
+    setSubmitting(false)
+    if (!ok) {
+      setSubmitError('Failed to save this insight. Please try again.')
+      return
     }
-    const payload: InsightRow =
-      mode === 'structured'
-        ? {
-            ...base,
-            article: row.article ?? defaultArticle(),
-          }
-        : isInsightHtmlEmpty(row.simpleBodyHtml)
-          ? { ...base }
-          : {
-              ...base,
-              simpleBodyHtml: row.simpleBodyHtml ?? '<p></p>',
-            }
-    onSubmit(payload)
+
+    savedSnapshotRef.current = insightRowSnapshot(payload)
     router.push(backHref)
+  }
+
+  const leaveWithoutSaving = () => {
+    router.push(backHref)
+  }
+
+  const requestLeave = () => {
+    if (!changed) {
+      leaveWithoutSaving()
+      return
+    }
+    setDiscardOpen(true)
   }
 
   return (
@@ -159,9 +161,15 @@ export function AdminInsightFormPage({
       title={title}
       description={description}
       right={
-        <Button asChild variant="secondary">
-          <Link href={backHref}>Back</Link>
-        </Button>
+        confirmUpdate ? (
+          <Button type="button" variant="secondary" onClick={requestLeave}>
+            Back
+          </Button>
+        ) : (
+          <Button asChild variant="secondary">
+            <Link href={backHref}>Back</Link>
+          </Button>
+        )
       }
     >
       <form
@@ -169,7 +177,7 @@ export function AdminInsightFormPage({
         onSubmit={(e) => {
           e.preventDefault()
           if (confirmUpdate) return
-          saveInsight()
+          void saveInsight()
         }}
       >
         <div className="space-y-2">
@@ -322,33 +330,45 @@ export function AdminInsightFormPage({
           ) : null}
         </div>
 
+        {submitError ? <p className="text-sm text-red-300">{submitError}</p> : null}
+
         {confirmUpdate ? (
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button type="button" variant="secondary" className="w-full sm:w-auto">
-                  Cancel
-                </Button>
-              </AlertDialogTrigger>
+          <>
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+              <Button
+                type="button"
+                variant="secondary"
+                className="w-full sm:w-auto"
+                onClick={requestLeave}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                className="w-full sm:w-auto"
+                disabled={!changed || submitting}
+                onClick={() => setSaveOpen(true)}
+              >
+                {submitting ? 'Saving...' : submitLabel}
+              </Button>
+            </div>
+
+            <AlertDialog open={discardOpen} onOpenChange={setDiscardOpen}>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Cancel editing?</AlertDialogTitle>
+                  <AlertDialogTitle>Leave without saving?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Unsaved insight changes will be lost. You can return and edit this insight anytime.
+                    You have unsaved changes. Discard them and return to the insights list, or keep editing.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Keep editing</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => router.push(backHref)}>Discard changes</AlertDialogAction>
+                  <AlertDialogAction onClick={leaveWithoutSaving}>Discard changes</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button type="button" className="w-full sm:w-auto">
-                  {submitLabel}
-                </Button>
-              </AlertDialogTrigger>
+
+            <AlertDialog open={saveOpen} onOpenChange={setSaveOpen}>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Update this insight?</AlertDialogTitle>
@@ -357,19 +377,19 @@ export function AdminInsightFormPage({
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={saveInsight}>Update</AlertDialogAction>
+                  <AlertDialogCancel>Keep editing</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => void saveInsight()}>Update</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </div>
+          </>
         ) : (
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             <Button type="button" variant="secondary" className="w-full sm:w-auto" asChild>
               <Link href={backHref}>Cancel</Link>
             </Button>
-            <Button type="submit" className="w-full sm:w-auto">
-              {submitLabel}
+            <Button type="submit" className="w-full sm:w-auto" disabled={submitting}>
+              {submitting ? 'Saving...' : submitLabel}
             </Button>
           </div>
         )}

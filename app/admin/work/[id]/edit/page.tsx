@@ -1,10 +1,10 @@
 import { AdminWorkEditPage } from '@/components/admin/work/admin-work-edit-page'
 
-export default function AdminWorkEditRoute({
+export default async function AdminWorkEditRoute({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  return <AdminWorkEditPage id={params.id} />
+  const { id } = await params
+  return <AdminWorkEditPage id={id} />
 }
-

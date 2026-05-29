@@ -136,7 +136,7 @@ export function InsightsAdminPage() {
                     <TableCell className="whitespace-nowrap text-right">
                       <div className="inline-flex items-center gap-2">
                         <Button asChild variant="secondary" size="sm">
-                          <Link href={`/admin/insights/edit?id=${encodeURIComponent(it.id)}`}>Edit</Link>
+                          <Link href={`/leseb-admin/insights/${encodeURIComponent(it.id)}/edit`}>Edit</Link>
                         </Button>
                         <ConfirmDeleteDialog
                           title="Delete insight?"

@@ -1,10 +1,10 @@
 import { AdminInsightEditPage } from '@/components/admin/insights/admin-insight-edit-page'
 
-export default function AdminInsightEditRoute({
+export default async function AdminInsightEditRoute({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  return <AdminInsightEditPage id={params.id} />
+  const { id } = await params
+  return <AdminInsightEditPage id={id} />
 }
-

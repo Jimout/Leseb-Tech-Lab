@@ -130,7 +130,7 @@ export function WorksAdminPage() {
                     <TableCell className="whitespace-nowrap text-right">
                       <div className="inline-flex items-center gap-2">
                         <Button asChild variant="secondary" size="sm">
-                          <Link href={`/admin/work/edit?id=${encodeURIComponent(it.id)}`}>Edit</Link>
+                          <Link href={`/leseb-admin/work/${encodeURIComponent(it.id)}/edit`}>Edit</Link>
                         </Button>
                         <ConfirmDeleteDialog
                           title="Delete work?"

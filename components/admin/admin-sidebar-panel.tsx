@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { useAdminAuth } from '@/hooks/use-admin-auth'
-import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
 import {
   adminSidebarAccordionItemClass,
   adminSidebarAccordionTriggerClass,
@@ -32,34 +31,7 @@ export function AdminSidebarPanel({
 }) {
   const pathname = usePathname()
   const { logout } = useAdminAuth()
-  const [groups, setGroups] = React.useState<AdminNavGroup[]>(DEFAULT_ADMIN_NAV_GROUPS)
-
-  React.useEffect(() => {
-    let cancelled = false
-    void (async () => {
-      try {
-        const sessionHeader = getSessionHeaderFromStorage()
-        if (!sessionHeader) return
-
-        const response = await fetch('/api/admin/sidebar-menu', {
-          cache: 'no-store',
-          headers: { 'x-session': sessionHeader },
-        })
-        if (!response.ok) return
-
-        const payload = (await response.json()) as { groups?: AdminNavGroup[] }
-        if (!cancelled && Array.isArray(payload.groups) && payload.groups.length > 0) {
-          setGroups(payload.groups)
-        }
-      } catch {
-        // Keep static fallback when API is unavailable.
-      }
-    })()
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
+  const [groups] = React.useState<AdminNavGroup[]>(DEFAULT_ADMIN_NAV_GROUPS)
 
   const activeGroups = React.useMemo(() => {
     const path = pathname ?? ''

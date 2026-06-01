@@ -7,8 +7,6 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 const nextConfig = {
   // Monorepo-style lockfiles one level up confuse file tracing; pin the app root.
   outputFileTracingRoot: projectRoot,
-  // Keep Prisma + query engine out of per-route bundles (fixes dev "engine not found" on /insights/[slug]).
-  serverExternalPackages: ['@prisma/client', 'prisma', '@prisma/engines'],
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns', 'react-icons'],
   },

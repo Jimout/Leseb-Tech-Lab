@@ -1,6 +1,6 @@
 /**
  * Central site URL and identity for canonical URLs, sitemap, robots, and Open Graph.
- * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://your-app.vercel.app).
+ * Defaults to localhost in dev and VERCEL_URL when deployed; optional override via NEXT_PUBLIC_SITE_URL.
  */
 import {
   SITE_BRAND_FULL_NAME,

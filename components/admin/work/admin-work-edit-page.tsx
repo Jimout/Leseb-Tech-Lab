@@ -7,7 +7,8 @@ import { AdminLoadingScreen } from '@/components/admin/admin-loading-screen'
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
 import { AdminWorkFormPage } from '@/components/admin/work/admin-work-form-page'
 import { useWorkAdminCollection } from '@/hooks/use-work-admin-collection'
-import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
+import { readWorkRowsFromStorage } from '@/lib/frontend-content'
+import { isAdminLoggedIn } from '@/lib/frontend-auth'
 import { Button } from '@/components/ui/button'
 
 import { emptyWork } from './admin-work-fields'
@@ -30,24 +31,15 @@ export function AdminWorkEditPage({ id }: { id: string }) {
     if (!id || exists || initialFromCollection) return
     if (fallback || fallbackLoading) return
 
-    const sessionHeader = getSessionHeaderFromStorage()
-    if (!sessionHeader) return
+    if (!isAdminLoggedIn()) return
 
     let cancelled = false
     setFallbackLoading(true)
-    void fetch(`/api/admin/work-rows/${encodeURIComponent(id)}`, {
-      cache: 'no-store',
-      headers: { 'x-session': sessionHeader },
-    })
-      .then(async (res) => {
-        if (!res.ok || cancelled) return
-        const data = (await res.json()) as { row?: WorkRow }
-        if (!cancelled && data.row?.id) setFallback(data.row)
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (!cancelled) setFallbackLoading(false)
-      })
+    const row = readWorkRowsFromStorage().find((it) => it.id === id) ?? null
+    if (!cancelled) {
+      if (row) setFallback(row)
+      setFallbackLoading(false)
+    }
 
     return () => {
       cancelled = true

@@ -65,43 +65,16 @@ export function ContactForm({ className }: ContactFormProps) {
   async function onSubmit(values: DynamicValues) {
     setSubmitting(true)
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      })
-      if (!res.ok) throw new Error('Request failed')
-
-      const wantsNewsletter = Boolean(values.newsletter)
-      const subscriberEmail = typeof values.email === 'string' ? values.email.trim() : ''
-      if (wantsNewsletter && subscriberEmail) {
-        try {
-          await fetch('/api/newsletter', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: subscriberEmail,
-              notifyWork: true,
-              notifyInsights: true,
-              notifyImportant: true,
-            }),
-          })
-        } catch {
-          /* Message was sent; newsletter signup is best-effort. */
-        }
-      }
-
+      await new Promise((resolve) => setTimeout(resolve, 400))
       toast({
         title: 'Message sent',
-        description: wantsNewsletter
-          ? 'Thanks, we will get back to you soon. Check your inbox to confirm our newsletter.'
-          : 'Thanks, we will get back to you soon.',
+        description: 'Thanks for reaching out. This demo site stores messages locally only.',
       })
-      form.reset()
+      form.reset(defaultValues)
     } catch {
       toast({
-        title: 'Something went wrong',
-        description: 'Please try again in a moment.',
+        title: 'Error',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     } finally {

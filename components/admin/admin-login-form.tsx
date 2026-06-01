@@ -1,23 +1,25 @@
 'use client'
 
 import { Eye, EyeOff } from 'lucide-react'
-import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
+import { useAdminAuthContext } from '@/components/providers/admin-auth-provider'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Spinner } from '@/components/ui/spinner'
 import { safeAdminCallbackUrl } from '@/lib/admin/admin-routes'
-import { saveSessionHeaderToStorage } from '@/lib/session-header-client'
+import { defaultAdminAccount, loginAdmin } from '@/lib/frontend-auth'
 
 export function AdminLoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { refresh } = useAdminAuthContext()
 
-  const [email, setEmail] = useState('admin@leseb.com')
-  const [password, setPassword] = useState('admin123')
+  const defaults = defaultAdminAccount()
+  const [email, setEmail] = useState(defaults.email)
+  const [password, setPassword] = useState(defaults.password)
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -33,39 +35,13 @@ export function AdminLoginForm() {
         setError(null)
         setSubmitting(true)
         try {
-          const result = await signIn('credentials', {
-            email: email.trim(),
-            password,
-            redirect: false,
-          })
-          if (result?.error) {
+          const ok = loginAdmin(email.trim(), password)
+          if (!ok) {
             setError('Invalid email or password.')
             return
           }
-          if (result?.ok) {
-            const headerSessionResponse = await fetch('/api/login', {
-              method: 'POST',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({
-                email: email.trim(),
-                password,
-              }),
-            })
-            if (!headerSessionResponse.ok) {
-              setError('Signed in, but failed to create header session.')
-              return
-            }
-            const sessionHeader = headerSessionResponse.headers.get('x-session')
-            if (!sessionHeader) {
-              setError('Signed in, but no header session was returned.')
-              return
-            }
-            saveSessionHeaderToStorage(sessionHeader)
-            router.push(
-              safeAdminCallbackUrl(searchParams.get('callbackUrl')),
-            )
-            router.refresh()
-          }
+          refresh()
+          router.push(safeAdminCallbackUrl(searchParams.get('callbackUrl')))
         } catch {
           setError('Something went wrong. Try again.')
         } finally {
@@ -84,11 +60,6 @@ export function AdminLoginForm() {
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border-white/15 bg-white/5 text-white placeholder:text-white/40"
-          // Improve readability on 2K/4K by making inputs slightly taller.
-          // (Input component already sets base height/text, these override it.)
-          //
-          // Note: Tailwind merges these className strings left-to-right; later classes win.
           className="border-white/15 bg-white/5 text-white placeholder:text-white/40 2xl:h-11 4xl:h-12 2xl:py-1.5 4xl:py-2"
           placeholder="you@example.com"
           disabled={submitting}
@@ -148,19 +119,17 @@ export function AdminLoginForm() {
       <button
         type="button"
         onClick={() => {
-          // In this admin setup, credentials are stored locally per browser.
-          // So "forgot password" resets this browser back to default credentials.
           setError(null)
-          setEmail('admin@leseb.com')
-          setPassword('admin123')
+          const next = defaultAdminAccount()
+          setEmail(next.email)
+          setPassword(next.password)
         }}
         className="w-full text-center text-[11px] text-white/65 underline underline-offset-4 hover:text-white disabled:cursor-not-allowed disabled:opacity-50 2xl:text-xs 4xl:text-sm"
       >
         Forgot password?
       </button>
       <p className="text-xs text-white/55 2xl:text-sm 4xl:text-base">
-        Default local login: admin@leseb.com / admin123 (from .env). Restart the dev
-        server after changing .env.
+        Default login: admin@leseb.com / admin123. Credentials are stored in this browser only.
       </p>
     </form>
   )

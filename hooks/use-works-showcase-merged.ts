@@ -3,8 +3,10 @@
 import * as React from 'react'
 
 import { LEGACY_CATALOG_FILTER_IDS, migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
+import { readWorkRowsFromStorage } from '@/lib/frontend-content'
 import type { ShowcaseWork } from '@/lib/works-showcase-data'
 import { SHOWCASE_WORKS } from '@/lib/works-showcase-data'
+import type { WorkRow } from '@/lib/work-admin-types'
 
 const seedByKey = new Map<string, ShowcaseWork>(
   SHOWCASE_WORKS.flatMap((work) => [
@@ -35,31 +37,24 @@ function enrichWorkRow(row: ShowcaseWork): ShowcaseWork {
   }
 }
 
-function mergeWorksFromApi(rows: ShowcaseWork[]): ShowcaseWork[] {
+function stripWorkRowToShowcase(row: WorkRow): ShowcaseWork {
+  const { detail: _d, ...card } = row
+  return card
+}
+
+function mergeWorksFromStorage(rows: WorkRow[]): ShowcaseWork[] {
   if (rows.length === 0) return [...SHOWCASE_WORKS]
-  if (rows.every(isLegacyArchitectureRow)) return [...SHOWCASE_WORKS]
-  return rows.map(enrichWorkRow)
+  if (rows.every((row) => isLegacyArchitectureRow(stripWorkRowToShowcase(row)))) {
+    return [...SHOWCASE_WORKS]
+  }
+  return rows.map((row) => enrichWorkRow(stripWorkRowToShowcase(row)))
 }
 
 export function useWorksShowcaseMerged(): ShowcaseWork[] {
   const [works, setWorks] = React.useState<ShowcaseWork[]>(() => [...SHOWCASE_WORKS])
 
   React.useEffect(() => {
-    let cancelled = false
-    void (async () => {
-      try {
-        const res = await fetch('/api/work-rows', { cache: 'no-store' })
-        if (!res.ok) return
-        const json = (await res.json()) as { rows?: ShowcaseWork[] }
-        if (cancelled) return
-        if (Array.isArray(json.rows)) setWorks(mergeWorksFromApi(json.rows))
-      } catch {
-        // Keep seed fallback.
-      }
-    })()
-    return () => {
-      cancelled = true
-    }
+    setWorks(mergeWorksFromStorage(readWorkRowsFromStorage()))
   }, [])
 
   return works

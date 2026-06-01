@@ -44,7 +44,7 @@ function AdminWorkImagePairRow({ value, onChange, onRemove }: RowProps) {
     <div className="space-y-3 rounded-lg border border-white/10 bg-background/20 p-4">
       <div className="space-y-2">
         <Label className="text-white/80">Image file</Label>
-        <p className="text-xs text-white/45">Uploaded to Cloudinary; this entry stores URL metadata only.</p>
+        <p className="text-xs text-white/45">Images are saved in your browser as part of this work entry.</p>
         <Input
           ref={fileRef}
           type="file"

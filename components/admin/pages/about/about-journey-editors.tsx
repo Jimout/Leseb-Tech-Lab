@@ -490,21 +490,19 @@ export function AboutJourneyEditors({
     setCvUploadMessage(null)
     setCvUploading(true)
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-
-      const res = await fetch('/api/admin/uploads/cv', {
-        method: 'POST',
-        body: formData,
+      const url = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(String(reader.result ?? ''))
+        reader.onerror = () => reject(new Error('read failed'))
+        reader.readAsDataURL(file)
       })
-      const data = (await res.json()) as { url?: string; error?: string }
-      if (!res.ok || !data.url) {
-        setCvUploadMessage(data.error || 'CV upload failed.')
+      if (!url) {
+        setCvUploadMessage('CV upload failed.')
         return
       }
 
-      onChange({ ...value, cvHref: data.url })
-      setCvUploadMessage('CV uploaded. Link updated automatically.')
+      onChange({ ...value, cvHref: url })
+      setCvUploadMessage('CV stored locally. Link updated automatically.')
     } catch {
       setCvUploadMessage('CV upload failed. Please try again.')
     } finally {

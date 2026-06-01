@@ -25,7 +25,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { AdminInsightDateFields } from '@/components/admin/insights/admin-insight-date-fields'
 import { defaultInsightDates, formatInsightDisplayDate, buildInsightDateIso, parseInsightDateIso } from '@/lib/admin/insight-form-dates'
-import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
+import { createInsightInStorage } from '@/lib/frontend-content'
+import { isAdminLoggedIn } from '@/lib/frontend-auth'
 import { adminPanelSurfaceClass } from '@/lib/admin/admin-layout-classes'
 import {
   insightCreateFormSnapshot,
@@ -34,7 +35,6 @@ import {
 } from '@/lib/admin/insight-create-form-dirty'
 import { buildWorkInsightFilterChecklistOptions } from '@/lib/portfolio-catalog-filters'
 import { isInsightHtmlEmpty } from '@/lib/sanitize-insight-html'
-import { createNotificationEventClient } from '@/lib/notifications/client'
 import { insightHref } from '@/lib/insights-showcase-data'
 import { useSiteSettings } from '@/hooks/use-site-settings'
 import type { ShowcaseInsight } from '@/lib/insights-showcase-data'
@@ -179,8 +179,7 @@ export function AdminInsightCreateForm({ onCreated, onDirtyChange, className }: 
       simpleBodyHtml: bodyHtml,
     }
 
-    const sessionHeader = getSessionHeaderFromStorage()
-    if (!sessionHeader) {
+    if (!isAdminLoggedIn()) {
       toast({
         title: 'Session expired',
         description: 'Sign in again to publish.',
@@ -191,36 +190,7 @@ export function AdminInsightCreateForm({ onCreated, onDirtyChange, className }: 
 
     setSubmitting(true)
     try {
-      const res = await fetch('/api/admin/insights', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-session': sessionHeader,
-        },
-        body: JSON.stringify(payload),
-      })
-
-      if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null
-        toast({
-          title: 'Could not publish',
-          description: data?.error ?? 'Check your connection and try again.',
-          variant: 'destructive',
-        })
-        return
-      }
-
-      const data = (await res.json()) as { insight?: ShowcaseInsight }
-      const created = data.insight ?? payload
-
-      void createNotificationEventClient({
-        type: 'INSIGHT_PUBLISHED',
-        title: `New insight: ${created.title}`,
-        summary: created.description || undefined,
-        url: `/insights/${encodeURIComponent(created.slug)}`,
-        entityId: created.id,
-      })
-
+      const created = createInsightInStorage(payload as ShowcaseInsight)
       toast({ title: 'Insight published', description: created.title })
       onCreated?.(created)
       resetForm()

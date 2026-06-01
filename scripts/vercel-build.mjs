@@ -1,6 +1,4 @@
-/**
- * Vercel production build: apply migrations, seed default admin in DB, then next build.
- */
+/** Production build (frontend-only). */
 import { spawnSync } from 'node:child_process'
 
 function run(command, args) {
@@ -14,15 +12,5 @@ function run(command, args) {
   }
 }
 
-if (process.env.DATABASE_URL?.trim()) {
-  console.log('[vercel-build] Applying Prisma migrations…')
-  run('npx', ['prisma', 'migrate', 'deploy'])
-
-  console.log('[vercel-build] Ensuring default admin user in database…')
-  run('npx', ['tsx', 'scripts/ensure-admin.ts'])
-} else {
-  console.warn('[vercel-build] DATABASE_URL not set — skipping migrate and admin seed.')
-}
-
-console.log('[vercel-build] Running Next.js build…')
+console.log('[build] Running Next.js build (frontend-only)…')
 run('node', ['scripts/run-next.mjs', 'build', '--webpack'])

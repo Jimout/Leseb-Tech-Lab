@@ -68,7 +68,7 @@ export function InsightsAdminPage() {
   return (
     <AdminPageShell
       title="Insights"
-      description="Create and edit insights stored in the site database."
+      description="Create and edit insights stored in this browser."
       right={
         <Button asChild>
           <Link href="/leseb-admin/insights/create">Add insight</Link>
@@ -140,7 +140,7 @@ export function InsightsAdminPage() {
                         </Button>
                         <ConfirmDeleteDialog
                           title="Delete insight?"
-                          description="This removes the insight from the site database."
+                          description="This removes the insight from your saved content."
                           onConfirm={() => {
                             void remove(it.id)
                           }}
@@ -173,7 +173,7 @@ export function InsightsAdminPage() {
           />
         </div>
         <p className="mt-4 text-xs text-white/60">
-          Changes sync to the database and appear on the public insights pages after save.
+          Changes are saved in this browser and appear on the public site after save.
         </p>
         {error ? <p className="mt-2 text-sm text-red-300">{error}</p> : null}
       </div>

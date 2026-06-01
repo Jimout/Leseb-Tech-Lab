@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import { LEGACY_CATALOG_FILTER_IDS, migrateCatalogFilterIds } from '@/lib/catalog-filter-ids'
+import { readInsightsFromStorage } from '@/lib/frontend-content'
 import type { ShowcaseInsight } from '@/lib/insights-showcase-data'
 import { SHOWCASE_INSIGHTS } from '@/lib/insights-showcase-data'
 
@@ -39,7 +40,7 @@ function enrichInsightRow(row: ShowcaseInsight): ShowcaseInsight {
   }
 }
 
-function mergeInsightsFromApi(rows: ShowcaseInsight[]): ShowcaseInsight[] {
+function mergeInsightsFromStorage(rows: ShowcaseInsight[]): ShowcaseInsight[] {
   if (rows.length === 0) return [...SHOWCASE_INSIGHTS]
   if (rows.length === 1 && (rows[0]?.slug === 'hello' || rows[0]?.slug === 'insight')) {
     return [...SHOWCASE_INSIGHTS]
@@ -52,21 +53,7 @@ export function useInsightsShowcaseMerged(): ShowcaseInsight[] {
   const [insights, setInsights] = React.useState<ShowcaseInsight[]>(() => [...SHOWCASE_INSIGHTS])
 
   React.useEffect(() => {
-    let cancelled = false
-    void (async () => {
-      try {
-        const res = await fetch('/api/insights', { cache: 'no-store' })
-        if (!res.ok) return
-        const json = (await res.json()) as { insights?: ShowcaseInsight[] }
-        if (cancelled) return
-        if (Array.isArray(json.insights)) setInsights(mergeInsightsFromApi(json.insights))
-      } catch {
-        // Keep seed fallback.
-      }
-    })()
-    return () => {
-      cancelled = true
-    }
+    setInsights(mergeInsightsFromStorage(readInsightsFromStorage()))
   }, [])
 
   return insights

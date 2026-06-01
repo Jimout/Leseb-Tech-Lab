@@ -1,9 +1,11 @@
+'use client'
+
 import { ContactPageBody } from '@/components/contact-page-body'
 import { ContactPageHero } from '@/components/contact-page-hero'
-import { getSiteSettingsFromDb } from '@/lib/site-settings-db'
+import { useSiteSettings } from '@/hooks/use-site-settings'
 
-export async function ContactPageContent() {
-  const settings = await getSiteSettingsFromDb()
+export function ContactPageContent() {
+  const { settings } = useSiteSettings()
 
   return (
     <>

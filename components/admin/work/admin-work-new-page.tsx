@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
-import { createNotificationEventClient } from '@/lib/notifications/client'
 import { createWorkRowClient } from '@/lib/work-admin-create-client'
 import type { WorkRow } from '@/lib/work-admin-types'
 
@@ -75,21 +74,7 @@ export function AdminWorkNewPage() {
     }
 
     const created = result.row
-    void createNotificationEventClient({
-      type: 'WORK_PUBLISHED',
-      title: `New work: ${created.title}`,
-      summary: created.category || undefined,
-      url: `/work/${encodeURIComponent(created.slug || created.title)}`,
-      entityId: created.id,
-    }).then((notifyResult) => {
-      if (!notifyResult.ok) {
-        toast({
-          title: 'Published, but notification failed',
-          description: notifyResult.error ?? `Status: ${notifyResult.status || 'network error'}`,
-          variant: 'destructive',
-        })
-      }
-    })
+    toast({ title: 'Work published', description: created.title })
 
     router.push('/leseb-admin/work')
     return true

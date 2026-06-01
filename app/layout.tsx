@@ -1,15 +1,13 @@
 import type { Metadata, Viewport } from 'next'
 import { DeferredAnalytics } from '@/components/deferred-analytics'
 import { GlobalJsonLd } from '@/components/seo/global-json-ld'
-import { AuthSessionProvider } from '@/components/providers/auth-session-provider'
+import { AdminAuthProvider } from '@/components/providers/admin-auth-provider'
 import { SiteSettingsProvider } from '@/components/providers/site-settings-provider'
-import { VisitTracker } from '@/components/visit-tracker'
-import { WebVitalsReporter } from '@/components/web-vitals-reporter'
 import './globals.css'
+import { DEFAULT_SITE_SETTINGS } from '@/lib/admin/site-settings'
 import { buildDefaultOpenGraph, buildDefaultTwitter, rootAuthorMetadata } from '@/lib/seo/metadata'
 import { getSiteUrl, siteSeoConfig } from '@/lib/seo/site-config'
 import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
-import { getSiteSettingsFromDb } from '@/lib/site-settings-db'
 
 
 export const viewport: Viewport = {
@@ -59,26 +57,22 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const initialSiteSettings = await getSiteSettingsFromDb()
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className="font-sans antialiased"
       >
         <GlobalJsonLd />
-        <AuthSessionProvider>
-          <SiteSettingsProvider initialSettings={initialSiteSettings}>
+        <AdminAuthProvider>
+          <SiteSettingsProvider initialSettings={DEFAULT_SITE_SETTINGS}>
             {children}
-            <VisitTracker />
-            <WebVitalsReporter />
           </SiteSettingsProvider>
-        </AuthSessionProvider>
+        </AdminAuthProvider>
         <DeferredAnalytics />
       </body>
     </html>

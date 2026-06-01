@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 
+import { readWorkRowsFromStorage } from '@/lib/frontend-content'
 import { resolveWorkDetailFromShowcase } from '@/lib/work-detail-resolve'
 import type { ResolvedWorkDetail } from '@/lib/work-detail-types'
 import { mergeWorkDetailRow } from '@/lib/work-detail-merge'
@@ -21,32 +22,16 @@ export function useWorkDetailForSlug(
   }, [serverDetail])
 
   React.useEffect(() => {
-    let cancelled = false
-    void (async () => {
-      try {
-        const res = await fetch('/api/work-rows', { cache: 'no-store' })
-        if (!res.ok) {
-          if (!cancelled) setDetail(serverDetail)
-          return
-        }
-        const json = (await res.json()) as { rows?: WorkRow[] }
-        const items = Array.isArray(json.rows) ? json.rows : []
-        const row = items.find((w) => w.slug === slug)
-        if (!row) {
-          if (!cancelled) setDetail(serverDetail)
-          return
-        }
-        const base = serverDetail ?? resolveWorkDetailFromShowcase(stripWorkRowToShowcase(row))
-        if (!cancelled) setDetail(mergeWorkDetailRow(base, row))
-      } catch {
-        if (!cancelled) setDetail(serverDetail)
-      } finally {
-        if (!cancelled) setReady(true)
-      }
-    })()
-    return () => {
-      cancelled = true
+    const items = readWorkRowsFromStorage()
+    const row = items.find((w) => w.slug === slug)
+    if (!row) {
+      setDetail(serverDetail)
+      setReady(true)
+      return
     }
+    const base = serverDetail ?? resolveWorkDetailFromShowcase(stripWorkRowToShowcase(row))
+    setDetail(mergeWorkDetailRow(base, row))
+    setReady(true)
   }, [slug, serverDetail])
 
   return { detail, ready }

@@ -7,7 +7,8 @@ import { AdminLoadingScreen } from '@/components/admin/admin-loading-screen'
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
 import { AdminInsightFormPage } from '@/components/admin/insights/admin-insight-form'
 import { useInsightAdminCollection } from '@/hooks/use-insight-admin-collection'
-import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
+import { readInsightsFromStorage } from '@/lib/frontend-content'
+import { isAdminLoggedIn } from '@/lib/frontend-auth'
 import { Button } from '@/components/ui/button'
 
 import { emptyInsight, type InsightRow } from './admin-insight-fields'
@@ -30,24 +31,15 @@ export function AdminInsightEditPage({ id }: { id: string }) {
     if (!id || exists || initialFromCollection) return
     if (fallback || fallbackLoading) return
 
-    const sessionHeader = getSessionHeaderFromStorage()
-    if (!sessionHeader) return
+    if (!isAdminLoggedIn()) return
 
     let cancelled = false
     setFallbackLoading(true)
-    void fetch(`/api/admin/insights/${encodeURIComponent(id)}`, {
-      cache: 'no-store',
-      headers: { 'x-session': sessionHeader },
-    })
-      .then(async (res) => {
-        if (!res.ok || cancelled) return
-        const data = (await res.json()) as { insight?: ShowcaseInsight }
-        if (!cancelled && data.insight?.id) setFallback(data.insight)
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (!cancelled) setFallbackLoading(false)
-      })
+    const row = readInsightsFromStorage().find((it) => it.id === id) ?? null
+    if (!cancelled) {
+      if (row) setFallback(row)
+      setFallbackLoading(false)
+    }
 
     return () => {
       cancelled = true
@@ -107,7 +99,7 @@ export function AdminInsightEditPage({ id }: { id: string }) {
   return (
     <AdminInsightFormPage
       title="Edit insight"
-      description="Updates are saved to the database and appear on the public insight page."
+      description="Updates are saved in this browser and appear on the public insight page."
       backHref="/leseb-admin/insights"
       submitLabel="Update"
       initial={initial}

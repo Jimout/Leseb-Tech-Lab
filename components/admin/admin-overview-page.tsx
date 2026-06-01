@@ -7,6 +7,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
 import { DEFAULT_ADMIN_NAV_GROUPS } from '@/components/admin/admin-nav-config'
 import { Card } from '@/components/ui/card'
+import { readInsightsFromStorage, readWorkRowsFromStorage } from '@/lib/frontend-content'
+import { SHOWCASE_INSIGHTS } from '@/lib/insights-showcase-data'
+import { SHOWCASE_WORKS } from '@/lib/works-showcase-data'
 import { cn } from '@/lib/utils'
 
 const LINK_HINTS: Record<string, string> = {
@@ -136,30 +139,12 @@ export function AdminOverviewPage() {
   const [workCount, setWorkCount] = useState(0)
 
   useEffect(() => {
-    let cancelled = false
-
-    void fetch('/api/admin/overview-stats', { cache: 'no-store' })
-      .then(async (response) => {
-        if (!response.ok || cancelled) return
-        const data = (await response.json()) as {
-          insightsCount?: number
-          workCount?: number
-          subscribers?: Array<{ createdAt: string }>
-          visits?: Array<{ createdAtIso: string }>
-        }
-        if (cancelled) return
-        setInsightsCount(typeof data.insightsCount === 'number' ? data.insightsCount : 0)
-        setWorkCount(typeof data.workCount === 'number' ? data.workCount : 0)
-        setSubscribers(Array.isArray(data.subscribers) ? data.subscribers : [])
-        setVisits(Array.isArray(data.visits) ? data.visits : [])
-      })
-      .catch(() => {
-        if (!cancelled) setVisits([])
-      })
-
-    return () => {
-      cancelled = true
-    }
+    const storedInsights = readInsightsFromStorage()
+    const storedWork = readWorkRowsFromStorage()
+    setInsightsCount(storedInsights.length || SHOWCASE_INSIGHTS.length)
+    setWorkCount(storedWork.length || SHOWCASE_WORKS.length)
+    setSubscribers([])
+    setVisits([])
   }, [])
 
   const last7 = useMemo(() => lastNDaysKeys(7), [])

@@ -1,44 +1,31 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 import { AdminLoadingScreen } from '@/components/admin/admin-loading-screen'
 import { ADMIN_LOGIN_PATH, isAdminLoginPath } from '@/lib/admin/admin-routes'
-import { getSessionHeaderFromStorage } from '@/lib/session-header-client'
+import { useAdminAuthContext } from '@/components/providers/admin-auth-provider'
 
 export function AdminRouteGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
-  const { status } = useSession()
+  const { authed, ready } = useAdminAuthContext()
 
   const isLogin = isAdminLoginPath(pathname)
-  const hasSessionHeader =
-    status === 'authenticated' ? Boolean(getSessionHeaderFromStorage()) : false
 
   useEffect(() => {
-    if (!pathname || isLogin) return
-    if (status === 'unauthenticated') {
-      router.replace(
-        `${ADMIN_LOGIN_PATH}?callbackUrl=${encodeURIComponent(pathname)}`,
-      )
+    if (!pathname || isLogin || !ready) return
+    if (!authed) {
+      router.replace(`${ADMIN_LOGIN_PATH}?callbackUrl=${encodeURIComponent(pathname)}`)
     }
-  }, [pathname, status, isLogin, router])
-
-  useEffect(() => {
-    if (!pathname || isLogin || status !== 'authenticated' || hasSessionHeader) return
-    router.replace(
-      `${ADMIN_LOGIN_PATH}?callbackUrl=${encodeURIComponent(pathname)}`,
-    )
-  }, [pathname, status, isLogin, hasSessionHeader, router])
+  }, [pathname, authed, ready, isLogin, router])
 
   if (isLogin) return children
 
-  if (status === 'loading') {
+  if (!ready) {
     return <AdminLoadingScreen />
   }
-  if (status === 'unauthenticated') return null
-  if (!hasSessionHeader) return null
+  if (!authed) return null
   return children
 }

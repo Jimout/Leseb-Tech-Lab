@@ -89,7 +89,7 @@ export function AdminWorkContentBlockImageFields({
       <div className="space-y-2">
         <Label className="text-white/80">{fileLabel}</Label>
         <p className="text-xs text-white/45">
-          Upload from your computer to Cloudinary or paste a media URL below.
+          Upload from your computer or paste a media URL below.
         </p>
         <Input
           ref={fileRef}

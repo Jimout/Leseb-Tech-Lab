@@ -1,18 +1,18 @@
 'use client'
 
-import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 
-import { clearSessionHeaderFromStorage } from '@/lib/session-header-client'
+import { useAdminAuthContext } from '@/components/providers/admin-auth-provider'
 
 export function useAdminAuth() {
-  const { status } = useSession()
-  const authed = status === 'authenticated'
+  const { authed, logout: contextLogout } = useAdminAuthContext()
+  const router = useRouter()
 
   const logout = useCallback(() => {
-    clearSessionHeaderFromStorage()
-    void signOut({ callbackUrl: '/leseb-admin/login' })
-  }, [])
+    contextLogout()
+    router.push('/leseb-admin/login')
+  }, [contextLogout, router])
 
   return { authed, logout }
 }

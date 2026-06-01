@@ -7,20 +7,18 @@ import { SiteNavbar } from '@/components/site-navbar'
 import { Toaster } from '@/components/ui/toaster'
 import { DEFAULT_SITE_SETTINGS } from '@/lib/admin/site-settings'
 import { buildPageMetadata } from '@/lib/seo/metadata'
-import { getSiteSettingsFromDb } from '@/lib/site-settings-db'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const s = await getSiteSettingsFromDb()
   const d = DEFAULT_SITE_SETTINGS.about
   return buildPageMetadata({
-    title: s.about.metaTitle?.trim() || d.metaTitle,
-    description: s.about.metaDescription?.trim() || d.metaDescription,
+    title: d.metaTitle,
+    description: d.metaDescription,
     path: '/about',
   })
 }
 
-export default async function AboutPage() {
-  const settings = await getSiteSettingsFromDb()
+export default function AboutPage() {
+  const settings = DEFAULT_SITE_SETTINGS
 
   return (
     <>

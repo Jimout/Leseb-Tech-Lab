@@ -64,21 +64,13 @@ export function NewsletterForm({
   async function onSubmit(values: NewsletterFormValues) {
     setIsSubmitting(true)
     try {
-      const response = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      })
-
-      if (!response.ok) throw new Error('Failed to subscribe')
-
+      await new Promise((resolve) => setTimeout(resolve, 400))
       toast({
-        title: 'Check your inbox',
-        description:
-          'Please confirm your subscription from the email we sent. You will receive updates when we publish new projects or insights. No spam.',
+        title: 'Subscribed',
+        description: 'Thanks for subscribing. This frontend-only demo does not send email.',
       })
       form.reset()
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to subscribe. Please try again.',

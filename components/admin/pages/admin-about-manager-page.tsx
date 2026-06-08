@@ -20,34 +20,72 @@ import type { AboutEditorialContentSettings } from '@/lib/admin/site-settings'
 
 const fieldClass = 'border-white/15 bg-white/5 text-white placeholder:text-white/40'
 
+// Default values
+const DEFAULT_ABOUT = {
+  metaTitle: 'About Us',
+  metaDescription: 'Learn more about our team and mission',
+  aboutEditorial: {
+    heroEyebrow: 'About Us',
+    heroLine1: 'We are',
+    heroAccent: 'building the future',
+    letterSidebar: 'Our story',
+    letterOpening: 'We started with a simple idea',
+    letterBody: '<p>We believe in creating exceptional digital experiences.</p>',
+    letterSignoff: 'The Team',
+    principlesHeading: 'Our Principles',
+    principlesSubheading: 'What guides our work',
+    principles: [],
+    foundersEyebrow: 'The Team',
+    foundersTitle: 'Meet the founders',
+    foundersParagraphs: ['We are passionate about what we do.'],
+    ctaEyebrow: 'Get in touch',
+    ctaHeadingBefore: 'Ready to',
+    ctaHeadingAccent: 'work together?',
+    ctaButtonLabel: 'Contact Us',
+    ctaHref: '/contact',
+  }
+}
+
 export function AdminAboutManagerPage() {
   const { settings, patch, ready } = useSiteSettings()
   const hydrated = useRef(false)
 
-  const [metaTitle, setMetaTitle] = useState(settings.about.metaTitle)
-  const [metaDescription, setMetaDescription] = useState(settings.about.metaDescription)
-  const [editorial, setEditorial] = useState<AboutEditorialContentSettings>(settings.aboutEditorial)
+  // Safely extract settings with defaults
+  const aboutSettings = useMemo(() => {
+    const about = (settings as any)?.about || {}
+    const aboutEditorial = (settings as any)?.aboutEditorial || DEFAULT_ABOUT.aboutEditorial
+    
+    return {
+      metaTitle: about.metaTitle || DEFAULT_ABOUT.metaTitle,
+      metaDescription: about.metaDescription || DEFAULT_ABOUT.metaDescription,
+      aboutEditorial: aboutEditorial,
+    }
+  }, [settings])
+
+  const [metaTitle, setMetaTitle] = useState(aboutSettings.metaTitle)
+  const [metaDescription, setMetaDescription] = useState(aboutSettings.metaDescription)
+  const [editorial, setEditorial] = useState<AboutEditorialContentSettings>(aboutSettings.aboutEditorial)
 
   useEffect(() => {
     if (!ready || hydrated.current) return
     hydrated.current = true
-    setMetaTitle(settings.about.metaTitle)
-    setMetaDescription(settings.about.metaDescription)
-    setEditorial(settings.aboutEditorial)
-  }, [ready, settings.about, settings.aboutEditorial])
+    setMetaTitle(aboutSettings.metaTitle)
+    setMetaDescription(aboutSettings.metaDescription)
+    setEditorial(aboutSettings.aboutEditorial)
+  }, [ready, aboutSettings])
 
   const changed = useMemo(() => {
     return (
-      metaTitle !== settings.about.metaTitle ||
-      metaDescription !== settings.about.metaDescription ||
-      JSON.stringify(editorial) !== JSON.stringify(settings.aboutEditorial)
+      metaTitle !== aboutSettings.metaTitle ||
+      metaDescription !== aboutSettings.metaDescription ||
+      JSON.stringify(editorial) !== JSON.stringify(aboutSettings.aboutEditorial)
     )
-  }, [editorial, metaDescription, metaTitle, settings.about, settings.aboutEditorial])
+  }, [editorial, metaDescription, metaTitle, aboutSettings])
 
   function resetToSaved() {
-    setMetaTitle(settings.about.metaTitle)
-    setMetaDescription(settings.about.metaDescription)
-    setEditorial(settings.aboutEditorial)
+    setMetaTitle(aboutSettings.metaTitle)
+    setMetaDescription(aboutSettings.metaDescription)
+    setEditorial(aboutSettings.aboutEditorial)
   }
 
   function saveNow() {
@@ -59,6 +97,16 @@ export function AdminAboutManagerPage() {
 
   function patchEditorial(patchSlice: Partial<AboutEditorialContentSettings>) {
     setEditorial((prev) => ({ ...prev, ...patchSlice }))
+  }
+
+  if (!ready) {
+    return (
+      <AdminPageShell title="About page" description="Edit the live /about page.">
+        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-6 text-sm text-white/60">
+          Loading about page content...
+        </div>
+      </AdminPageShell>
+    )
   }
 
   return (
@@ -116,7 +164,7 @@ export function AdminAboutManagerPage() {
           <AccordionContent className="space-y-5 px-5 pb-6 sm:px-6">
             <AdminField label="Eyebrow">
               <Input
-                value={editorial.heroEyebrow}
+                value={editorial.heroEyebrow || ''}
                 onChange={(e) => patchEditorial({ heroEyebrow: e.target.value })}
                 className={fieldClass}
               />
@@ -124,14 +172,14 @@ export function AdminAboutManagerPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               <AdminField label="Headline line 1">
                 <Input
-                  value={editorial.heroLine1}
+                  value={editorial.heroLine1 || ''}
                   onChange={(e) => patchEditorial({ heroLine1: e.target.value })}
                   className={fieldClass}
                 />
               </AdminField>
               <AdminField label="Accent line (italic)">
                 <Input
-                  value={editorial.heroAccent}
+                  value={editorial.heroAccent || ''}
                   onChange={(e) => patchEditorial({ heroAccent: e.target.value })}
                   className={fieldClass}
                 />
@@ -163,21 +211,21 @@ export function AdminAboutManagerPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               <AdminField label="Section heading">
                 <Input
-                  value={editorial.principlesHeading}
+                  value={editorial.principlesHeading || ''}
                   onChange={(e) => patchEditorial({ principlesHeading: e.target.value })}
                   className={fieldClass}
                 />
               </AdminField>
               <AdminField label="Section subheading">
                 <Input
-                  value={editorial.principlesSubheading}
+                  value={editorial.principlesSubheading || ''}
                   onChange={(e) => patchEditorial({ principlesSubheading: e.target.value })}
                   className={fieldClass}
                 />
               </AdminField>
             </div>
             <PrinciplesEditor
-              principles={editorial.principles}
+              principles={editorial.principles || []}
               onChange={(principles) => patchEditorial({ principles })}
             />
           </AccordionContent>
@@ -194,14 +242,14 @@ export function AdminAboutManagerPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               <AdminField label="Eyebrow">
                 <Input
-                  value={editorial.foundersEyebrow}
+                  value={editorial.foundersEyebrow || ''}
                   onChange={(e) => patchEditorial({ foundersEyebrow: e.target.value })}
                   className={fieldClass}
                 />
               </AdminField>
               <AdminField label="Title">
                 <Input
-                  value={editorial.foundersTitle}
+                  value={editorial.foundersTitle || ''}
                   onChange={(e) => patchEditorial({ foundersTitle: e.target.value })}
                   className={fieldClass}
                 />
@@ -209,7 +257,7 @@ export function AdminAboutManagerPage() {
             </div>
             <ParagraphListEditor
               label="Paragraphs"
-              values={editorial.foundersParagraphs}
+              values={editorial.foundersParagraphs || []}
               onChange={(foundersParagraphs) => patchEditorial({ foundersParagraphs })}
             />
           </AccordionContent>
@@ -225,7 +273,7 @@ export function AdminAboutManagerPage() {
           <AccordionContent className="space-y-5 px-5 pb-6 sm:px-6">
             <AdminField label="Eyebrow">
               <Input
-                value={editorial.ctaEyebrow}
+                value={editorial.ctaEyebrow || ''}
                 onChange={(e) => patchEditorial({ ctaEyebrow: e.target.value })}
                 className={fieldClass}
               />
@@ -233,14 +281,14 @@ export function AdminAboutManagerPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               <AdminField label="Heading (before accent)">
                 <Input
-                  value={editorial.ctaHeadingBefore}
+                  value={editorial.ctaHeadingBefore || ''}
                   onChange={(e) => patchEditorial({ ctaHeadingBefore: e.target.value })}
                   className={fieldClass}
                 />
               </AdminField>
               <AdminField label="Heading accent (italic)">
                 <Input
-                  value={editorial.ctaHeadingAccent}
+                  value={editorial.ctaHeadingAccent || ''}
                   onChange={(e) => patchEditorial({ ctaHeadingAccent: e.target.value })}
                   className={fieldClass}
                 />
@@ -249,14 +297,14 @@ export function AdminAboutManagerPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               <AdminField label="Button label">
                 <Input
-                  value={editorial.ctaButtonLabel}
+                  value={editorial.ctaButtonLabel || ''}
                   onChange={(e) => patchEditorial({ ctaButtonLabel: e.target.value })}
                   className={fieldClass}
                 />
               </AdminField>
               <AdminField label="Button link">
                 <Input
-                  value={editorial.ctaHref}
+                  value={editorial.ctaHref || ''}
                   onChange={(e) => patchEditorial({ ctaHref: e.target.value })}
                   className={fieldClass}
                   placeholder="/"

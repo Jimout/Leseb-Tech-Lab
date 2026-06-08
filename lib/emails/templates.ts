@@ -1,3 +1,4 @@
+//lib/emails/templates.ts
 import { appBaseUrl } from '@/lib/mailer'
 import { SITE_BRAND_FULL_NAME } from '@/lib/site-brand'
 

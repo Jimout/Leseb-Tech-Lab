@@ -46,21 +46,75 @@ function displayTextForField(field: { name: string; label: string; placeholder?:
   return { label: field.label, placeholder: field.placeholder ?? field.label }
 }
 
+// Define form field type
+type FormField = {
+  id: string
+  name: string
+  label: string
+  kind: string
+  visible: boolean
+  required?: boolean
+  placeholder?: string
+}
+
+type ContactSettings = {
+  formFields?: FormField[]
+  formVisible?: boolean
+  newsletterOptInVisible?: boolean
+  newsletterOptInLabel?: string
+  privacyPolicyHref?: string
+  formSubmitLabel?: string
+  [key: string]: unknown
+}
+
+// Default form fields
+const DEFAULT_FORM_FIELDS: FormField[] = [
+  { id: 'name', name: 'name', label: 'Name', kind: 'text', visible: true, required: true },
+  { id: 'email', name: 'email', label: 'Email', kind: 'email', visible: true, required: true },
+  { id: 'message', name: 'message', label: 'Message', kind: 'textarea', visible: true, required: true },
+]
+
 export function ContactForm({ className }: ContactFormProps) {
-  const { settings } = useSiteSettings()
-  const contact = settings.contact
+  const { settings, ready } = useSiteSettings()
   const { toast } = useToast()
   const [submitting, setSubmitting] = React.useState(false)
 
-  const fields = contact.formFields.filter((f) => f.visible)
+  // SAFELY get contact settings - always defined with defaults
+  const contact = React.useMemo(() => {
+    if (!ready) return {} as ContactSettings
+    return (settings as any)?.contact as ContactSettings || {}
+  }, [settings, ready])
+
+  // Get fields - always an array
+  const fields = React.useMemo(() => {
+    const formFields = contact.formFields
+    if (Array.isArray(formFields) && formFields.length > 0) {
+      return formFields.filter((f: FormField) => f.visible)
+    }
+    return DEFAULT_FORM_FIELDS
+  }, [contact.formFields])
+
+  // Create default values - ALWAYS called, not conditional
   const defaultValues = React.useMemo(() => {
     const out: DynamicValues = {}
-    for (const f of fields) out[f.name] = ''
+    for (const f of fields) {
+      out[f.name] = ''
+    }
     out.newsletter = false
     return out
   }, [fields])
 
+  // Always call useForm
   const form = useForm<DynamicValues>({ defaultValues })
+  const { register, handleSubmit, formState, reset } = form
+
+  // Show loading state
+  if (!ready) {
+    return <div className="text-white/60">Loading contact form...</div>
+  }
+
+  // Don't render if form is not visible
+  if (!contact.formVisible) return null
 
   async function onSubmit(values: DynamicValues) {
     setSubmitting(true)
@@ -97,7 +151,7 @@ export function ContactForm({ className }: ContactFormProps) {
           ? 'Thanks, we will get back to you soon. Check your inbox to confirm our newsletter.'
           : 'Thanks, we will get back to you soon.',
       })
-      form.reset()
+      reset()
     } catch {
       toast({
         title: 'Something went wrong',
@@ -109,17 +163,13 @@ export function ContactForm({ className }: ContactFormProps) {
     }
   }
 
-  const { register, handleSubmit, formState } = form
-
-  if (!contact.formVisible) return null
-
-  const inputFields = fields.filter((f) => f.kind !== 'textarea')
-  const textareaFields = fields.filter((f) => f.kind === 'textarea')
+  const inputFields = fields.filter((f: FormField) => f.kind !== 'textarea')
+  const textareaFields = fields.filter((f: FormField) => f.kind === 'textarea')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={cn('flex flex-col gap-6 sm:gap-7', className)}>
       <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
-        {inputFields.map((f) => {
+        {inputFields.map((f: FormField) => {
           const display = displayTextForField(f)
           return (
             <div key={f.id} className={cn('space-y-2', f.name === 'project' && 'sm:col-span-2')}>
@@ -141,7 +191,7 @@ export function ContactForm({ className }: ContactFormProps) {
         })}
       </div>
 
-      {textareaFields.map((f) => {
+      {textareaFields.map((f: FormField) => {
         const display = displayTextForField(f)
         return (
           <div key={f.id} className="space-y-2">
@@ -168,7 +218,7 @@ export function ContactForm({ className }: ContactFormProps) {
             {...register('newsletter')}
             className="mt-0.5 size-4 shrink-0 rounded border-border accent-signal"
           />
-          <span>{contact.newsletterOptInLabel}</span>
+          <span>{contact.newsletterOptInLabel || 'Subscribe to our newsletter'}</span>
         </label>
       ) : null}
 
@@ -182,7 +232,7 @@ export function ContactForm({ className }: ContactFormProps) {
 
       <div>
         <FluidSplitButton
-          label={contact.formSubmitLabel}
+          label={contact.formSubmitLabel || 'Send Message'}
           type="submit"
           disabled={submitting}
           variant="secondary"

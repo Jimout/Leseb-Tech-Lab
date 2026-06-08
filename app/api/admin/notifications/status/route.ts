@@ -1,3 +1,4 @@
+//app/api/admin/notifications/status/route.ts
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 

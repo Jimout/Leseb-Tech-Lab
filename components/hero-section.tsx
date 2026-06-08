@@ -15,7 +15,6 @@ import {
   landingHeroEyebrowClass,
   landingHeroSubkickerClass,
   landingSectionKickerDotClass,
-  landingHeroCtaClass,
   landingHeroTitleClass,
   landingMetaClass,
   landingSectionTitleAccentClass,
@@ -24,9 +23,28 @@ import { renderInlineAccentMarkers } from '@/lib/render-accent-markers'
 import { cn } from '@/lib/utils'
 
 export function HeroSection() {
-  const { settings } = useSiteSettings()
-  const hero = settings.hero
-  const asideLines = hero.roleLine2.split('\n').map((line) => line.trim()).filter(Boolean)
+  const { settings, ready } = useSiteSettings()
+  
+  // Don't render until settings are loaded
+  if (!ready) {
+    return (
+      <section className={cn('relative min-w-0 overflow-x-clip overflow-y-hidden bg-background', landingPageGutterClass)}>
+        <div className={cn(landingSectionInnerClass, landingHomeHeroPadTopClass, 'pb-0')}>
+          <div className="text-white/60">Loading...</div>
+        </div>
+      </section>
+    )
+  }
+  
+  // Get hero settings from database
+  const hero = (settings as any)?.hero
+  
+  // If no hero settings in database, don't render the section
+  if (!hero) {
+    return null
+  }
+  
+  const asideLines = hero.roleLine2?.split('\n').map((line: string) => line.trim()).filter(Boolean) || []
 
   return (
     <section
@@ -64,7 +82,7 @@ export function HeroSection() {
             <p className={landingHeroBodyClass}>{renderInlineAccentMarkers(hero.whoAmIBody)}</p>
 
             <a
-              href={hero.whoAmIButtonHref || '#manifesto'}
+              href={hero.whoAmIButtonHref || '#'}
               className="group mt-6 sm:mt-7 md:mt-8 inline-flex items-center gap-3 rounded-full bg-signal text-secondary-foreground pl-6 pr-2 py-2 font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] hover:scale-[1.03] transition-transform"
             >
               {hero.whoAmIButtonLabel}
@@ -80,7 +98,7 @@ export function HeroSection() {
           >
             <p className={landingHeroAsideKickerClass}>{hero.roleLine1}</p>
             <p className={cn(landingMetaClass, 'leading-relaxed')}>
-              {asideLines.map((line, index) => (
+              {asideLines.map((line: string, index: number) => (
                 <React.Fragment key={`${line}-${index}`}>
                   {index > 0 ? <br /> : null}
                   {line}

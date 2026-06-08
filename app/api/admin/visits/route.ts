@@ -1,3 +1,4 @@
+// app/api/admin/visits/route.ts
 import { getServerSession } from 'next-auth'
 import { NextResponse, type NextRequest } from 'next/server'
 

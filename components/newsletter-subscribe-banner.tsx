@@ -33,6 +33,12 @@ export type NewsletterSubscribeBannerProps = {
   description?: string
 }
 
+type FooterSettings = {
+  newsletterLine1?: string
+  newsletterLine2?: string
+  newsletterBannerSrc?: string
+}
+
 export function NewsletterSubscribeBanner({
   className,
   kicker = 'Newsletter',
@@ -40,11 +46,24 @@ export function NewsletterSubscribeBanner({
   placeholder = 'Your email',
   description = DEFAULT_INSIGHTS_NEWSLETTER_DESCRIPTION,
 }: NewsletterSubscribeBannerProps) {
-  const { settings } = useSiteSettings()
-  const footer = settings.footer
-  const line1 = footer.newsletterLine1?.trim() || 'Subscribe to'
-  const line2 = footer.newsletterLine2?.trim() || 'our newsletter'
-  const logoSrc = footer.newsletterBannerSrc?.trim() || DEFAULT_NEWSLETTER_LOGO
+  const { settings, ready } = useSiteSettings()
+  
+  if (!ready) {
+    return (
+      <section className={cn('w-full', className)}>
+        <div className={cn('mx-auto w-full max-w-none', containerPaddingClass)}>
+          <div className={landingNewsletterPanelClass}>
+            <div className="p-6 text-white/60">Loading...</div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+  
+  const footer = (settings as any)?.footer as FooterSettings | undefined
+  const line1 = footer?.newsletterLine1?.trim() || 'Subscribe to'
+  const line2 = footer?.newsletterLine2?.trim() || 'our newsletter'
+  const logoSrc = footer?.newsletterBannerSrc?.trim() || DEFAULT_NEWSLETTER_LOGO
 
   return (
     <section

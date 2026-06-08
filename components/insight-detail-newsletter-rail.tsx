@@ -15,11 +15,25 @@ import {
 import { typeBodySm } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 
+type FooterSettings = {
+  newsletterLine1?: string
+  newsletterLine2?: string
+}
+
 export function InsightDetailNewsletterRail({ className }: { className?: string }) {
-  const { settings } = useSiteSettings()
-  const footer = settings.footer
-  const line1 = footer.newsletterLine1?.trim() || 'Subscribe for'
-  const line2 = footer.newsletterLine2?.trim() || 'new insights'
+  const { settings, ready } = useSiteSettings()
+  
+  if (!ready) {
+    return (
+      <div className={cn(insightDetailNewsletterRailPanelClass, className)}>
+        <div className="text-white/60">Loading...</div>
+      </div>
+    )
+  }
+  
+  const footer = (settings as any)?.footer as FooterSettings | undefined
+  const line1 = footer?.newsletterLine1?.trim() || 'Subscribe for'
+  const line2 = footer?.newsletterLine2?.trim() || 'new insights'
 
   return (
     <div className={cn(insightDetailNewsletterRailPanelClass, className)} aria-label="Newsletter signup">

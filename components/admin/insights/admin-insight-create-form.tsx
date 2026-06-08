@@ -1,6 +1,4 @@
 'use client'
-
-/** Publish form for /leseb-admin/insights/create */
 import * as React from 'react'
 import { createId } from '@paralleldrive/cuid2'
 
@@ -75,10 +73,16 @@ function FormSection({
 
 export function AdminInsightCreateForm({ onCreated, onDirtyChange, className }: AdminInsightCreateFormProps) {
   const { toast } = useToast()
-  const { settings } = useSiteSettings()
+  const { settings, ready } = useSiteSettings()
+  
+  // Wait for settings to load
   const filterOptions = React.useMemo(
-    () => buildWorkInsightFilterChecklistOptions(settings.portfolioCatalogFilters.workInsights),
-    [settings.portfolioCatalogFilters.workInsights],
+    () => {
+      if (!ready) return []
+      const filters = (settings as any)?.portfolioCatalogFilters?.workInsights
+      return buildWorkInsightFilterChecklistOptions(filters)
+    },
+    [settings, ready],
   )
 
   const defaults = React.useMemo(() => defaultInsightDates(), [])
@@ -235,6 +239,15 @@ export function AdminInsightCreateForm({ onCreated, onDirtyChange, className }: 
     }
   }
 
+  // Show loading state while categories are loading
+  if (!ready) {
+    return (
+      <div className={cn(adminPanelSurfaceClass, 'space-y-6 p-8 text-center', className)}>
+        <div className="text-white/60">Loading categories...</div>
+      </div>
+    )
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -297,17 +310,26 @@ export function AdminInsightCreateForm({ onCreated, onDirtyChange, className }: 
 
         <div className="space-y-3">
           <Label className={labelClass}>Topics *</Label>
-          <div className="flex flex-wrap gap-x-5 gap-y-3">
-            {filterOptions.map((f) => (
-              <label key={f.id} className="flex cursor-pointer items-center gap-2 text-sm text-white/90">
-                <Checkbox
-                  checked={filterIds.includes(f.id)}
-                  onCheckedChange={() => toggleFilter(f.id)}
-                />
-                {f.label}
-              </label>
-            ))}
-          </div>
+          {filterOptions.length === 0 ? (
+            <p className="text-sm text-yellow-400/80">
+              No topics available. Please add categories in{' '}
+              <a href="/leseb-admin/site/catalog-filters" className="text-signal underline">
+                Category Filters
+              </a>
+            </p>
+          ) : (
+            <div className="flex flex-wrap gap-x-5 gap-y-3">
+              {filterOptions.map((f) => (
+                <label key={f.id} className="flex cursor-pointer items-center gap-2 text-sm text-white/90">
+                  <Checkbox
+                    checked={filterIds.includes(f.id)}
+                    onCheckedChange={() => toggleFilter(f.id)}
+                  />
+                  {f.label}
+                </label>
+              ))}
+            </div>
+          )}
         </div>
       </FormSection>
 

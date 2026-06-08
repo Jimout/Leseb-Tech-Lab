@@ -1,3 +1,4 @@
+// components/admin/insights/admin-insight-edit-page.tsx
 'use client'
 
 import { useMemo } from 'react'

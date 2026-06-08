@@ -21,10 +21,39 @@ import { cn } from '@/lib/utils'
 const contactLinkClass =
   'font-medium text-signal underline-offset-4 transition-opacity hover:opacity-85 hover:underline'
 
+// Define expected contact type
+type ContactSettings = {
+  sectionKicker?: string
+  sectionTitle?: string
+  introLine1?: string
+  introLine2?: string
+  email?: string
+  phone?: string
+  socialVisible?: boolean
+  [key: string]: unknown
+}
+
+type FooterSettings = {
+  phone?: string
+  [key: string]: unknown
+}
+
 export function ContactPageBody() {
-  const { settings } = useSiteSettings()
-  const contact = settings.contact
-  const phone = (contact.phone || settings.footer.phone)?.trim() ?? ''
+  const { settings, ready } = useSiteSettings()
+  
+  if (!ready) {
+    return (
+      <section className={cn('scroll-mt-24 bg-background', landingPageGutterClass)}>
+        <div className={cn(landingSectionInnerClass, landingSectionYClass)}>
+          <div className="text-white/60">Loading contact information...</div>
+        </div>
+      </section>
+    )
+  }
+  
+  const contact = (settings as any)?.contact as ContactSettings || {}
+  const footer = (settings as any)?.footer as FooterSettings || {}
+  const phone = (contact.phone || footer.phone)?.trim() ?? ''
   const phoneHref = phone ? toTelHref(phone) : ''
 
   return (
@@ -39,19 +68,19 @@ export function ContactPageBody() {
           <aside className="min-w-0 md:col-span-4">
             <div className={cn('mb-4', landingSectionKickerClass)}>
               <span className={landingSectionKickerDotClass} aria-hidden />
-              {contact.sectionKicker}
+              {contact.sectionKicker || 'Get in touch'}
             </div>
             <h2 id="contact-form-heading" className={cn(landingSectionTitleClass, 'text-3xl sm:text-4xl lg:text-5xl')}>
-              {contact.sectionTitle}
+              {contact.sectionTitle || 'Contact Us'}
             </h2>
 
             <div className="mt-8 space-y-6 md:mt-10">
-              <p className={landingBodyClass}>{contact.introLine1}</p>
+              <p className={landingBodyClass}>{contact.introLine1 || 'We\'d love to hear from you.'}</p>
               <div className="space-y-3">
                 <p className={landingBodyClass}>
-                  <span className="text-muted-foreground">{contact.introLine2} </span>
-                  <a href={`mailto:${contact.email}`} className={contactLinkClass}>
-                    {contact.email}
+                  <span className="text-muted-foreground">{contact.introLine2 || 'Reach us at'} </span>
+                  <a href={`mailto:${contact.email || 'hello@example.com'}`} className={contactLinkClass}>
+                    {contact.email || 'hello@example.com'}
                   </a>
                 </p>
                 {phone && phoneHref ? (
@@ -65,7 +94,7 @@ export function ContactPageBody() {
               </div>
             </div>
 
-            {contact.socialVisible ? (
+            {contact.socialVisible !== false ? (
               <div className="mt-10 border-t border-border pt-8 md:mt-12">
                 <p className={cn('mb-4', typeLabel)}>
                   Elsewhere

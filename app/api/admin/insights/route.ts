@@ -1,3 +1,4 @@
+//api/admin/insights/route.ts
 import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 

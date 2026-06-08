@@ -18,14 +18,10 @@ function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v)
 }
 
+// This should only be used as a fallback when database is empty
 export function getDefaultPortfolioCatalogFilters(): SitePortfolioCatalogFilters {
   return {
-    workInsights: DEFAULT_WORK_CATALOG_FILTER_SEEDS.map((f, i) => ({
-      id: f.id,
-      label: f.label,
-      visible: true,
-      order: i * 10,
-    })),
+    workInsights: [], // Return empty array instead of default seeds
   }
 }
 
@@ -41,7 +37,7 @@ function parseEntry(raw: unknown, index: number, allId: string): PortfolioCatalo
 
 /**
  * Normalize a stored filter list: ensure `all` exists, dedupe ids, sort by order.
- * If storage is empty, use `fallbackDefaults` (full seed list).
+ * If storage is empty, return empty array (no defaults).
  */
 export function normalizeCatalogEntryList(
   stored: unknown,
@@ -49,8 +45,9 @@ export function normalizeCatalogEntryList(
   allId: string,
   allLabelFallback: string,
 ): PortfolioCatalogFilterEntry[] {
+  // Return empty array if no stored data
   if (!Array.isArray(stored) || stored.length === 0) {
-    return fallbackDefaults.map((e) => ({ ...e }))
+    return [] // Return empty instead of fallback defaults
   }
 
   const parsed = stored
@@ -58,7 +55,12 @@ export function normalizeCatalogEntryList(
     .filter((e): e is PortfolioCatalogFilterEntry => Boolean(e))
 
   let list = parsed
-  if (!list.some((e) => e.id === allId)) {
+  
+  // Only add 'all' if there are other categories or if 'all' exists in stored data
+  const hasAll = list.some((e) => e.id === allId)
+  const hasOthers = list.some((e) => e.id !== allId)
+  
+  if (!hasAll && hasOthers) {
     list = [
       {
         id: allId,
@@ -97,11 +99,15 @@ export function buildWorkInsightFilterDefinitions(
   entries: PortfolioCatalogFilterEntry[] | undefined,
   items: readonly { filterIds: readonly string[] }[],
 ): WorkFilterDefinition[] {
-  const def = getDefaultPortfolioCatalogFilters()
-  const list = normalizeCatalogEntryList(entries ?? [], def.workInsights, 'all', 'Explore all')
+  const list = entries && entries.length > 0 ? entries : []
   const migratedItems = items.map((it) => ({
     filterIds: migrateCatalogFilterIds(it.filterIds),
   }))
+  
+  if (list.length === 0) {
+    return []
+  }
+  
   return list
     .filter((e) => e.visible)
     .map((e) => ({
@@ -117,7 +123,13 @@ export function buildWorkInsightFilterDefinitions(
 export function buildWorkInsightFilterChecklistOptions(
   entries: PortfolioCatalogFilterEntry[] | undefined,
 ): { id: string; label: string }[] {
-  const def = getDefaultPortfolioCatalogFilters()
-  const list = normalizeCatalogEntryList(entries ?? [], def.workInsights, 'all', 'Explore all')
-  return list.filter((e) => e.id !== 'all').map((e) => ({ id: e.id, label: e.label }))
+  // Return empty array if no entries
+  if (!entries || entries.length === 0) {
+    return []
+  }
+  
+  // Filter out 'all' category and return only valid categories
+  return entries
+    .filter((e) => e.id !== 'all' && e.visible !== false)
+    .map((e) => ({ id: e.id, label: e.label }))
 }

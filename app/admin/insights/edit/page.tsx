@@ -1,11 +1,13 @@
 import { AdminInsightEditPage } from '@/components/admin/insights/admin-insight-edit-page'
 
-export default function AdminInsightEditQueryRoute({
+export default async function AdminInsightEditQueryRoute({
   searchParams,
 }: {
-  searchParams: { id?: string | string[] }
+  searchParams: Promise<{ id?: string | string[] }> | { id?: string | string[] }
 }) {
-  const rawId = searchParams.id
+  // Await searchParams if it's a Promise
+  const params = await searchParams
+  const rawId = params.id
   const id = Array.isArray(rawId) ? rawId[0] ?? '' : rawId ?? ''
   return <AdminInsightEditPage id={id} />
 }

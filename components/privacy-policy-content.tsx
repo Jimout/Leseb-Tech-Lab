@@ -9,17 +9,50 @@ import {
 import { sanitizeInsightHtml } from '@/lib/sanitize-insight-html'
 import { cn } from '@/lib/utils'
 
-function formatDate(iso: string) {
+type PrivacySettings = {
+  eyebrow?: string
+  title?: string
+  intro?: string
+  body?: string
+  updatedAtIso?: string
+}
+
+const DEFAULT_PRIVACY: PrivacySettings = {
+  eyebrow: 'Privacy & data protection',
+  title: 'Privacy Policy',
+  intro: 'Because your privacy is important to us.',
+  body: `
+    <p>We are committed to protecting your privacy. This policy outlines our practices regarding data collection, use, and disclosure.</p>
+    
+    <h2>Information Collection</h2>
+    <p>We collect information you provide directly to us, such as when you subscribe to our newsletter, fill out a contact form, or communicate with us.</p>
+    
+    <h2>Use of Information</h2>
+    <p>We use the information we collect to provide, maintain, and improve our services, to communicate with you, and to monitor usage patterns.</p>
+    
+    <h2>Data Security</h2>
+    <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+    
+    <h2>Cookies</h2>
+    <p>We use cookies and similar tracking technologies to track activity on our service and hold certain information.</p>
+    
+    <h2>Contact Us</h2>
+    <p>If you have questions about this Privacy Policy, please contact us at hello@leseb.com.</p>
+  `,
+}
+
+function formatDate(iso?: string) {
+  if (!iso) return null
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return null
   return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' })
 }
 
-function PrivacyBody({ text }: { text: string }) {
-  const trimmed = text.trim()
+function PrivacyBody({ text }: { text?: string }) {
+  const trimmed = text?.trim()
   if (!trimmed) return null
 
-  if (privacyBodyLooksLikeHtml(text)) {
+  if (privacyBodyLooksLikeHtml(text || '')) {
     return (
       <div
         className={cn(
@@ -35,7 +68,7 @@ function PrivacyBody({ text }: { text: string }) {
 
   return (
     <div className="space-y-0">
-      {text.split('\n').map((line, idx) =>
+      {trimmed.split('\n').map((line, idx) =>
         line.trim() === '' ? (
           <div key={idx} className="h-3 sm:h-4" aria-hidden />
         ) : (
@@ -58,11 +91,30 @@ const FALLBACK_EYEBROW = 'Privacy & data protection'
 const FALLBACK_INTRO = 'Because your privacy is important to us.'
 
 export function PrivacyPolicyContent() {
-  const { settings } = useSiteSettings()
-  const privacy = settings.privacy
-  const eyebrow = privacy.eyebrow?.trim() ? privacy.eyebrow : FALLBACK_EYEBROW
-  const intro = privacy.intro?.trim() ? privacy.intro : FALLBACK_INTRO
-  const updated = formatDate(privacy.updatedAtIso)
+  const { settings, ready } = useSiteSettings()
+  
+  // Show loading state while settings are being fetched
+  if (!ready) {
+    return (
+      <section className="py-12 sm:py-14 lg:py-16 xl:py-20 2xl:py-20">
+        <div className="grid w-full min-w-0 gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-x-10">
+          <div className="lg:col-span-4">
+            <div className="text-white/60">Loading privacy policy...</div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+  
+  // Safely get privacy settings from the main settings object
+  const privacy = (settings as any)?.privacy as PrivacySettings | undefined
+  
+  // Use database values or fallback to defaults
+  const eyebrow = privacy?.eyebrow?.trim() || DEFAULT_PRIVACY.eyebrow || FALLBACK_EYEBROW
+  const title = privacy?.title?.trim() || DEFAULT_PRIVACY.title || 'Privacy Policy'
+  const intro = privacy?.intro?.trim() || DEFAULT_PRIVACY.intro || FALLBACK_INTRO
+  const body = privacy?.body?.trim() || DEFAULT_PRIVACY.body
+  const updated = formatDate(privacy?.updatedAtIso)
 
   return (
     <section className="py-12 sm:py-14 lg:py-16 xl:py-20 2xl:py-20">
@@ -84,7 +136,7 @@ export function PrivacyPolicyContent() {
                 'text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-6xl 3xl:text-7xl',
               )}
             >
-              {privacy.title}
+              {title}
             </h1>
             {updated ? (
               <p className="mt-4 text-sm text-muted-foreground lg:text-[15px]">Last updated: {updated}</p>
@@ -108,7 +160,7 @@ export function PrivacyPolicyContent() {
             {intro}
           </p>
           <div className="mt-6 sm:mt-8">
-            <PrivacyBody text={privacy.body} />
+            <PrivacyBody text={body} />
           </div>
         </div>
       </div>

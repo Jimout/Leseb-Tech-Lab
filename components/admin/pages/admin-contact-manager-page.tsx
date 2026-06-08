@@ -23,56 +23,85 @@ import {
   type ContactPageSettings,
 } from '@/lib/admin/site-settings'
 
+// Empty default - will be populated from settings or API
+const EMPTY_CONTACT = {} as ContactPageSettings
+
 export function AdminContactManagerPage() {
   const { settings, patch, ready } = useSiteSettings()
   const hydrated = useRef(false)
 
-  const [metaTitle, setMetaTitle] = useState(settings.contact.metaTitle)
-  const [metaDescription, setMetaDescription] = useState(settings.contact.metaDescription)
-  const [contact, setContact] = useState<ContactPageSettings>(settings.contact)
+  // Safely extract settings with defaults
+  const contactSettings = useMemo(() => {
+    const contact = (settings as any)?.contact || EMPTY_CONTACT
+    const footer = (settings as any)?.footer || {}
+    
+    return {
+      metaTitle: (contact as any)?.metaTitle || 'Contact Us',
+      metaDescription: (contact as any)?.metaDescription || 'Get in touch with us',
+      contact: contact as ContactPageSettings,
+      footer,
+    }
+  }, [settings])
+
+  const [metaTitle, setMetaTitle] = useState(contactSettings.metaTitle)
+  const [metaDescription, setMetaDescription] = useState(contactSettings.metaDescription)
+  const [contact, setContact] = useState<ContactPageSettings>(contactSettings.contact)
 
   useEffect(() => {
     if (!ready || hydrated.current) return
     hydrated.current = true
-    setMetaTitle(settings.contact.metaTitle)
-    setMetaDescription(settings.contact.metaDescription)
-    setContact(settings.contact)
-  }, [ready, settings.contact])
+    setMetaTitle(contactSettings.metaTitle)
+    setMetaDescription(contactSettings.metaDescription)
+    setContact(contactSettings.contact)
+  }, [ready, contactSettings])
 
   const savedContact = useMemo(
-    () => buildContactSettingsForSave(settings.contact, settings.footer.phone),
-    [settings.contact, settings.footer.phone],
+    () => buildContactSettingsForSave(contactSettings.contact, contactSettings.footer.phone || ''),
+    [contactSettings.contact, contactSettings.footer.phone],
   )
 
-  const changed = useMemo(() => {
-    const nextContact = buildContactSettingsForSave(contact, contact.phone)
+  const changed: boolean = useMemo(() => {
+    const nextContact = buildContactSettingsForSave(contact, (contact as any)?.phone || '')
+    const currentPhone = (contact as any)?.phone || ''
+    const savedPhone = contactSettings.footer.phone || ''
+    
     return (
-      metaTitle !== settings.contact.metaTitle ||
-      metaDescription !== settings.contact.metaDescription ||
+      metaTitle !== contactSettings.metaTitle ||
+      metaDescription !== contactSettings.metaDescription ||
       JSON.stringify(nextContact) !== JSON.stringify(savedContact) ||
-      (contact.phone.trim() && contact.phone !== settings.footer.phone)
+      (currentPhone.trim() && currentPhone !== savedPhone)
     )
-  }, [contact, metaDescription, metaTitle, savedContact, settings.contact, settings.footer.phone])
+  }, [contact, metaDescription, metaTitle, savedContact, contactSettings])
 
   function resetToSaved() {
-    setMetaTitle(settings.contact.metaTitle)
-    setMetaDescription(settings.contact.metaDescription)
-    setContact(settings.contact)
+    setMetaTitle(contactSettings.metaTitle)
+    setMetaDescription(contactSettings.metaDescription)
+    setContact(contactSettings.contact)
   }
 
   function saveNow() {
     const nextContact = buildContactSettingsForSave(
-      { ...contact, metaTitle, metaDescription },
-      settings.footer.phone,
+      { ...(contact as any), metaTitle, metaDescription },
+      contactSettings.footer.phone || '',
     )
     patch({
       contact: nextContact,
-      footer: { ...settings.footer, phone: nextContact.phone },
+      footer: { ...contactSettings.footer, phone: (nextContact as any)?.phone },
     })
   }
 
   function patchContact(patchSlice: Partial<ContactPageSettings>) {
     setContact((prev) => ({ ...prev, ...patchSlice }))
+  }
+
+  if (!ready) {
+    return (
+      <AdminPageShell title="Contact page" description="Sections match /contact top to bottom.">
+        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-6 text-sm text-white/60">
+          Loading contact page content...
+        </div>
+      </AdminPageShell>
+    )
   }
 
   return (

@@ -50,11 +50,23 @@ const tocMobileDropdownClass = cn(
 
 const tocMobileDropdownNavClass = 'px-4 pb-4 pt-3 sm:px-5'
 
+type InsightTocSettings = {
+  markSrc?: string
+  markAlt?: string
+}
+
 function TocBrandMark({ className }: { className?: string }) {
-  const { settings } = useSiteSettings()
-  const toc = settings.insightToc
-  const src = toc.markSrc?.trim() || DEFAULT_TOC_LOGO
-  const alt = toc.markAlt?.trim() || 'Leseb'
+  const { settings, ready } = useSiteSettings()
+  
+  if (!ready) {
+    return (
+      <div className={cn('relative shrink-0 overflow-hidden rounded-xl border border-foreground/12 bg-background/60', 'size-11 p-2 sm:size-12', className)} />
+    )
+  }
+  
+  const toc = (settings as any)?.insightToc as InsightTocSettings | undefined
+  const src = toc?.markSrc?.trim() || DEFAULT_TOC_LOGO
+  const alt = toc?.markAlt?.trim() || 'Leseb'
 
   return (
     <div
@@ -220,7 +232,7 @@ function TocLinks({
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                 active
                   ? 'text-foreground'
-                  : 'text-foreground/75 hover:bg-foreground/[0.05] hover:text-foreground',
+                  : 'text-foreground/75 hover:bg-foreground/5 hover:text-foreground',
               )}
             >
               <span className={cn(insightDetailTocLinkClass, active ? 'font-medium' : undefined)}>
@@ -242,6 +254,8 @@ export function InsightDetailTocDesktop({
   items: readonly InsightTocItem[]
   activeId: string
 }) {
+  if (items.length === 0) return null
+  
   return (
     <nav className={cn('hidden w-full min-w-0 lg:block', tocPanelClass)} aria-label="Table of contents">
       <TocHeader />
@@ -260,6 +274,8 @@ export function InsightDetailTocMobile({
   const { open, toggleOpen, close } = useInsightTocMobileStore()
   const panelId = React.useId()
   const activeLabel = items.find((i) => i.id === activeId)?.label ?? 'Contents'
+
+  if (items.length === 0) return null
 
   React.useEffect(() => {
     return () => close()
@@ -283,7 +299,7 @@ export function InsightDetailTocMobile({
           variant="ghost"
           size="icon"
           className={cn(
-            'size-8 shrink-0 rounded-full border border-foreground/20 bg-foreground/[0.06]',
+            'size-8 shrink-0 rounded-full border border-foreground/20 bg-foreground/6',
             'text-foreground transition-colors hover:border-signal/40 hover:bg-signal/10 hover:text-signal',
           )}
           aria-expanded={open}

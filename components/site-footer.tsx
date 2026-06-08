@@ -14,7 +14,7 @@ import {
 
 import { FooterNewsletterSubscribe } from '@/components/footer-newsletter-subscribe'
 import { useSiteSettings } from '@/hooks/use-site-settings'
-import { footerSocialLabel } from '@/lib/admin/site-settings'
+import { footerSocialLabel, type FooterSocialIconId } from '@/lib/admin/site-settings'
 import { toTelHref } from '@/lib/phone-tel'
 import {
   typeCaptionOnDark,
@@ -30,6 +30,21 @@ export type FooterSocialItem = {
   Icon: IconType
 }
 
+// Default footer settings
+const DEFAULT_FOOTER = {
+  email: 'hello@leseb.com',
+  phone: '',
+  privacyHref: '/privacy',
+  workPanelLine1: 'Let\'s',
+  workPanelLine2: 'work together',
+  workPanelDescription: 'Have a project in mind?',
+  aboutPanelLine1: 'Learn',
+  aboutPanelLine2: 'about us',
+  aboutPanelDescription: 'Discover our story and mission',
+  contactIntro: 'We\'d love to hear from you',
+  socialLinks: [] as { href: string; iconId: FooterSocialIconId; visible?: boolean }[],
+}
+
 const DEFAULT_SOCIAL: FooterSocialItem[] = [
   { href: 'https://instagram.com', label: 'Instagram', Icon: SiInstagram },
   { href: 'https://tiktok.com', label: 'TikTok', Icon: SiTiktok },
@@ -38,7 +53,7 @@ const DEFAULT_SOCIAL: FooterSocialItem[] = [
   { href: 'https://t.me', label: 'Telegram', Icon: SiTelegram },
 ]
 
-function iconFor(id: string): IconType {
+function iconFor(id: FooterSocialIconId): IconType {
   switch (id) {
     case 'instagram':
       return SiInstagram
@@ -132,6 +147,21 @@ export type SiteFooterProps = {
   socialLinks?: FooterSocialItem[]
 }
 
+// Type for footer settings from API
+type FooterSettings = {
+  email?: string
+  phone?: string
+  privacyHref?: string
+  workPanelLine1?: string
+  workPanelLine2?: string
+  workPanelDescription?: string
+  aboutPanelLine1?: string
+  aboutPanelLine2?: string
+  aboutPanelDescription?: string
+  contactIntro?: string
+  socialLinks?: Array<{ href: string; iconId: FooterSocialIconId; visible?: boolean }>
+}
+
 export function SiteFooter({
   className,
   email,
@@ -139,17 +169,34 @@ export function SiteFooter({
   privacyHref,
   socialLinks = DEFAULT_SOCIAL,
 }: SiteFooterProps) {
-  const { settings } = useSiteSettings()
-  const defaults = settings.footer
-  const configured = (defaults.socialLinks ?? []).filter((x) => x.visible !== false && x.href.trim())
+  const { settings, ready } = useSiteSettings()
+  
+  // Safely get footer settings with defaults
+  const defaults = (settings as any)?.footer as FooterSettings || DEFAULT_FOOTER
+  
+  const configured = (defaults.socialLinks ?? [])
+    .filter((x: { href: string; visible?: boolean }) => x.visible !== false && x.href?.trim())
   const resolvedSocial =
     configured.length > 0
-      ? configured.map((x) => ({ href: x.href, label: footerSocialLabel(x.iconId), Icon: iconFor(x.iconId) }))
+      ? configured.map((x: { href: string; iconId: FooterSocialIconId }) => ({ 
+          href: x.href, 
+          label: footerSocialLabel(x.iconId), 
+          Icon: iconFor(x.iconId) 
+        }))
       : socialLinks
-  const footerEmail = (email ?? defaults.email).trim()
+  
+  const footerEmail = (email ?? defaults.email ?? DEFAULT_FOOTER.email).trim()
   const footerPhone = defaults.phone?.trim() ?? ''
   const footerPhoneHref = footerPhone ? toTelHref(footerPhone) : ''
-  const footerPrivacyHref = privacyHref ?? defaults.privacyHref
+  const footerPrivacyHref = privacyHref ?? defaults.privacyHref ?? DEFAULT_FOOTER.privacyHref
+
+  if (!ready) {
+    return (
+      <footer className={cn('w-full bg-background text-foreground', className)}>
+        <div className="p-8 text-center text-white/60">Loading footer...</div>
+      </footer>
+    )
+  }
 
   return (
     <footer
@@ -180,10 +227,10 @@ export function SiteFooter({
                 'pointer-events-none absolute inset-0 -z-10',
               )}
             >
-              <div className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
-              <div className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
-              <div className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
-              <div className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+              <div className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+              <div className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+              <div className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
             </div>
             <div className="relative z-10">
               <div className="flex items-start justify-between gap-6">
@@ -204,29 +251,28 @@ export function SiteFooter({
                       footerPanelMotionEase,
                     )}
                   >
-                    {defaults.workPanelLine1}
+                    {defaults.workPanelLine1 || DEFAULT_FOOTER.workPanelLine1}
                     <br />
-                    {defaults.workPanelLine2}
+                    {defaults.workPanelLine2 || DEFAULT_FOOTER.workPanelLine2}
                   </h3>
                   <p
-                    className={cn(
-                      'mt-12 max-w-md text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-foreground/85 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 2xl:text-base 3xl:text-lg 4xl:text-xl',
-                      footerPanelMotionDuration,
-                      footerPanelMotionEase,
-                    )}
-                  >
-                    {defaults.workPanelDescription}{' '}
-                    <a
-                      className={cn(
-                        'font-medium text-signal underline-offset-2 transition-colors hover:text-signal hover:underline',
-                        footerPanelMotionDuration,
-                        footerPanelMotionEase,
-                      )}
-                      href={`mailto:${footerEmail}`}
-                    >
-                      {footerEmail}
-                    </a>
-                  </p>
+  className={cn(
+    'mt-12 max-w-md text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-foreground/85 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 2xl:text-base 3xl:text-lg 4xl:text-xl',
+    footerPanelMotionDuration,
+    footerPanelMotionEase,
+  )}
+>
+  {defaults.workPanelDescription || DEFAULT_FOOTER.workPanelDescription}{' '}
+  <span  // Changed from <a> to <span>
+    className={cn(
+      'font-medium text-signal underline-offset-2 transition-colors hover:text-signal hover:underline',
+      footerPanelMotionDuration,
+      footerPanelMotionEase,
+    )}
+  >
+    {footerEmail}
+  </span>
+</p>
                 </div>
                 <FooterPanelArrowChip />
               </div>
@@ -255,10 +301,10 @@ export function SiteFooter({
                 'pointer-events-none absolute inset-0 -z-10',
               )}
             >
-              <div className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
-              <div className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
-              <div className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
-              <div className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" style={{ transformOrigin: 'center' }} />
+              <div className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+              <div className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+              <div className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+              <div className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent scale-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
             </div>
             <div className="relative z-10">
               <div className="flex items-start justify-between gap-6">
@@ -279,9 +325,9 @@ export function SiteFooter({
                       footerPanelMotionEase,
                     )}
                   >
-                    {defaults.aboutPanelLine1}
+                    {defaults.aboutPanelLine1 || DEFAULT_FOOTER.aboutPanelLine1}
                     <br />
-                    {defaults.aboutPanelLine2}
+                    {defaults.aboutPanelLine2 || DEFAULT_FOOTER.aboutPanelLine2}
                   </h3>
                   <p
                     className={cn(
@@ -290,7 +336,7 @@ export function SiteFooter({
                       footerPanelMotionEase,
                     )}
                   >
-                    {defaults.aboutPanelDescription}
+                    {defaults.aboutPanelDescription || DEFAULT_FOOTER.aboutPanelDescription}
                   </p>
                 </div>
                 <FooterPanelArrowChip />
@@ -307,7 +353,7 @@ export function SiteFooter({
               <span className={typeFooterBrand}>leseb</span>
             </div>
             <p className="mt-4 space-y-1 text-sm text-white/70">
-              <span className="block">{defaults.contactIntro}</span>
+              <span className="block">{defaults.contactIntro || DEFAULT_FOOTER.contactIntro}</span>
               <span className="block">
                 Drop us a line →{' '}
                 <a className="text-signal hover:underline" href={`mailto:${footerEmail}`}>
@@ -354,7 +400,7 @@ export function SiteFooter({
             <div className="mt-10">
               <p className={typeCaptionOnDark}>Elsewhere</p>
               <div className="mt-4 flex flex-row flex-wrap items-start gap-2 md:flex-nowrap">
-                {resolvedSocial.map((item) => (
+                {resolvedSocial.map((item: FooterSocialItem) => (
                   <SocialIconLink key={item.label} {...item} />
                 ))}
               </div>

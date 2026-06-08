@@ -1,3 +1,4 @@
+//lib/notifications/service.ts
 import type { NotificationType } from '@/lib/generated/prisma/client'
 import { DeliveryStatus, SubscriberStatus } from '@/lib/generated/prisma/client'
 import { prisma } from '@/lib/prisma'

@@ -1,3 +1,4 @@
+//lib/notifications/client.ts
 import type { NotificationTypeValue } from '@/lib/notifications/constants'
 
 type CreateClientEventInput = {

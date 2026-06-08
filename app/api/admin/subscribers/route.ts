@@ -1,3 +1,4 @@
+//app/api/admin/subscribers/route.ts
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 

@@ -8,6 +8,13 @@ import type { WebVitalsDeviceSnapshot } from '@/lib/rum/web-vitals-types'
 
 const REPORTED_METRICS = new Set(['CLS', 'LCP', 'INP', 'FCP', 'TTFB'])
 
+// Extend Navigator type to include connection
+interface NavigatorWithConnection extends Navigator {
+  connection?: {
+    effectiveType?: 'slow-2g' | '2g' | '3g' | '4g'
+  }
+}
+
 function snapshotDevice(): WebVitalsDeviceSnapshot | undefined {
   if (typeof window === 'undefined') return undefined
   const w = window.innerWidth
@@ -20,13 +27,14 @@ function snapshotDevice(): WebVitalsDeviceSnapshot | undefined {
   } catch {
     // ignore
   }
-  let effectiveConnectionType: WebVitalsDeviceSnapshot['effectiveConnectionType']
+  let effectiveConnectionType: WebVitalsDeviceSnapshot['effectiveConnectionType'] | undefined
   try {
-    const c = navigator.connection as
-      | { effectiveType?: WebVitalsDeviceSnapshot['effectiveConnectionType'] }
-      | undefined
-    if (c?.effectiveType && ['slow-2g', '2g', '3g', '4g'].includes(c.effectiveType)) {
-      effectiveConnectionType = c.effectiveType
+    const nav = navigator as NavigatorWithConnection
+    if (nav.connection?.effectiveType) {
+      const et = nav.connection.effectiveType
+      if (['slow-2g', '2g', '3g', '4g'].includes(et)) {
+        effectiveConnectionType = et
+      }
     }
   } catch {
     // ignore
@@ -42,6 +50,10 @@ function snapshotDevice(): WebVitalsDeviceSnapshot | undefined {
 }
 
 function sendPayload(body: string) {
+  // Skip in development or if disabled
+  if (process.env.NODE_ENV === 'development') return
+  if (process.env.NEXT_PUBLIC_WEB_VITALS_ENABLED === '0') return
+  
   const url = '/api/web-vitals'
   if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
     const blob = new Blob([body], { type: 'application/json' })
@@ -70,6 +82,7 @@ export function WebVitalsReporter() {
     navigationType?: string
     delta?: number
   }) => {
+    if (process.env.NODE_ENV === 'development') return
     if (process.env.NEXT_PUBLIC_WEB_VITALS_ENABLED === '0') return
     if (!REPORTED_METRICS.has(metric.name)) return
 

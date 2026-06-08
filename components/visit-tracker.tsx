@@ -1,3 +1,4 @@
+// components/visit-tracker.tsx
 'use client'
 
 import { useEffect, useRef } from 'react'

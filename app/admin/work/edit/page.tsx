@@ -1,11 +1,13 @@
 import { AdminWorkEditPage } from '@/components/admin/work/admin-work-edit-page'
 
-export default function AdminWorkEditQueryRoute({
+export default async function AdminWorkEditQueryRoute({
   searchParams,
 }: {
-  searchParams: { id?: string | string[] }
+  searchParams: Promise<{ id?: string | string[] }> | { id?: string | string[] }
 }) {
-  const rawId = searchParams.id
+  // Await searchParams if it's a Promise
+  const params = await searchParams
+  const rawId = params.id
   const id = Array.isArray(rawId) ? rawId[0] ?? '' : rawId ?? ''
   return <AdminWorkEditPage id={id} />
 }

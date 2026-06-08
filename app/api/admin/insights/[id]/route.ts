@@ -27,11 +27,11 @@ const insightPartialSchema = z.object({
   article: z.unknown().optional(),
 })
 
-export async function GET(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const authError = await requireAdminAccess(request)
   if (authError) return authError
 
-  const { id } = await ctx.params
+  const { id } = await params
   try {
     const insight = await getInsightByIdFromDb(id)
     if (!insight) return NextResponse.json({ error: 'Not found' }, { status: 404 })
@@ -42,11 +42,11 @@ export async function GET(request: NextRequest, ctx: { params: Promise<{ id: str
   }
 }
 
-export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const authError = await requireAdminAccess(request)
   if (authError) return authError
 
-  const { id } = await ctx.params
+  const { id } = await params
   let body: unknown
   try {
     body = await request.json()
@@ -89,17 +89,27 @@ export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: s
   }
 }
 
-export async function DELETE(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const authError = await requireAdminAccess(request)
   if (authError) return authError
 
-  const { id } = await ctx.params
+  const { id } = await params
+  
+  if (!id) {
+    return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+  }
+  
   try {
-    const ok = await deleteInsightByIdFromDb(id)
-    if (!ok) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-    return NextResponse.json({ ok: true })
+    const deleted = await deleteInsightByIdFromDb(id)
+    if (!deleted) {
+      return NextResponse.json({ error: 'Insight not found' }, { status: 404 })
+    }
+    return NextResponse.json({ success: true, message: 'Insight deleted successfully' })
   } catch (error) {
     console.error('DELETE /api/admin/insights/[id] failed:', error)
-    return NextResponse.json({ error: 'Failed to delete insight' }, { status: 500 })
+    return NextResponse.json({ 
+      error: 'Failed to delete insight',
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }

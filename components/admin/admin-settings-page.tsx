@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 import { AdminPageShell } from '@/components/admin/admin-page-shell'
 import {
@@ -34,10 +35,12 @@ type AccountUser = {
 export function AdminSettingsPage() {
   const { logout } = useAdminAuth()
   const { toast } = useToast()
+  const router = useRouter()
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [current, setCurrent] = useState<AccountUser | null>(null)
+  const [logoutPending, setLogoutPending] = useState(false)
 
   const [email, setEmail] = useState('')
   const [currentPassword, setCurrentPassword] = useState('')
@@ -85,6 +88,7 @@ export function AdminSettingsPage() {
   const canSave =
     !loading &&
     !saving &&
+    !logoutPending &&
     changed &&
     currentPassword.length >= 1 &&
     email.trim().length >= 4 &&
@@ -103,45 +107,67 @@ export function AdminSettingsPage() {
     if (!current) return
     setSaving(true)
     setSaveOpen(false)
+    
+    const emailChangedNow = emailChanged
+    const passwordChangedNow = passwordChanged
+    
     try {
       const res = await fetch('/api/admin/account', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           currentPassword,
-          email: emailChanged ? email.trim() : undefined,
-          newPassword: passwordChanged ? newPassword : undefined,
+          email: emailChangedNow ? email.trim() : undefined,
+          newPassword: passwordChangedNow ? newPassword : undefined,
         }),
       })
       const data = (await res.json()) as { error?: string; user?: AccountUser; message?: string }
+      
       if (!res.ok) {
         toast({
           title: 'Update failed',
           description: data.error ?? 'Could not save changes.',
           variant: 'destructive',
         })
+        setSaving(false)
         return
       }
-      if (data.user) {
-        setCurrent(data.user)
-        setEmail(data.user.email)
-      }
-      setCurrentPassword('')
-      setNewPassword('')
-      setConfirmPassword('')
+      
       toast({
         title: 'Account updated',
-        description:
-          data.message ??
-          'Your sign-in email and password are saved in the database.',
+        description: data.message ?? 'Your account has been updated.',
       })
+      
+      // If email or password was changed, log out automatically
+      if (emailChangedNow || passwordChangedNow) {
+        setLogoutPending(true)
+        toast({
+          title: 'Sign in required',
+          description: 'Please sign in again with your new credentials.',
+        })
+        
+        // Wait a moment for the toast to be seen, then logout
+        setTimeout(() => {
+          logout()
+          router.push('/leseb-admin')
+        }, 1500)
+      } else {
+        // Just refresh the form
+        if (data.user) {
+          setCurrent(data.user)
+          setEmail(data.user.email)
+        }
+        setCurrentPassword('')
+        setNewPassword('')
+        setConfirmPassword('')
+        setSaving(false)
+      }
     } catch {
       toast({
         title: 'Update failed',
         description: 'Network error. Try again.',
         variant: 'destructive',
       })
-    } finally {
       setSaving(false)
     }
   }
@@ -151,7 +177,7 @@ export function AdminSettingsPage() {
     if (emailChanged) parts.push('update your sign-in email')
     if (passwordChanged) parts.push('set a new password')
     if (parts.length === 0) return 'Save your account changes to the database.'
-    return `This will ${parts.join(' and ')} in the database. You may need to sign in again.`
+    return `This will ${parts.join(' and ')} in the database. You will need to sign in again with your new credentials.`
   }, [emailChanged, passwordChanged])
 
   function confirmDiscard() {
@@ -166,6 +192,7 @@ export function AdminSettingsPage() {
   function confirmLogout() {
     setLogoutOpen(false)
     logout()
+    router.push('/leseb-admin')
   }
 
   const logoutButton = (
@@ -207,6 +234,18 @@ export function AdminSettingsPage() {
     )
   }
 
+  // Show logout pending state
+  if (logoutPending) {
+    return (
+      <AdminPageShell title="Settings" description="Redirecting to sign in..." right={logoutButton}>
+        <div className="flex flex-col items-center justify-center py-16">
+          <Spinner className="size-8 text-signal" />
+          <p className="mt-4 text-white/70">Account updated. Redirecting to sign in page...</p>
+        </div>
+      </AdminPageShell>
+    )
+  }
+
   return (
     <AdminPageShell
       title="Settings"
@@ -225,7 +264,7 @@ export function AdminSettingsPage() {
           <p className="text-sm font-semibold text-white sm:text-base">Account</p>
           <p className="mt-1 text-sm text-white/65">
             Email and password are stored in PostgreSQL (bcrypt). Enter your current password to
-            save changes.
+            save changes. {passwordChanged && "You'll need to sign in again after changing your password."}
           </p>
 
           <div className="mt-5 grid grid-cols-1 gap-5">
@@ -289,7 +328,7 @@ export function AdminSettingsPage() {
               <Button
                 type="button"
                 variant="secondary"
-                disabled={!changed || saving}
+                disabled={!changed || saving || logoutPending}
                 onClick={() => setDiscardOpen(true)}
               >
                 Cancel
@@ -317,7 +356,11 @@ export function AdminSettingsPage() {
                 </AlertDialogContent>
               </AlertDialog>
 
-              <Button type="button" disabled={!canSave} onClick={() => setSaveOpen(true)}>
+              <Button 
+                type="button" 
+                disabled={!canSave} 
+                onClick={() => setSaveOpen(true)}
+              >
                 Save
               </Button>
 
@@ -327,6 +370,11 @@ export function AdminSettingsPage() {
                     <AlertDialogTitle>Save account changes?</AlertDialogTitle>
                     <AlertDialogDescription className="text-white/65">
                       {saveDescription}
+                      {(emailChanged || passwordChanged) && (
+                        <p className="mt-2 text-yellow-300/80">
+                          ⚠️ You will be signed out and need to sign in again with your new credentials.
+                        </p>
+                      )}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -344,6 +392,12 @@ export function AdminSettingsPage() {
               </AlertDialog>
             </div>
           </div>
+          
+          {(emailChanged || passwordChanged) && (
+            <p className="mt-4 text-xs text-yellow-300/70">
+              ⚠️ You will need to sign in again after saving changes to your email or password.
+            </p>
+          )}
         </Card>
       </div>
     </AdminPageShell>

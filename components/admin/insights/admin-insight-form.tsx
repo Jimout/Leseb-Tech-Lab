@@ -37,6 +37,9 @@ import type { MediaAsset } from '@/lib/media-assets'
 
 import { emptyInsight, type InsightRow } from './admin-insight-fields'
 
+const inputClass = 'border-white/15 bg-background/30 text-white placeholder:text-white/35'
+const labelClass = 'text-sm font-medium text-white/85'
+
 function defaultArticle(): InsightArticle {
   return {
     sections: [
@@ -67,11 +70,17 @@ export function AdminInsightFormPage({
   confirmUpdate?: boolean
 }) {
   const router = useRouter()
-  const { settings } = useSiteSettings()
+  const { settings, ready } = useSiteSettings()
+  
   const filterOptions = React.useMemo(
-    () => buildWorkInsightFilterChecklistOptions(settings.portfolioCatalogFilters.workInsights),
-    [settings.portfolioCatalogFilters.workInsights],
+    () => {
+      if (!ready) return []
+      const filters = (settings as any)?.portfolioCatalogFilters?.workInsights
+      return buildWorkInsightFilterChecklistOptions(filters)
+    },
+    [settings, ready],
   )
+  
   const slugSyncedRef = React.useRef(!initial.id)
 
   const [row, setRow] = React.useState<InsightRow>(() => ({
@@ -120,6 +129,7 @@ export function AdminInsightFormPage({
       return { ...r, filterIds }
     })
   }
+  
   const saveInsight = () => {
     if (!String(row.title || '').trim()) return
     const id = String(row.id || '').trim()
@@ -154,6 +164,17 @@ export function AdminInsightFormPage({
     router.push(backHref)
   }
 
+  // Show loading state while categories are loading
+  if (!ready) {
+    return (
+      <AdminPageShell title={title} description={description} right={null}>
+        <div className="flex justify-center py-16">
+          <div className="text-white/60">Loading categories...</div>
+        </div>
+      </AdminPageShell>
+    )
+  }
+
   return (
     <AdminPageShell
       title={title}
@@ -174,7 +195,7 @@ export function AdminInsightFormPage({
       >
         <div className="space-y-2">
           <div className="flex flex-wrap items-end justify-between gap-2">
-            <Label className="text-white/80">URL slug</Label>
+            <Label className={labelClass}>URL slug</Label>
             <Button
               type="button"
               variant="secondary"
@@ -195,7 +216,7 @@ export function AdminInsightFormPage({
               setRow((r) => ({ ...r, slug: e.target.value }))
             }}
             placeholder="my-insight-slug"
-            className="border-white/15 bg-background/30 text-white"
+            className={inputClass}
             required
           />
           <p className="text-xs text-white/45">
@@ -210,43 +231,47 @@ export function AdminInsightFormPage({
             </p>
           ) : null}
         </div>
+        
         <div className="space-y-2">
-          <Label className="text-white/80">Title</Label>
+          <Label className={labelClass}>Title</Label>
           <Input
             value={row.title}
             onChange={(e) => setRow((r) => ({ ...r, title: e.target.value }))}
-            className="border-white/15 bg-background/30 text-white"
+            className={inputClass}
             required
           />
         </div>
+        
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label className="text-white/80">Date (display)</Label>
+            <Label className={labelClass}>Date (display)</Label>
             <Input
               value={row.date}
               onChange={(e) => setRow((r) => ({ ...r, date: e.target.value }))}
-              className="border-white/15 bg-background/30 text-white"
+              className={inputClass}
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-white/80">Date ISO</Label>
+            <Label className={labelClass}>Date ISO</Label>
             <Input
               value={row.dateIso}
               onChange={(e) => setRow((r) => ({ ...r, dateIso: e.target.value }))}
               placeholder="2026-03-14"
-              className="border-white/15 bg-background/30 text-white"
+              className={inputClass}
             />
           </div>
         </div>
+        
         <div className="space-y-2">
-          <Label className="text-white/80">Card description (listing / meta)</Label>
+          <Label className={labelClass}>Card description (listing / meta)</Label>
           <Textarea
             value={row.description}
             onChange={(e) => setRow((r) => ({ ...r, description: e.target.value }))}
             rows={3}
-            className="border-white/15 bg-background/30 text-white"
+            className={inputClass}
           />
         </div>
+        
         <AdminInsightHeroImageField
           context="insight"
           mediaUrl={row.heroMedia?.url ?? ''}
@@ -268,19 +293,29 @@ export function AdminInsightFormPage({
             }))
           }
         />
+        
         <div className="space-y-3">
-          <Label className="text-white/80">Filters (insights index)</Label>
-          <div className="flex flex-wrap gap-4">
-            {filterOptions.map((f) => (
-              <label key={f.id} className="flex cursor-pointer items-center gap-2 text-sm text-white/90">
-                <Checkbox
-                  checked={row.filterIds.includes(f.id)}
-                  onCheckedChange={() => toggleFilter(f.id)}
-                />
-                {f.label}
-              </label>
-            ))}
-          </div>
+          <Label className={labelClass}>Topics (Categories)</Label>
+          {filterOptions.length === 0 ? (
+            <p className="text-sm text-yellow-400/80">
+              No topics available. Please add categories in{' '}
+              <a href="/leseb-admin/site/catalog-filters" className="text-signal underline">
+                Category Filters
+              </a>
+            </p>
+          ) : (
+            <div className="flex flex-wrap gap-4">
+              {filterOptions.map((f) => (
+                <label key={f.id} className="flex cursor-pointer items-center gap-2 text-sm text-white/90">
+                  <Checkbox
+                    checked={row.filterIds.includes(f.id)}
+                    onCheckedChange={() => toggleFilter(f.id)}
+                  />
+                  {f.label}
+                </label>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="space-y-3 border-t border-white/10 pt-6">
